@@ -1,3 +1,6 @@
+# submodules
+docs/examples/ddot/pybind11
+
 # Test functions
 test*
 
