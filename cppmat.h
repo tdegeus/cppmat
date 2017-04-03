@@ -1,6 +1,6 @@
 
-#ifndef CPPMATRIX_H
-#define CPPMATRIX_H
+#ifndef CPPMAT_H
+#define CPPMAT_H
 
 #include <iostream>
 #include <cstdlib>
@@ -8,11 +8,13 @@
 #include <vector>
 #include <string>
 
+namespace mat {
+
 // =============================================================================
-// Image::Matrix class
+// Image::matrix class
 // =============================================================================
 
-template <class T> class Matrix
+template <class T> class matrix
 {
 
   private:
@@ -26,18 +28,18 @@ template <class T> class Matrix
     // (copy) constructor
     // ------------------
 
-    Matrix               (const Matrix<T> &) = default;
-    Matrix<T>& operator= (const Matrix<T> &) = default;
+    matrix               (const matrix<T> &) = default;
+    matrix<T>& operator= (const matrix<T> &) = default;
 
-    Matrix<T>(){};
+    matrix<T>(){};
 
     // explicit constructors
     // ---------------------
 
-    Matrix ( std::vector<size_t> shape )
+    matrix ( std::vector<size_t> shape )
     { resize(shape); };
 
-    Matrix ( std::vector<size_t> shape, T value )
+    matrix ( std::vector<size_t> shape, T value )
     {
       resize(shape);
 
@@ -45,7 +47,7 @@ template <class T> class Matrix
         i = value;
     };
 
-    Matrix ( std::vector<size_t> shape, const T *data )
+    matrix ( std::vector<size_t> shape, const T *data )
     {
       resize(shape);
 
@@ -61,9 +63,9 @@ template <class T> class Matrix
       typename V=T,\
       typename=typename std::enable_if<std::is_convertible<T,U>::value>::type\
     >
-    operator Matrix<U> ()
+    operator matrix<U> ()
     {
-      Matrix<U> out(shape());
+      matrix<U> out(shape());
       for ( size_t i=0 ; i<size() ; ++i ) {
         out[i] = static_cast<T>(_data[i]);
       }
@@ -120,7 +122,7 @@ template <class T> class Matrix
     // arithmetic operators
     // --------------------
 
-    Matrix<T>& operator*= (const Matrix<T> &rhs)
+    matrix<T>& operator*= (const matrix<T> &rhs)
     {
       if ( shape()!=rhs.shape() )
         throw std::runtime_error("Matrices must have the same shape");
@@ -131,7 +133,7 @@ template <class T> class Matrix
       return *this;
     }
 
-    Matrix<T>& operator/= (const Matrix<T> &rhs)
+    matrix<T>& operator/= (const matrix<T> &rhs)
     {
       if ( shape()!=rhs.shape() )
         throw std::runtime_error("Matrices must have the same shape");
@@ -142,7 +144,7 @@ template <class T> class Matrix
       return *this;
     }
 
-    Matrix<T>& operator+= (const Matrix<T> &rhs)
+    matrix<T>& operator+= (const matrix<T> &rhs)
     {
       if ( shape()!=rhs.shape() )
         throw std::runtime_error("Matrices must have the same shape");
@@ -153,7 +155,7 @@ template <class T> class Matrix
       return *this;
     }
 
-    Matrix<T>& operator-= (const Matrix<T> &rhs)
+    matrix<T>& operator-= (const matrix<T> &rhs)
     {
       if ( shape()!=rhs.shape() )
         throw std::runtime_error("Matrices must have the same shape");
@@ -164,16 +166,16 @@ template <class T> class Matrix
       return *this;
     }
 
-    Matrix<T>& operator*= (T rhs)
+    matrix<T>& operator*= (T rhs)
     { for ( size_t i=0 ; i<size() ; ++i ) _data[i] *= rhs; return *this; }
 
-    Matrix<T>& operator/= (T rhs)
+    matrix<T>& operator/= (T rhs)
     { for ( size_t i=0 ; i<size() ; ++i ) _data[i] /= rhs; return *this; }
 
-    Matrix<T>& operator+= (T rhs)
+    matrix<T>& operator+= (T rhs)
     { for ( size_t i=0 ; i<size() ; ++i ) _data[i] += rhs; return *this; }
 
-    Matrix<T>& operator-= (T rhs)
+    matrix<T>& operator-= (T rhs)
     { for ( size_t i=0 ; i<size() ; ++i ) _data[i] -= rhs; return *this; }
 
     // iterators / pointer
@@ -318,64 +320,64 @@ template <class T> class Matrix
       }
     }
 
-}; // class Matrix
+}; // class matrix
 
 // arithmetic operators
 // --------------------
 
 template <class T>
-Matrix<T> operator* (const Matrix<T> &A, const Matrix<T> &B)
-{ Matrix<T> C = A; return C *= B; }
+matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
+{ matrix<T> C = A; return C *= B; }
 
 template <class T>
-Matrix<T> operator* (const Matrix<T> &A, T B)
-{ Matrix<T> C = A; return C *= B; }
+matrix<T> operator* (const matrix<T> &A, T B)
+{ matrix<T> C = A; return C *= B; }
 
 template <class T>
-Matrix<T> operator* (T A, const Matrix<T> &B)
-{ Matrix<T> C = B; return C *= A; }
+matrix<T> operator* (T A, const matrix<T> &B)
+{ matrix<T> C = B; return C *= A; }
 
 template <class T>
-Matrix<T> operator/ (const Matrix<T> &A, const Matrix<T> &B)
-{ Matrix<T> C = A; return C /= B; }
+matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
+{ matrix<T> C = A; return C /= B; }
 
 template <class T>
-Matrix<T> operator/ (const Matrix<T> &A, T B)
-{ Matrix<T> C = A; return C /= B; }
+matrix<T> operator/ (const matrix<T> &A, T B)
+{ matrix<T> C = A; return C /= B; }
 
 template <class T>
-Matrix<T> operator/ (T A, const Matrix<T> &B)
-{ Matrix<T> C = B; return C /= A; }
+matrix<T> operator/ (T A, const matrix<T> &B)
+{ matrix<T> C = B; return C /= A; }
 
 template <class T>
-Matrix<T> operator+ (const Matrix<T> &A, const Matrix<T> &B)
-{ Matrix<T> C = A; return C += B; }
+matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
+{ matrix<T> C = A; return C += B; }
 
 template <class T>
-Matrix<T> operator+ (const Matrix<T> &A, T B)
-{ Matrix<T> C = A; return C += B; }
+matrix<T> operator+ (const matrix<T> &A, T B)
+{ matrix<T> C = A; return C += B; }
 
 template <class T>
-Matrix<T> operator+ (T A, const Matrix<T> &B)
-{ Matrix<T> C = B; return C += A; }
+matrix<T> operator+ (T A, const matrix<T> &B)
+{ matrix<T> C = B; return C += A; }
 
 template <class T>
-Matrix<T> operator- (const Matrix<T> &A, const Matrix<T> &B)
-{ Matrix<T> C = A; return C -= B; }
+matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
+{ matrix<T> C = A; return C -= B; }
 
 template <class T>
-Matrix<T> operator- (const Matrix<T> &A, T B)
-{ Matrix<T> C = A; return C -= B; }
+matrix<T> operator- (const matrix<T> &A, T B)
+{ matrix<T> C = A; return C -= B; }
 
 template <class T>
-Matrix<T> operator- (T A, const Matrix<T> &B)
-{ Matrix<T> C = B; return C -= A; }
+matrix<T> operator- (T A, const matrix<T> &B)
+{ matrix<T> C = B; return C -= A; }
 
 // print to "std::cout"
 // --------------------
 
 template <class T>
-std::ostream& operator<<(std::ostream& out, Matrix<T>& src)
+std::ostream& operator<<(std::ostream& out, matrix<T>& src)
 {
   if ( src.ndim()==1 ) {
     for ( size_t i=0 ; i<src.shape()[0]-1 ; ++i )
@@ -404,6 +406,8 @@ std::ostream& operator<<(std::ostream& out, Matrix<T>& src)
   }
 
   return out;
-}
+};
+
+}; // namespace mat
 
 #endif

@@ -1,8 +1,19 @@
 # submodules
-docs/examples/ddot/pybind11
+docs/examples/tensorlib/pybind11
 
 # Test functions
 test*
+
+# cmake files
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
 
 # Compiled Object files
 *.slo
