@@ -1,5 +1,6 @@
 # submodules
 docs/examples/tensorlib/pybind11
+docs/examples/pybind11
 
 # Test functions
 test*
