@@ -22,8 +22,8 @@ class get_pybind_include(object):
 
 ext_modules = [
     Extension(
-        'gooseeye',
-        ['src/image.cpp','src/py_image.cpp'],
+        'tensorlib',
+        ['tensorlib.cpp'],
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
@@ -88,14 +88,14 @@ class BuildExt(build_ext):
         build_ext.build_extensions(self)
 
 setup(
-    name='gooseeye',
+    name='tensorlib',
     version=__version__,
     author='Tom de Geus',
     author_email='tom@geus.me',
-    url='https://github.com/tdegeus/GooseEYE',
-    description='Geometrical statistics',
+    url='https://github.com/tdegeus/cppmat/docs/examples/tensorlib',
+    description='Tensorlib',
     long_description='',
-    license='GPLv3',
+    license='MIT',
     ext_modules=ext_modules,
     install_requires=['pybind11>=2.1.0'],
     cmdclass={'build_ext': BuildExt},
