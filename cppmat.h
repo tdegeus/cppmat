@@ -95,6 +95,21 @@ template <class T> class matrix
       _data.resize(n);
     };
 
+    // convert matrix to view it in d <= nd
+    // ------------------------------------
+
+    void atleast_1d( void )
+    { while ( _strides.size()<1 ) { _strides.push_back(1); } }
+
+    void atleast_2d( void )
+    { while ( _strides.size()<2 ) { _strides.push_back(1); } }
+
+    void atleast_3d( void )
+    { while ( _strides.size()<3 ) { _strides.push_back(1); } }
+
+    void atleast_nd( size_t n )
+    { while ( _strides.size()<n ) { _strides.push_back(1); } }
+
     // index operators (now up to 6-d, extend if needed)
     // -------------------------------------------------
 
