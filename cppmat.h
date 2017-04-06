@@ -22,6 +22,10 @@ template <class T> class matrix
     std::vector<T>      _data;     // data array
     std::vector<size_t> _shape;    // number of entries in each dimensions
     std::vector<size_t> _strides;  // stride length for each index
+    // N.B.
+    // *   number of dimensions determined from "_shape.size()"
+    // *   "_strides.size()" can be bigger than "_shape.size()" to allow reading
+    //     e.g. a 2-d matrix using 3 indices (see "atleast_3d")
 
   public:
 
