@@ -217,7 +217,7 @@ template <class T> class matrix
       if ( nd==0 )
         nd = ndim();
 
-      std::vector<size_t> ret(nd);
+      std::vector<size_t> ret(nd,1);
 
       for ( size_t i=0 ; i<nd ; ++i )
         ret[i] = _shape[i];
