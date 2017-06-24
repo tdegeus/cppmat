@@ -26,15 +26,15 @@ template<class X> std::vector<size_t> inline _strides(size_t rank, size_t ndim, 
 {
   std::vector<size_t> out(rank,1);
 
-    for ( size_t i=0; i<rank; ++i )
-      for ( size_t j=i+1; j<rank; ++j )
-        out[j] *= ndim;
+  for ( size_t i=0; i<rank; ++i )
+    for ( size_t j=i+1; j<rank; ++j )
+      out[i] *= ndim;
 
-    if ( bytes )
-      for ( auto &i: out )
-        i *= sizeof(X);
+  if ( bytes )
+    for ( auto &i: out )
+      i *= sizeof(X);
 
-    return out;
+  return out;
 };
 
 // =================================================================================================

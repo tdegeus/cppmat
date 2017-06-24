@@ -2,7 +2,6 @@
 import tensorlib
 import numpy as np
 
-
 A = np.arange(4*4*4*4).reshape(4,4,4,4)
 B = np.arange(4*4    ).reshape(4,4    )
 
