@@ -1,3 +1,0 @@
-[submodule "docs/examples/pybind11"]
-	path = docs/examples/pybind11
-	url = https://github.com/pybind/pybind11.git
