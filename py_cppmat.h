@@ -46,7 +46,7 @@ namespace pybind11 { namespace detail {
       static py::handle cast(const mat::matrix<T>& src,
         py::return_value_policy policy, py::handle parent)
       {
-        py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data() );
+        py::array a(std::move(src.shape()),std::move(src.strides(true)),src.data());
 
         return a.release();
       }
