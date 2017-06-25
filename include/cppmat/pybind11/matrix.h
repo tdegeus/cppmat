@@ -1,9 +1,10 @@
 
+#ifndef MATRIX_PYBIND11_H
+#define MATRIX_PYBIND11_H
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
-
-#include "cppmat.h"
 
 namespace py = pybind11;
 
@@ -52,3 +53,5 @@ namespace pybind11 { namespace detail {
       }
   };
 }} // namespace pybind11::detail
+
+#endif

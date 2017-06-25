@@ -1,6 +1,6 @@
 
-#ifndef CPPMAT_H
-#define CPPMAT_H
+#ifndef MATRIX_H
+#define MATRIX_H
 
 #include <iostream>
 #include <cstdlib>
@@ -8,10 +8,10 @@
 #include <vector>
 #include <string>
 
-namespace mat {
+namespace cppmat {
 
 // =================================================================================================
-// mat::matrix
+// cppmat::matrix
 // =================================================================================================
 
 template <class T> class matrix
@@ -322,6 +322,7 @@ std::ostream& operator<<(std::ostream& out, matrix<T>& src)
   return out;
 };
 
-}; // namespace mat
+}; // namespace cppmat
 
 #endif
+

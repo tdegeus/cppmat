@@ -1,6 +1,6 @@
 
-#ifndef CPPTENSOR_H
-#define CPPTENSOR_H
+#ifndef TENSOR_H
+#define TENSOR_H
 
 #include <iostream>
 #include <cstdlib>
@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-namespace tensor {
+namespace cppmat {
 
 // =================================================================================================
 // forward declaration
@@ -892,3 +892,4 @@ template<class X>         X  inline trace     (tensor2<X> &A) { return A.trace()
 }; // namespace tensor
 
 #endif
+

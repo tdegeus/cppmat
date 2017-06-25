@@ -1,4 +1,7 @@
-# submodules
+cppmat.pc
+build/*
+dist/*
+*.egg-info/*
 
 # Test functions
 test*

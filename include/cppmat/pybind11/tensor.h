@@ -1,22 +1,23 @@
 
+#ifndef TENSOR_PYBIND11_H
+#define TENSOR_PYBIND11_H
+
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include "cpptensor.h"
-
 namespace py = pybind11;
 
 // =================================================================================================
-// type caster: tensor::tensor4 <-> NumPy-array
+// type caster: cppmat::tensor4 <-> NumPy-array
 // =================================================================================================
 
 namespace pybind11 { namespace detail {
-  template <typename T> struct type_caster<tensor::tensor4<T>>
+  template <typename T> struct type_caster<cppmat::tensor4<T>>
   {
     public:
 
-      PYBIND11_TYPE_CASTER(tensor::tensor4<T>, _("tensor::tensor4<T>"));
+      PYBIND11_TYPE_CASTER(cppmat::tensor4<T>, _("cppmat::tensor4<T>"));
 
       // Conversion part 1 (Python -> C++)
       bool load(py::handle src, bool convert)
@@ -38,13 +39,13 @@ namespace pybind11 { namespace detail {
           if ( buf.shape()[i] != nd )
             return false;
 
-        value = tensor::tensor4<T>(nd,buf.data());
+        value = cppmat::tensor4<T>(nd,buf.data());
 
         return true;
       }
 
       // Conversion part 2 (C++ -> Python)
-      static py::handle cast(const tensor::tensor4<T>& src,
+      static py::handle cast(const cppmat::tensor4<T>& src,
         py::return_value_policy policy, py::handle parent)
       {
         std::vector<size_t> shape(4);
@@ -58,15 +59,15 @@ namespace pybind11 { namespace detail {
 }} // namespace pybind11::detail
 
 // =================================================================================================
-// type caster: tensor::tensor2 <-> NumPy-array
+// type caster: cppmat::tensor2 <-> NumPy-array
 // =================================================================================================
 
 namespace pybind11 { namespace detail {
-  template <typename T> struct type_caster<tensor::tensor2<T>>
+  template <typename T> struct type_caster<cppmat::tensor2<T>>
   {
     public:
 
-      PYBIND11_TYPE_CASTER(tensor::tensor2<T>, _("tensor::tensor2<T>"));
+      PYBIND11_TYPE_CASTER(cppmat::tensor2<T>, _("cppmat::tensor2<T>"));
 
       // Conversion part 1 (Python -> C++)
       bool load(py::handle src, bool convert)
@@ -88,13 +89,13 @@ namespace pybind11 { namespace detail {
           if ( buf.shape()[i] != nd )
             return false;
 
-        value = tensor::tensor2<T>(nd,buf.data());
+        value = cppmat::tensor2<T>(nd,buf.data());
 
         return true;
       }
 
       // Conversion part 2 (C++ -> Python)
-      static py::handle cast(const tensor::tensor2<T>& src,
+      static py::handle cast(const cppmat::tensor2<T>& src,
         py::return_value_policy policy, py::handle parent)
       {
         std::vector<size_t> shape(2);
@@ -108,15 +109,15 @@ namespace pybind11 { namespace detail {
 }} // namespace pybind11::detail
 
 // =================================================================================================
-// type caster: tensor::vector <-> NumPy-array
+// type caster: cppmat::vector <-> NumPy-array
 // =================================================================================================
 
 namespace pybind11 { namespace detail {
-  template <typename T> struct type_caster<tensor::vector<T>>
+  template <typename T> struct type_caster<cppmat::vector<T>>
   {
     public:
 
-      PYBIND11_TYPE_CASTER(tensor::vector<T>, _("tensor::vector<T>"));
+      PYBIND11_TYPE_CASTER(cppmat::vector<T>, _("cppmat::vector<T>"));
 
       // Conversion part 1 (Python -> C++)
       bool load(py::handle src, bool convert)
@@ -138,13 +139,13 @@ namespace pybind11 { namespace detail {
           if ( buf.shape()[i] != nd )
             return false;
 
-        value = tensor::vector<T>(nd,buf.data());
+        value = cppmat::vector<T>(nd,buf.data());
 
         return true;
       }
 
       // Conversion part 2 (C++ -> Python)
-      static py::handle cast(const tensor::vector<T>& src,
+      static py::handle cast(const cppmat::vector<T>& src,
         py::return_value_policy policy, py::handle parent)
       {
         std::vector<size_t> shape(1);
@@ -156,3 +157,5 @@ namespace pybind11 { namespace detail {
       }
   };
 }} // namespace pybind11::detail
+
+#endif
