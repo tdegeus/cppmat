@@ -8,7 +8,7 @@
 Header-only module that provides a C++ matrix class for n-d matrices.
 
 ```cpp
-#include <cppmat/matrix>
+#include <cppmat/matrix.h>
 
 int main()
 {
@@ -20,14 +20,14 @@ int main()
 
 Really, that's it! You only need to [tell your compiler](#compiling) where the header files are (and to use a modern C++ standard). 
 
-If you want to avoid even the first step, replace the first line by `#include "cppmat/include/cppmat/matrix"`, and include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git` (if you do something manually you need to modify this relative path to your liking).
+If you want to avoid even the first step, replace the first line by `#include "cppmat/include/cppmat/matrix.h"`, and include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git` (if you do something manually you need to modify this relative path to your liking).
 
 # ccptensor
 
 Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (which are essentially vectors, but with special methods).
 
 ```cpp
-#include <cppmat/tensor>
+#include <cppmat/tensor.h>
 
 int main()
 {
@@ -67,15 +67,18 @@ include_directories(${CPPMAT_INCLUDE_DIRS})
 
 # Python interface
 
-This library includes provides an interface to [pybind11](https://github.com/pybind/pybind11) such that an interface to NumPy arrays is automatically provided when including a function with a `cppmat::matrix`, `tensor::tensor4`, `tensor::tensor2`, or `tensor::vector`. To use this feature one has to only include `pybind11` **before** `cppmat`, using:
+This library includes provides an interface to [pybind11](https://github.com/pybind/pybind11) such that an interface to NumPy arrays is automatically provided when including a function with a `cppmat::matrix`, `tensor::tensor4`, `tensor::tensor2`, or `tensor::vector`. To use this feature one has to include (either or both):
 
-`#include <pybind11/pybind11.h>`
+```cpp
+#include <cppmat/pybind11_matrix.h>
+#include <cppmat/pybind11_tensor.h>
+```
 
 An example is provided in `docs/examples/tensorlib`. This example includes two forms of building:
 
 1.  `CMakeList.txt` for building using `cmake` (`cmake .` and then `make`). For this to work, `pybind11` must be 'installed' on the system. Alternatively you can include `pybind11` as a sub-folder (for example using `git submodule add https://github.com/pybind/pybind11.git`). In that case, replace `find_package(pybind11 REQUIRED)` by `add_subdirectory(pybind11)` in `CMakeList.txt`.
 
-2.  `setup.py` for building using `python` (`python3 setup.py build` and then `python3 setup.py install`). Using this option `python` will take care of the `pybind11` dependency.
+2.  `setup.py` for building using `python` (`python3 setup.py build` and then `python3 setup.py install`). Using this option `python` will take care of the `pybind11` and `cppmat` dependencies.
 
 
 
