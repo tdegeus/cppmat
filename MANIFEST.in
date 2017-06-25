@@ -1,3 +1,2 @@
 include include/cppmat/*.h
-include include/cppmat/pybind11/*.h
 include LICENSE README.md
