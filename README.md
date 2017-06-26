@@ -5,7 +5,7 @@
 
 # cppmat
 
-Header-only module that provides a C++ matrix class for n-d matrices.
+Header-only module that provides a C++ class for n-d matrices.
 
 ```cpp
 #include <cppmat/matrix.h>
@@ -20,11 +20,11 @@ int main()
 
 Really, that's it! You only need to [tell your compiler](#compiling) where the header files are (and to use a modern C++ standard). 
 
-If you want to avoid even the first step, replace the first line by `#include "cppmat/include/cppmat/matrix.h"`, and include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git` (if you do something manually you need to modify this relative path to your liking).
+If you want to avoid even the first step, replace the first line by `#include "cppmat/include/cppmat/matrix.h"`, and include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git` (if you do something manually, you might need to modify this relative path to your liking).
 
 # ccptensor
 
-Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (which are essentially vectors, but with special methods).
+Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (which are essentially `std::vector`s, but with special methods).
 
 ```cpp
 #include <cppmat/tensor.h>
@@ -80,6 +80,11 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 2.  `setup.py` for building using `python` (`python3 setup.py build` and then `python3 setup.py install`). Using this option `python` will take care of the `pybind11` and `cppmat` dependencies.
 
+# Develop
 
+## Create a new release
+
+*   Modify `__version__` in `setup.py`.
+*   Modify `version` in `cppmat.pc.in`
 
 

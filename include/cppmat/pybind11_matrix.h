@@ -9,15 +9,15 @@
 namespace py = pybind11;
 
 // =================================================================================================
-// type caster: mat::matrix <-> NumPy-array
+// type caster: cppmat::matrix <-> NumPy-array
 // =================================================================================================
 
 namespace pybind11 { namespace detail {
-  template <typename T> struct type_caster<mat::matrix<T>>
+  template <typename T> struct type_caster<cppmat::matrix<T>>
   {
     public:
 
-      PYBIND11_TYPE_CASTER(mat::matrix<T>, _("mat::matrix<T>"));
+      PYBIND11_TYPE_CASTER(cppmat::matrix<T>, _("cppmat::matrix<T>"));
 
       // Conversion part 1 (Python -> C++)
       bool load(py::handle src, bool convert)
@@ -38,13 +38,13 @@ namespace pybind11 { namespace detail {
         for ( size_t i=0 ; i<buf.ndim() ; i++ )
           shape[i] = buf.shape()[i];
 
-        value = mat::matrix<T>(shape,buf.data());
+        value = cppmat::matrix<T>(shape,buf.data());
 
         return true;
       }
 
       // Conversion part 2 (C++ -> Python)
-      static py::handle cast(const mat::matrix<T>& src,
+      static py::handle cast(const cppmat::matrix<T>& src,
         py::return_value_policy policy, py::handle parent)
       {
         py::array a(std::move(src.shape()),std::move(src.strides(true)),src.data());

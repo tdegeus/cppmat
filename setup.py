@@ -1,7 +1,12 @@
+desc = '''
+Module that provides a header-only library that contains an n-d matrix class and fourth-, second-,
+and first-order tensors in C++. Each of these classes has a direct interface to NumPy through
+pybind11.
+'''
 
 from setuptools import setup
 
-__version__ = '0.1.6'
+__version__ = '0.1.7'
 
 setup(
    name='cppmat',
@@ -20,5 +25,5 @@ setup(
    ],
    install_requires=['pybind11>=2.1.0'],
    keywords='C++11, Python bindings',
-   long_description='Provides n-d matrix and tensors in C++, include a NumPy interface'
+   long_description=desc
 )
