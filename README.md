@@ -20,11 +20,16 @@ int main()
 
 Really, that's it! You only need to [tell your compiler](#compiling) where the header files are (and to use a modern C++ standard). 
 
-If you want to avoid even the first step, replace the first line by `#include "cppmat/include/cppmat/matrix.h"`, and include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git` (if you do something manually, you might need to modify this relative path to your liking).
+> If you want to avoid using compiler flags, `git submodule` is a nice way to go:
+> 
+>  1.  Include this module as a submodule using `git submodule add https://github.com/tdegeus/cppmat.git`.
+>  2.  Replace the first line of this example by `#include "cppmat/include/cppmat/matrix.h"`.
+>  
+> *If you decide to manually copy the header file, you might need to modify this relative path to your liking.*
 
 # ccptensor
 
-Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (which are essentially `std::vector`s, but with special methods).
+Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with `std::vector`, but with special methods).
 
 ```cpp
 #include <cppmat/tensor.h>
@@ -41,6 +46,13 @@ See compilation remarks [above](#cppmat), and details [below](#compiling).
 
 # Compiling
 
+## pkg-config
+
+To simplify matters greatly one can use `pkg-config` to keep track of the location of the header files. To that matter on has to:
+
+1. Copy the file `cppmat.pc.in` to `cppmat.pc` to some location that can be found by `pkg_config` (for example by adding `export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH` to the `.bashrc`). 
+2. Modify the line `prefix=@CMAKE_INSTALL_PREFIX@` to `prefix=/path/to/cppmat`.
+
 ## GNU / Clang
 
 Add the following compiler's arguments:
@@ -51,14 +63,16 @@ Add the following compiler's arguments:
 
 (or `-std=c++14`).
 
+If `pkg-config` is configured on can also use
+
+```bash
+`pkg-config --cflags cppmat`
+```
+
 ## cmake
 
-You'll need to do some preparation:
+Add the following to your `CMakeLists.txt`:
 
-1.  Copy the file `cppmat.pc.in` to `cppmat.pc` to some location that can be found by `pkg_config` (for example by adding `export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH` to the `.bashrc`).
-2.  Modify the line `prefix=@CMAKE_INSTALL_PREFIX@` to `prefix=/path/to/cppmat`.
-
-You are now ready to use `cmake`. Add the following to your `CMakeLists.txt`:
 ```cmake
 find_package(PkgConfig)
 pkg_check_modules(CPPMAT REQUIRED cppmat)
@@ -82,9 +96,23 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 # Develop
 
+## Python
+
+The Python package of this module `cppmat/__init__.py` is essentially used to allow distribution of the header files that constitute this library through PyPi. In addition a small Python package `cppmat` is provided that allows easy `setup.py` formulations of derived packages. These features can also be used when one is just interested in using pybind11 and one does not intend to use `cppmat` itself.
+
 ## Create a new release
 
-*   Modify `__version__` in `setup.py`.
-*   Modify `version` in `cppmat.pc.in`
+1.  Update the version numbers as follows:
 
+    -   Modify `__version__` in `setup.py`.
+    -   Modify `version` in `cppmat.pc.in`
+
+2.  Upload the changes to GitHub and create a new release there (with the correct version number).
+
+3.  Upload the package to PyPi:
+
+    ```bash
+    $ python3 setup.py bdist_wheel --universal
+    $ twine upload dist/*
+    ```
 
