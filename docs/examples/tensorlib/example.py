@@ -16,3 +16,15 @@ for i in range(4):
         Cnp[i,j] += A[i,j,k,l]*B[l,k]
 
 print('Difference between Python and C++ result: ',np.linalg.norm(C-Cnp))
+
+print('')
+print('The result')
+print(Cnp)
+
+print('')
+print('Symmetric part of the result')
+print(tensorlib.symmetric(Cnp))
+
+print('')
+print('Diagonal of the result')
+print(tensorlib.diagonal(Cnp))
