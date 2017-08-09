@@ -117,34 +117,6 @@ cppmat::tensor<double> A = 3.*I;
 
 Finally, all the [methods](#methods) accept all three classes - `cppmat::tensor2`, `cppmat::tensor2s`, `cppmat::tensor2d` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
 
-> **Warning**
-> 
-> The order of operations may matter. For example
-> 
->  ```cpp
->  cppmat::tensor2d<double> I = cppmat::identity2(3);
->  cppmat::tensor2 <double> A = 10.+I;
->  ```
->  
->  is not the same as
->  
->  ```cpp
->  cppmat::tensor2d<double> I = cppmat::identity2(3);
->  cppmat::tensor2 <double> A = I;
->  A += 10.;
->  ```
->  
->  The results:
->  
->  ```cpp
->  // A = 10.+I             // A = I; A += 10.;
->  [ 11. ,  0. ,  0. ;      [ 11. , 10. , 10. ;
->     0. , 11. ,  0. ;        10. , 11. , 10. ;
->     0. ,  0. , 11. ]        10. , 10. , 11. ]
->  ```
->  
->  This is logical, but one should be aware.
-
 ## Methods
 
 For each class the index operator `(...)`, the arithmetic operators `*=`, `*`,`/=`, `/`,`+=`, `+`,`-=`, `-`, and the comparison operator `==` are available. Also, one can use `.zeros()` or `.ones()` to initialize all components respectively to zeros or ones. Furthermore, the following methods are available. 
