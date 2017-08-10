@@ -3,13 +3,21 @@
 
 This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to include the relevant header file and [tell your compiler](#compiling) where it is located (and to the C++11 or younger standard). Really, that's it!
 
+**Contents**
+
 - [cppmat/matrix.h](#cppmatmatrixh)
 - [cppmat/tensor.h](#cppmattensorh)
 - [Compiling](#compiling)
 - [Python interface](#python-interface)
 - [Develop](#develop)
 
->   A very basic introduction is given here. The step after this reader is to consult the code. It should be easy to understand, with several comments that guide this process.
+>   **Disclaimer**
+>   
+>   A very basic introduction is given here. The step after this reader is to consult the code. It should be easy to understand, with several comments that guide this process. 
+>   
+>   This code is made available under the very permissive MIT license. Still, any additions are very much appreciated. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
+>   
+>   (c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | www.geus.me | github.com/tdegeus/cppmat
 
 # cppmat/matrix.h
 
@@ -100,22 +108,36 @@ Because of the flexibility of C++ it is easy to switch between these specialized
 ```cpp
 cppmat::tensor2d<double> I = cppmat::identity2(3);
 
-cppmat::tensor<double> A = I;
+cppmat::tensor2 <double> A = I;
 ```
 
 or even 
 
 ```cpp
-cppmat::tensor2<double> I = cppmat::identity2(3);
+cppmat::tensor2 <double> I = cppmat::identity2(3);
 ```
 
-Also simple arithmetic works:
+Also arithmetic works:
 
 ```cpp
-cppmat::tensor<double> A = 3.*I;
+cppmat::tensor2d<double> A = 3.*I;
 ```
 
+note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, a typecast is performed to a more general class if needed.
+
 Finally, all the [methods](#methods) accept all three classes - `cppmat::tensor2`, `cppmat::tensor2s`, `cppmat::tensor2d` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
+
+>   The easy conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from `cppmat::tensor2` to `cppmat::tensor2d`) because information is (potentially) lost. To still move forward with the conversion the following is allowed:
+>   
+>   ```cpp
+>   cppmat::tensor2 <double> A(3);
+>   
+>   A(0,0) = ...
+>   ...
+>   
+>   cppmat::tensor2s<double> C = A.astensor2s(); // take the symmetric part of "A": "B = (A+A.T())/2."
+>   cppmat::tensor2d<double> C = A.astensor2d(); // take the diagonal of "A"
+>   ```
 
 ## Methods
 
@@ -260,7 +282,7 @@ include_directories(${CPPMAT_INCLUDE_DIRS})
 
 # Python interface
 
-This library includes provides an interface to [pybind11](https://github.com/pybind/pybind11) such that an interface to NumPy arrays is automatically provided when including a function with a `cppmat::matrix`, `tensor::tensor4`, `tensor::tensor2`, or `tensor::vector`. To use this feature one has to include (either or both):
+This library includes provides an interface to [pybind11](https://github.com/pybind/pybind11) such that an interface to NumPy arrays is automatically provided when including a function with a `cppmat::matrix` (rank n NumPy-array), `tensor::tensor4` (rank 4 NumPy-array), `tensor::tensor2` (rank 2 NumPy-array), `tensor::tensor2s` (rank 2 NumPy-array), `tensor::tensor2d` (rank 2 NumPy-array), or `tensor::vector` (rank 1 NumPy-array). To use this feature one has to include (either or both):
 
 ```cpp
 #include <cppmat/pybind11_matrix.h>
@@ -273,7 +295,17 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 2.  `setup.py` for building using `python` (`python3 setup.py build` and then `python3 setup.py install`). Using this option `python` will take care of the `pybind11` and `cppmat` dependencies.
 
+>   *Warning*
+>   
+>   On the Python side all 2nd-order tensors (`tensor::tensor2`, `tensor::tensor2s`, and `tensor::tensor2d`) are the same rank 2 NumPy-array. This means that when a function with has `tensor::tensor2s` as argument, the matrix is symmetrized; while when it has an argument `tensor::tensor2d` only the diagonal is considered. 
+>   
+>   **This requires extra attention as information might be lost. To optimize for speed and flexibility no checks are performed!**
+
 # Develop
+
+## Make changes / additions
+
+Be sure to run the verification code in `verify/`!
 
 ## Python
 

@@ -1,3 +1,9 @@
+/* =================================================================================================
+
+(c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | www.geus.me | github.com/tdegeus/cppmat
+
+================================================================================================= */
+
 
 #ifndef TENSOR_H
 #define TENSOR_H
@@ -123,13 +129,13 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor4 <X> inline ddot(const tensor4 <X> &B); // double contraction: C_ijmn = A_ijkl * B_lkmn
-  tensor2 <X> inline ddot(const tensor2 <X> &B); // double contraction: C_ij   = A_ijkl * B_lk
-  tensor2 <X> inline ddot(const tensor2s<X> &B); // double contraction: C_ij   = A_ijkl * B_lk
-  tensor2 <X> inline ddot(const tensor2d<X> &B); // double contraction: C_ij   = A_ijkl * B_lk
-  tensor4 <X> inline T   () const;               // transposition     : B_lkji = A_ijkl
-  tensor4 <X> inline RT  () const;               // transposition     : B_ijlk = A_ijkl
-  tensor4 <X> inline LT  () const;               // transposition     : B_jikl = A_ijkl
+  tensor4 <X> inline ddot(const tensor4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
+  tensor2 <X> inline ddot(const tensor2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor2 <X> inline ddot(const tensor2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor2 <X> inline ddot(const tensor2d<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor4 <X> inline T   (                    ) const; // transposition   : B_lkji = A_ijkl
+  tensor4 <X> inline RT  (                    ) const; // transposition   : B_ijlk = A_ijkl
+  tensor4 <X> inline LT  (                    ) const; // transposition   : B_jikl = A_ijkl
 
   // operators
   // ---------
@@ -269,37 +275,30 @@ public:
     return out;
   };
 
-  // copy "const tensor2" -> "tensor2s" ( + change of type )
+  // convert "tensor2 -> tensor2s"
   // WARNING: the output is symmetrized: "out(i,j) = ( this(i,j) + this(j,i) ) / 2."
-  template<typename U,typename V=X,\
-    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor2s<U> () const
+  tensor2s<X> astensor2s()
   {
-    // - allocate copy
-    tensor2s<U> out(m_nd);
-    // - copy and symmetrize all items (+ change data-type)
-    for ( size_t i = 0 ; i < m_nd ; ++i )
-      for ( size_t j = i ; j < m_nd ; ++j )
-        out[i*m_nd-(i-1)*i/2+j-i] =
-          ( static_cast<U>( m_data[i*m_nd+j] ) + static_cast<U>( m_data[j*m_nd+i] ) )/2.;
-    // - return copy
-    return out;
-  };
+    tensor2s<X> out(m_nd);
 
-  // copy "const tensor2" -> "tensor2d" ( + change of type )
-  // WARNING: all off-diagonal are discarded
-  template<typename U,typename V=X,\
-    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor2d<U> () const
-  {
-    // - allocate copy
-    tensor2d<U> out(m_nd);
-    // - copy all items (+ change data-type)
-    for ( size_t i = 0 ; i < m_nd ; ++i )
-      out[i] = static_cast<U>( m_data[i*m_nd+i] );
-    // - return copy
+    for ( size_t i=0; i<m_nd; ++i )
+      for ( size_t j=i; j<m_nd; ++j )
+        out[ i*m_nd - (i-1)*i/2 + j - i ] = ( m_data[ i*m_nd + j ] + m_data[ j*m_nd + i ] ) / 2.;
+
     return out;
-  };
+  }
+
+  // convert "tensor2 -> tensor2d"
+  // WARNING: all off-diagonal are discarded
+  tensor2d<X> astensor2d()
+  {
+    tensor2d<X> out(m_nd);
+
+    for ( size_t i=0; i<m_nd; ++i )
+      out[i] = m_data[ i*m_nd + i ];
+
+    return out;
+  }
 
   // print to screen
   // ---------------
@@ -335,21 +334,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor2 <X> inline dot   (const tensor2 <X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2 <X> inline dot   (const tensor2s<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2 <X> inline dot   (const tensor2d<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  vector  <X> inline dot   (const vector  <X> &B); // single contraction: C_i    = A_ij * B_j
-  tensor2 <X> inline ddot  (const tensor4 <X> &B); // double contraction: C_kl   = A_ij * B_jikl
-  X           inline ddot  (const tensor2 <X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2s<X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2d<X> &B); // double contraction: C      = A_ij * B_ji
-  tensor4 <X> inline dyadic(const tensor2 <X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2s<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2d<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor2 <X> inline T     () const;               // transpose         : B_ij   = A_ji
-  X           inline trace () const;               // trace             : A_ii
-  X           inline det   () const;               // determinant (only in 2D/3D)
-  tensor2 <X> inline inv   () const;               // inverse     (only in 2D/3D)
+  tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X           inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor2 <X> inline T     (                    ) const; // transpose       : B_ij   = A_ji
+  X           inline trace (                    ) const; // trace           : A_ii
+  X           inline det   (                    ) const; // determinant (only in 2D/3D)
+  tensor2 <X> inline inv   (                    ) const; // inverse     (only in 2D/3D)
 
   // operators
   // ---------
@@ -508,6 +507,29 @@ public:
     return true;
   };
 
+  // --
+
+  bool issymmetric()
+  {
+    for ( size_t i = 0 ; i < m_nd ; ++i )
+      for ( size_t j = i+1 ; j < m_nd ; ++j )
+        if ( m_data[ i*m_nd + j ] != m_data[ j*m_nd + i ] )
+          return false;
+
+    return true;
+  };
+
+  bool isdiagonal()
+  {
+    for ( size_t i = 0 ; i < m_nd ; ++i )
+      for ( size_t j = 0 ; j < m_nd ; ++j )
+        if ( i != j )
+          if ( m_data[ i*m_nd + j ] )
+            return false;
+
+    return true;
+  };
+
 }; // class tensor2
 
 // arithmetic operators
@@ -629,20 +651,17 @@ public:
     return out;
   };
 
-  // copy "const tensor2s" -> "tensor2d" ( + change of type )
+  // convert "tensor2s -> tensor2d"
   // WARNING: all off-diagonal are discarded
-  template<typename U,typename V=X,\
-    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor2d<U> () const
+  tensor2d<X> astensor2d()
   {
-    // - allocate copy
-    tensor2d<U> out(m_nd);
-    // - copy all items (+ change data-type)
+    tensor2d<X> out(m_nd);
+
     for ( size_t i=0; i<m_nd; ++i )
-      out[i] = static_cast<U>( m_data[ i*m_nd - (i-1)*i/2 ] );
-    // - return copy
+      out[i] = m_data[ i*m_nd - (i-1)*i/2 ];
+
     return out;
-  };
+  }
 
   // print to screen
   // ---------------
@@ -678,21 +697,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor2 <X> inline dot   (const tensor2 <X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2 <X> inline dot   (const tensor2s<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2 <X> inline dot   (const tensor2d<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  vector  <X> inline dot   (const vector  <X> &B); // single contraction: C_i    = A_ij * B_j
-  tensor2 <X> inline ddot  (const tensor4 <X> &B); // double contraction: C_kl   = A_ij * B_jikl
-  X           inline ddot  (const tensor2 <X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2s<X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2d<X> &B); // double contraction: C      = A_ij * B_ji
-  tensor4 <X> inline dyadic(const tensor2 <X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2s<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2d<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor2s<X> inline T     () const;               // transpose         : B_ij   = A_ji
-  X           inline trace () const;               // trace             : A_ii
-  X           inline det   () const;               // determinant (only in 2D/3D)
-  tensor2s<X> inline inv   () const;               // inverse     (only in 2D/3D)
+  tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X           inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor2s<X> inline T     (                    ) const; // transpose       : B_ij   = A_ji
+  X           inline trace (                    ) const; // trace           : A_ii
+  X           inline det   (                    ) const; // determinant (only in 2D/3D)
+  tensor2s<X> inline inv   (                    ) const; // inverse     (only in 2D/3D)
 
   // operators
   // ---------
@@ -798,6 +817,18 @@ public:
     for ( size_t i = 0 ; i < m_nd ; ++i )
       for ( size_t j = i ; j < m_nd ; ++j )
         if ( m_data[ i*m_nd - (i-1)*i/2 + j - i ] != B(i,j) ) return false;
+
+    return true;
+  };
+
+  // --
+
+  bool isdiagonal()
+  {
+    for ( size_t i = 0 ; i < m_nd ; ++i )
+      for ( size_t j = i+1 ; j < m_nd ; ++j )
+        if ( m_data[ i*m_nd - (i-1)*i/2 + j - i ] )
+          return false;
 
     return true;
   };
@@ -959,21 +990,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor2 <X> inline dot   (const tensor2 <X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2 <X> inline dot   (const tensor2s<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  tensor2d<X> inline dot   (const tensor2d<X> &B); // single contraction: C_ik   = A_ij * B_jk
-  vector  <X> inline dot   (const vector  <X> &B); // single contraction: C_i    = A_ij * B_j
-  tensor2 <X> inline ddot  (const tensor4 <X> &B); // double contraction: C_kl   = A_ij * B_jikl
-  X           inline ddot  (const tensor2 <X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2s<X> &B); // double contraction: C      = A_ij * B_ji
-  X           inline ddot  (const tensor2d<X> &B); // double contraction: C      = A_ij * B_ji
-  tensor4 <X> inline dyadic(const tensor2 <X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2s<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor4 <X> inline dyadic(const tensor2d<X> &B); // dyadic product    : C_ijkl = A_ij * B_kl
-  tensor2d<X> inline T     () const;               // transpose         : B_ij   = A_ji
-  X           inline trace () const;               // trace             : A_ii
-  X           inline det   () const;               // determinant (only in 2D/3D)
-  tensor2d<X> inline inv   () const;               // inverse     (only in 2D/3D)
+  tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2d<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X           inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor2d<X> inline T     (                    ) const; // transpose      : B_ij   = A_ji
+  X           inline trace (                    ) const; // trace          : A_ii
+  X           inline det   (                    ) const; // determinant (only in 2D/3D)
+  tensor2d<X> inline inv   (                    ) const; // inverse     (only in 2D/3D)
 
   // operators
   // ---------
@@ -1574,12 +1605,12 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  X          inline dot   (const vector  <X> &B); // dot    product: C   = A_i*B_i
-  vector <X> inline dot   (const tensor2 <X> &B); // dot    product: C_j = A_i*B_ij
-  vector <X> inline dot   (const tensor2s<X> &B); // dot    product: C_j = A_i*B_ij
-  vector <X> inline dot   (const tensor2d<X> &B); // dot    product: C_j = A_i*B_ij
-  tensor2<X> inline dyadic(const vector  <X> &B); // dyadic product: C_ij = A_i*B_j
-  vector <X> inline cross (const vector  <X> &B); // cross product (only in 3D)
+  X          inline dot   (const vector  <X> &B) const; // dot    product: C   = A_i*B_i
+  vector <X> inline dot   (const tensor2 <X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> inline dot   (const tensor2s<X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> inline dot   (const tensor2d<X> &B) const; // dot    product: C_j = A_i*B_ij
+  tensor2<X> inline dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
+  vector <X> inline cross (const vector  <X> &B) const; // cross product (only in 3D)
 
   // operators
   // ---------
@@ -1877,7 +1908,7 @@ tensor2d<double> inline identity2(size_t nd)
 // tensor products
 // =================================================================================================
 
-template<class X> tensor4<X> inline tensor4<X>::ddot(const tensor4<X> &B)
+template<class X> tensor4<X> inline tensor4<X>::ddot(const tensor4<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -1894,7 +1925,7 @@ template<class X> tensor4<X> inline tensor4<X>::ddot(const tensor4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2<X> &B)
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -1909,7 +1940,7 @@ template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2s<X> &B)
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2s<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -1924,7 +1955,7 @@ template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2d<X> &B)
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2d<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -1938,7 +1969,7 @@ template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2<X>::ddot(const tensor4<X> &B)
+template<class X> tensor2<X> inline tensor2<X>::ddot(const tensor4<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -1953,7 +1984,7 @@ template<class X> tensor2<X> inline tensor2<X>::ddot(const tensor4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2<X>::ddot(const tensor2<X> &B)
+template<class X> X inline tensor2<X>::ddot(const tensor2<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -1966,7 +1997,7 @@ template<class X> X inline tensor2<X>::ddot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2<X>::ddot(const tensor2s<X> &B)
+template<class X> X inline tensor2<X>::ddot(const tensor2s<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -1979,7 +2010,7 @@ template<class X> X inline tensor2<X>::ddot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2<X>::ddot(const tensor2d<X> &B)
+template<class X> X inline tensor2<X>::ddot(const tensor2d<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -1991,7 +2022,7 @@ template<class X> X inline tensor2<X>::ddot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2s<X>::ddot(const tensor4<X> &B)
+template<class X> tensor2<X> inline tensor2s<X>::ddot(const tensor4<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2006,7 +2037,7 @@ template<class X> tensor2<X> inline tensor2s<X>::ddot(const tensor4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2s<X>::ddot(const tensor2<X> &B)
+template<class X> X inline tensor2s<X>::ddot(const tensor2<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2019,7 +2050,7 @@ template<class X> X inline tensor2s<X>::ddot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2s<X>::ddot(const tensor2s<X> &B)
+template<class X> X inline tensor2s<X>::ddot(const tensor2s<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2035,7 +2066,7 @@ template<class X> X inline tensor2s<X>::ddot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2s<X>::ddot(const tensor2d<X> &B)
+template<class X> X inline tensor2s<X>::ddot(const tensor2d<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2047,7 +2078,7 @@ template<class X> X inline tensor2s<X>::ddot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2d<X>::ddot(const tensor4<X> &B)
+template<class X> tensor2<X> inline tensor2d<X>::ddot(const tensor4<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2061,7 +2092,7 @@ template<class X> tensor2<X> inline tensor2d<X>::ddot(const tensor4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2d<X>::ddot(const tensor2<X> &B)
+template<class X> X inline tensor2d<X>::ddot(const tensor2<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2073,7 +2104,7 @@ template<class X> X inline tensor2d<X>::ddot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2d<X>::ddot(const tensor2s<X> &B)
+template<class X> X inline tensor2d<X>::ddot(const tensor2s<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2085,7 +2116,7 @@ template<class X> X inline tensor2d<X>::ddot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor2d<X>::ddot(const tensor2d<X> &B)
+template<class X> X inline tensor2d<X>::ddot(const tensor2d<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2098,7 +2129,7 @@ template<class X> X inline tensor2d<X>::ddot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2<X> &B)
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2112,7 +2143,7 @@ template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2s<X> &B)
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2s<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2126,7 +2157,7 @@ template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2d<X> &B)
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2d<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2139,7 +2170,7 @@ template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline tensor2<X>::dot(const vector<X> &B)
+template<class X> vector<X> inline tensor2<X>::dot(const vector<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2152,7 +2183,7 @@ template<class X> vector<X> inline tensor2<X>::dot(const vector<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2<X> &B)
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2166,7 +2197,7 @@ template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2s<X> &B)
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2s<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2180,7 +2211,7 @@ template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2d<X> &B)
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2d<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2193,7 +2224,7 @@ template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline tensor2s<X>::dot(const vector<X> &B)
+template<class X> vector<X> inline tensor2s<X>::dot(const vector<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2206,7 +2237,7 @@ template<class X> vector<X> inline tensor2s<X>::dot(const vector<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2<X> &B)
+template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2219,7 +2250,7 @@ template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2s<X> &B)
+template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2s<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2232,7 +2263,7 @@ template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2d<X> inline tensor2d<X>::dot(const tensor2d<X> &B)
+template<class X> tensor2d<X> inline tensor2d<X>::dot(const tensor2d<X> &B) const
 {
   tensor2d<X> C(m_nd,static_cast<X>(0));
 
@@ -2244,7 +2275,7 @@ template<class X> tensor2d<X> inline tensor2d<X>::dot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline tensor2d<X>::dot(const vector<X> &B)
+template<class X> vector<X> inline tensor2d<X>::dot(const vector<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2256,7 +2287,7 @@ template<class X> vector<X> inline tensor2d<X>::dot(const vector<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline vector<X>::dot(const tensor2<X> &B)
+template<class X> vector<X> inline vector<X>::dot(const tensor2<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2269,7 +2300,7 @@ template<class X> vector<X> inline vector<X>::dot(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline vector<X>::dot(const tensor2s<X> &B)
+template<class X> vector<X> inline vector<X>::dot(const tensor2s<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2282,7 +2313,7 @@ template<class X> vector<X> inline vector<X>::dot(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline vector<X>::dot(const tensor2d<X> &B)
+template<class X> vector<X> inline vector<X>::dot(const tensor2d<X> &B) const
 {
   vector<X> C(m_nd,static_cast<X>(0));
 
@@ -2294,7 +2325,7 @@ template<class X> vector<X> inline vector<X>::dot(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline vector<X>::dot(const vector<X> &B)
+template<class X> X inline vector<X>::dot(const vector<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2306,7 +2337,7 @@ template<class X> X inline vector<X>::dot(const vector<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2<X> &B)
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2321,7 +2352,7 @@ template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2s<X> &B)
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2s<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2336,7 +2367,7 @@ template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2d<X> &B)
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2d<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2350,7 +2381,7 @@ template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2<X> &B)
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2365,7 +2396,7 @@ template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2s<X> &B)
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2s<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2380,7 +2411,7 @@ template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2d<X> &B)
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2d<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2394,7 +2425,7 @@ template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2<X> &B)
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2408,7 +2439,7 @@ template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2s<X> &B)
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2s<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2422,7 +2453,7 @@ template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2d<X> &B)
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2d<X> &B) const
 {
   tensor4<X> C(m_nd,static_cast<X>(0));
 
@@ -2435,7 +2466,7 @@ template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor2<X> inline vector<X>::dyadic(const vector<X> &B)
+template<class X> tensor2<X> inline vector<X>::dyadic(const vector<X> &B) const
 {
   tensor2<X> C(m_nd,static_cast<X>(0));
 
@@ -2448,7 +2479,7 @@ template<class X> tensor2<X> inline vector<X>::dyadic(const vector<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector<X> inline vector<X>::cross(const vector<X> &B)
+template<class X> vector<X> inline vector<X>::cross(const vector<X> &B) const
 {
   if ( m_nd != 3 || B.ndim() != 3 )
     throw std::runtime_error("'cross' only implemented in 3D, use e.g. 'Eigen'");
@@ -2814,6 +2845,9 @@ template<class X> vector  <X> inline dot   (const vector  <X> &A, const tensor2s
 { return A.dot(B); };
 
 template<class X> vector  <X> inline dot   (const vector  <X> &A, const tensor2d<X> &B)
+{ return A.dot(B); };
+
+template<class X>          X  inline dot   (const vector  <X> &A, const vector  <X> &B)
 { return A.dot(B); };
 
 // --

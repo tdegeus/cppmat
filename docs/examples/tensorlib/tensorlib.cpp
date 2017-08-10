@@ -20,7 +20,7 @@ template cppmat::tensor2<double> ddot42<double>(cppmat::tensor4<double>&, cppmat
 template <class T>
 cppmat::tensor2s<T> symmetric ( cppmat::tensor2<T> &B )
 {
-  cppmat::tensor2s<T> C = B;
+  cppmat::tensor2s<T> C = B.astensor2s();
   return C;
 }
 
@@ -32,7 +32,7 @@ template cppmat::tensor2s<double> symmetric<double> (cppmat::tensor2<double> &);
 template <class T>
 cppmat::tensor2d<T> diagonal ( cppmat::tensor2<T> &B )
 {
-  cppmat::tensor2d<T> C = B;
+  cppmat::tensor2d<T> C = B.astensor2d();
   return C;
 }
 
