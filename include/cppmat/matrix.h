@@ -12,6 +12,7 @@
 #include <cmath>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 namespace cppmat {
 
@@ -65,7 +66,7 @@ public:
     for ( size_t i=0; i<size(); ++i ) out[i] = static_cast<T>(m_data[i]);
     // - return copy
     return out;
-  };
+  }
 
   // resize matrix
   // -------------
@@ -88,7 +89,7 @@ public:
         m_strides[i] *= m_shape[j];
 
     m_data.resize(n);
-  };
+  }
 
   // convert matrix to view it in d >= nd
   // ------------------------------------
@@ -122,32 +123,53 @@ public:
   T& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
   { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]]; };
 
+  const T& operator[](size_t i) const
+  { return m_data[i]; };
+
+  const T& operator()(size_t a) const
+  { return m_data[a*m_strides[0]]; };
+
+  const T& operator()(size_t a, size_t b) const
+  { return m_data[a*m_strides[0]+b*m_strides[1]]; };
+
+  const T& operator()(size_t a, size_t b, size_t c) const
+  { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]]; };
+
+  const T& operator()(size_t a, size_t b, size_t c, size_t d) const
+  { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]]; };
+
+  const T& operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
+  { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]]; };
+
+  const T& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+  { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]]; };
+
   // arithmetic operators
   // --------------------
 
-  matrix<T>& operator*= (const matrix<T> &rhs)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] *= rhs.m_data[i]; return *this; };
+  matrix<T>& operator*= (const matrix<T> &B)
+  { for ( size_t i=0; i<size(); ++i ) m_data[i] *= B.m_data[i]; return *this; };
 
-  matrix<T>& operator/= (const matrix<T> &rhs)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] /= rhs.m_data[i]; return *this; };
+  matrix<T>& operator/= (const matrix<T> &B)
+  { for ( size_t i=0; i<size(); ++i ) m_data[i] /= B.m_data[i]; return *this; };
 
-  matrix<T>& operator+= (const matrix<T> &rhs)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] += rhs.m_data[i]; return *this; };
+  matrix<T>& operator+= (const matrix<T> &B)
+  { for ( size_t i=0; i<size(); ++i ) m_data[i] += B.m_data[i]; return *this; };
 
-  matrix<T>& operator-= (const matrix<T> &rhs)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] -= rhs.m_data[i]; return *this; };
+  matrix<T>& operator-= (const matrix<T> &B)
+  { for ( size_t i=0; i<size(); ++i ) m_data[i] -= B.m_data[i]; return *this; };
 
-  matrix<T>& operator*= (T rhs)
-  { for ( auto &i: m_data ) i *= rhs; return *this; };
+  matrix<T>& operator*= (T B)
+  { for ( auto &i: m_data ) i *= B; return *this; };
 
-  matrix<T>& operator/= (T rhs)
-  { for ( auto &i: m_data ) i /= rhs; return *this; };
+  matrix<T>& operator/= (T B)
+  { for ( auto &i: m_data ) i /= B; return *this; };
 
-  matrix<T>& operator+= (T rhs)
-  { for ( auto &i: m_data ) i += rhs; return *this; };
+  matrix<T>& operator+= (T B)
+  { for ( auto &i: m_data ) i += B; return *this; };
 
-  matrix<T>& operator-= (T rhs)
-  { for ( auto &i: m_data ) i -= rhs; return *this; };
+  matrix<T>& operator-= (T B)
+  { for ( auto &i: m_data ) i -= B; return *this; };
 
   // iterators / pointer
   // -------------------
@@ -256,41 +278,125 @@ public:
 // arithmetic operators
 // --------------------
 
-template<class T>
-matrix<T> operator* (const matrix<T> &A, const matrix<T> &B) { matrix<T> C = A; return C *= B; };
+template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
+{
+  matrix<T> C(A.shape());
 
-template<class T>
-matrix<T> operator* (const matrix<T> &A, const        T  &B) { matrix<T> C = A; return C *= B; };
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] * B[i];
 
-template<class T>
-matrix<T> operator* (const        T  &A, const matrix<T> &B) { matrix<T> C = B; return C *= A; };
+  return C;
+}
 
-template<class T>
-matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B) { matrix<T> C = A; return C /= B; };
+template<class T> matrix<T> operator* (const matrix<T> &A, const        T  &B)
+{
+  matrix<T> C(A.shape());
 
-template<class T>
-matrix<T> operator/ (const matrix<T> &A, const        T  &B) { matrix<T> C = A; return C /= B; };
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] * B;
 
-template<class T>
-matrix<T> operator/ (const        T  &A, const matrix<T> &B) { matrix<T> C = B; return C /= A; };
+  return C;
+}
 
-template<class T>
-matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B) { matrix<T> C = A; return C += B; };
+template<class T> matrix<T> operator* (const        T  &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
 
-template<class T>
-matrix<T> operator+ (const matrix<T> &A, const        T  &B) { matrix<T> C = A; return C += B; };
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A * B[i];
 
-template<class T>
-matrix<T> operator+ (const        T  &A, const matrix<T> &B) { matrix<T> C = B; return C += A; };
+  return C;
+}
 
-template<class T>
-matrix<T> operator- (const matrix<T> &A, const matrix<T> &B) { matrix<T> C = A; return C -= B; };
+template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
+{
+  matrix<T> C(A.shape());
 
-template<class T>
-matrix<T> operator- (const matrix<T> &A, const        T  &B) { matrix<T> C = A; return C -= B; };
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] / B[i];
 
-template<class T>
-matrix<T> operator- (const        T  &A, const matrix<T> &B) { matrix<T> C = B; return C -= A; };
+  return C;
+}
+
+template<class T> matrix<T> operator/ (const matrix<T> &A, const        T  &B)
+{
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] / B;
+
+  return C;
+}
+
+template<class T> matrix<T> operator/ (const        T  &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A / B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
+{
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator+ (const matrix<T> &A, const        T  &B)
+{
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] + B;
+
+  return C;
+}
+
+template<class T> matrix<T> operator+ (const        T  &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A + B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
+{
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator- (const matrix<T> &A, const        T  &B)
+{
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] - B;
+
+  return C;
+}
+
+template<class T> matrix<T> operator- (const        T  &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A - B[i];
+
+  return C;
+}
 
 // print to "std::cout"
 // --------------------
@@ -325,9 +431,9 @@ std::ostream& operator<<(std::ostream& out, matrix<T>& src)
   }
 
   return out;
-};
+}
 
-}; // namespace cppmat
+} // namespace cppmat
 
 #endif
 
