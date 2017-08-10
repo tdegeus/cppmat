@@ -305,7 +305,7 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 ## Make changes / additions
 
-Be sure to run the verification code in `verify/`!
+Be sure to run the verification code in `develop/`!
 
 ## Python
 

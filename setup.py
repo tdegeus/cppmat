@@ -6,7 +6,7 @@ pybind11.
 
 from setuptools import setup
 
-__version__ = '0.1.9'
+__version__ = '0.2.0'
 
 setup(
    name='cppmat',
