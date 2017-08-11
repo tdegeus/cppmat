@@ -53,6 +53,7 @@ setup(
   long_description='',
   license='MIT',
   ext_modules=ext_modules,
+  extra_compile_args = ["-DNDEBUG"], # switch off assertions
   install_requires=['pybind11>=2.1.0','cppmat>=0.1.5'],
   cmdclass={'build_ext': BuildExt},
   zip_safe=False,

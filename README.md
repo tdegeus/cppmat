@@ -238,6 +238,12 @@ For each class the index operator `(...)`, the arithmetic operators `*=`, `*`,`/
 
 # Compiling
 
+## Introduction
+
+As described, this module is header only. So one just has to `#include <cppmat/matrix.h>` and/or `#include <cppmat/tensor.h>` somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below. 
+
+Before proceeding, a words about optimization. Of course one should use optimization when compiling the release of the code (`-O2` or `-O3`). But it is also a good idea to switch of the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag `-NDEBUG`. Note that this is all C++ standard. I.e. it should be no surprise, and it always a good idea to do.
+
 ## pkg-config
 
 To simplify matters greatly one can use `pkg-config` to keep track of the location of the header files. To that matter on has to:
@@ -297,7 +303,7 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 >   *Warning*
 >   
->   On the Python side all 2nd-order tensors (`tensor::tensor2`, `tensor::tensor2s`, and `tensor::tensor2d`) are the same rank 2 NumPy-array. This means that when a function with has `tensor::tensor2s` as argument, the matrix is symmetrized; while when it has an argument `tensor::tensor2d` only the diagonal is considered. 
+>   On the Python side all 2nd-order tensors (`tensor::tensor2`, `tensor::tensor2s`, and `tensor::tensor2d`) are the same rank 2 NumPy-array. This means that when a function with has `tensor::tensor2s` as argument, the upper-diagonal part is read; while when it has an argument `tensor::tensor2d` only the diagonal is considered. You can ask `cppmat` to check for this, by omitting the `NDEBUG` compiler flag (this enables several assertions, so it may cost you some efficiency).
 >   
 >   **This requires extra attention as information might be lost. To optimize for speed and flexibility no checks are performed!**
 

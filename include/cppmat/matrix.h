@@ -7,6 +7,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <assert.h>
 #include <iostream>
 #include <cstdlib>
 #include <cmath>
@@ -60,11 +61,11 @@ public:
     typename=typename std::enable_if<std::is_convertible<T,U>::value>::type>
   operator matrix<U> ()
   {
-    // - allocate copy
     matrix<U> out(shape());
-    // - copy all items (+ change data-type)
-    for ( size_t i=0; i<size(); ++i ) out[i] = static_cast<T>(m_data[i]);
-    // - return copy
+
+    for ( size_t i = 0 ; i < size() ; ++i )
+      out[i] = static_cast<U>( m_data[i] );
+
     return out;
   }
 
@@ -144,32 +145,87 @@ public:
   const T& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
   { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]]; };
 
-  // arithmetic operators
-  // --------------------
+  // arithmetic operators: matrix ?= matrix
+  // --------------------------------------
 
   matrix<T>& operator*= (const matrix<T> &B)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] *= B.m_data[i]; return *this; };
+  {
+    assert( size() == B.size() );
+    assert( ndim() == B.ndim() );
+
+    for ( size_t i = 0 ; i < size() ; ++i )
+      m_data[i] *= B[i];
+
+    return *this;
+  };
 
   matrix<T>& operator/= (const matrix<T> &B)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] /= B.m_data[i]; return *this; };
+  {
+    assert( size() == B.size() );
+    assert( ndim() == B.ndim() );
+
+    for ( size_t i = 0 ; i < size() ; ++i )
+      m_data[i] /= B[i];
+
+    return *this;
+  };
 
   matrix<T>& operator+= (const matrix<T> &B)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] += B.m_data[i]; return *this; };
+  {
+    assert( size() == B.size() );
+    assert( ndim() == B.ndim() );
+
+    for ( size_t i = 0 ; i < size() ; ++i )
+      m_data[i] += B[i];
+
+    return *this;
+  };
 
   matrix<T>& operator-= (const matrix<T> &B)
-  { for ( size_t i=0; i<size(); ++i ) m_data[i] -= B.m_data[i]; return *this; };
+  {
+    assert( size() == B.size() );
+    assert( ndim() == B.ndim() );
+
+    for ( size_t i = 0 ; i < size() ; ++i )
+      m_data[i] -= B[i];
+
+    return *this;
+  };
+
+  // arithmetic operators: matrix ?= scalar
+  // --------------------------------------
 
   matrix<T>& operator*= (T B)
-  { for ( auto &i: m_data ) i *= B; return *this; };
+  {
+    for ( auto &i : m_data )
+      i *= B;
+
+    return *this;
+  };
 
   matrix<T>& operator/= (T B)
-  { for ( auto &i: m_data ) i /= B; return *this; };
+  {
+    for ( auto &i : m_data )
+      i /= B;
+
+    return *this;
+  };
 
   matrix<T>& operator+= (T B)
-  { for ( auto &i: m_data ) i += B; return *this; };
+  {
+    for ( auto &i : m_data )
+      i += B;
+
+    return *this;
+  };
 
   matrix<T>& operator-= (T B)
-  { for ( auto &i: m_data ) i -= B; return *this; };
+  {
+    for ( auto &i : m_data )
+      i -= B;
+
+    return *this;
+  };
 
   // iterators / pointer
   // -------------------
@@ -275,11 +331,14 @@ public:
 
 }; // class matrix
 
-// arithmetic operators
-// --------------------
+// arithmetic operators: matrix = matrix ? matrix
+// ----------------------------------------------
 
 template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
 {
+  assert( A.size() == B.size() );
+  assert( A.ndim() == B.ndim() );
+
   matrix<T> C(A.shape());
 
   for ( size_t i=0; i<C.size(); ++i )
@@ -288,7 +347,49 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator* (const matrix<T> &A, const        T  &B)
+template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
+{
+  assert( A.size() == B.size() );
+  assert( A.ndim() == B.ndim() );
+
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] / B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
+{
+  assert( A.size() == B.size() );
+  assert( A.ndim() == B.ndim() );
+
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
+{
+  assert( A.size() == B.size() );
+  assert( A.ndim() == B.ndim() );
+
+  matrix<T> C(A.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
+}
+
+// arithmetic operators: matrix = matrix ? scalar
+// ----------------------------------------------
+
+template<class T> matrix<T> operator* (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -298,27 +399,7 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const        T  &B)
   return C;
 }
 
-template<class T> matrix<T> operator* (const        T  &A, const matrix<T> &B)
-{
-  matrix<T> C(B.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A * B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
-{
-  matrix<T> C(A.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A[i] / B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator/ (const matrix<T> &A, const        T  &B)
+template<class T> matrix<T> operator/ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -328,27 +409,7 @@ template<class T> matrix<T> operator/ (const matrix<T> &A, const        T  &B)
   return C;
 }
 
-template<class T> matrix<T> operator/ (const        T  &A, const matrix<T> &B)
-{
-  matrix<T> C(B.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A / B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
-{
-  matrix<T> C(A.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A[i] + B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator+ (const matrix<T> &A, const        T  &B)
+template<class T> matrix<T> operator+ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -358,27 +419,7 @@ template<class T> matrix<T> operator+ (const matrix<T> &A, const        T  &B)
   return C;
 }
 
-template<class T> matrix<T> operator+ (const        T  &A, const matrix<T> &B)
-{
-  matrix<T> C(B.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A + B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
-{
-  matrix<T> C(A.shape());
-
-  for ( size_t i=0; i<C.size(); ++i )
-    C[i] = A[i] - B[i];
-
-  return C;
-}
-
-template<class T> matrix<T> operator- (const matrix<T> &A, const        T  &B)
+template<class T> matrix<T> operator- (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -388,7 +429,40 @@ template<class T> matrix<T> operator- (const matrix<T> &A, const        T  &B)
   return C;
 }
 
-template<class T> matrix<T> operator- (const        T  &A, const matrix<T> &B)
+// arithmetic operators: matrix = scalar ? matrix
+// ----------------------------------------------
+
+template<class T> matrix<T> operator* (const T &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A * B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator/ (const T &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A / B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator+ (const T &A, const matrix<T> &B)
+{
+  matrix<T> C(B.shape());
+
+  for ( size_t i=0; i<C.size(); ++i )
+    C[i] = A + B[i];
+
+  return C;
+}
+
+template<class T> matrix<T> operator- (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
