@@ -1,5 +1,4 @@
 from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
 
 import sys
 import setuptools
@@ -22,39 +21,19 @@ ext_modules = [
   ),
 ]
 
-class BuildExt(build_ext):
-  c_opts = {
-    'msvc': ['/EHsc'],
-    'unix': [],
-  }
-
-  if sys.platform == 'darwin':
-    c_opts['unix'] += ['-stdlib=libc++', '-mmacosx-version-min=10.7']
-
-  def build_extensions(self):
-    ct = self.compiler.compiler_type
-    opts = self.c_opts.get(ct, [])
-    if ct == 'unix':
-      opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
-      opts.append(cppmat.cpp_flag(self.compiler))
-    elif ct == 'msvc':
-      opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
-    for ext in self.extensions:
-      ext.extra_compile_args = opts
-    build_ext.build_extensions(self)
-
 setup(
-  name='tensorlib',
-  version=__version__,
-  author='Tom de Geus',
-  author_email='tom@geus.me',
-  url='https://github.com/tdegeus/cppmat/docs/examples/tensorlib',
-  description='Tensorlib',
-  long_description='',
-  license='MIT',
-  ext_modules=ext_modules,
+  name               = 'tensorlib',
+  description        = 'Tensorlib',
+  long_description   = 'This is an example module, it no real use!',
+  keywords           = 'Example, C++, C++11, Python bindings, pybind11',
+  version            = __version__,
+  license            = 'MIT',
+  author             = 'Tom de Geus',
+  author_email       = 'tom@geus.me',
+  url                = 'https://github.com/tdegeus/cppmat/docs/examples/tensorlib',
+  ext_modules        = ext_modules,
   extra_compile_args = ["-DNDEBUG"], # switch off assertions
-  install_requires=['pybind11>=2.1.0','cppmat>=0.1.5'],
-  cmdclass={'build_ext': BuildExt},
-  zip_safe=False,
+  install_requires   = ['pybind11>=2.1.0','cppmat>=0.2.1'],
+  cmdclass           = {'build_ext': cppmat.BuildExt},
+  zip_safe           = False,
 )
