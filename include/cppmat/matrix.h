@@ -45,13 +45,13 @@ public:
   // explicit constructors
   // ---------------------
 
-  matrix(std::vector<size_t> shape)
+  matrix(const std::vector<size_t> &shape)
   { resize(shape); };
 
-  matrix(std::vector<size_t> shape, T D)
+  matrix(const std::vector<size_t> &shape, T D)
   { resize(shape); for ( auto &i: m_data ) i = D; };
 
-  matrix(std::vector<size_t> shape, const T *D)
+  matrix(const std::vector<size_t> &shape, const T *D)
   { resize(shape); for ( size_t i=0; i<size(); ++i ) m_data[i] = D[i]; };
 
   // constructor to copy + change data type
@@ -72,7 +72,7 @@ public:
   // resize matrix
   // -------------
 
-  void resize(std::vector<size_t> shape)
+  void resize(const std::vector<size_t> &shape)
   {
     if ( shape.size()<1 )
       throw std::runtime_error("Input should be >= 1-D");

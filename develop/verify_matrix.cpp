@@ -2,7 +2,7 @@
 
 Compile using:
 
-$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test verify_tensor.cpp
+$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test verify_matrix.cpp
 ================================================================================================= */
 
 #include <cppmat/tensor.h>
