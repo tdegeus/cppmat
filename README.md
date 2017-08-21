@@ -17,11 +17,11 @@ This header-only module provides C++ classes and several accompanying methods to
 >   
 >   This code is made available under the very permissive MIT license. Still, any additions are very much appreciated. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
 >   
->   (c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | www.geus.me | github.com/tdegeus/cppmat
+>   (c - [MIT](https://github.com/tdegeus/cppmat/blob/master/LICENSE)) T.W.J. de Geus (Tom) | tom@geus.me | www.geus.me | [github.com/tdegeus/cppmat](https://github.com/tdegeus/cppmat)
 
 # cppmat/matrix.h
 
-Header-only module that provides a C++ class for n-d matrices.
+Header-only module that provides a C++ class for n-d matrices. For example a rank 3 matrix is allocated as follows:
 
 ```cpp
 #include <cppmat/matrix.h>
@@ -29,35 +29,45 @@ Header-only module that provides a C++ class for n-d matrices.
 int main()
 {
     cppmat::matrix<double> A({10,10,10});
-    // ...
-    return 0;
-}
-```
 
-# cppmat/tensor.h
+    A(0,0,0) = ...
 
-Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with `std::vector`, but with special methods).
-
-```cpp
-#include <cppmat/tensor.h>
-
-int main()
-{
-    cppmat::tensor4<double> cppmat::identity4(3);
-    // ...
+    ...
+    
     return 0;
 }
 ```
 
 > **Tip**
 > 
-> To print use the common C++ `std::cout << A << std::endl;`, or to customize formating use the more classic C syntax `A.printf("%16.8e");`
+> To print, use the common C++ `std::cout << A << std::endl;`. To customize formating use the more classic C syntax `A.printf("%16.8e");`
+
+# cppmat/tensor.h
+
+Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with `std::vector`, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
+
+```cpp
+#include <cppmat/tensor.h>
+
+int main()
+{
+    cppmat::tensor4<double> A = cppmat::identity4(3);
+    
+    ...
+
+    return 0;
+}
+```
+
+> **Tip**
+> 
+> To print, use the common C++ `std::cout << A << std::endl;`. To customize formating use the more classic C syntax `A.printf("%16.8e");`
 
 ## Classes
 
 The module consists of three basic classes:
 
-*   `cppmat::vector`: vector (rank 1 tensor) of arbitrary dimensions. 
+*   `cppmat::vector`: vector (rank 1 tensor) of arbitrary dimension. For example: 
 
     ```cpp
     cppmat::vector<double> A(3);
@@ -65,7 +75,7 @@ The module consists of three basic classes:
     A(0) = ...
     ```
 
-*   `cppmat::tensor2`: 2nd-order tensor (rank 2 tensor) of arbitrary dimensions. 
+*   `cppmat::tensor2`: 2nd-order tensor (rank 2 tensor) of arbitrary dimension. For example: 
 
     ```cpp
     cppmat::tensor2<double> A(3);
@@ -73,7 +83,7 @@ The module consists of three basic classes:
     A(0,0) = ...
     ```
 
-*   `cppmat::tensor4`: 4nd-order tensor (rank 4 tensor) of arbitrary dimensions. 
+*   `cppmat::tensor4`: 4nd-order tensor (rank 4 tensor) of arbitrary dimension. For example: 
 
     ```cpp
     cppmat::tensor4<double> A(3);
@@ -81,7 +91,7 @@ The module consists of three basic classes:
     A(0,0,0,0) = ...
     ```
 
-In addition, there are two specialized classes available which employ information available to end-user, and can be used to optimize the final code for speed and memory consumption. These classes are:
+In addition, there are specialized classes available which employ information available to end-user, and can be used to optimize the final code for speed and memory consumption. These classes are:
 
 *   `cppmat::tensor2s`: symmetric 2nd-order tensor. For example, for the case of 3 dimensions, the following components are stored:
 
@@ -120,14 +130,14 @@ cppmat::tensor2 <double> I = cppmat::identity2(3);
 Also arithmetic works:
 
 ```cpp
-cppmat::tensor2d<double> A = 3.*I;
+cppmat::tensor2d<double> A = 3.0 * I;
 ```
 
-note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, a typecast is performed to a more general class if needed.
+Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, a typecast is performed to a more general class if needed.
 
 Finally, all the [methods](#methods) accept all three classes - `cppmat::tensor2`, `cppmat::tensor2s`, `cppmat::tensor2d` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
 
->   The easy conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from `cppmat::tensor2` to `cppmat::tensor2d`) because information is (potentially) lost. To still move forward with the conversion the following is allowed:
+>   The easy automatic conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from `cppmat::tensor2` to `cppmat::tensor2d`) because information is (potentially) lost. To still move forward with the conversion the following manual conversion can be used:
 >   
 >   ```cpp
 >   cppmat::tensor2 <double> A(3);
@@ -135,7 +145,7 @@ Finally, all the [methods](#methods) accept all three classes - `cppmat::tensor2
 >   A(0,0) = ...
 >   ...
 >   
->   cppmat::tensor2s<double> C = A.astensor2s(); // take the symmetric part of "A": "B = (A+A.T())/2."
+>   cppmat::tensor2s<double> C = A.astensor2s(); // take the symmetric part of "A": "C = (A+A.T())/2."
 >   cppmat::tensor2d<double> C = A.astensor2d(); // take the diagonal of "A"
 >   ```
 
@@ -143,9 +153,7 @@ Finally, all the [methods](#methods) accept all three classes - `cppmat::tensor2
 
 For each class the index operator `(...)`, the arithmetic operators `*=`, `*`,`/=`, `/`,`+=`, `+`,`-=`, `-`, and the comparison operator `==` are available. Also, one can use `.zeros()` or `.ones()` to initialize all components respectively to zeros or ones. Furthermore, the following methods are available. 
 
->   Below each occurrence of `cppmat::tensor2` can be replaced by `cppmat::tensor2s` or `cppmat::tensor2d`. The latter two often perform better.
->   
->   Also notice the notation wherein `A` is the variable for with the method is called, `B` is the argument, while `C` is the result. For example:
+>   Below the rank can be inferred from the indices, but should be easy to understand even without them. Pseudo-code is used to introduce the methods. For the first method it is short for:
 >   
 >   ```cpp
 >   cppmat::tensor4<double> A = cppmat::identity4(3);
@@ -154,83 +162,83 @@ For each class the index operator `(...)`, the arithmetic operators `*=`, `*`,`/
 >   cppmat::tensor2<double> C = A.ddot(B);
 >   ```
 >   
->   The rank of the output is straightforward to understand. Below, the rank can also be inferred from the indices.
+>   Finally, each occurrence of `cppmat::tensor2` can be replaced by `cppmat::tensor2s` or `cppmat::tensor2d`. The latter two often perform better.
 
 *   `cppmat::tensor4`:
 
-    -   `A.ddot(cppmat::tensor4)`
+    -   `C = A.ddot(cppmat::tensor4)`
         
         Double tensor contraction C<sub>ijmn</sub> = A<sub>ijkl</sub> B<sub>lkmn</sub>
 
-    -   `.ddot(cppmat::tensor2)`
+    -   `C = A.ddot(cppmat::tensor2)`
 
         Double tensor contraction C<sub>ij</sub> = A<sub>ijkl</sub> B<sub>lk</sub>
 
-    -   `.T()`
+    -   `C = A.T()`
 
         Transposition C<sub>lkji</sub> = A<sub>ijkl</sub>
 
-    -   `.LT()`
+    -   `C = A.LT()`
 
         Left-transposition C<sub>jikl</sub> = A<sub>ijkl</sub>
 
-    -   `.RT()`
+    -   `C = A.RT()`
 
         Right-transposition C<sub>ijlk</sub> = A<sub>ijkl</sub>
 
 *   `cppmat::tensor2`:
 
-    -   `.ddot(cppmat::tensor4)`
+    -   `C = A.ddot(cppmat::tensor4)`
         
         Double tensor contraction C<sub>kl</sub> = A<sub>ij</sub> B<sub>jikl</sub>
 
-    -   `.ddot(cppmat::tensor2)`
+    -   `C = A.ddot(cppmat::tensor2)`
 
         Double tensor contraction C = A<sub>ij</sub> B<sub>ji</sub>
 
-    -   `.dot(cppmat::tensor2)`
+    -   `C = A.dot(cppmat::tensor2)`
 
         Tensor contraction C<sub>ik</sub> = A<sub>ij</sub> B<sub>jk</sub>
 
-    -   `.dot(cppmat::vector)`
+    -   `C = A.dot(cppmat::vector)`
 
         Tensor contraction C<sub>i</sub> = A<sub>ij</sub> B<sub>j</sub>
 
-    -   `.dyadic(cppmat::tensor2)`
+    -   `C = A.dyadic(cppmat::tensor2)`
 
         Dyadic product C<sub>ijkl</sub> = A<sub>ij</sub> B<sub>kl</sub>
 
-    -   `.T()`
+    -   `C = A.T()`
 
         Transposition C<sub>ji</sub> = A<sub>ij</sub>
 
-    -   `.trace()`
+    -   `C = A.trace()`
 
         The trace of the tensor (i.e. the sum of the diagonal components) C = A<sub>ii</sub>
 
-    -   `.det()`
+    -   `C = A.det()`
 
         The determinant `C` 
 
-    -   `.inv()`
+    -   `C = A.inv()`
 
         The inverse C<sub>ij</sub> 
 
 *   `cppmat::vector`:
 
-    -   `.dot(cppmat::vector)`
+    -   `C = A.dot(cppmat::vector)`
         
         Tensor contraction C = A<sub>i</sub> B<sub>i</sub>
 
-    -   `.dot(cppmat::tensor2)`
+    -   `C = A.dot(cppmat::tensor2)`
 
         Tensor contraction C<sub>j</sub> = A<sub>i</sub> B<sub>ij</sub>
 
-    -   `.dyadic(cppmat::vector)`
+    -   `C = A.dyadic(cppmat::vector)`
 
         Dyadic product C<sub>ij</sub> = A<sub>i</sub> B<sub>j</sub>
 
-    -   `.cross(cppmat::vector)`
+    -   `C = A.cross(cppmat::vector)`
 
         Cross product C<sub>i</sub>
 
@@ -261,11 +269,13 @@ Add the following compiler's arguments:
 
 (or `-std=c++14`).
 
-If `pkg-config` is configured on can also use
+If [`pkg-config`](pkg-config) is configured, one can also use
 
 ```bash
 `pkg-config --cflags cppmat`
 ```
+
+instead of the first argument.
 
 > **Tip**
 > 
@@ -286,6 +296,8 @@ pkg_check_modules(CPPMAT REQUIRED cppmat)
 include_directories(${CPPMAT_INCLUDE_DIRS})
 ```
 
+*Obviously one should configure [`pkg-config`](pkg-config) for this to work*
+
 # Python interface
 
 This library includes provides an interface to [pybind11](https://github.com/pybind/pybind11) such that an interface to NumPy arrays is automatically provided when including a function with a `cppmat::matrix` (rank n NumPy-array), `tensor::tensor4` (rank 4 NumPy-array), `tensor::tensor2` (rank 2 NumPy-array), `tensor::tensor2s` (rank 2 NumPy-array), `tensor::tensor2d` (rank 2 NumPy-array), or `tensor::vector` (rank 1 NumPy-array). To use this feature one has to include (either or both):
@@ -299,19 +311,21 @@ An example is provided in `docs/examples/tensorlib`. This example includes two f
 
 1.  `CMakeList.txt` for building using `cmake` (`cmake .` and then `make`). For this to work, `pybind11` must be 'installed' on the system. Alternatively you can include `pybind11` as a sub-folder (for example using `git submodule add https://github.com/pybind/pybind11.git`). In that case, replace `find_package(pybind11 REQUIRED)` by `add_subdirectory(pybind11)` in `CMakeList.txt`.
 
-2.  `setup.py` for building using `python` (`python3 setup.py build` and then `python3 setup.py install`). Using this option `python` will take care of the `pybind11` and `cppmat` dependencies.
+2.  `setup.py` for building using `python` (`python setup.py build` and then `python setup.py install`). Using this option, `python` will take care of the `pybind11` and `cppmat` dependencies. 
 
->   *Warning*
+    *(Replace the executable with your favorite Python version, e.g. with `python3`)*
+
+>   **Warning**
 >   
 >   On the Python side all 2nd-order tensors (`tensor::tensor2`, `tensor::tensor2s`, and `tensor::tensor2d`) are the same rank 2 NumPy-array. This means that when a function with has `tensor::tensor2s` as argument, the upper-diagonal part is read; while when it has an argument `tensor::tensor2d` only the diagonal is considered. You can ask `cppmat` to check for this, by omitting the `-DNDEBUG` compiler flag (this enables several assertions, so it may cost you some efficiency).
 >   
->   **This requires extra attention as information might be lost. To optimize for speed and flexibility no checks are performed!**
+>   **This requires extra attention as information might be lost. To optimize for speed and flexibility no checks are performed in the release libraries derived from `cppmat`!**
 
 # Develop
 
 ## Make changes / additions
 
-Be sure to run the verification code in `develop/`!
+Be sure to run the verification codes in `develop/`! All existing checks should pass, while new check should be added to check new functionality.
 
 ## Python
 
