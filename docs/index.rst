@@ -11,7 +11,7 @@ This header-only module provides C++ classes and several accompanying methods to
 
   Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_.
 
-  | (c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | `www.geus.me <http://www.geus.me>`_ | `github.com/tdegeus <http://github.com/tdegeus>`_
+  (c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | `www.geus.me <http://www.geus.me>`_ | `github.com/tdegeus <http://github.com/tdegeus>`_
 
 Contents
 ========
