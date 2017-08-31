@@ -9,7 +9,7 @@ depend on cppmat. There is no direct use for Python.
 
 from setuptools import setup
 
-__version__ = '0.2.1'
+__version__ = '0.2.3'
 
 setup(
    name             = 'cppmat',
@@ -25,8 +25,9 @@ setup(
    headers          = [
      'include/cppmat/matrix.h',
      'include/cppmat/tensor.h',
+     'include/cppmat/tensor3d.h',
      'include/cppmat/pybind11_matrix.h',
-     'include/cppmat/pybind11_tensor.h',
+     'include/cppmat/pybind11_tensor3d.h',
    ],
    install_requires = ['pybind11>=2.1.0'],
 )

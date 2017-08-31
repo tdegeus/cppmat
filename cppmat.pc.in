@@ -4,6 +4,6 @@ exec_prefix=${prefix}
 Name: cppmat
 Description: Matrix/tensor library for C++
 Requires:
-Version: 0.2.1
+Version: 0.2.3
 Libs:
 Cflags: -I${prefix}/include

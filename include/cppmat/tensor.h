@@ -4,7 +4,6 @@
 
 ================================================================================================= */
 
-
 #ifndef TENSOR_H
 #define TENSOR_H
 
@@ -1448,7 +1447,7 @@ public:
   {
     assert( ndim() == B.ndim() );
 
-    for ( size_t i = 0;  i < size() ; ++i )
+    for ( size_t i = 0; i < size() ; ++i )
       if ( m_data[i] != B[i] )
         return false;
 
