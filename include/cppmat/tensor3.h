@@ -2531,7 +2531,7 @@ tensor3_4<double> inline identity3_4rt()
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_4<double> inline identity3_4II()
+tensor3_4<double> inline identity3_II()
 {
   tensor3_4<double> I(0.0);
 
@@ -2553,7 +2553,7 @@ tensor3_4<double> inline identity3_4s()
 // -------------------------------------------------------------------------------------------------
 
 tensor3_4<double> inline identity3_4d()
-{ return identity3_4s()-identity3_4II()/static_cast<double>(3); }
+{ return identity3_4s()-identity3_II()/static_cast<double>(3); }
 
 // -------------------------------------------------------------------------------------------------
 

@@ -307,14 +307,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::vector <-> NumPy-array
+// type caster: cppmat::vector3 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::vector<T>>
+template <typename T> struct type_caster<cppmat::vector3<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::vector<T>, _("cppmat::vector<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::vector3<T>, _("cppmat::vector3<T>"));
 
   // Python -> C++
   // -------------
@@ -351,7 +351,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::vector<T>(buf.data());
+    value = cppmat::vector3<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -360,7 +360,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::vector<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::vector3<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
