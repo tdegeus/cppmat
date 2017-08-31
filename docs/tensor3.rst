@@ -5,7 +5,7 @@
 <cppmat/tensor3.h>
 ******************
 
-A specialization of :ref:`tensor`, that takes advantage of the knowledge that the arrays are fixed-size and relatively small. Also several loops are unrolled. All the functionality :ref:`tensor` is available here, whereby the following names are different.
+A specialization of :ref:`tensor`, that takes advantage of the knowledge that the arrays are fixed-size and small. Also several loops are unrolled. All the functionality and names of :ref:`tensor` is transferable to :ref:`tensor3`, whereby the only difference is in the following names:
 
 *   Classes:
 
@@ -37,3 +37,7 @@ Compared to :ref:`tensor` the dimension argument must be omitted everywhere. The
 
       return 0;
   }
+
+.. note::
+
+  The is no way to automatically switch between :ref:`tensor3` and :ref:`tensor`
