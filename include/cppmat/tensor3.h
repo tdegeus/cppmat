@@ -2668,11 +2668,9 @@ std::ostream& operator<<(std::ostream& out, tensor3_4<X>& src)
 
 template<class X> void inline tensor3_2<X>::printf(std::string fmt) const
 {
-  for ( size_t h=0; h<3; ++h ) {
-    for ( size_t i=0; i<3-1; ++i )
-      std::printf((fmt+",").c_str(),this->m_data[h*3+i]);
-    std::printf((fmt+";\n").c_str(),this->m_data[h*3+(3-1)]);
-  }
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[3],m_data[4],m_data[5]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[6],m_data[7],m_data[8]);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2680,11 +2678,10 @@ template<class X> void inline tensor3_2<X>::printf(std::string fmt) const
 template <class X>
 std::ostream& operator<<(std::ostream& out, tensor3_2<X>& src)
 {
-  for ( size_t i=0; i<3; ++i ) {
-    for ( size_t j=0; j<3-1; ++j )
-      out << src(i,j) << ", ";
-    out << src(i,3-1) << "; " << std::endl;
-  }
+  out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
+  out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
+  out << src(2,0) << ", " << src(2,1) << ", " << src(2,2) << ";" << std::endl;
+
   return out;
 }
 
@@ -2692,17 +2689,9 @@ std::ostream& operator<<(std::ostream& out, tensor3_2<X>& src)
 
 template<class X> void inline tensor3_2s<X>::printf(std::string fmt) const
 {
-  size_t i,j;
-
-  for ( i=0; i<3; ++i ) {
-    for ( j=0; j<3-1; ++j ) {
-      if (i <= j) std::printf((fmt+",").c_str(),this->m_data[ i * 3 - (i - 1) * i / 2 + j - i ]);
-      else        std::printf((fmt+",").c_str(),this->m_data[ j * 3 - (j - 1) * j / 2 + i - j ]);
-    }
-    j = 3-1;
-    if (i <= j) std::printf((fmt+";\n").c_str(),this->m_data[ i * 3 - (i - 1) * i / 2 + j - i ]);
-    else        std::printf((fmt+";\n").c_str(),this->m_data[ j * 3 - (j - 1) * j / 2 + i - j ]);
-  }
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[1],m_data[3],m_data[4]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[2],m_data[4],m_data[5]);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2710,11 +2699,10 @@ template<class X> void inline tensor3_2s<X>::printf(std::string fmt) const
 template <class X>
 std::ostream& operator<<(std::ostream& out, tensor3_2s<X>& src)
 {
-  for ( size_t i=0; i<3; ++i ) {
-    for ( size_t j=0; j<3-1; ++j )
-      out << src(i,j) << ", ";
-    out << src(i,3-1) << "; " << std::endl;
-  }
+  out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
+  out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
+  out << src(2,0) << ", " << src(2,1) << ", " << src(2,2) << ";" << std::endl;
+
   return out;
 }
 
@@ -2722,17 +2710,9 @@ std::ostream& operator<<(std::ostream& out, tensor3_2s<X>& src)
 
 template<class X> void inline tensor3_2d<X>::printf(std::string fmt) const
 {
-  size_t i,j;
-
-  for ( i=0; i<3; ++i ) {
-    for ( j=0; j<3-1; ++j ) {
-      if (i == j) std::printf((fmt+",").c_str(),this->m_data[i]);
-      else        std::printf((fmt+",").c_str(),this->m_data[3]);
-    }
-    j = 3-1;
-    if (i == j) std::printf((fmt+";\n").c_str(),this->m_data[i]);
-    else        std::printf((fmt+";\n").c_str(),this->m_data[3]);
-  }
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[3],m_data[3]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[3],m_data[1],m_data[3]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[3],m_data[3],m_data[2]);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2740,11 +2720,10 @@ template<class X> void inline tensor3_2d<X>::printf(std::string fmt) const
 template <class X>
 std::ostream& operator<<(std::ostream& out, tensor3_2d<X>& src)
 {
-  for ( size_t i=0; i<3; ++i ) {
-    for ( size_t j=0; j<3-1; ++j )
-      out << src(i,j) << ", ";
-    out << src(i,3-1) << "; " << std::endl;
-  }
+  out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
+  out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
+  out << src(2,0) << ", " << src(2,1) << ", " << src(2,2) << ";" << std::endl;
+
   return out;
 }
 
@@ -2752,9 +2731,7 @@ std::ostream& operator<<(std::ostream& out, tensor3_2d<X>& src)
 
 template<class X> void inline vector3<X>::printf(std::string fmt) const
 {
-  for ( size_t i=0; i<3-1; ++i )
-    std::printf((fmt+",").c_str(),this->m_data[i]);
-  std::printf((fmt+"\n").c_str(),this->m_data[3-1]);
+  std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2762,9 +2739,8 @@ template<class X> void inline vector3<X>::printf(std::string fmt) const
 template <class X>
 std::ostream& operator<<(std::ostream& out, vector3<X>& src)
 {
-  for ( size_t i=0; i<3-1; ++i )
-    out << src(i) << ", ";
-  out << src(3-1) << std::endl;
+  out << src(0) << ", " << src(1) << ", " << src(2) << ";" << std::endl;
+
   return out;
 }
 
@@ -3570,7 +3546,7 @@ template<class X> X inline tensor3_2d<X>::det() const
 template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
 {
   // compute determinant
-  X D = this->det();
+  X D = det();
 
   // allocate result
   tensor3_2<X> C;
@@ -3592,7 +3568,7 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
 template<class X> tensor3_2s<X> inline tensor3_2s<X>::inv() const
 {
   // compute determinant
-  X D = this->det();
+  X D = det();
 
   // allocate result
   tensor3_2s<X> C;

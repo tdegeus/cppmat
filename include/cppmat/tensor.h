@@ -2638,12 +2638,12 @@ std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
 
 template<class X> void inline tensor2<X>::printf(std::string fmt) const
 {
-  size_t nd = this->m_nd;
+  size_t nd = m_nd;
 
   for ( size_t h=0; h<nd; ++h ) {
     for ( size_t i=0; i<nd-1; ++i )
-      std::printf((fmt+",").c_str(),this->m_data[h*nd+i]);
-    std::printf((fmt+";\n").c_str(),this->m_data[h*nd+(nd-1)]);
+      std::printf((fmt+",").c_str(),m_data[h*nd+i]);
+    std::printf((fmt+";\n").c_str(),m_data[h*nd+(nd-1)]);
   }
 }
 
@@ -2664,17 +2664,17 @@ std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
 
 template<class X> void inline tensor2s<X>::printf(std::string fmt) const
 {
-  size_t nd = this->m_nd;
+  size_t nd = m_nd;
   size_t i,j;
 
   for ( i=0; i<nd; ++i ) {
     for ( j=0; j<nd-1; ++j ) {
-      if (i <= j) std::printf((fmt+",").c_str(),this->m_data[ i * nd - (i - 1) * i / 2 + j - i ]);
-      else        std::printf((fmt+",").c_str(),this->m_data[ j * nd - (j - 1) * j / 2 + i - j ]);
+      if (i <= j) std::printf((fmt+",").c_str(),m_data[ i * nd - (i - 1) * i / 2 + j - i ]);
+      else        std::printf((fmt+",").c_str(),m_data[ j * nd - (j - 1) * j / 2 + i - j ]);
     }
     j = nd-1;
-    if (i <= j) std::printf((fmt+";\n").c_str(),this->m_data[ i * nd - (i - 1) * i / 2 + j - i ]);
-    else        std::printf((fmt+";\n").c_str(),this->m_data[ j * nd - (j - 1) * j / 2 + i - j ]);
+    if (i <= j) std::printf((fmt+";\n").c_str(),m_data[ i * nd - (i - 1) * i / 2 + j - i ]);
+    else        std::printf((fmt+";\n").c_str(),m_data[ j * nd - (j - 1) * j / 2 + i - j ]);
   }
 }
 
@@ -2695,17 +2695,17 @@ std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
 
 template<class X> void inline tensor2d<X>::printf(std::string fmt) const
 {
-  size_t nd = this->m_nd;
+  size_t nd = m_nd;
   size_t i,j;
 
   for ( i=0; i<nd; ++i ) {
     for ( j=0; j<nd-1; ++j ) {
-      if (i == j) std::printf((fmt+",").c_str(),this->m_data[i   ]);
-      else        std::printf((fmt+",").c_str(),this->m_data[m_nd]);
+      if (i == j) std::printf((fmt+",").c_str(),m_data[i   ]);
+      else        std::printf((fmt+",").c_str(),m_data[m_nd]);
     }
     j = nd-1;
-    if (i == j) std::printf((fmt+";\n").c_str(),this->m_data[i   ]);
-    else        std::printf((fmt+";\n").c_str(),this->m_data[m_nd]);
+    if (i == j) std::printf((fmt+";\n").c_str(),m_data[i   ]);
+    else        std::printf((fmt+";\n").c_str(),m_data[m_nd]);
   }
 }
 
@@ -2726,11 +2726,11 @@ std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
 
 template<class X> void inline vector<X>::printf(std::string fmt) const
 {
-  size_t nd = this->m_nd;
+  size_t nd = m_nd;
 
   for ( size_t i=0; i<nd-1; ++i )
-    std::printf((fmt+",").c_str(),this->m_data[i]);
-  std::printf((fmt+"\n").c_str(),this->m_data[nd-1]);
+    std::printf((fmt+",").c_str(),m_data[i]);
+  std::printf((fmt+"\n").c_str(),m_data[nd-1]);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -3567,7 +3567,7 @@ template<class X> tensor2s<X> inline tensor2s<X>::T() const
 {
   tensor2s<X> C(m_nd);
 
-  for ( size_t i=0; i<this->size(); ++i )
+  for ( size_t i=0; i<size(); ++i )
     C[i] = (*this)[i];
 
   return C;
@@ -3579,7 +3579,7 @@ template<class X> tensor2d<X> inline tensor2d<X>::T() const
 {
   tensor2d<X> C(m_nd);
 
-  for ( size_t i=0; i<this->size(); ++i )
+  for ( size_t i=0; i<size(); ++i )
     C[i] = (*this)[i];
 
   return C;
@@ -3617,7 +3617,7 @@ template<class X> X inline tensor2d<X>::trace() const
 {
   X C = static_cast<X>(0);
 
-  for ( size_t i=0; i<this->size(); ++i )
+  for ( size_t i=0; i<size(); ++i )
     C += (*this)[i];
 
   return C;
@@ -3675,7 +3675,7 @@ template<class X> X inline tensor2d<X>::det() const
 template<class X> tensor2<X> inline tensor2<X>::inv() const
 {
   // compute determinant
-  X D = this->det();
+  X D = det();
 
   // allocate result
   tensor2<X> C(m_nd);
@@ -3709,7 +3709,7 @@ template<class X> tensor2<X> inline tensor2<X>::inv() const
 template<class X> tensor2s<X> inline tensor2s<X>::inv() const
 {
   // compute determinant
-  X D = this->det();
+  X D = det();
 
   // allocate result
   tensor2s<X> C(m_nd);
