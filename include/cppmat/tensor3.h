@@ -1739,18 +1739,18 @@ public:
   tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2d<X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3  <X> inline dot   (const vector3  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
   tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X              inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X              inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X              inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
   tensor3_4 <X> inline dyadic(const tensor3_2 <X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
   tensor3_4 <X> inline dyadic(const tensor3_2s<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
   tensor3_4 <X> inline dyadic(const tensor3_2d<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  tensor3_2d<X> inline T     (                       ) const; // transpose      : B_ij   = A_ji
-  X              inline trace (                       ) const; // trace          : A_ii
-  X              inline det   (                       ) const; // determinant (only in 2D/3D)
-  tensor3_2d<X> inline inv   (                       ) const; // inverse     (only in 2D/3D)
+  tensor3_2d<X> inline T     (                      ) const; // transpose      : B_ij   = A_ji
+  X             inline trace (                      ) const; // trace          : A_ii
+  X             inline det   (                      ) const; // determinant (only in 2D/3D)
+  tensor3_2d<X> inline inv   (                      ) const; // inverse     (only in 2D/3D)
 
   // index operators
   // ---------------
@@ -1775,24 +1775,27 @@ public:
 
   tensor3_2d<X>& operator*= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] *= B[i];
+    m_data[0] *= B[0];
+    m_data[1] *= B[1];
+    m_data[2] *= B[2];
 
     return *this;
   };
 
   tensor3_2d<X>& operator+= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] += B[i];
+    m_data[0] += B[0];
+    m_data[1] += B[1];
+    m_data[2] += B[2];
 
     return *this;
   };
 
   tensor3_2d<X>& operator-= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] -= B[i];
+    m_data[0] -= B[0];
+    m_data[1] -= B[1];
+    m_data[2] -= B[2];
 
     return *this;
   };
@@ -1802,16 +1805,18 @@ public:
 
   tensor3_2d<X>& operator*= (const tensor3_2 <X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] *= B[ i*3+i ];
+    m_data[0] *= B[0];
+    m_data[1] *= B[4];
+    m_data[2] *= B[8];
 
     return *this;
   };
 
   tensor3_2d<X>& operator/= (const tensor3_2 <X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] /= B[ i*3+i ];
+    m_data[0] /= B[0];
+    m_data[1] /= B[4];
+    m_data[2] /= B[8];
 
     return *this;
   };
@@ -1821,16 +1826,18 @@ public:
 
   tensor3_2d<X>& operator*= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] *= B[ i*3 - (i-1)*i/2 ];
+    m_data[0] *= B[0];
+    m_data[1] *= B[3];
+    m_data[2] *= B[5];
 
     return *this;
   };
 
   tensor3_2d<X>& operator/= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] /= B[ i*3 - (i-1)*i/2 ];
+    m_data[0] /= B[0];
+    m_data[1] /= B[3];
+    m_data[2] /= B[5];
 
     return *this;
   };
@@ -1840,32 +1847,36 @@ public:
 
   tensor3_2d<X>& operator*= (const X &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] *= B;
+    m_data[0] *= B;
+    m_data[1] *= B;
+    m_data[2] *= B;
 
     return *this;
   };
 
   tensor3_2d<X>& operator/= (const X &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] /= B;
+    m_data[0] /= B;
+    m_data[1] /= B;
+    m_data[2] /= B;
 
     return *this;
   };
 
   tensor3_2d<X>& operator+= (const X &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] += B;
+    m_data[0] += B;
+    m_data[1] += B;
+    m_data[2] += B;
 
     return *this;
   };
 
   tensor3_2d<X>& operator-= (const X &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] -= B;
+    m_data[0] -= B;
+    m_data[1] -= B;
+    m_data[2] -= B;
 
     return *this;
   };
