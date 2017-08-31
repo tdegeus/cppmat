@@ -82,8 +82,11 @@ public:
   {
     tensor3_4<U> out;
 
-    for ( size_t i=0; i<81; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+    for ( size_t i = 0 ; i < 81 ; i += 3 ) {
+      out[i  ] = static_cast<U>( m_data[i  ] );
+      out[i+1] = static_cast<U>( m_data[i+1] );
+      out[i+2] = static_cast<U>( m_data[i+2] );
+    }
 
     return out;
   }
@@ -155,7 +158,7 @@ public:
   { return m_data[i*27+j*9+k*3+l]; };
 
   // arithmetic operators: tensor3_4 ?= tensor3_4
-  // ----------------------------------------
+  // --------------------------------------------
 
   tensor3_4<X>& operator*= (const tensor3_4<X> &B)
   {
@@ -202,7 +205,7 @@ public:
   };
 
   // arithmetic operators: tensor3_4 ?= tensor3_4
-  // ----------------------------------------
+  // --------------------------------------------
 
   tensor3_4<X>& operator*= (const X &B)
   {
@@ -263,7 +266,7 @@ public:
 }; // class tensor3_4
 
 // arithmetic operators: tensor3_4 = tensor3_4 ? tensor3_4
-// -------------------------------------------------
+// -------------------------------------------------------
 
 template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const tensor3_4<X> &B)
 {
@@ -318,7 +321,7 @@ template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const tensor3_
 }
 
 // arithmetic operators: tensor3_4 = tensor3_4 ? scalar
-// ------------------------------------------------
+// ----------------------------------------------------
 
 template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const X &B)
 {
@@ -369,7 +372,7 @@ template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const X &B)
   return C; }
 
 // arithmetic operators: tensor3_4 = scalar ? tensor3_4
-// ------------------------------------------------
+// ----------------------------------------------------
 
 template <class X> tensor3_4<X> operator* (const X &A, const tensor3_4<X> &B)
 {
@@ -458,8 +461,11 @@ public:
   {
     tensor3_2<U> out;
 
-    for ( size_t i=0; i<9; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      out[i  ] = static_cast<U>( m_data[i  ] );
+      out[i+1] = static_cast<U>( m_data[i+1] );
+      out[i+2] = static_cast<U>( m_data[i+2] );
+    }
 
     return out;
   }
@@ -470,9 +476,12 @@ public:
   {
     tensor3_2s<X> out;
 
-    for ( size_t i=0; i<3; ++i )
-      for ( size_t j=i; j<3; ++j )
-        out[ i*3 - (i-1)*i/2 + j - i ] = ( m_data[ i*3 + j ] + m_data[ j*3 + i ] ) / 2.;
+    out[0] =   m_data[0];
+    out[1] = ( m_data[1] + m_data[3] ) / 2.;
+    out[2] = ( m_data[2] + m_data[6] ) / 2.;
+    out[3] =   m_data[4];
+    out[4] = ( m_data[5] + m_data[7] ) / 2.;
+    out[5] =   m_data[8];
 
     return out;
   }
@@ -483,8 +492,9 @@ public:
   {
     tensor3_2d<X> out;
 
-    for ( size_t i=0; i<3; ++i )
-      out[i] = m_data[ i*3 + i ];
+    out[0] = m_data[0];
+    out[1] = m_data[4];
+    out[2] = m_data[8];
 
     return out;
   }
@@ -513,8 +523,11 @@ public:
   {
     X C = static_cast<X>(0);
 
-    for ( size_t i = 0 ; i < 9 ; ++i )
-      C += std::abs(m_data[i]);
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      C += std::abs(m_data[i  ]);
+      C += std::abs(m_data[i+1]);
+      C += std::abs(m_data[i+2]);
+    }
 
     return C;
   }
@@ -532,7 +545,7 @@ public:
   tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2 <X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3  <X> inline dot   (const vector3  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
   tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
   X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
   X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
@@ -554,99 +567,99 @@ public:
   const X& operator()(size_t i, size_t j) const { return m_data[i*3+j]; };
 
   // arithmetic operators: tensor3_2 ?= tensor3_2
-  // ----------------------------------------
+  // --------------------------------------------
 
   tensor3_2<X>& operator*= (const tensor3_2<X> &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] *= B[i];
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] *= B[i  ];
+      m_data[i+1] *= B[i+1];
+      m_data[i+2] *= B[i+2];
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator/= (const tensor3_2<X> &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] /= B[i];
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] /= B[i  ];
+      m_data[i+1] /= B[i+1];
+      m_data[i+2] /= B[i+2];
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator+= (const tensor3_2<X> &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] += B[i];
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] += B[i  ];
+      m_data[i+1] += B[i+1];
+      m_data[i+2] += B[i+2];
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator-= (const tensor3_2<X> &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] -= B[i];
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] -= B[i  ];
+      m_data[i+1] -= B[i+1];
+      m_data[i+2] -= B[i+2];
+    }
 
     return *this;
   };
 
   // arithmetic operators: tensor3_2 ?= tensor3_2s
-  // -----------------------------------------
+  // ---------------------------------------------
 
   tensor3_2<X>& operator*= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        // - extract value
-        X b = B[ i*3 - (i-1)*i/2 + j - i ];
-        // - store symmetrically
-                      m_data[i*3+j] *= b;
-        if ( i != j ) m_data[j*3+i] *= b;
-      }
-    }
+    m_data[0] *= B[0];
+    m_data[1] *= B[1]; m_data[3] *= B[1];
+    m_data[2] *= B[2]; m_data[6] *= B[2];
+    m_data[4] *= B[3];
+    m_data[5] *= B[4]; m_data[7] *= B[4];
+    m_data[8] *= B[5];
 
     return *this;
   };
 
   tensor3_2<X>& operator/= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        // - extract value
-        X b = B[ i*3 - (i-1)*i/2 + j - i ];
-        // - store symmetrically
-                      m_data[i*3+j] /= b;
-        if ( i != j ) m_data[j*3+i] /= b;
-      }
-    }
+    m_data[0] /= B[0];
+    m_data[1] /= B[1]; m_data[3] /= B[1];
+    m_data[2] /= B[2]; m_data[6] /= B[2];
+    m_data[4] /= B[3];
+    m_data[5] /= B[4]; m_data[7] /= B[4];
+    m_data[8] /= B[5];
 
     return *this;
   };
 
   tensor3_2<X>& operator+= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        // - extract value
-        X b = B[ i*3 - (i-1)*i/2 + j - i ];
-        // - store symmetrically
-                      m_data[i*3+j] += b;
-        if ( i != j ) m_data[j*3+i] += b;
-      }
-    }
+    m_data[0] += B[0];
+    m_data[1] += B[1]; m_data[3] += B[1];
+    m_data[2] += B[2]; m_data[6] += B[2];
+    m_data[4] += B[3];
+    m_data[5] += B[4]; m_data[7] += B[4];
+    m_data[8] += B[5];
 
     return *this;
   };
 
   tensor3_2<X>& operator-= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        // - extract value
-        X b = B[ i*3 - (i-1)*i/2 + j - i ];
-        // - store symmetrically
-                      m_data[i*3+j] -= b;
-        if ( i != j ) m_data[j*3+i] -= b;
-      }
-    }
+    m_data[0] -= B[0];
+    m_data[1] -= B[1]; m_data[3] -= B[1];
+    m_data[2] -= B[2]; m_data[6] -= B[2];
+    m_data[4] -= B[3];
+    m_data[5] -= B[4]; m_data[7] -= B[4];
+    m_data[8] -= B[5];
 
     return *this;
   };
@@ -656,28 +669,28 @@ public:
 
   tensor3_2<X>& operator*= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=0; j<3; ++j ) {
-        if ( i == j ) m_data[i*3+i] *= B[i];
-        else          m_data[i*3+j]  = static_cast<X>(0);
-      }
-    }
+    m_data[0] *= B[0];
+    m_data[4] *= B[1];
+    m_data[8] *= B[2];
+    m_data[1] = m_data[2] = m_data[3] = m_data[5] = m_data[6] = m_data[7] = static_cast<X>(0);
 
     return *this;
   };
 
   tensor3_2<X>& operator+= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i*3+i] += B[i];
+    m_data[0] += B[0];
+    m_data[4] += B[1];
+    m_data[8] += B[2];
 
     return *this;
   };
 
   tensor3_2<X>& operator-= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i*3+i] -= B[i];
+    m_data[0] -= B[0];
+    m_data[4] -= B[1];
+    m_data[8] -= B[2];
 
     return *this;
   };
@@ -687,32 +700,44 @@ public:
 
   tensor3_2<X>& operator*= (const X &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] *= B;
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] *= B;
+      m_data[i+1] *= B;
+      m_data[i+2] *= B;
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator/= (const X &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] /= B;
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] /= B;
+      m_data[i+1] /= B;
+      m_data[i+2] /= B;
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator+= (const X &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] += B;
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] += B;
+      m_data[i+1] += B;
+      m_data[i+2] += B;
+    }
 
     return *this;
   };
 
   tensor3_2<X>& operator-= (const X &B)
   {
-    for ( size_t i=0; i<9; ++i )
-      m_data[i] -= B;
+    for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+      m_data[i  ] -= B;
+      m_data[i+1] -= B;
+      m_data[i+2] -= B;
+    }
 
     return *this;
   };
@@ -776,14 +801,17 @@ public:
 }; // class tensor3_2
 
 // arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2
-// -------------------------------------------------
+// -------------------------------------------------------
 
 template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const tensor3_2<X> &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] * B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] * B[i  ];
+    C[i+1] = A[i+1] * B[i+1];
+    C[i+2] = A[i+2] * B[i+2];
+  }
 
   return C;
 }
@@ -792,8 +820,11 @@ template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const tensor3_
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] / B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] / B[i  ];
+    C[i+1] = A[i+1] / B[i+1];
+    C[i+2] = A[i+2] / B[i+2];
+  }
 
   return C;
 }
@@ -802,8 +833,11 @@ template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const tensor3_
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] + B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] + B[i  ];
+    C[i+1] = A[i+1] + B[i+1];
+    C[i+2] = A[i+2] + B[i+2];
+  }
 
   return C;
 }
@@ -812,28 +846,28 @@ template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const tensor3_
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] - B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] - B[i  ];
+    C[i+1] = A[i+1] - B[i+1];
+    C[i+2] = A[i+2] - B[i+2];
+  }
 
   return C;
 }
 
 // arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2s
-// --------------------------------------------------
+// --------------------------------------------------------
 
 template <class X> tensor3_2 <X> operator* (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X b = B[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = A[ i*3 + j ] * b;
-      if ( i != j ) C[ j*3 + i ] = A[ j*3 + i ] * b;
-    }
-  }
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[3] = A[3] * B[1];
+  C[2] = A[2] * B[2]; C[6] = A[6] * B[2];
+  C[4] = A[4] * B[3];
+  C[5] = A[5] * B[4]; C[7] = A[7] * B[4];
+  C[8] = A[8] * B[5];
 
   return C;
 }
@@ -842,15 +876,12 @@ template <class X> tensor3_2 <X> operator/ (const tensor3_2 <X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X b = B[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = A[ i*3 + j ] / b;
-      if ( i != j ) C[ j*3 + i ] = A[ j*3 + i ] / b;
-    }
-  }
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[3] = A[3] / B[1];
+  C[2] = A[2] / B[2]; C[6] = A[6] / B[2];
+  C[4] = A[4] / B[3];
+  C[5] = A[5] / B[4]; C[7] = A[7] / B[4];
+  C[8] = A[8] / B[5];
 
   return C;
 }
@@ -859,15 +890,12 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X b = B[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = A[ i*3 + j ] + b;
-      if ( i != j ) C[ j*3 + i ] = A[ j*3 + i ] + b;
-    }
-  }
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[3] = A[3] + B[1];
+  C[2] = A[2] + B[2]; C[6] = A[6] + B[2];
+  C[4] = A[4] + B[3];
+  C[5] = A[5] + B[4]; C[7] = A[7] + B[4];
+  C[8] = A[8] + B[5];
 
   return C;
 }
@@ -876,33 +904,33 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X b = B[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = A[ i*3 + j ] - b;
-      if ( i != j ) C[ j*3 + i ] = A[ j*3 + i ] - b;
-    }
-  }
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[3] = A[3] - B[1];
+  C[2] = A[2] - B[2]; C[6] = A[6] - B[2];
+  C[4] = A[4] - B[3];
+  C[5] = A[5] - B[4]; C[7] = A[7] - B[4];
+  C[8] = A[8] - B[5];
 
   return C;
 }
 
 
 // arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2d
-// --------------------------------------------------
+// --------------------------------------------------------
 
 template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = 0 ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 + j ] = A[ i*3 + j ] + B[ i ];
-      else          C[ i*3 + j ] = A[ i*3+ j ];
-    }
-  }
+  C[0] = A[0] + B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3];
+  C[4] = A[4] + B[1];
+  C[5] = A[5];
+  C[6] = A[6];
+  C[7] = A[7];
+  C[8] = A[8] + B[2];
 
   return C;
 }
@@ -911,25 +939,31 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = 0 ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 + j ] = A[ i*3 + j ] - B[ i ];
-      else          C[ i*3 + j ] = A[ i*3+ j ];
-    }
-  }
+  C[0] = A[0] - B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3];
+  C[4] = A[4] - B[1];
+  C[5] = A[5];
+  C[6] = A[6];
+  C[7] = A[7];
+  C[8] = A[8] - B[2];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2 = tensor3_2 ? scalar
-// ------------------------------------------------
+// ----------------------------------------------------
 
 template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const X &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] * B;
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] * B;
+    C[i+1] = A[i+1] * B;
+    C[i+2] = A[i+2] * B;
+  }
 
   return C;
 }
@@ -938,8 +972,11 @@ template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const X &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] / B;
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] / B;
+    C[i+1] = A[i+1] / B;
+    C[i+2] = A[i+2] / B;
+  }
 
   return C;
 }
@@ -948,8 +985,11 @@ template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const X &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] + B;
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] + B;
+    C[i+1] = A[i+1] + B;
+    C[i+2] = A[i+2] + B;
+  }
 
   return C;
 }
@@ -958,8 +998,11 @@ template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const X &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A[i] - B;
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A[i  ] - B;
+    C[i+1] = A[i+1] - B;
+    C[i+2] = A[i+2] - B;
+  }
 
   return C;
 }
@@ -971,15 +1014,12 @@ template <class X> tensor3_2 <X> operator* (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X a = A[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = a * B[ i*3 + j ];
-      if ( i != j ) C[ j*3 + i ] = a * B[ j*3 + i ];
-    }
-  }
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[3] = A[1] * B[3];
+  C[2] = A[2] * B[2]; C[6] = A[2] * B[6];
+  C[4] = A[3] * B[4];
+  C[5] = A[4] * B[5]; C[7] = A[4] * B[7];
+  C[8] = A[5] * B[8];
 
   return C;
 }
@@ -988,15 +1028,12 @@ template <class X> tensor3_2 <X> operator/ (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X a = A[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = a / B[ i*3 + j ];
-      if ( i != j ) C[ j*3 + i ] = a / B[ j*3 + i ];
-    }
-  }
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[3] = A[1] / B[3];
+  C[2] = A[2] / B[2]; C[6] = A[2] / B[6];
+  C[4] = A[3] / B[4];
+  C[5] = A[4] / B[5]; C[7] = A[4] / B[7];
+  C[8] = A[5] / B[8];
 
   return C;
 }
@@ -1005,15 +1042,12 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X a = A[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = a + B[ i*3 + j ];
-      if ( i != j ) C[ j*3 + i ] = a + B[ j*3 + i ];
-    }
-  }
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[3] = A[1] + B[3];
+  C[2] = A[2] + B[2]; C[6] = A[2] + B[6];
+  C[4] = A[3] + B[4];
+  C[5] = A[4] + B[5]; C[7] = A[4] + B[7];
+  C[8] = A[5] + B[8];
 
   return C;
 }
@@ -1022,15 +1056,12 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      // - extract value
-      X a = A[ i*3 - (i-1)*i/2 + j - i ];
-      // - perform multiplication
-                    C[ i*3 + j ] = a - B[ i*3 + j ];
-      if ( i != j ) C[ j*3 + i ] = a - B[ j*3 + i ];
-    }
-  }
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[3] = A[1] - B[3];
+  C[2] = A[2] - B[2]; C[6] = A[2] - B[6];
+  C[4] = A[3] - B[4];
+  C[5] = A[4] - B[5]; C[7] = A[4] - B[7];
+  C[8] = A[5] - B[8];
 
   return C;
 }
@@ -1042,12 +1073,15 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = 0 ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 + j ] = A[ i ] + B[ i*3 + j ];
-      else          C[ i*3 + j ] =          B[ i*3 + j ];
-    }
-  }
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] =        B[2];
+  C[3] =        B[3];
+  C[4] = A[1] + B[4];
+  C[5] =        B[5];
+  C[6] =        B[6];
+  C[7] =        B[7];
+  C[8] = A[2] + B[8];
 
   return C;
 }
@@ -1056,12 +1090,15 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2 <X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = 0 ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 + j ] = A[ i ] - B[ i*3 + j ];
-      else          C[ i*3 + j ] =        - B[ i*3 + j ];
-    }
-  }
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] =      - B[2];
+  C[3] =      - B[3];
+  C[4] = A[1] - B[4];
+  C[5] =      - B[5];
+  C[6] =      - B[6];
+  C[7] =      - B[7];
+  C[8] = A[2] - B[8];
 
   return C;
 }
@@ -1073,8 +1110,11 @@ template <class X> tensor3_2<X> operator* (const X &A, const tensor3_2<X> &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A * B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A * B[i  ];
+    C[i+1] = A * B[i+1];
+    C[i+2] = A * B[i+2];
+  }
 
   return C;
 }
@@ -1083,8 +1123,11 @@ template <class X> tensor3_2<X> operator/ (const X &A, const tensor3_2<X> &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A / B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A / B[i  ];
+    C[i+1] = A / B[i+1];
+    C[i+2] = A / B[i+2];
+  }
 
   return C;
 }
@@ -1093,8 +1136,11 @@ template <class X> tensor3_2<X> operator+ (const X &A, const tensor3_2<X> &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A + B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A + B[i  ];
+    C[i+1] = A + B[i+1];
+    C[i+2] = A + B[i+2];
+  }
 
   return C;
 }
@@ -1103,8 +1149,11 @@ template <class X> tensor3_2<X> operator- (const X &A, const tensor3_2<X> &B)
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<9; ++i )
-    C[i] = A - B[i];
+  for ( size_t i = 0 ; i < 9 ; i += 3 ) {
+    C[i  ] = A - B[i  ];
+    C[i+1] = A - B[i+1];
+    C[i+2] = A - B[i+2];
+  }
 
   return C;
 }
@@ -1160,8 +1209,12 @@ public:
   {
     tensor3_2s<U> out;
 
-    for ( size_t i=0; i<6; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+    out[0] = static_cast<U>( m_data[0] );
+    out[1] = static_cast<U>( m_data[1] );
+    out[2] = static_cast<U>( m_data[2] );
+    out[3] = static_cast<U>( m_data[3] );
+    out[4] = static_cast<U>( m_data[4] );
+    out[5] = static_cast<U>( m_data[5] );
 
     return out;
   }
@@ -1173,15 +1226,12 @@ public:
   {
     tensor3_2<U> out;
 
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        // - get item
-        U b = static_cast<U>( m_data[ i*3 - (i-1)*i/2 + j - i ] );
-        // - store item, and symmetric copy
-        out[ i*3 + j ] = b;
-        out[ j*3 + i ] = b;
-      }
-    }
+    out[0]          = m_data[0];
+    out[1] = out[3] = m_data[1];
+    out[2] = out[6] = m_data[2];
+    out[4]          = m_data[3];
+    out[5] = out[7] = m_data[4];
+    out[8]          = m_data[5];
 
     return out;
   }
@@ -1192,8 +1242,9 @@ public:
   {
     tensor3_2d<X> out;
 
-    for ( size_t i=0; i<3; ++i )
-      out[i] = m_data[ i*3 - (i-1)*i/2 ];
+    out[0] = m_data[0];
+    out[1] = m_data[3];
+    out[2] = m_data[5];
 
     return out;
   }
@@ -1220,10 +1271,14 @@ public:
 
   X norm() const
   {
-    X C = static_cast<X>(0);
+    X C;
 
-    for ( size_t i = 0 ; i < 6 ; ++i )
-      C += std::abs(m_data[i]);
+    C  = std::abs(m_data[0]);
+    C += std::abs(m_data[1]);
+    C += std::abs(m_data[2]);
+    C += std::abs(m_data[3]);
+    C += std::abs(m_data[4]);
+    C += std::abs(m_data[5]);
 
     return C;
   }
@@ -1241,18 +1296,18 @@ public:
   tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor3_2 <X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3  <X> inline dot   (const vector3  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
   tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X              inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X              inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X              inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X             inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
   tensor3_4 <X> inline dyadic(const tensor3_2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
   tensor3_4 <X> inline dyadic(const tensor3_2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
   tensor3_4 <X> inline dyadic(const tensor3_2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_2s<X> inline T     (                       ) const; // transpose       : B_ij   = A_ji
-  X              inline trace (                       ) const; // trace           : A_ii
-  X              inline det   (                       ) const; // determinant (only in 2D/3D)
-  tensor3_2s<X> inline inv   (                       ) const; // inverse     (only in 2D/3D)
+  tensor3_2s<X> inline T     (                      ) const; // transpose       : B_ij   = A_ji
+  X             inline trace (                      ) const; // trace           : A_ii
+  X             inline det   (                      ) const; // determinant (only in 2D/3D)
+  tensor3_2s<X> inline inv   (                      ) const; // inverse     (only in 2D/3D)
 
   // index operators
   // ---------------
@@ -1262,14 +1317,40 @@ public:
 
   X&       operator()(size_t i, size_t j)
   {
-    if (i <= j) return m_data[ i*3 - (i-1)*i/2 + j - i ];
-    else        return m_data[ j*3 - (j-1)*j/2 + i - j ];
+    if ( i == 0 ) {
+      if ( j == 0 ) return m_data[0];
+      if ( j == 1 ) return m_data[1];
+      else          return m_data[2];
+    }
+    if ( i == 1 ) {
+      if ( j == 0 ) return m_data[1];
+      if ( j == 1 ) return m_data[3];
+      else          return m_data[4];
+    }
+    else {
+      if ( j == 0 ) return m_data[2];
+      if ( j == 1 ) return m_data[4];
+      else          return m_data[5];
+    }
   }
 
   const X& operator()(size_t i, size_t j) const
   {
-    if (i <= j) return m_data[ i*3 - (i-1)*i/2 + j - i ];
-    else        return m_data[ j*3 - (j-1)*j/2 + i - j ];
+    if ( i == 0 ) {
+      if ( j == 0 ) return m_data[0];
+      if ( j == 1 ) return m_data[1];
+      else          return m_data[2];
+    }
+    if ( i == 1 ) {
+      if ( j == 0 ) return m_data[1];
+      if ( j == 1 ) return m_data[3];
+      else          return m_data[4];
+    }
+    else {
+      if ( j == 0 ) return m_data[2];
+      if ( j == 1 ) return m_data[4];
+      else          return m_data[5];
+    }
   }
 
   // arithmetic operators: tensor3_2s ?= tensor3_2s
@@ -1277,32 +1358,48 @@ public:
 
   tensor3_2s<X>& operator*= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<6; ++i )
-      m_data[i] *= B[i];
+    m_data[0] *= B[0];
+    m_data[1] *= B[1];
+    m_data[2] *= B[2];
+    m_data[3] *= B[3];
+    m_data[4] *= B[4];
+    m_data[5] *= B[5];
 
     return *this;
   };
 
   tensor3_2s<X>& operator/= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<6; ++i )
-      m_data[i] /= B[i];
+    m_data[0] /= B[0];
+    m_data[1] /= B[1];
+    m_data[2] /= B[2];
+    m_data[3] /= B[3];
+    m_data[4] /= B[4];
+    m_data[5] /= B[5];
 
     return *this;
   };
 
   tensor3_2s<X>& operator+= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<6; ++i )
-      m_data[i] += B[i];
+    m_data[0] += B[0];
+    m_data[1] += B[1];
+    m_data[2] += B[2];
+    m_data[3] += B[3];
+    m_data[4] += B[4];
+    m_data[5] += B[5];
 
     return *this;
   };
 
   tensor3_2s<X>& operator-= (const tensor3_2s<X> &B)
   {
-    for ( size_t i=0; i<6; ++i )
-      m_data[i] -= B[i];
+    m_data[0] -= B[0];
+    m_data[1] -= B[1];
+    m_data[2] -= B[2];
+    m_data[3] -= B[3];
+    m_data[4] -= B[4];
+    m_data[5] -= B[5];
 
     return *this;
   };
@@ -1312,28 +1409,28 @@ public:
 
   tensor3_2s<X>& operator*= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i ) {
-      for ( size_t j=i; j<3; ++j ) {
-        if ( i == j ) m_data[ i*3 - (i-1)*i/2         ] *= B[i];
-        else          m_data[ i*3 - (i-1)*i/2 + j - i ]  = static_cast<X>(0);
-      }
-    }
+    m_data[0] *= B[0];
+    m_data[3] *= B[1];
+    m_data[5] *= B[2];
+    m_data[1] = m_data[2] = m_data[4] = static_cast<X>(0);
 
     return *this;
   };
 
   tensor3_2s<X>& operator+= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[ i*3 - (i-1)*i/2 ] += B[i];
+    m_data[0] += B[0];
+    m_data[3] += B[1];
+    m_data[5] += B[2];
 
     return *this;
   };
 
   tensor3_2s<X>& operator-= (const tensor3_2d<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[ i*3 - (i-1)*i/2 ] -= B[i];
+    m_data[0] -= B[0];
+    m_data[3] -= B[1];
+    m_data[5] -= B[2];
 
     return *this;
   };
@@ -1343,32 +1440,48 @@ public:
 
   tensor3_2s<X>& operator*= (const X &B)
   {
-    for ( size_t i = 0 ; i < 6 ; ++i )
-      m_data[i] *= B;
+    m_data[0] *= B;
+    m_data[1] *= B;
+    m_data[2] *= B;
+    m_data[3] *= B;
+    m_data[4] *= B;
+    m_data[5] *= B;
 
     return *this;
   };
 
   tensor3_2s<X>& operator/= (const X &B)
   {
-    for ( size_t i = 0 ; i < 6 ; ++i )
-      m_data[i] /= B;
+    m_data[0] /= B;
+    m_data[1] /= B;
+    m_data[2] /= B;
+    m_data[3] /= B;
+    m_data[4] /= B;
+    m_data[5] /= B;
 
     return *this;
   };
 
   tensor3_2s<X>& operator+= (const X &B)
   {
-    for ( size_t i = 0 ; i < 6 ; ++i )
-      m_data[i] += B;
+    m_data[0] += B;
+    m_data[1] += B;
+    m_data[2] += B;
+    m_data[3] += B;
+    m_data[4] += B;
+    m_data[5] += B;
 
     return *this;
   };
 
   tensor3_2s<X>& operator-= (const X &B)
   {
-    for ( size_t i = 0 ; i < 6 ; ++i )
-      m_data[i] -= B;
+    m_data[0] -= B;
+    m_data[1] -= B;
+    m_data[2] -= B;
+    m_data[3] -= B;
+    m_data[4] -= B;
+    m_data[5] -= B;
 
     return *this;
   };
@@ -1422,14 +1535,18 @@ public:
 }; // class tensor3_2s
 
 // arithmetic operators: tensor3_2s = tensor3_2s ? tensor3_2s
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] * B[i];
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
+  C[3] = A[3] * B[3];
+  C[4] = A[4] * B[4];
+  C[5] = A[5] * B[5];
 
   return C;
 }
@@ -1438,8 +1555,12 @@ template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] / B[i];
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
+  C[3] = A[3] / B[3];
+  C[4] = A[4] / B[4];
+  C[5] = A[5] / B[5];
 
   return C;
 }
@@ -1448,8 +1569,12 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] + B[i];
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
+  C[3] = A[3] + B[3];
+  C[4] = A[4] + B[4];
+  C[5] = A[5] + B[5];
 
   return C;
 }
@@ -1458,14 +1583,18 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] - B[i];
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
+  C[3] = A[3] - B[3];
+  C[4] = A[4] - B[4];
+  C[5] = A[5] - B[5];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2s = tensor3_2s ? tensor3_2d
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
 {
@@ -1496,14 +1625,18 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor
 }
 
 // arithmetic operators: tensor3_2s = tensor3_2s ? scalar
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] * B;
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+  C[2] = A[2] * B;
+  C[3] = A[3] * B;
+  C[4] = A[4] * B;
+  C[5] = A[5] * B;
 
   return C;
 }
@@ -1512,8 +1645,12 @@ template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] / B;
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+  C[2] = A[2] / B;
+  C[3] = A[3] / B;
+  C[4] = A[4] / B;
+  C[5] = A[5] / B;
 
   return C;
 }
@@ -1522,8 +1659,12 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] + B;
+  C[0] = A[0] + B;
+  C[1] = A[1] + B;
+  C[2] = A[2] + B;
+  C[3] = A[3] + B;
+  C[4] = A[4] + B;
+  C[5] = A[5] + B;
 
   return C;
 }
@@ -1532,56 +1673,60 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A[i] - B;
+  C[0] = A[0] - B;
+  C[1] = A[1] - B;
+  C[2] = A[2] - B;
+  C[3] = A[3] - B;
+  C[4] = A[4] - B;
+  C[5] = A[5] - B;
 
   return C;
 }
 
 // arithmetic operators: tensor3_2s = tensor3_2d ? scalar
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A[ i ] + B;
-      else          C[ i*3 - (i-1)*i/2 + j - i ] =          B;
-    }
-  }
+  C[0] = A[0] + B;
+  C[1] =        B;
+  C[2] =        B;
+  C[3] = A[1] + B;
+  C[4] =        B;
+  C[5] = A[2] + B;
 
-   return C;
+  return C;
 }
 
 template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const X &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A[ i ] - B;
-      else          C[ i*3 - (i-1)*i/2 + j - i ] =        - B;
-    }
-  }
+  C[0] = A[0] - B;
+  C[1] =      - B;
+  C[2] =      - B;
+  C[3] = A[1] - B;
+  C[4] =      - B;
+  C[5] = A[2] - B;
 
-   return C;
+  return C;
 }
 
 // arithmetic operators: tensor3_2s = tensor3_2d ? tensor3_2s
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A[ i ] + B[ i*3 - (i-1)*i/2         ];
-      else          C[ i*3 - (i-1)*i/2 + j - i ] =          B[ i*3 - (i-1)*i/2 + j - i ];
-    }
-  }
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] =        B[2];
+  C[3] = A[1] + B[3];
+  C[4] =        B[4];
+  C[5] = A[2] + B[5];
 
   return C;
 }
@@ -1590,25 +1735,29 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A[ i ] - B[ i*3 - (i-1)*i/2         ];
-      else          C[ i*3 - (i-1)*i/2 + j - i ] =        - B[ i*3 - (i-1)*i/2 + j - i ];
-    }
-  }
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] =      - B[2];
+  C[3] = A[1] - B[3];
+  C[4] =      - B[4];
+  C[5] = A[2] - B[5];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2s = scalar ? tensor3_2s
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator* (const X &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A * B[i];
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+  C[2] = A * B[2];
+  C[3] = A * B[3];
+  C[4] = A * B[4];
+  C[5] = A * B[5];
 
   return C;
 }
@@ -1617,8 +1766,12 @@ template <class X> tensor3_2s<X> operator/ (const X &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A / B[i];
+  C[0] = A / B[0];
+  C[1] = A / B[1];
+  C[2] = A / B[2];
+  C[3] = A / B[3];
+  C[4] = A / B[4];
+  C[5] = A / B[5];
 
   return C;
 }
@@ -1627,8 +1780,12 @@ template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A + B[i];
+  C[0] = A + B[0];
+  C[1] = A + B[1];
+  C[2] = A + B[2];
+  C[3] = A + B[3];
+  C[4] = A + B[4];
+  C[5] = A + B[5];
 
   return C;
 }
@@ -1637,43 +1794,45 @@ template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2s<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = A - B[i];
+  C[0] = A - B[0];
+  C[1] = A - B[1];
+  C[2] = A - B[2];
+  C[3] = A - B[3];
+  C[4] = A - B[4];
+  C[5] = A - B[5];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2s = scalar ? tensor3_2d
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2d<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A + B[ i ];
-      else          C[ i*3 - (i-1)*i/2 + j - i ] = A;
-    }
-  }
+  C[0] = A + B[0];
+  C[1] = A;
+  C[2] = A;
+  C[3] = A + B[1];
+  C[4] = A;
+  C[5] = A + B[2];
 
-   return C;
+  return C;
 }
-
-
 
 template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2d<X> &B)
 {
   tensor3_2s<X> C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i ) {
-    for ( size_t j = i ; j < 3 ; ++j ) {
-      if ( i == j ) C[ i*3 - (i-1)*i/2         ] = A - B[ i ];
-      else          C[ i*3 - (i-1)*i/2 + j - i ] = A;
-    }
-  }
+  C[0] = A - B[0];
+  C[1] = A;
+  C[2] = A;
+  C[3] = A - B[1];
+  C[4] = A;
+  C[5] = A - B[2];
 
-   return C;
+  return C;
 }
 
 // =================================================================================================
@@ -1695,7 +1854,7 @@ public:
   tensor3_2d(){ m_data[3] = static_cast<X>(0); };
 
   // explicit constructor: set to constant "D"
-  tensor3_2d(X D) { for ( size_t i=0; i<3; ++i ) m_data[i]=D; };
+  tensor3_2d(X D) { m_data[0] = m_data[1] = m_data[2] = D; };
 
   // explicit constructor: from full matrix
   // WARNING: all off-diagonal are discarded
@@ -1726,8 +1885,9 @@ public:
   {
     tensor3_2d<U> out;
 
-    for ( size_t i = 0 ; i < 3 ; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+    out[0] = static_cast<U>( m_data[0] );
+    out[1] = static_cast<U>( m_data[1] );
+    out[2] = static_cast<U>( m_data[2] );
 
     return out;
   }
@@ -1737,10 +1897,13 @@ public:
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator tensor3_2<U> () const
   {
-    tensor3_2<U> out(static_cast<U>(0));
+    tensor3_2<U> out;
 
-    for ( size_t i=0; i<3; ++i )
-      out[ i*3 + i ] = static_cast<U>( m_data[i] );
+    out[0] = static_cast<U>( m_data[0] );
+    out[4] = static_cast<U>( m_data[1] );
+    out[8] = static_cast<U>( m_data[2] );
+
+    out[1] = out[2] = out[3] = out[5] = out[6] = out[7] = static_cast<U>(0);
 
     return out;
   }
@@ -1751,12 +1914,13 @@ public:
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator tensor3_2s<U> () const
   {
-    tensor3_2s<U> out(static_cast<U>(0));
+    tensor3_2s<U> out;
 
-    for ( size_t i=0; i<3; ++i )
-      out[ i*3 - (i-1)*i/2 ] = static_cast<U>( m_data[i] );
+    out[0] = static_cast<U>( m_data[0] );
+    out[3] = static_cast<U>( m_data[1] );
+    out[5] = static_cast<U>( m_data[2] );
 
-    return out;
+    out[1] = out[2] = out[4] = static_cast<U>(0);
   }
 
   // print to screen
@@ -1781,10 +1945,11 @@ public:
 
   X norm() const
   {
-    X C = static_cast<X>(0);
+    X C;
 
-    for ( size_t i = 0 ; i < 3 ; ++i )
-      C += std::abs(m_data[i]);
+    C  = std::abs(m_data[0]);
+    C += std::abs(m_data[1]);
+    C += std::abs(m_data[2]);
 
     return C;
   }
@@ -1792,9 +1957,9 @@ public:
   // initialize to zero/one
   // ----------------------
 
-  void zeros       (     ) { for ( size_t i=0; i<3; ++i ) m_data[i] = static_cast<X>(0); };
-  void ones        (     ) { for ( size_t i=0; i<3; ++i ) m_data[i] = static_cast<X>(1); };
-  void setConstant ( X D ) { for ( size_t i=0; i<3; ++i ) m_data[i] = D;                 };
+  void zeros       (     ) { m_data[0] = m_data[1] = m_data[2] = static_cast<X>(0); };
+  void ones        (     ) { m_data[0] = m_data[1] = m_data[2] = static_cast<X>(1); };
+  void setConstant ( X D ) { m_data[0] = m_data[1] = m_data[2] = D;                 };
 
   // tensor products / operations
   // ----------------------------
@@ -1834,7 +1999,7 @@ public:
   }
 
   // arithmetic operators: tensor3_2d ?= tensor3_2d
-  // ------------------------------------------
+  // ----------------------------------------------
 
   tensor3_2d<X>& operator*= (const tensor3_2d<X> &B)
   {
@@ -1864,7 +2029,7 @@ public:
   };
 
   // arithmetic operators: tensor3_2d ?= tensor3_2
-  // -----------------------------------------
+  // ---------------------------------------------
 
   tensor3_2d<X>& operator*= (const tensor3_2 <X> &B)
   {
@@ -1885,7 +2050,7 @@ public:
   };
 
   // arithmetic operators: tensor3_2d ?= tensor3_2s
-  // ------------------------------------------
+  // ----------------------------------------------
 
   tensor3_2d<X>& operator*= (const tensor3_2s<X> &B)
   {
@@ -1906,7 +2071,7 @@ public:
   };
 
   // arithmetic operators: tensor3_2d ?= scalar
-  // ----------------------------------------
+  // ------------------------------------------
 
   tensor3_2d<X>& operator*= (const X &B)
   {
@@ -1983,14 +2148,15 @@ public:
 }; // class tensor3_2d
 
 // arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2d
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B[i];
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
 
   return C;
 }
@@ -1999,8 +2165,9 @@ template <class X> tensor3_2d<X> operator+ (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] + B[i];
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
 
   return C;
 }
@@ -2009,21 +2176,23 @@ template <class X> tensor3_2d<X> operator- (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] - B[i];
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2
-// ---------------------------------------------------
+// ---------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B[ i*3 + i ];
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[4];
+  C[2] = A[2] * B[8];
 
   return C;
 }
@@ -2032,21 +2201,23 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] / B[ i*3 + i ];
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[4];
+  C[2] = A[2] / B[8];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2s
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B[ i*3 - (i-1)*i/2 ];
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[3];
+  C[2] = A[2] * B[5];
 
   return C;
 }
@@ -2055,22 +2226,24 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] / B[ i*3 - (i-1)*i/2 ];
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[3];
+  C[2] = A[2] / B[5];
 
   return C;
 }
 
 
 // arithmetic operators: tensor3_2d = tensor3_2d ? scalar
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const X &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B;
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+  C[2] = A[2] * B;
 
   return C;
 }
@@ -2079,48 +2252,52 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const X &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] / B;
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+  C[2] = A[2] / B;
 
   return C;
 }
 
 // arithmetic operators: tensor3_2d = tensor3_2 ? tensor3_2d
-// ---------------------------------------------------
+// ---------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[ i*3 + i ] * B[i];
+  C[0] = A[0] * B[0];
+  C[1] = A[4] * B[1];
+  C[2] = A[8] * B[2];
 
   return C;
 }
 
 // arithmetic operators: tensor3_2d = tensor3_2s ? tensor3_2d
-// ----------------------------------------------------
+// ----------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[ i*3 - (i-1)*i/2 ] * B[i];
+  C[0] = A[0] * B[0];
+  C[1] = A[3] * B[1];
+  C[2] = A[5] * B[2];
 
   return C;
 }
 
 
 // arithmetic operators: tensor3_2d = scalar ? tensor3_2d
-// --------------------------------------------------
+// ------------------------------------------------------
 
 template <class X> tensor3_2d<X> operator* (const X &A, const tensor3_2d<X> &B)
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A * B[i];
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+  C[2] = A * B[2];
 
   return C;
 }
@@ -2144,8 +2321,8 @@ public:
   vector3(){};
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
-  vector3(      X  D) { for ( size_t i=0; i<3; ++i ) m_data[i] = D;    };
-  vector3(const X *D) { for ( size_t i=0; i<3; ++i ) m_data[i] = D[i]; };
+  vector3(      X  D) { m_data[0] = m_data[1] = m_data[2] = D; };
+  vector3(const X *D) { m_data[0] = D[0]; m_data[1] = D[1]; m_data[2] = D[2]; };
 
   // return strides array (see above)
   std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(1,3,bytes); };
@@ -2160,8 +2337,9 @@ public:
   {
     vector3<U> out;
 
-    for ( size_t i = 0 ; i < 3 ; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+    out[0] = static_cast<U>( m_data[0] );
+    out[1] = static_cast<U>( m_data[1] );
+    out[2] = static_cast<U>( m_data[2] );
 
     return out;
   }
@@ -2188,10 +2366,11 @@ public:
 
   X norm() const
   {
-    X C = static_cast<X>(0);
+    X C;
 
-    for ( size_t i = 0 ; i < 3 ; ++i )
-      C += std::abs(m_data[i]);
+    C  = std::abs(m_data[0]);
+    C += std::abs(m_data[1]);
+    C += std::abs(m_data[2]);
 
     return C;
   }
@@ -2199,19 +2378,19 @@ public:
   // initialize to zero/one
   // ----------------------
 
-  void zeros       (     ) { for ( size_t i=0; i<3; ++i ) m_data[i] = static_cast<X>(0); };
-  void ones        (     ) { for ( size_t i=0; i<3; ++i ) m_data[i] = static_cast<X>(1); };
-  void setConstant ( X D ) { for ( size_t i=0; i<3; ++i ) m_data[i] = D;                 };
+  void zeros       (     ) { m_data[0] = m_data[1] = m_data[2] = static_cast<X>(0); };
+  void ones        (     ) { m_data[0] = m_data[1] = m_data[2] = static_cast<X>(1); };
+  void setConstant ( X D ) { m_data[0] = m_data[1] = m_data[2] = D;                 };
 
   // tensor products / operations
   // ----------------------------
 
-  X             inline dot   (const vector3  <X> &B) const; // dot    product: C   = A_i*B_i
-  vector3 <X> inline dot   (const tensor3_2 <X> &B) const; // dot    product: C_j = A_i*B_ij
-  vector3 <X> inline dot   (const tensor3_2s<X> &B) const; // dot    product: C_j = A_i*B_ij
-  vector3 <X> inline dot   (const tensor3_2d<X> &B) const; // dot    product: C_j = A_i*B_ij
-  tensor3_2<X> inline dyadic(const vector3  <X> &B) const; // dyadic product: C_ij = A_i*B_j
-  vector3 <X> inline cross (const vector3  <X> &B) const; // cross product (only in 3D)
+  X            inline dot   (const vector3   <X> &B) const; // dot    product: C   = A_i*B_i
+  vector3  <X> inline dot   (const tensor3_2 <X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector3  <X> inline dot   (const tensor3_2s<X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector3  <X> inline dot   (const tensor3_2d<X> &B) const; // dot    product: C_j = A_i*B_ij
+  tensor3_2<X> inline dyadic(const vector3   <X> &B) const; // dyadic product: C_ij = A_i*B_j
+  vector3  <X> inline cross (const vector3   <X> &B) const; // cross product (only in 3D)
 
   // index operators
   // ---------------
@@ -2226,32 +2405,36 @@ public:
 
   vector3<X>& operator*= (const vector3<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] *= B[i];
+    m_data[0] *= B[0];
+    m_data[1] *= B[1];
+    m_data[2] *= B[2];
 
     return *this;
   };
 
   vector3<X>& operator/= (const vector3<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] /= B[i];
+    m_data[0] /= B[0];
+    m_data[1] /= B[1];
+    m_data[2] /= B[2];
 
     return *this;
   };
 
   vector3<X>& operator+= (const vector3<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] += B[i];
+    m_data[0] += B[0];
+    m_data[1] += B[1];
+    m_data[2] += B[2];
 
     return *this;
   };
 
   vector3<X>& operator-= (const vector3<X> &B)
   {
-    for ( size_t i=0; i<3; ++i )
-      m_data[i] -= B[i];
+    m_data[0] -= B[0];
+    m_data[1] -= B[1];
+    m_data[2] -= B[2];
 
     return *this;
   };
@@ -2261,32 +2444,36 @@ public:
 
   vector3<X>& operator*= (const X &B)
   {
-    for ( size_t i = 0 ; i < 3 ; ++ i )
-      m_data[i] *= B;
+    m_data[0] *= B;
+    m_data[1] *= B;
+    m_data[2] *= B;
 
     return *this;
   };
 
   vector3<X>& operator/= (const X &B)
   {
-    for ( size_t i = 0 ; i < 3 ; ++ i )
-      m_data[i] /= B;
+    m_data[0] /= B;
+    m_data[1] /= B;
+    m_data[2] /= B;
 
     return *this;
   };
 
   vector3<X>& operator+= (const X &B)
   {
-    for ( size_t i = 0 ; i < 3 ; ++ i )
-      m_data[i] += B;
+    m_data[0] += B;
+    m_data[1] += B;
+    m_data[2] += B;
 
     return *this;
   };
 
   vector3<X>& operator-= (const X &B)
   {
-    for ( size_t i = 0 ; i < 3 ; ++ i )
-      m_data[i] -= B;
+    m_data[0] -= B;
+    m_data[1] -= B;
+    m_data[2] -= B;
 
     return *this;
   };
@@ -2312,8 +2499,9 @@ template <class X> vector3<X> operator* (const vector3<X> &A, const vector3<X> &
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B[i];
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
 
   return C;
 }
@@ -2322,8 +2510,9 @@ template <class X> vector3<X> operator/ (const vector3<X> &A, const vector3<X> &
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] / B[i];
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
 
   return C;
 }
@@ -2332,8 +2521,9 @@ template <class X> vector3<X> operator+ (const vector3<X> &A, const vector3<X> &
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] + B[i];
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
 
   return C;
 }
@@ -2342,8 +2532,9 @@ template <class X> vector3<X> operator- (const vector3<X> &A, const vector3<X> &
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] - B[i];
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
 
   return C;
 }
@@ -2355,8 +2546,9 @@ template <class X> vector3<X> operator* (const vector3<X> &A, const X &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] * B;
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+  C[2] = A[2] * B;
 
   return C;
 }
@@ -2365,8 +2557,9 @@ template <class X> vector3<X> operator/ (const vector3<X> &A, const X &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] / B;
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+  C[2] = A[2] / B;
 
   return C;
 }
@@ -2375,8 +2568,9 @@ template <class X> vector3<X> operator+ (const vector3<X> &A, const X &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] + B;
+  C[0] = A[0] + B;
+  C[1] = A[1] + B;
+  C[2] = A[2] + B;
 
   return C;
 }
@@ -2385,8 +2579,9 @@ template <class X> vector3<X> operator- (const vector3<X> &A, const X &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A[i] - B;
+  C[0] = A[0] - B;
+  C[1] = A[1] - B;
+  C[2] = A[2] - B;
 
   return C;
 }
@@ -2398,8 +2593,9 @@ template <class X> vector3<X> operator* (const X &A, const vector3<X> &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A * B[i];
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+  C[2] = A * B[2];
 
   return C;
 }
@@ -2408,8 +2604,9 @@ template <class X> vector3<X> operator/ (const X &A, const vector3<X> &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A / B[i];
+  C[0] = A / B[0];
+  C[1] = A / B[1];
+  C[2] = A / B[2];
 
   return C;
 }
@@ -2418,8 +2615,9 @@ template <class X> vector3<X> operator+ (const X &A, const vector3<X> &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A + B[i];
+  C[0] = A + B[0];
+  C[1] = A + B[1];
+  C[2] = A + B[2];
 
   return C;
 }
@@ -2428,8 +2626,9 @@ template <class X> vector3<X> operator- (const X &A, const vector3<X> &B)
 {
   vector3<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = A - B[i];
+  C[0] = A - B[0];
+  C[1] = A - B[1];
+  C[2] = A - B[2];
 
   return C;
 }
@@ -3414,8 +3613,9 @@ template<class X> tensor3_2d<X> inline tensor3_2d<X>::inv() const
   // allocate result
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C(i,i) = 1./(*this)(i,i);
+  C[0] = static_cast<X>(1) / m_data[0];
+  C[1] = static_cast<X>(1) / m_data[1];
+  C[2] = static_cast<X>(1) / m_data[2];
 
   return C;
 }
@@ -3509,25 +3709,25 @@ template<class X> tensor3_2d<X> inline dot   (const tensor3_2d<X> &A, const tens
 
 // --
 
-template<class X> vector3  <X> inline dot   (const tensor3_2 <X> &A, const vector3  <X> &B)
+template<class X> vector3  <X> inline dot   (const tensor3_2 <X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const tensor3_2s<X> &A, const vector3  <X> &B)
+template<class X> vector3  <X> inline dot   (const tensor3_2s<X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const tensor3_2d<X> &A, const vector3  <X> &B)
+template<class X> vector3  <X> inline dot   (const tensor3_2d<X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3  <X> &A, const tensor3_2 <X> &B)
+template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2 <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3  <X> &A, const tensor3_2s<X> &B)
+template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2s<X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3  <X> &A, const tensor3_2d<X> &B)
+template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2d<X> &B)
 { return A.dot(B); }
 
-template<class X>          X  inline dot   (const vector3  <X> &A, const vector3  <X> &B)
+template<class X>           X  inline dot   (const vector3   <X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
 // --
@@ -3579,12 +3779,12 @@ template<class X> tensor3_4 <X> inline transposeL(const tensor3_4 <X> &A) { retu
 template<class X> tensor3_2 <X> inline inv       (const tensor3_2 <X> &A) { return A.inv  (); }
 template<class X> tensor3_2s<X> inline inv       (const tensor3_2s<X> &A) { return A.inv  (); }
 template<class X> tensor3_2d<X> inline inv       (const tensor3_2d<X> &A) { return A.inv  (); }
-template<class X>             X  inline det       (const tensor3_2 <X> &A) { return A.det  (); }
-template<class X>             X  inline det       (const tensor3_2s<X> &A) { return A.det  (); }
-template<class X>             X  inline det       (const tensor3_2d<X> &A) { return A.det  (); }
-template<class X>             X  inline trace     (const tensor3_2 <X> &A) { return A.trace(); }
-template<class X>             X  inline trace     (const tensor3_2s<X> &A) { return A.trace(); }
-template<class X>             X  inline trace     (const tensor3_2d<X> &A) { return A.trace(); }
+template<class X>             X  inline det      (const tensor3_2 <X> &A) { return A.det  (); }
+template<class X>             X  inline det      (const tensor3_2s<X> &A) { return A.det  (); }
+template<class X>             X  inline det      (const tensor3_2d<X> &A) { return A.det  (); }
+template<class X>             X  inline trace    (const tensor3_2 <X> &A) { return A.trace(); }
+template<class X>             X  inline trace    (const tensor3_2s<X> &A) { return A.trace(); }
+template<class X>             X  inline trace    (const tensor3_2d<X> &A) { return A.trace(); }
 
 // =================================================================================================
 
