@@ -9,7 +9,7 @@ depend on cppmat. There is no direct use for Python.
 
 from setuptools import setup
 
-__version__ = '0.2.3'
+__version__ = '0.2.5'
 
 setup(
    name             = 'cppmat',

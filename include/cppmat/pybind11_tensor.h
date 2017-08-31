@@ -11,6 +11,8 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
+#include "tensor.h"
+
 namespace py = pybind11;
 
 namespace pybind11 { namespace detail {

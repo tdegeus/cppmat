@@ -5,7 +5,7 @@ Compile using:
 $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test verify_tensor.cpp
 ================================================================================================= */
 
-#include <cppmat/tensor3d.h>
+#include <cppmat/tensor3.h>
 #include <Eigen/Eigen>
 
 int main()
@@ -35,7 +35,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A,B,C,D,E,F;
+  cppmat::tensor3_4 <double> A,B,C,D,E,F;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -123,7 +123,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A,B;
+  cppmat::tensor3_4 <double> A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -136,8 +136,8 @@ int main()
     }
   }
 
-  cppmat::tensor3d4 <double> C = A.ddot( B );
-  cppmat::tensor3d4 <double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_4 <double> C = A.ddot( B );
+  cppmat::tensor3_4 <double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -195,7 +195,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A,B;
+  cppmat::tensor3_4 <double> A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -208,8 +208,8 @@ int main()
     }
   }
 
-  cppmat::tensor3d4 <double> C = A.ddot( B.T() );
-  cppmat::tensor3d4 <double> D = cppmat::ddot( A , cppmat::transpose(B) );
+  cppmat::tensor3_4 <double> C = A.ddot( B.T() );
+  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transpose(B) );
 
   // check the result
 
@@ -267,7 +267,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A,B;
+  cppmat::tensor3_4 <double> A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -280,8 +280,8 @@ int main()
     }
   }
 
-  cppmat::tensor3d4 <double> C = A.ddot( B.LT() );
-  cppmat::tensor3d4 <double> D = cppmat::ddot( A , cppmat::transposeL(B) );
+  cppmat::tensor3_4 <double> C = A.ddot( B.LT() );
+  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transposeL(B) );
 
   // check the result
 
@@ -339,7 +339,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A,B;
+  cppmat::tensor3_4 <double> A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -352,8 +352,8 @@ int main()
     }
   }
 
-  cppmat::tensor3d4 <double> C = A.ddot( B.RT() );
-  cppmat::tensor3d4 <double> D = cppmat::ddot( A , cppmat::transposeR(B) );
+  cppmat::tensor3_4 <double> C = A.ddot( B.RT() );
+  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transposeR(B) );
 
   // check the result
 
@@ -403,8 +403,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4<double> A;
-  cppmat::tensor3d2<double> B;
+  cppmat::tensor3_4<double> A;
+  cppmat::tensor3_2<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -416,8 +416,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A.ddot( B );
-  cppmat::tensor3d2<double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2<double> C = A.ddot( B );
+  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -475,8 +475,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_4 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -488,8 +488,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A.ddot( B );
-  cppmat::tensor3d2<double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2<double> C = A.ddot( B );
+  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -546,8 +546,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d4 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_4 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -559,8 +559,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A.ddot( B );
-  cppmat::tensor3d2<double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2<double> C = A.ddot( B );
+  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -612,8 +612,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2<double> A;
-  cppmat::tensor3d4 <double> B;
+  cppmat::tensor3_2<double> A;
+  cppmat::tensor3_4 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -625,8 +625,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3d2<double> C = A.ddot( B );
-  cppmat::tensor3d2<double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2<double> C = A.ddot( B );
+  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -674,7 +674,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2<double> A, B;
+  cppmat::tensor3_2<double> A, B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -726,8 +726,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -778,8 +778,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -827,8 +827,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -838,8 +838,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot ( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
 
   // check the result
 
@@ -896,8 +896,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -907,8 +907,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot ( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
 
   // check the result
 
@@ -964,8 +964,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -975,8 +975,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot ( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
 
   // check the result
 
@@ -1026,8 +1026,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::vector3d  <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::vector3  <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1036,8 +1036,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3d <double> C = A.dot( B );
-  cppmat::vector3d <double> D = cppmat::dot( A, B );
+  cppmat::vector3 <double> C = A.dot( B );
+  cppmat::vector3 <double> D = cppmat::dot( A, B );
 
   // check the result
 
@@ -1082,8 +1082,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1093,8 +1093,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -1151,8 +1151,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1162,8 +1162,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -1219,8 +1219,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1229,8 +1229,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -1280,11 +1280,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
-  cppmat::tensor3d2 <double> C;
-  cppmat::tensor3d2 <double> D;
-  cppmat::tensor3d2 <double> E;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
+  cppmat::tensor3_2 <double> C;
+  cppmat::tensor3_2 <double> D;
+  cppmat::tensor3_2 <double> E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -1296,7 +1296,7 @@ int main()
     }
   }
 
-  cppmat::tensor3d2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  cppmat::tensor3_2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -1366,8 +1366,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1377,8 +1377,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B.T() );
-  cppmat::tensor3d2 <double> D = cppmat::dot ( A , cppmat::transpose( B ) );
+  cppmat::tensor3_2 <double> C = A.dot( B.T() );
+  cppmat::tensor3_2 <double> D = cppmat::dot ( A , cppmat::transpose( B ) );
 
   // check the result
 
@@ -1421,7 +1421,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A;
+  cppmat::tensor3_2 <double> A;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1458,7 +1458,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A(3);
+  cppmat::tensor3_2 <double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -1495,14 +1495,14 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2 <double> A(3);
+  cppmat::tensor3_2 <double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::tensor3d2 <double> C = A.inv();
-  cppmat::tensor3d2 <double> D = cppmat::inv( A );
+  cppmat::tensor3_2 <double> C = A.inv();
+  cppmat::tensor3_2 <double> D = cppmat::inv( A );
 
   // check the result
 
@@ -1558,8 +1558,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d4 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_4 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1571,8 +1571,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3d2 <double> C = A.ddot( B );
-  cppmat::tensor3d2 <double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2 <double> C = A.ddot( B );
+  cppmat::tensor3_2 <double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -1624,8 +1624,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1681,8 +1681,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1737,8 +1737,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1790,8 +1790,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1801,8 +1801,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -1863,8 +1863,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1874,8 +1874,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -1935,8 +1935,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1946,8 +1946,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -2001,8 +2001,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::vector3d  <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::vector3  <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2011,8 +2011,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3d <double> C = A.dot( B );
-  cppmat::vector3d <double> D = cppmat::dot( A , B );
+  cppmat::vector3 <double> C = A.dot( B );
+  cppmat::vector3 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -2061,8 +2061,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2072,8 +2072,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -2134,8 +2134,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2145,8 +2145,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -2206,8 +2206,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2216,8 +2216,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -2277,11 +2277,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
-  cppmat::tensor3d2s<double> C;
-  cppmat::tensor3d2s<double> D;
-  cppmat::tensor3d2s<double> E;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
+  cppmat::tensor3_2s<double> C;
+  cppmat::tensor3_2s<double> D;
+  cppmat::tensor3_2s<double> E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=i; j<nd; ++j ) {
@@ -2293,7 +2293,7 @@ int main()
     }
   }
 
-  cppmat::tensor3d2s<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  cppmat::tensor3_2s<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -2373,8 +2373,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2384,8 +2384,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B.T() );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
+  cppmat::tensor3_2 <double> C = A.dot( B.T() );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
 
   // check the result
 
@@ -2432,7 +2432,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A;
+  cppmat::tensor3_2s<double> A;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2474,7 +2474,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A(3);
+  cppmat::tensor3_2s<double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=i; j<3; ++j )
@@ -2516,14 +2516,14 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2s<double> A(3);
+  cppmat::tensor3_2s<double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=i; j<3; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::tensor3d2s<double> C = A.inv();
-  cppmat::tensor3d2s<double> D = cppmat::inv( A );
+  cppmat::tensor3_2s<double> C = A.inv();
+  cppmat::tensor3_2s<double> D = cppmat::inv( A );
 
   // check the result
 
@@ -2580,8 +2580,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d4 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_4 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2592,8 +2592,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3d2 <double> C = A.ddot( B );
-  cppmat::tensor3d2 <double> D = cppmat::ddot( A , B );
+  cppmat::tensor3_2 <double> C = A.ddot( B );
+  cppmat::tensor3_2 <double> D = cppmat::ddot( A , B );
 
   // check the result
 
@@ -2646,8 +2646,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2703,8 +2703,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2759,8 +2759,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2812,8 +2812,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2822,8 +2822,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -2885,8 +2885,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2895,8 +2895,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2 <double> C = A.dot( B );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -2957,8 +2957,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2967,8 +2967,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2d<double> C = A.dot( B );
-  cppmat::tensor3d2d<double> D = cppmat::dot( A , B );
+  cppmat::tensor3_2d<double> C = A.dot( B );
+  cppmat::tensor3_2d<double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -3018,8 +3018,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::vector3d  <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::vector3  <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3027,8 +3027,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3d <double> C = A.dot( B );
-  cppmat::vector3d <double> D = cppmat::dot( A , B );
+  cppmat::vector3 <double> C = A.dot( B );
+  cppmat::vector3 <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -3078,8 +3078,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3088,8 +3088,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -3151,8 +3151,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3161,8 +3161,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -3223,8 +3223,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3232,8 +3232,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d4 <double> C = A.dyadic( B );
-  cppmat::tensor3d4 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_4 <double> C = A.dyadic( B );
+  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -3295,11 +3295,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
-  cppmat::tensor3d2d<double> C;
-  cppmat::tensor3d2d<double> D;
-  cppmat::tensor3d2d<double> E;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
+  cppmat::tensor3_2d<double> C;
+  cppmat::tensor3_2d<double> D;
+  cppmat::tensor3_2d<double> E;
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i,i) = a(i,i);
@@ -3309,7 +3309,7 @@ int main()
     E(i,i) = e(i,i);
   }
 
-  cppmat::tensor3d2d<double> F = ( 7.*A + 10.*B ) * ( C )  * ( D ) - 2.*E;
+  cppmat::tensor3_2d<double> F = ( 7.*A + 10.*B ) * ( C )  * ( D ) - 2.*E;
 
   // check the result
 
@@ -3388,8 +3388,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3398,8 +3398,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2 <double> C = A.dot( B.T() );
-  cppmat::tensor3d2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
+  cppmat::tensor3_2 <double> C = A.dot( B.T() );
+  cppmat::tensor3_2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
 
   // check the result
 
@@ -3447,7 +3447,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
+  cppmat::tensor3_2d<double> A;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3489,7 +3489,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A(3);
+  cppmat::tensor3_2d<double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     A(i,i) = a(i,i);
@@ -3531,13 +3531,13 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A(3);
+  cppmat::tensor3_2d<double> A(3);
 
   for ( size_t i=0; i<3; ++i )
     A(i,i) = a(i,i);
 
-  cppmat::tensor3d2d<double> C = A.inv();
-  cppmat::tensor3d2d<double> D = cppmat::inv( A );
+  cppmat::tensor3_2d<double> C = A.inv();
+  cppmat::tensor3_2d<double> D = cppmat::inv( A );
 
   // check the result
 
@@ -3579,8 +3579,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A;
-  cppmat::vector3d  <double> B;
+  cppmat::vector3  <double> A;
+  cppmat::vector3  <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3626,8 +3626,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::vector3  <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3636,8 +3636,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3d  <double> C = A.dot( B );
-  cppmat::vector3d  <double> D = cppmat::dot( A , B );
+  cppmat::vector3  <double> C = A.dot( B );
+  cppmat::vector3  <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -3686,8 +3686,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::vector3  <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3696,8 +3696,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3d  <double> C = A.dot( B );
-  cppmat::vector3d  <double> D = cppmat::dot( A , B );
+  cppmat::vector3  <double> C = A.dot( B );
+  cppmat::vector3  <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -3745,8 +3745,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::vector3  <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3755,8 +3755,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3d  <double> C = A.dot( B );
-  cppmat::vector3d  <double> D = cppmat::dot( A , B );
+  cppmat::vector3  <double> C = A.dot( B );
+  cppmat::vector3  <double> D = cppmat::dot( A , B );
 
   // check the result
 
@@ -3799,8 +3799,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A;
-  cppmat::vector3d  <double> B;
+  cppmat::vector3  <double> A;
+  cppmat::vector3  <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3808,8 +3808,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::tensor3d2 <double> C = A.dyadic( B );
-  cppmat::tensor3d2 <double> D = cppmat::dyadic( A , B );
+  cppmat::tensor3_2 <double> C = A.dyadic( B );
+  cppmat::tensor3_2 <double> D = cppmat::dyadic( A , B );
 
   // check the result
 
@@ -3857,8 +3857,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d  <double> A(3);
-  cppmat::vector3d  <double> B(3);
+  cppmat::vector3  <double> A(3);
+  cppmat::vector3  <double> B(3);
 
   for ( size_t i=0; i<3; ++i )
     A(i) = a(i);
@@ -3866,8 +3866,8 @@ int main()
   for ( size_t i=0; i<3; ++i )
     B(i) = b(i);
 
-  cppmat::vector3d <double> C = A.cross( B );
-  cppmat::vector3d <double> D = cppmat::cross( A , B );
+  cppmat::vector3 <double> C = A.cross( B );
+  cppmat::vector3 <double> D = cppmat::cross( A , B );
 
   // check the result
 
@@ -3910,11 +3910,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3d<double> A;
-  cppmat::vector3d<double> B;
-  cppmat::vector3d<double> C;
-  cppmat::vector3d<double> D;
-  cppmat::vector3d<double> E;
+  cppmat::vector3<double> A;
+  cppmat::vector3<double> B;
+  cppmat::vector3<double> C;
+  cppmat::vector3<double> D;
+  cppmat::vector3<double> E;
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i) = a(i);
@@ -3924,7 +3924,7 @@ int main()
     E(i) = e(i);
   }
 
-  cppmat::vector3d<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  cppmat::vector3<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -4005,11 +4005,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
-  cppmat::tensor3d2s<double> C;
-  cppmat::tensor3d2s<double> D;
-  cppmat::tensor3d2d<double> E;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
+  cppmat::tensor3_2s<double> C;
+  cppmat::tensor3_2s<double> D;
+  cppmat::tensor3_2d<double> E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -4021,7 +4021,7 @@ int main()
     }
   }
 
-  cppmat::tensor3d2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  cppmat::tensor3_2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -4079,8 +4079,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4090,7 +4090,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A * B;
+  cppmat::tensor3_2<double> C = A * B;
 
   A *= B;
 
@@ -4127,8 +4127,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4138,7 +4138,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A / B;
+  cppmat::tensor3_2<double> C = A / B;
 
   A /= B;
 
@@ -4175,8 +4175,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4186,7 +4186,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   A += B;
 
@@ -4223,8 +4223,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4234,7 +4234,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   A -= B;
 
@@ -4277,8 +4277,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4288,7 +4288,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A * B;
+  cppmat::tensor3_2<double> C = A * B;
 
   A *= B;
 
@@ -4331,8 +4331,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4342,7 +4342,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A / B;
+  cppmat::tensor3_2<double> C = A / B;
 
   A /= B;
 
@@ -4385,8 +4385,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4396,7 +4396,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   A += B;
 
@@ -4439,8 +4439,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4450,7 +4450,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   A -= B;
 
@@ -4492,8 +4492,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4502,7 +4502,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2d<double> C = A * B;
+  cppmat::tensor3_2d<double> C = A * B;
 
   A *= B;
 
@@ -4544,8 +4544,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4554,7 +4554,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   A += B;
 
@@ -4596,8 +4596,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2 <double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2 <double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4606,7 +4606,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   A -= B;
 
@@ -4647,8 +4647,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4658,7 +4658,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A * B;
+  cppmat::tensor3_2<double> C = A * B;
 
   n = 0.0;
 
@@ -4688,8 +4688,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4699,7 +4699,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A / B;
+  cppmat::tensor3_2<double> C = A / B;
 
   n = 0.0;
 
@@ -4729,8 +4729,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4740,7 +4740,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   n = 0.0;
 
@@ -4770,8 +4770,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4781,7 +4781,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   n = 0.0;
 
@@ -4817,8 +4817,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4828,7 +4828,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2s<double> C = A * B;
+  cppmat::tensor3_2s<double> C = A * B;
 
   A *= B;
 
@@ -4875,8 +4875,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4886,7 +4886,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2s<double> C = A / B;
+  cppmat::tensor3_2s<double> C = A / B;
 
   A /= B;
 
@@ -4933,8 +4933,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4944,7 +4944,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2s<double> C = A + B;
+  cppmat::tensor3_2s<double> C = A + B;
 
   A += B;
 
@@ -4991,8 +4991,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5002,7 +5002,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2s<double> C = A - B;
+  cppmat::tensor3_2s<double> C = A - B;
 
   A -= B;
 
@@ -5048,8 +5048,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5058,7 +5058,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2d<double> C = A * B;
+  cppmat::tensor3_2d<double> C = A * B;
 
   A *= B;
 
@@ -5104,8 +5104,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5114,7 +5114,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2s<double> C = A + B;
+  cppmat::tensor3_2s<double> C = A + B;
 
   A += B;
 
@@ -5160,8 +5160,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2s<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2s<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5170,7 +5170,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2s<double> C = A - B;
+  cppmat::tensor3_2s<double> C = A - B;
 
   A -= B;
 
@@ -5212,8 +5212,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5222,7 +5222,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2d<double> C = A * B;
+  cppmat::tensor3_2d<double> C = A * B;
 
   A *= B;
 
@@ -5264,8 +5264,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5274,7 +5274,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2d<double> C = A / B;
+  cppmat::tensor3_2d<double> C = A / B;
 
   A /= B;
 
@@ -5316,8 +5316,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5326,7 +5326,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   n = 0.0;
 
@@ -5357,8 +5357,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2 <double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2 <double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5367,7 +5367,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   n = 0.0;
 
@@ -5404,8 +5404,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5414,7 +5414,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A * B;
+  cppmat::tensor3_2<double> C = A * B;
 
   A *= B;
 
@@ -5462,8 +5462,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5472,7 +5472,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2d<double> C = A / B;
+  cppmat::tensor3_2d<double> C = A / B;
 
   A /= B;
 
@@ -5520,8 +5520,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5530,7 +5530,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2s<double> C = A + B;
+  cppmat::tensor3_2s<double> C = A + B;
 
   n = 0.0;
 
@@ -5567,8 +5567,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2s<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2s<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5577,7 +5577,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   n = 0.0;
 
@@ -5613,8 +5613,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5622,7 +5622,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2d<double> C = A * B;
+  cppmat::tensor3_2d<double> C = A * B;
 
   A *= B;
 
@@ -5669,8 +5669,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5678,7 +5678,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2<double> C = A + B;
+  cppmat::tensor3_2<double> C = A + B;
 
   A += B;
 
@@ -5725,8 +5725,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3d2d<double> A;
-  cppmat::tensor3d2d<double> B;
+  cppmat::tensor3_2d<double> A;
+  cppmat::tensor3_2d<double> B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5734,7 +5734,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3d2<double> C = A - B;
+  cppmat::tensor3_2<double> C = A - B;
 
   A -= B;
 

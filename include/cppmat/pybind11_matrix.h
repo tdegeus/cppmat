@@ -11,6 +11,8 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
+#include "matrix.h"
+
 namespace py = pybind11;
 
 // =================================================================================================

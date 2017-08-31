@@ -11,19 +11,21 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
+#include "tensor3.h"
+
 namespace py = pybind11;
 
 namespace pybind11 { namespace detail {
 
 // =================================================================================================
-// type caster: cppmat::tensor3d4 <-> NumPy-array
+// type caster: cppmat::tensor3_4 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor3d4<T>>
+template <typename T> struct type_caster<cppmat::tensor3_4<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor3d4<T>, _("cppmat::tensor3d4<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::tensor3_4<T>, _("cppmat::tensor3_4<T>"));
 
   // Python -> C++
   // -------------
@@ -60,7 +62,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor3d4<T>(buf.data());
+    value = cppmat::tensor3_4<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -69,7 +71,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor3d4<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::tensor3_4<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
@@ -84,14 +86,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor3d2 <-> NumPy-array
+// type caster: cppmat::tensor3_2 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor3d2<T>>
+template <typename T> struct type_caster<cppmat::tensor3_2<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor3d2<T>, _("cppmat::tensor3d2<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::tensor3_2<T>, _("cppmat::tensor3_2<T>"));
 
   // Python -> C++
   // -------------
@@ -128,7 +130,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor3d2<T>(buf.data());
+    value = cppmat::tensor3_2<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -137,7 +139,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor3d2<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::tensor3_2<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
@@ -152,14 +154,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor3d2s <-> NumPy-array
+// type caster: cppmat::tensor3_2s <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor3d2s<T>>
+template <typename T> struct type_caster<cppmat::tensor3_2s<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor3d2s<T>, _("cppmat::tensor3d2s<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::tensor3_2s<T>, _("cppmat::tensor3_2s<T>"));
 
   // Python -> C++
   // -------------
@@ -196,7 +198,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor3d2s<T>(buf.data());
+    value = cppmat::tensor3_2s<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -205,7 +207,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor3d2s<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::tensor3_2s<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - extract number of dimensions
@@ -229,14 +231,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor3d2d <-> NumPy-array
+// type caster: cppmat::tensor3_2d <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor3d2d<T>>
+template <typename T> struct type_caster<cppmat::tensor3_2d<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor3d2d<T>, _("cppmat::tensor3d2d<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::tensor3_2d<T>, _("cppmat::tensor3_2d<T>"));
 
   // Python -> C++
   // -------------
@@ -273,7 +275,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor3d2d<T>(buf.data());
+    value = cppmat::tensor3_2d<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -282,7 +284,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor3d2d<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::tensor3_2d<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - extract number of dimensions
@@ -305,14 +307,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::vector3d <-> NumPy-array
+// type caster: cppmat::vector <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::vector3d<T>>
+template <typename T> struct type_caster<cppmat::vector<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::vector3d<T>, _("cppmat::vector3d<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::vector<T>, _("cppmat::vector<T>"));
 
   // Python -> C++
   // -------------
@@ -349,7 +351,7 @@ public:
       return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::vector3d<T>(buf.data());
+    value = cppmat::vector<T>(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -358,7 +360,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::vector3d<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::vector<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
