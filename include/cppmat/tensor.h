@@ -444,7 +444,8 @@ public:
 
     for ( size_t i=0; i<m_nd; ++i )
       for ( size_t j=i; j<m_nd; ++j )
-        out[ i*m_nd - (i-1)*i/2 + j - i ] = ( m_data[ i*m_nd + j ] + m_data[ j*m_nd + i ] ) / 2.;
+        out[ i*m_nd - (i-1)*i/2 + j - i ] =
+        ( m_data[ i*m_nd + j ] + m_data[ j*m_nd + i ] ) / static_cast<X>(2);
 
     return out;
   }
@@ -3494,9 +3495,9 @@ template<class X> vector<X> inline vector<X>::cross(const vector<X> &B) const
 
   vector<X> C(3);
 
-  C(0) =      (*this)(1)*B(2)-B(1)*(*this)(2) ;
-  C(1) = -1.*((*this)(0)*B(2)-B(0)*(*this)(2));
-  C(2) =      (*this)(0)*B(1)-B(0)*(*this)(1) ;
+  C[0] =                     m_data[1]*B[2]-B[1]*m_data[2] ;
+  C[1] = static_cast<X>(-1)*(m_data[0]*B[2]-B[0]*m_data[2]);
+  C[2] =                     m_data[0]*B[1]-B[0]*m_data[1] ;
 
   return C;
 }
@@ -3628,15 +3629,15 @@ template<class X> X inline tensor2d<X>::trace() const
 template<class X> X inline tensor2<X>::det() const
 {
   if ( m_nd==2 )
-   return (*this)(0,0) * (*this)(1,1) - (*this)(0,1) * (*this)(1,0);
+   return m_data[0] * m_data[3] - m_data[1] * m_data[2];
 
   if ( m_nd==3 )
-   return ( (*this)(0,0) * (*this)(1,1) * (*this)(2,2) +
-            (*this)(0,1) * (*this)(1,2) * (*this)(2,0) +
-            (*this)(0,2) * (*this)(1,0) * (*this)(2,1) ) -
-          ( (*this)(0,2) * (*this)(1,1) * (*this)(2,0) +
-            (*this)(0,1) * (*this)(1,0) * (*this)(2,2) +
-            (*this)(0,0) * (*this)(1,2) * (*this)(2,1) );
+    return ( m_data[0] * m_data[4] * m_data[8] +
+             m_data[1] * m_data[5] * m_data[6] +
+             m_data[2] * m_data[3] * m_data[7] ) -
+           ( m_data[2] * m_data[4] * m_data[6] +
+             m_data[1] * m_data[3] * m_data[8] +
+             m_data[0] * m_data[5] * m_data[7] );
 
   throw std::runtime_error("'det' only implemented in 2D/3D, use e.g. 'Eigen'");
 }
@@ -3646,14 +3647,14 @@ template<class X> X inline tensor2<X>::det() const
 template<class X> X inline tensor2s<X>::det() const
 {
   if ( m_nd==2 )
-   return (*this)(0,0) * (*this)(1,1) - (*this)(0,1) * (*this)(0,1);
+   return m_data[0] * m_data[2] - m_data[1] * m_data[1];
 
   if ( m_nd==3 )
-   return (      (*this)(0,0) * (*this)(1,1) * (*this)(2,2) +
-            2. * (*this)(0,1) * (*this)(0,2) * (*this)(1,2) ) -
-          (      (*this)(1,2) * (*this)(1,2) * (*this)(0,0) +
-                 (*this)(0,2) * (*this)(0,2) * (*this)(1,1) +
-                 (*this)(0,1) * (*this)(0,1) * (*this)(2,2) );
+    return (                     m_data[0] * m_data[3] * m_data[5] +
+             static_cast<X>(2) * m_data[1] * m_data[2] * m_data[4] ) -
+           (                     m_data[4] * m_data[4] * m_data[0] +
+                                 m_data[2] * m_data[2] * m_data[3] +
+                                 m_data[1] * m_data[1] * m_data[5] );
 
   throw std::runtime_error("'det' only implemented in 2D/3D, use e.g. 'Eigen'");
 }
@@ -3681,23 +3682,23 @@ template<class X> tensor2<X> inline tensor2<X>::inv() const
   tensor2<X> C(m_nd);
 
   if ( m_nd==2 ) {
-    C(0,0) =     (*this)(1,1)/D;
-    C(0,1) = -1.*(*this)(0,1)/D;
-    C(1,0) = -1.*(*this)(1,0)/D;
-    C(1,1) =     (*this)(0,0)/D;
+    C[0] =                      m_data[3] / D;
+    C[1] = static_cast<X>(-1) * m_data[1] / D;
+    C[2] = static_cast<X>(-1) * m_data[2] / D;
+    C[3] =                      m_data[0] / D;
     return C;
   }
 
   if ( m_nd==3 ) {
-    C(0,0) = ((*this)(1,1)*(*this)(2,2)-(*this)(1,2)*(*this)(2,1))/D;
-    C(0,1) = ((*this)(0,2)*(*this)(2,1)-(*this)(0,1)*(*this)(2,2))/D;
-    C(0,2) = ((*this)(0,1)*(*this)(1,2)-(*this)(0,2)*(*this)(1,1))/D;
-    C(1,0) = ((*this)(1,2)*(*this)(2,0)-(*this)(1,0)*(*this)(2,2))/D;
-    C(1,1) = ((*this)(0,0)*(*this)(2,2)-(*this)(0,2)*(*this)(2,0))/D;
-    C(1,2) = ((*this)(0,2)*(*this)(1,0)-(*this)(0,0)*(*this)(1,2))/D;
-    C(2,0) = ((*this)(1,0)*(*this)(2,1)-(*this)(1,1)*(*this)(2,0))/D;
-    C(2,1) = ((*this)(0,1)*(*this)(2,0)-(*this)(0,0)*(*this)(2,1))/D;
-    C(2,2) = ((*this)(0,0)*(*this)(1,1)-(*this)(0,1)*(*this)(1,0))/D;
+    C[0] = (m_data[4]*m_data[8]-m_data[5]*m_data[7]) / D;
+    C[1] = (m_data[2]*m_data[7]-m_data[1]*m_data[8]) / D;
+    C[2] = (m_data[1]*m_data[5]-m_data[2]*m_data[4]) / D;
+    C[3] = (m_data[5]*m_data[6]-m_data[3]*m_data[8]) / D;
+    C[4] = (m_data[0]*m_data[8]-m_data[2]*m_data[6]) / D;
+    C[5] = (m_data[2]*m_data[3]-m_data[0]*m_data[5]) / D;
+    C[6] = (m_data[3]*m_data[7]-m_data[4]*m_data[6]) / D;
+    C[7] = (m_data[1]*m_data[6]-m_data[0]*m_data[7]) / D;
+    C[8] = (m_data[0]*m_data[4]-m_data[1]*m_data[3]) / D;
     return C;
   }
 
@@ -3715,20 +3716,19 @@ template<class X> tensor2s<X> inline tensor2s<X>::inv() const
   tensor2s<X> C(m_nd);
 
   if ( m_nd==2 ) {
-    C(0,0) =     (*this)(1,1)/D;
-    C(0,1) = -1.*(*this)(0,1)/D;
-    C(1,0) = -1.*(*this)(1,0)/D;
-    C(1,1) =     (*this)(0,0)/D;
+    C[0] =                      m_data[2] / D;
+    C[1] = static_cast<X>(-1) * m_data[1] / D;
+    C[2] =                      m_data[0] / D;
     return C;
   }
 
   if ( m_nd==3 ) {
-    C(0,0) = ((*this)(1,1)*(*this)(2,2)-(*this)(1,2)*(*this)(2,1))/D;
-    C(0,1) = ((*this)(0,2)*(*this)(2,1)-(*this)(0,1)*(*this)(2,2))/D;
-    C(0,2) = ((*this)(0,1)*(*this)(1,2)-(*this)(0,2)*(*this)(1,1))/D;
-    C(1,1) = ((*this)(0,0)*(*this)(2,2)-(*this)(0,2)*(*this)(2,0))/D;
-    C(1,2) = ((*this)(0,2)*(*this)(1,0)-(*this)(0,0)*(*this)(1,2))/D;
-    C(2,2) = ((*this)(0,0)*(*this)(1,1)-(*this)(0,1)*(*this)(1,0))/D;
+    C[0] = (m_data[3]*m_data[5]-m_data[4]*m_data[4]) / D;
+    C[1] = (m_data[2]*m_data[4]-m_data[1]*m_data[5]) / D;
+    C[2] = (m_data[1]*m_data[4]-m_data[2]*m_data[3]) / D;
+    C[3] = (m_data[0]*m_data[5]-m_data[2]*m_data[2]) / D;
+    C[4] = (m_data[2]*m_data[1]-m_data[0]*m_data[4]) / D;
+    C[5] = (m_data[0]*m_data[3]-m_data[1]*m_data[1]) / D;
     return C;
   }
 
@@ -3742,8 +3742,8 @@ template<class X> tensor2d<X> inline tensor2d<X>::inv() const
   // allocate result
   tensor2d<X> C(m_nd);
 
-  for ( size_t i=0; i<m_nd; ++i )
-    C(i,i) = 1./(*this)(i,i);
+  for ( size_t i = 0; i < m_nd ; ++i )
+    C[i] = static_cast<X>(1) / m_data[i];
 
   return C;
 }

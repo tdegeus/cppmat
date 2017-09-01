@@ -477,10 +477,10 @@ public:
     tensor3_2s<X> out;
 
     out[0] =   m_data[0];
-    out[1] = ( m_data[1] + m_data[3] ) / 2.;
-    out[2] = ( m_data[2] + m_data[6] ) / 2.;
+    out[1] = ( m_data[1] + m_data[3] ) / static_cast<X>(2);
+    out[2] = ( m_data[2] + m_data[6] ) / static_cast<X>(2);
     out[3] =   m_data[4];
-    out[4] = ( m_data[5] + m_data[7] ) / 2.;
+    out[4] = ( m_data[5] + m_data[7] ) / static_cast<X>(2);
     out[5] =   m_data[8];
 
     return out;
@@ -1286,9 +1286,9 @@ public:
   // initialize to zero/one
   // ----------------------
 
-  void zeros       (     ) { for ( size_t i=0; i<6; ++i ) m_data[i] = static_cast<X>(0); };
-  void ones        (     ) { for ( size_t i=0; i<6; ++i ) m_data[i] = static_cast<X>(1); };
-  void setConstant ( X D ) { for ( size_t i=0; i<6; ++i ) m_data[i] = D;                 };
+  void zeros() { m_data[0]=m_data[1]=m_data[2]=m_data[3]=m_data[4]=m_data[5]=static_cast<X>(0); };
+  void ones () { m_data[0]=m_data[1]=m_data[2]=m_data[3]=m_data[4]=m_data[5]=static_cast<X>(1); };
+  void setConstant ( X D ) { m_data[0]=m_data[1]=m_data[2]=m_data[3]=m_data[4]=m_data[5]=D; };
 
   // tensor products / operations
   // ----------------------------
@@ -3532,15 +3532,15 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
   // allocate result
   tensor3_2<X> C;
 
-  C[0] = (m_data[4]*m_data[8]-m_data[5]*m_data[7])/D;
-  C[1] = (m_data[2]*m_data[7]-m_data[1]*m_data[8])/D;
-  C[2] = (m_data[1]*m_data[5]-m_data[2]*m_data[4])/D;
-  C[3] = (m_data[5]*m_data[6]-m_data[3]*m_data[8])/D;
-  C[4] = (m_data[0]*m_data[8]-m_data[2]*m_data[6])/D;
-  C[5] = (m_data[2]*m_data[3]-m_data[0]*m_data[5])/D;
-  C[6] = (m_data[3]*m_data[7]-m_data[4]*m_data[6])/D;
-  C[7] = (m_data[1]*m_data[6]-m_data[0]*m_data[7])/D;
-  C[8] = (m_data[0]*m_data[4]-m_data[1]*m_data[3])/D;
+  C[0] = (m_data[4]*m_data[8]-m_data[5]*m_data[7]) / D;
+  C[1] = (m_data[2]*m_data[7]-m_data[1]*m_data[8]) / D;
+  C[2] = (m_data[1]*m_data[5]-m_data[2]*m_data[4]) / D;
+  C[3] = (m_data[5]*m_data[6]-m_data[3]*m_data[8]) / D;
+  C[4] = (m_data[0]*m_data[8]-m_data[2]*m_data[6]) / D;
+  C[5] = (m_data[2]*m_data[3]-m_data[0]*m_data[5]) / D;
+  C[6] = (m_data[3]*m_data[7]-m_data[4]*m_data[6]) / D;
+  C[7] = (m_data[1]*m_data[6]-m_data[0]*m_data[7]) / D;
+  C[8] = (m_data[0]*m_data[4]-m_data[1]*m_data[3]) / D;
   return C;
 }
 
@@ -3554,12 +3554,12 @@ template<class X> tensor3_2s<X> inline tensor3_2s<X>::inv() const
   // allocate result
   tensor3_2s<X> C;
 
-  C[0] = (m_data[3]*m_data[5]-m_data[4]*m_data[4])/D;
-  C[1] = (m_data[2]*m_data[4]-m_data[1]*m_data[5])/D;
-  C[2] = (m_data[1]*m_data[4]-m_data[2]*m_data[3])/D;
-  C[3] = (m_data[0]*m_data[5]-m_data[2]*m_data[2])/D;
-  C[4] = (m_data[2]*m_data[1]-m_data[0]*m_data[4])/D;
-  C[5] = (m_data[0]*m_data[3]-m_data[1]*m_data[1])/D;
+  C[0] = (m_data[3]*m_data[5]-m_data[4]*m_data[4]) / D;
+  C[1] = (m_data[2]*m_data[4]-m_data[1]*m_data[5]) / D;
+  C[2] = (m_data[1]*m_data[4]-m_data[2]*m_data[3]) / D;
+  C[3] = (m_data[0]*m_data[5]-m_data[2]*m_data[2]) / D;
+  C[4] = (m_data[2]*m_data[1]-m_data[0]*m_data[4]) / D;
+  C[5] = (m_data[0]*m_data[3]-m_data[1]*m_data[1]) / D;
   return C;
 }
 
@@ -3608,31 +3608,31 @@ template<class X> tensor3_2 <X> inline ddot  (const tensor3_2d<X> &A, const tens
 
 // --
 
-template<class X>             X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2 <X> &B)
+template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2 <X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
 { return A.ddot(B); }
 
-template<class X>             X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
 { return A.ddot(B); }
 
 // --
@@ -3666,25 +3666,25 @@ template<class X> tensor3_2d<X> inline dot   (const tensor3_2d<X> &A, const tens
 
 // --
 
-template<class X> vector3  <X> inline dot   (const tensor3_2 <X> &A, const vector3   <X> &B)
+template<class X> vector3   <X> inline dot   (const tensor3_2 <X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const tensor3_2s<X> &A, const vector3   <X> &B)
+template<class X> vector3   <X> inline dot   (const tensor3_2s<X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const tensor3_2d<X> &A, const vector3   <X> &B)
+template<class X> vector3   <X> inline dot   (const tensor3_2d<X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2 <X> &B)
+template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2 <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2s<X> &B)
+template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2s<X> &B)
 { return A.dot(B); }
 
-template<class X> vector3  <X> inline dot   (const vector3   <X> &A, const tensor3_2d<X> &B)
+template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2d<X> &B)
 { return A.dot(B); }
 
-template<class X>           X  inline dot   (const vector3   <X> &A, const vector3   <X> &B)
+template<class X>            X  inline dot   (const vector3   <X> &A, const vector3   <X> &B)
 { return A.dot(B); }
 
 // --
@@ -3723,7 +3723,7 @@ template<class X> tensor3_2 <X> inline dyadic(const vector3  <X> &A, const vecto
 
 // --
 
-template<class X> vector3  <X> inline cross (const vector3  <X> &A, const vector3  <X> &B)
+template<class X> vector3   <X> inline cross (const vector3  <X> &A, const vector3  <X> &B)
 { return A.cross (B); }
 
 // operations
