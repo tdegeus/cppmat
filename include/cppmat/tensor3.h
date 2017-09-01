@@ -2921,12 +2921,7 @@ template<class X> X inline tensor3_2<X>::ddot(const tensor3_2s<X> &B) const
 
 template<class X> X inline tensor3_2<X>::ddot(const tensor3_2d<X> &B) const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i=0; i<3; ++i )
-    C += (*this)(i,i)*B(i,i);
-
-  return C;
+  return m_data[0]*B[0] + m_data[4]*B[1] + m_data[8]*B[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -2961,14 +2956,14 @@ template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2<X> &B) const
 
 template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2s<X> &B) const
 {
-  X C = static_cast<X>(0);
+  X C;
 
-  for ( size_t i = 0 ; i < 3 ; ++i )
-    C += ( m_data[i*3-(i-1)*i/2] * B[i*3-(i-1)*i/2] );
-
-  for ( size_t i = 0 ; i<3 ; ++i )
-    for ( size_t j = i+1 ; j<3 ; ++j )
-      C += ( static_cast<X>(2) * m_data[i*3-(i-1)*i/2+j-i] * B[i*3-(i-1)*i/2+j-i] );
+  C  = m_data[0] * B[0];
+  C += m_data[1] * B[1] * static_cast<X>(2);
+  C += m_data[2] * B[2] * static_cast<X>(2);
+  C += m_data[3] * B[3];
+  C += m_data[4] * B[4] * static_cast<X>(2);
+  C += m_data[5] * B[5];
 
   return C;
 }
@@ -2977,12 +2972,7 @@ template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2s<X> &B) const
 
 template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2d<X> &B) const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i=0; i<3; ++i )
-    C += m_data[i*3-(i-1)*i/2]*B[i];
-
-  return C;
+  return m_data[0]*B[0] + m_data[3]*B[1] + m_data[5]*B[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -3003,36 +2993,21 @@ template<class X> tensor3_2<X> inline tensor3_2d<X>::ddot(const tensor3_4<X> &B)
 
 template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2<X> &B) const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i=0; i<3; ++i )
-    C += m_data[i]*B(i,i);
-
-  return C;
+  return m_data[0]*B[0] + m_data[1]*B[4] + m_data[2]*B[8];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2s<X> &B) const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i=0; i<3; ++i )
-    C += m_data[i]*B[i*3-(i-1)*i/2];
-
-  return C;
+  return m_data[0]*B[0] + m_data[1]*B[3] + m_data[2]*B[5];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2d<X> &B) const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i=0; i<3; ++i )
-    C += m_data[i]*B[i];
-
-  return C;
+  return m_data[0]*B[0] + m_data[1]*B[1] + m_data[2]*B[2];
 }
 
 
@@ -3392,9 +3367,9 @@ template<class X> vector3<X> inline vector3<X>::cross(const vector3<X> &B) const
 {
   vector3<X> C;
 
-  C(0) =      (*this)(1)*B(2)-B(1)*(*this)(2) ;
-  C(1) = -1.*((*this)(0)*B(2)-B(0)*(*this)(2));
-  C(2) =      (*this)(0)*B(1)-B(0)*(*this)(1) ;
+  C[0] =                     m_data[1]*B[2]-B[1]*m_data[2] ;
+  C[1] = static_cast<X>(-1)*(m_data[0]*B[2]-B[0]*m_data[2]);
+  C[2] =                     m_data[0]*B[1]-B[0]*m_data[1] ;
 
   return C;
 }
@@ -3452,9 +3427,15 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::T() const
 {
   tensor3_2<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
-      C(j,i) = (*this)(i,j);
+  C[0] = m_data[0];
+  C[3] = m_data[1];
+  C[6] = m_data[2];
+  C[1] = m_data[3];
+  C[4] = m_data[4];
+  C[7] = m_data[5];
+  C[2] = m_data[6];
+  C[5] = m_data[7];
+  C[8] = m_data[8];
 
   return C;
 }
@@ -3465,8 +3446,12 @@ template<class X> tensor3_2s<X> inline tensor3_2s<X>::T() const
 {
   tensor3_2s<X> C;
 
-  for ( size_t i=0; i<6; ++i )
-    C[i] = (*this)[i];
+  C[0] = m_data[0];
+  C[1] = m_data[1];
+  C[2] = m_data[2];
+  C[3] = m_data[3];
+  C[4] = m_data[4];
+  C[5] = m_data[5];
 
   return C;
 }
@@ -3477,8 +3462,9 @@ template<class X> tensor3_2d<X> inline tensor3_2d<X>::T() const
 {
   tensor3_2d<X> C;
 
-  for ( size_t i=0; i<3; ++i )
-    C[i] = (*this)[i];
+  C[0] = m_data[0];
+  C[1] = m_data[1];
+  C[2] = m_data[2];
 
   return C;
 }
@@ -3510,35 +3496,30 @@ template<class X> X inline tensor3_2d<X>::trace() const
 
 template<class X> X inline tensor3_2<X>::det() const
 {
-  return ( (*this)(0,0) * (*this)(1,1) * (*this)(2,2) +
-           (*this)(0,1) * (*this)(1,2) * (*this)(2,0) +
-           (*this)(0,2) * (*this)(1,0) * (*this)(2,1) ) -
-         ( (*this)(0,2) * (*this)(1,1) * (*this)(2,0) +
-           (*this)(0,1) * (*this)(1,0) * (*this)(2,2) +
-           (*this)(0,0) * (*this)(1,2) * (*this)(2,1) );
+  return ( m_data[0] * m_data[4] * m_data[8] +
+           m_data[1] * m_data[5] * m_data[6] +
+           m_data[2] * m_data[3] * m_data[7] ) -
+         ( m_data[2] * m_data[4] * m_data[6] +
+           m_data[1] * m_data[3] * m_data[8] +
+           m_data[0] * m_data[5] * m_data[7] );
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X> X inline tensor3_2s<X>::det() const
 {
-  return (      (*this)(0,0) * (*this)(1,1) * (*this)(2,2) +
-           2. * (*this)(0,1) * (*this)(0,2) * (*this)(1,2) ) -
-         (      (*this)(1,2) * (*this)(1,2) * (*this)(0,0) +
-                (*this)(0,2) * (*this)(0,2) * (*this)(1,1) +
-                (*this)(0,1) * (*this)(0,1) * (*this)(2,2) );
+  return (                     m_data[0] * m_data[3] * m_data[5] +
+           static_cast<X>(2) * m_data[1] * m_data[2] * m_data[4] ) -
+         (                     m_data[4] * m_data[4] * m_data[0] +
+                               m_data[2] * m_data[2] * m_data[3] +
+                               m_data[1] * m_data[1] * m_data[5] );
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X> X inline tensor3_2d<X>::det() const
 {
-  X C = static_cast<X>(1);
-
-  for ( size_t i=0; i<3; ++i )
-    C *= (*this)[i];
-
-  return C;
+  return m_data[0] * m_data[1] * m_data[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -3551,15 +3532,15 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
   // allocate result
   tensor3_2<X> C;
 
-  C(0,0) = ((*this)(1,1)*(*this)(2,2)-(*this)(1,2)*(*this)(2,1))/D;
-  C(0,1) = ((*this)(0,2)*(*this)(2,1)-(*this)(0,1)*(*this)(2,2))/D;
-  C(0,2) = ((*this)(0,1)*(*this)(1,2)-(*this)(0,2)*(*this)(1,1))/D;
-  C(1,0) = ((*this)(1,2)*(*this)(2,0)-(*this)(1,0)*(*this)(2,2))/D;
-  C(1,1) = ((*this)(0,0)*(*this)(2,2)-(*this)(0,2)*(*this)(2,0))/D;
-  C(1,2) = ((*this)(0,2)*(*this)(1,0)-(*this)(0,0)*(*this)(1,2))/D;
-  C(2,0) = ((*this)(1,0)*(*this)(2,1)-(*this)(1,1)*(*this)(2,0))/D;
-  C(2,1) = ((*this)(0,1)*(*this)(2,0)-(*this)(0,0)*(*this)(2,1))/D;
-  C(2,2) = ((*this)(0,0)*(*this)(1,1)-(*this)(0,1)*(*this)(1,0))/D;
+  C[0] = (m_data[4]*m_data[8]-m_data[5]*m_data[7])/D;
+  C[1] = (m_data[2]*m_data[7]-m_data[1]*m_data[8])/D;
+  C[2] = (m_data[1]*m_data[5]-m_data[2]*m_data[4])/D;
+  C[3] = (m_data[5]*m_data[6]-m_data[3]*m_data[8])/D;
+  C[4] = (m_data[0]*m_data[8]-m_data[2]*m_data[6])/D;
+  C[5] = (m_data[2]*m_data[3]-m_data[0]*m_data[5])/D;
+  C[6] = (m_data[3]*m_data[7]-m_data[4]*m_data[6])/D;
+  C[7] = (m_data[1]*m_data[6]-m_data[0]*m_data[7])/D;
+  C[8] = (m_data[0]*m_data[4]-m_data[1]*m_data[3])/D;
   return C;
 }
 
@@ -3573,12 +3554,12 @@ template<class X> tensor3_2s<X> inline tensor3_2s<X>::inv() const
   // allocate result
   tensor3_2s<X> C;
 
-  C(0,0) = ((*this)(1,1)*(*this)(2,2)-(*this)(1,2)*(*this)(2,1))/D;
-  C(0,1) = ((*this)(0,2)*(*this)(2,1)-(*this)(0,1)*(*this)(2,2))/D;
-  C(0,2) = ((*this)(0,1)*(*this)(1,2)-(*this)(0,2)*(*this)(1,1))/D;
-  C(1,1) = ((*this)(0,0)*(*this)(2,2)-(*this)(0,2)*(*this)(2,0))/D;
-  C(1,2) = ((*this)(0,2)*(*this)(1,0)-(*this)(0,0)*(*this)(1,2))/D;
-  C(2,2) = ((*this)(0,0)*(*this)(1,1)-(*this)(0,1)*(*this)(1,0))/D;
+  C[0] = (m_data[3]*m_data[5]-m_data[4]*m_data[4])/D;
+  C[1] = (m_data[2]*m_data[4]-m_data[1]*m_data[5])/D;
+  C[2] = (m_data[1]*m_data[4]-m_data[2]*m_data[3])/D;
+  C[3] = (m_data[0]*m_data[5]-m_data[2]*m_data[2])/D;
+  C[4] = (m_data[2]*m_data[1]-m_data[0]*m_data[4])/D;
+  C[5] = (m_data[0]*m_data[3]-m_data[1]*m_data[1])/D;
   return C;
 }
 
