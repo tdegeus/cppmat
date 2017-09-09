@@ -14,6 +14,8 @@
 #include <vector>
 #include <string>
 
+#include "tensor.h"
+
 namespace cppmat {
 
 // =================================================================================================
@@ -25,27 +27,6 @@ template<class X> class tensor3_2;
 template<class X> class tensor3_2s;
 template<class X> class tensor3_2d;
 template<class X> class vector3;
-
-// =================================================================================================
-// return strides (generic routine used by all tensor-classes)
-// - defines how much to skip per index, e.g. for a tensor rank 2 of dimension 3: [3,1]
-// - if bytes == true the definition is is bytes
-// =================================================================================================
-
-template<class X> std::vector<size_t> inline _strides(size_t rank, size_t ndim, bool bytes=false)
-{
-  std::vector<size_t> out(rank,1);
-
-  for ( size_t i=0; i<rank; ++i )
-    for ( size_t j=i+1; j<rank; ++j )
-      out[i] *= ndim;
-
-  if ( bytes )
-    for ( auto &i: out )
-      i *= sizeof(X);
-
-  return out;
-}
 
 // =================================================================================================
 // cppmat::tensor3_4
