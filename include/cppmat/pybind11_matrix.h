@@ -42,7 +42,7 @@ namespace pybind11 { namespace detail {
 
         std::vector<size_t> shape(buf.ndim());
 
-        for ( size_t i=0 ; i<buf.ndim() ; i++ )
+        for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
           shape[i] = buf.shape()[i];
 
         value = cppmat::matrix<T>(shape,buf.data());

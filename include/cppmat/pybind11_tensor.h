@@ -54,7 +54,7 @@ public:
     size_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( size_t i=0 ; i<buf.ndim() ; i++ )
+    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
       if ( buf.shape()[i] != nd )
         return false;
 
@@ -119,7 +119,7 @@ public:
     size_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( size_t i=0 ; i<buf.ndim() ; i++ )
+    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
       if ( buf.shape()[i] != nd )
         return false;
 
@@ -184,7 +184,7 @@ public:
     size_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( size_t i=0 ; i<buf.ndim() ; i++ )
+    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
       if ( buf.shape()[i] != nd )
         return false;
 
@@ -258,7 +258,7 @@ public:
     size_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( size_t i=0 ; i<buf.ndim() ; i++ )
+    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
       if ( buf.shape()[i] != nd )
         return false;
 
@@ -331,7 +331,7 @@ public:
     size_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( size_t i=0 ; i<buf.ndim() ; i++ )
+    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
       if ( buf.shape()[i] != nd )
         return false;
 
