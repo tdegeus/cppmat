@@ -1902,6 +1902,8 @@ public:
     out[5] = static_cast<U>( m_data[2] );
 
     out[1] = out[2] = out[4] = static_cast<U>(0);
+
+    return out;
   }
 
   // print to screen

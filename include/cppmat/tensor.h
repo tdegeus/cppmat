@@ -67,7 +67,7 @@ public:
   tensor4(){};
 
   // explicit constructor: set correct size (WARNING: data not initialized)
-  tensor4(size_t nd ) { resize(nd); };
+  tensor4(size_t nd) { resize(nd); };
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
   tensor4(size_t nd,       X  D) { resize(nd); for ( size_t i=0; i<size(); ++i ) m_data[i]=D;    };
@@ -408,7 +408,7 @@ public:
   tensor2(){};
 
   // explicit constructor: set correct size (WARNING: data not initialized)
-  tensor2(size_t nd ) { resize(nd); };
+  tensor2(size_t nd) { resize(nd); };
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
   tensor2(size_t nd,       X  D) { resize(nd); for ( size_t i=0; i<size(); ++i ) m_data[i]=D;    };
@@ -1176,7 +1176,7 @@ public:
   tensor2s(){};
 
   // explicit constructor: set correct size (WARNING: data not initialized)
-  tensor2s(size_t nd ) { resize(nd); };
+  tensor2s(size_t nd) { resize(nd); };
 
   // explicit constructor: set to constant "D"
   tensor2s(size_t nd, X D) { resize(nd); for ( size_t i=0; i<size(); ++i ) m_data[i]=D; };
@@ -1798,7 +1798,7 @@ public:
   tensor2d(){};
 
   // explicit constructor: set correct size (WARNING: data not initialized)
-  tensor2d(size_t nd ) { resize(nd); };
+  tensor2d(size_t nd) { resize(nd); };
 
   // explicit constructor: set to constant "D"
   tensor2d(size_t nd, X D) { resize(nd); for ( size_t i=0; i<nd; ++i ) m_data[i]=D; };
@@ -2290,7 +2290,7 @@ public:
   vector(){};
 
   // explicit constructor: set correct size (WARNING: data not initialized)
-  vector(size_t nd ) { resize(nd); };
+  vector(size_t nd) { resize(nd); };
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
   vector(size_t nd,       X  D) { resize(nd); for ( size_t i=0; i<size(); ++i ) m_data[i] = D;    };
