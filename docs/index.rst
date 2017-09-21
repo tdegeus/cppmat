@@ -9,7 +9,7 @@ This header-only module provides C++ classes and several accompanying methods to
 
   This library is free to use. Any additions are very much appreciated, in terms of suggested functionality, code, documentation, testimonials, word of mouth advertisement, .... As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes or misuse.
 
-  Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_.
+  Download as `.zip file <https://github.com/tdegeus/cppmat/zipball/master>`_ or as `.tar.gz file <https://github.com/tdegeus/cppmat/tarball/master>`_.  Bug reports, feature requests, and/or extensions can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_.
 
   (c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | `www.geus.me <http://www.geus.me>`_ | `github.com/tdegeus <http://github.com/tdegeus>`_
 
