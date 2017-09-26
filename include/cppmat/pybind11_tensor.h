@@ -55,7 +55,7 @@ public:
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != nd )
+      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
         return false;
 
     // - all checks passed: create the proper C++ variable
@@ -120,7 +120,7 @@ public:
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != nd )
+      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
         return false;
 
     // - all checks passed: create the proper C++ variable
@@ -185,7 +185,7 @@ public:
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != nd )
+      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
         return false;
 
     // - all checks passed: create the proper C++ variable
@@ -259,7 +259,7 @@ public:
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != nd )
+      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
         return false;
 
     // - all checks passed: create the proper C++ variable
@@ -332,7 +332,7 @@ public:
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != nd )
+      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
         return false;
 
     // - all checks passed: create the proper C++ variable

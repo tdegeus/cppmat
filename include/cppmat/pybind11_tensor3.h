@@ -51,7 +51,7 @@ public:
       return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
@@ -119,7 +119,7 @@ public:
       return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
@@ -187,7 +187,7 @@ public:
       return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
@@ -264,7 +264,7 @@ public:
       return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
@@ -340,7 +340,7 @@ public:
       return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
     for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
