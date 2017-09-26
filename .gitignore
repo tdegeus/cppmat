@@ -1,4 +1,8 @@
+# Local configuration files
 cppmat.pc
+cppmatConfig.cmake
+
+# Python builds
 build/*
 dist/*
 *.egg-info/*
