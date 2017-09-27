@@ -45,6 +45,16 @@ Install
 
 To enable automatic build one should 'install' ``cppmat`` somewhere.
 
+.. note::
+
+  If you do not wish to use ``CMake``, or you want to do something custom. You can of course. Follow these steps:
+
+  1.  Copy the file ``cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
+
+  2.  Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
+
+  3.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
+
 Install system-wide (root)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
