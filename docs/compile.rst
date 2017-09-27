@@ -12,17 +12,6 @@ As described, this module is header only. So one just has to ``#include <cppmat/
 
 Before proceeding, a words about optimization. Of course one should use optimization when compiling the release of the code (``-O2`` or ``-O3``). But it is also a good idea to switch of the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag ``-DNDEBUG``. Note that this is all C++ standard. I.e. it should be no surprise, and it always a good idea to do.
 
-.. _compile_pkg-config:
-
-pkg-config
-==========
-
-To simplify matters greatly one can use ``pkg-config`` to keep track of the location of the header files. To that matter on has to:
-
-1. Copy the file ``cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
-
-2. Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
-
 GNU / Clang
 ===========
 
@@ -34,15 +23,6 @@ Add the following compiler's arguments:
 
 (or ``-std=c++14``).
 
-If :ref:`compile_pkg-config` is configured, one can also use
-
-.. code-block:: bash
-
-  `pkg-config --cflags cppmat`
-
-instead of the first argument.
-
-
 .. note:: **Tip**
 
   If you want to avoid separately including the header files using a compiler flag, ``git submodule`` is a nice way to go:
@@ -53,8 +33,74 @@ instead of the first argument.
 
       *If you decide to manually copy the header file, you might need to modify this relative path to your liking.*
 
+  Or see :ref:`compile_automatic`.
+
+.. _compile_automatic:
+
+Automating build
+================
+
+Install
+-------
+
+To enable automatic build one should 'install' ``cppmat`` somewhere.
+
+Install system-wide (root)
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Make a temporary build directory. For example
+
+    .. code-block:: bash
+
+      $ cd /path/to/cppmat
+      $ mkdir build
+      $ cd build
+
+2.  'Build' ``cppmat``
+
+    .. code-block:: bash
+
+      $ cmake ..
+      $ make install
+
+Install in custom location (user)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Make a temporary build directory. For example
+
+    .. code-block:: bash
+
+      $ cd /path/to/cppmat
+      $ mkdir build
+      $ cd build
+
+2.  'Build' ``cppmat``, to install it in a custom location
+
+    .. code-block:: bash
+
+      $ mkdir /custom/install/path
+      $ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/custom/install/path
+      $ make install
+
+3.  Add the following path to your ``~/.bashrc`` (or ``~/.zshrc``):
+
+    .. code-block:: bash
+
+      export PKG_CONFIG_PATH=/custom/install/path/share/pkgconfig:$PKG_CONFIG_PATH
+
+pkg-config
+----------
+
+Instead of ``-I...`` one can now use
+
+.. code-block:: bash
+
+  `pkg-config --cflags cppmat` -std=c++11
+
+to compile in a single command.
+
 cmake
-=====
+-----
 
 Add the following to your ``CMakeLists.txt``:
 
@@ -64,4 +110,3 @@ Add the following to your ``CMakeLists.txt``:
   pkg_check_modules(CPPMAT REQUIRED cppmat)
   include_directories(${CPPMAT_INCLUDE_DIRS})
 
-Obviously one should configure :ref:`compile_pkg-config` for this to work.
