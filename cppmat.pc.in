@@ -3,7 +3,7 @@ exec_prefix=${prefix}
 
 Name: cppmat
 Description: Matrix/tensor library for C++
-Requires: c++14
+Requires:
 Version: @CPPMAT_VERSION_NUMBER@
 Libs:
 Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@
