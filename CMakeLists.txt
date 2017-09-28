@@ -10,7 +10,7 @@ cmake_minimum_required(VERSION 3.0)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-# set c++ -> c++14
+# set c++ standard -> c++14
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 if(NOT CMAKE_CXX_STANDARD OR CMAKE_CXX_STANDARD LESS 14)
@@ -25,7 +25,7 @@ set(CPPMAT_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${INCLUDE_INSTALL_DIR}")
 # - headers
 set(INCLUDE_INSTALL_DIR
   "${CMAKE_INSTALL_INCLUDEDIR}/cppmat"
-  CACHE PATH "The directory relative to CMAKE_PREFIX_PATH where cppmat header files are installed"
+  CACHE PATH "Path, relative to CMAKE_PREFIX_PATH, where the cppmat header files are installed"
 )
 # - CMake configuration
 set(CMAKEPACKAGE_INSTALL_DIR
@@ -35,7 +35,7 @@ set(CMAKEPACKAGE_INSTALL_DIR
 # - pkg-config
 set(PKGCONFIG_INSTALL_DIR
   "${CMAKE_INSTALL_DATADIR}/pkgconfig"
-  CACHE PATH "Directory of cppmat.pc"
+  CACHE PATH "Path where cppmat.pc is installed"
 )
 
 # list all header files
@@ -48,7 +48,7 @@ set(CPPMAT_HEADERS
   include/cppmat/tensor3.h
 )
 
-# Disable pkg-config only for native Windows builds
+# Disable pkg-config for native Windows builds
 if(NOT WIN32 OR NOT CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
   option(CPPMAT_BUILD_PKGCONFIG "Build pkg-config .pc file for cppmat" ON)
 endif()
@@ -75,7 +75,7 @@ install(FILES
   DESTINATION
   ${CMAKEPACKAGE_INSTALL_DIR}
 )
-# - header
+# - headers
 install(FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/${CPPMAT_HEADERS}
   DESTINATION
@@ -84,9 +84,13 @@ install(FILES
 
 # print information to screen
 message(STATUS "")
-message(STATUS "Use 'make install' to install in '${CMAKE_INSTALL_PREFIX}'")
-message(STATUS "To specify a custom directory call")
-message(STATUS "  cmake . -DCMAKE_INSTALL_PREFIX=yourprefix")
-message(STATUS "For custom paths, add the following line to your '~/.bashrc'")
-message(STATUS "  export PKG_CONFIG_PATH=${CMAKE_INSTALL_PREFIX}/share/pkgconfig:$PKG_CONFIG_PATH")
+message(STATUS "+---------------------------------------------------------------------------------")
+message(STATUS "|")
+message(STATUS "| Use 'make install' to install in '${CMAKE_INSTALL_PREFIX}'")
+message(STATUS "| To specify a custom directory call")
+message(STATUS "|   cmake . -DCMAKE_INSTALL_PREFIX=yourprefix")
+message(STATUS "| For custom paths, add the following line to your '~/.bashrc'")
+message(STATUS "|   export PKG_CONFIG_PATH=${CMAKE_INSTALL_PREFIX}/share/pkgconfig:$PKG_CONFIG_PATH")
+message(STATUS "|")
+message(STATUS "+---------------------------------------------------------------------------------")
 message(STATUS "")

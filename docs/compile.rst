@@ -33,7 +33,7 @@ Add the following compiler's arguments:
 
       *If you decide to manually copy the header file, you might need to modify this relative path to your liking.*
 
-  Or see :ref:`compile_automatic`.
+  Or see :ref:`compile_automatic`. You can also combine the ``git submodule`` with any of the below compiling strategies.
 
 .. _compile_automatic:
 
