@@ -21,15 +21,15 @@ Add the following compiler's arguments:
 
   -I${PATH_TO_CPPMAT}/include -std=c++11
 
-(or ``-std=c++14``).
+(or ``-std=c++14``, ...).
 
-.. note:: **Tip**
+.. note:: **(Not recommended)**
 
   If you want to avoid separately including the header files using a compiler flag, ``git submodule`` is a nice way to go:
 
   1.  Include this module as a submodule using ``git submodule add https://github.com/tdegeus/cppmat.git``.
 
-  2.  Replace the first line of this example by ``#include "cppmat/include/cppmat/matrix.h"``.
+  2.  Replace the first line of this example by ``#include "cppmat/src/cppmat/matrix.h"``.
 
       *If you decide to manually copy the header file, you might need to modify this relative path to your liking.*
 
@@ -45,15 +45,17 @@ Install
 
 To enable automatic build one should 'install' ``cppmat`` somewhere.
 
-.. note::
+.. note:: **(Not recommended)**
 
   If you do not wish to use ``CMake``, or you want to do something custom. You can of course. Follow these steps:
 
-  1.  Copy the file ``cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
+  1.  Copy the file ``src/cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
 
   2.  Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
 
-  3.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
+  3.  Modify the line ``Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@`` to ``Cflags: -I${prefix}/src``.
+
+  4.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
 
 Install system-wide (root)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -62,7 +64,7 @@ Install system-wide (root)
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat
+      $ cd /path/to/cppmat/src
       $ mkdir build
       $ cd build
 
@@ -80,7 +82,7 @@ Install in custom location (user)
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat
+      $ cd /path/to/cppmat/src
       $ mkdir build
       $ cd build
 
@@ -116,7 +118,11 @@ Add the following to your ``CMakeLists.txt``:
 
 .. code-block:: cmake
 
+  set(CMAKE_CXX_STANDARD 11)
+
   find_package(PkgConfig)
+
   pkg_check_modules(CPPMAT REQUIRED cppmat)
   include_directories(${CPPMAT_INCLUDE_DIRS})
 
+or use ``set(CMAKE_CXX_STANDARD 14)``, ....
