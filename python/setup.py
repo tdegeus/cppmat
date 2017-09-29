@@ -29,5 +29,5 @@ setup(
      '../src/cppmat/pybind11_matrix.h',
      '../src/cppmat/pybind11_tensor3.h',
    ],
-   install_requires = ['pybind11>=2.1.0'],
+   install_requires = ['pybind11>=2.2.0'],
 )
