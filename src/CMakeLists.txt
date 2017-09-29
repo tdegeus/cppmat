@@ -1,7 +1,7 @@
 
 # define project information
 project(cppmat)
-set(CPPMAT_VERSION_NUMBER 0.2.9)
+set(CPPMAT_VERSION_NUMBER 0.2.10)
 
 # required to specify the c++ standard
 cmake_minimum_required(VERSION 3.0)
@@ -40,12 +40,12 @@ set(PKGCONFIG_INSTALL_DIR
 
 # list all header files
 set(CPPMAT_HEADERS
-  include/cppmat/matrix.h
-  include/cppmat/pybind11_matrix.h
-  include/cppmat/pybind11_tensor.h
-  include/cppmat/pybind11_tensor3.h
-  include/cppmat/tensor.h
-  include/cppmat/tensor3.h
+  cppmat/matrix.h
+  cppmat/pybind11_matrix.h
+  cppmat/pybind11_tensor.h
+  cppmat/pybind11_tensor3.h
+  cppmat/tensor.h
+  cppmat/tensor3.h
 )
 
 # Disable pkg-config for native Windows builds

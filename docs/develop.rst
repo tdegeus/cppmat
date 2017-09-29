@@ -18,8 +18,8 @@ Create a new release
 
 1.  Update the version numbers as follows:
 
-    -   Modify ``__version__`` in ``setup.py``.
-    -   Modify ``version`` in ``cppmat.pc.in``
+    -   Modify ``__version__ = ...`` in ``setup.py``.
+    -   Modify ``set(CPPMAT_VERSION_NUMBER ...)`` in ``CMakeLists.txt``
 
 2.  Upload the changes to GitHub and create a new release there (with the correct version number).
 

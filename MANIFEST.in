@@ -1,2 +1,0 @@
-include include/cppmat/*.h
-include LICENSE README.md
