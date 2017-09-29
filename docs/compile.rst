@@ -8,7 +8,7 @@ Compiling
 Introduction
 ============
 
-As described, this module is header only. So one just has to ``#include <cppmat/matrix.h>`` and/or ``#include <cppmat/tensor.h>`` somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below.
+This module is header only. So one just has to ``#include <cppmat/matrix.h>`` and/or ``#include <cppmat/tensor.h>`` somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below.
 
 Before proceeding, a words about optimization. Of course one should use optimization when compiling the release of the code (``-O2`` or ``-O3``). But it is also a good idea to switch of the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag ``-DNDEBUG``. Note that this is all C++ standard. I.e. it should be no surprise, and it always a good idea to do.
 
