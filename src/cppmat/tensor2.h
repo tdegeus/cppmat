@@ -1369,8 +1369,8 @@ public:
   {
     for ( size_t i = 0 ; i < 2 ; ++i ) {
       for ( size_t j = i ; j < 2 ; ++j ) {
-        if ( m_data[ i*3 - (i-1)*i/2 + j - i ] != B(i,j) ) return false;
-        if ( m_data[ i*3 - (i-1)*i/2 + j - i ] != B(j,i) ) return false;
+        if ( m_data[ i*2 - (i-1)*i/2 + j - i ] != B(i,j) ) return false;
+        if ( m_data[ i*2 - (i-1)*i/2 + j - i ] != B(j,i) ) return false;
       }
     }
 
@@ -1381,7 +1381,7 @@ public:
   {
     for ( size_t i = 0 ; i < 2 ; ++i )
       for ( size_t j = i ; j < 2 ; ++j )
-        if ( m_data[ i*3 - (i-1)*i/2 + j - i ] != B(i,j) ) return false;
+        if ( m_data[ i*2 - (i-1)*i/2 + j - i ] != B(i,j) ) return false;
 
     return true;
   };
@@ -1393,7 +1393,7 @@ public:
   {
     for ( size_t i = 0 ; i < 2 ; ++i )
       for ( size_t j = i+1 ; j < 2 ; ++j )
-        if ( m_data[ i*3 - (i-1)*i/2 + j - i ] )
+        if ( m_data[ i*2 - (i-1)*i/2 + j - i ] )
           return false;
 
     return true;
@@ -2404,7 +2404,7 @@ template<class X> void inline tensor2_4<X>::printf(std::string fmt) const
     for ( size_t j = 0 ; j < 2 ; ++j )
       for ( size_t k = 0 ; k < 2 ; ++k )
         for ( size_t l = 0 ; l < 2 ; ++l )
-          std::printf(fmt.c_str(), i, j, k, l, m_data[i*27+j*9+k*3+l] );
+          std::printf(fmt.c_str(), i, j, k, l, m_data[i*8+j*4+k*2+l] );
 
 }
 
@@ -2554,7 +2554,7 @@ tensor2_4<double> inline identity2_4s()
 // -------------------------------------------------------------------------------------------------
 
 tensor2_4<double> inline identity2_4d()
-{ return identity2_4s()-identity2_II()/static_cast<double>(3); }
+{ return identity2_4s()-identity2_II()/static_cast<double>(2); }
 
 // -------------------------------------------------------------------------------------------------
 
