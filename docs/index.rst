@@ -21,6 +21,7 @@ Contents
 
    matrix.rst
    tensor.rst
+   tensor2.rst
    tensor3.rst
    compile.rst
    python.rst
