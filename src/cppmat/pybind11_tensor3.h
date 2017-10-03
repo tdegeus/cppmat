@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef TENSOR_PYBIND11_H
-#define TENSOR_PYBIND11_H
+#ifndef TENSOR3_PYBIND11_H
+#define TENSOR3_PYBIND11_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

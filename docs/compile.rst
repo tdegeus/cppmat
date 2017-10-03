@@ -19,7 +19,7 @@ Add the following compiler's arguments:
 
 .. code-block:: bash
 
-  -I${PATH_TO_CPPMAT}/include -std=c++11
+  -I${PATH_TO_CPPMAT}/include -std=c++14
 
 (or ``-std=c++14``, ...).
 
@@ -107,7 +107,7 @@ Instead of ``-I...`` one can now use
 
 .. code-block:: bash
 
-  `pkg-config --cflags cppmat` -std=c++11
+  `pkg-config --cflags cppmat` -std=c++14
 
 to compile in a single command.
 
@@ -118,7 +118,7 @@ Add the following to your ``CMakeLists.txt``:
 
 .. code-block:: cmake
 
-  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_CXX_STANDARD 14)
 
   find_package(PkgConfig)
 

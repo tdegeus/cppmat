@@ -3,7 +3,7 @@
 cppmat
 ******
 
-This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to include the relevant header file and tell your compiler where it is located (and to the C++11 or younger standard). Really, that's it!
+This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to include the relevant header file and tell your compiler where it is located (and to the C++14 or younger standard). Really, that's it!
 
 .. note::
 
