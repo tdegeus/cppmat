@@ -1,7 +1,7 @@
 
 # define project information
 project(cppmat)
-set(CPPMAT_VERSION_NUMBER 0.2.12)
+set(CPPMAT_VERSION_NUMBER 0.2.13)
 
 # required to specify the c++ standard
 cmake_minimum_required(VERSION 3.0)

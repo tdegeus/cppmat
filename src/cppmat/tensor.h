@@ -2342,6 +2342,30 @@ public:
 
   X norm() const { X C = static_cast<X>(0); for ( auto &i : m_data ) C += std::abs(i); return C; }
 
+  // length
+  // ------
+
+  X length() const
+  {
+    X C = static_cast<X>(0);
+
+    for ( auto &i : m_data ) C += std::pow(i,2.);
+
+    return std::pow(C,.5);
+  }
+
+  // normalize to unit length
+  // ------------------------
+
+  void setUnitLength()
+  {
+    X C = length();
+
+    if ( C <= static_cast<X>(0) ) return;
+
+    for ( auto &i : m_data ) i /= C;
+  }
+
   // initialize to zero/one
   // ----------------------
 

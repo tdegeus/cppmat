@@ -2154,6 +2154,32 @@ public:
     return C;
   }
 
+  // length
+  // ------
+
+  X length() const
+  {
+    X C;
+
+    C  = std::pow(m_data[0],2.);
+    C += std::pow(m_data[1],2.);
+
+    return std::pow(C,.5);
+  }
+
+  // normalize to unit length
+  // ------------------------
+
+  void setUnitLength()
+  {
+    X C = length();
+
+    if ( C <= static_cast<X>(0) ) return;
+
+    m_data[0] /= C;
+    m_data[1] /= C;
+  }
+
   // initialize to zero/one
   // ----------------------
 
