@@ -6,7 +6,19 @@ Notes for developers
 Make changes / additions
 ========================
 
-Be sure to run the verification codes in ``develop/``! All existing checks should pass, while new check should be added to check new functionality.
+Be sure to run the verification code in ``develop/``! All existing checks should pass, while new check should be added to check new functionality.
+
+The `Catch <http://catch-lib.net>`_ library has been used to run the checks, it should be used also for all new checks. To compile the checks:
+
+1.  Download and install Catch.
+
+2.  Compile all test cases.
+
+    .. code-block:: bash
+
+      $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test *.cpp
+
+3.  Run ``./test``.
 
 Python
 ======

@@ -8,20 +8,21 @@ Compiling
 Introduction
 ============
 
-This module is header only. So one just has to ``#include <cppmat/matrix.h>`` and/or ``#include <cppmat/tensor.h>`` somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below.
+This module is header only. So one just has to ``#include <cppmat/matrix.h>`` and/or ``#include <cppmat/tensor.h>``, ... somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below.
 
 Before proceeding, a words about optimization. Of course one should use optimization when compiling the release of the code (``-O2`` or ``-O3``). But it is also a good idea to switch of the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag ``-DNDEBUG``. Note that this is all C++ standard. I.e. it should be no surprise, and it always a good idea to do.
 
+Manual compiler flags
+=====================
+
 GNU / Clang
-===========
+-----------
 
 Add the following compiler's arguments:
 
 .. code-block:: bash
 
-  -I${PATH_TO_CPPMAT}/include -std=c++14
-
-(or ``-std=c++14``, ...).
+  -I${PATH_TO_CPPMAT}/src -std=c++14
 
 .. note:: **(Not recommended)**
 
@@ -37,36 +38,22 @@ Add the following compiler's arguments:
 
 .. _compile_automatic:
 
-Automating build
-================
+(Semi-)Automatic compiler flags
+===============================
 
 Install
 -------
 
-To enable automatic build one should 'install' ``cppmat`` somewhere.
-
-.. note:: **(Not recommended)**
-
-  If you do not wish to use ``CMake``, or you want to do something custom. You can of course. Follow these steps:
-
-  1.  Copy the file ``src/cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
-
-  2.  Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
-
-  3.  Modify the line ``Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@`` to ``Cflags: -I${prefix}/src``.
-
-  4.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
+To enable (semi-)automatic build, one should 'install' ``cppmat`` somewhere.
 
 Install system-wide (root)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.  Make a temporary build directory. For example
+1.  Proceed to a (temporary) build directory. For example
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat/src
-      $ mkdir build
-      $ cd build
+      $ cd /path/to/cppmat/src/build
 
 2.  'Build' ``cppmat``
 
@@ -75,16 +62,16 @@ Install system-wide (root)
       $ cmake ..
       $ make install
 
+    (If you've used another build directory, change the first command to ``$ cmake /path/to/cppmat/src``)
+
 Install in custom location (user)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-1.  Make a temporary build directory. For example
+1.  Proceed to a (temporary) build directory. For example
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat/src
-      $ mkdir build
-      $ cd build
+      $ cd /path/to/cppmat/src/build
 
 2.  'Build' ``cppmat``, to install it in a custom location
 
@@ -94,14 +81,28 @@ Install in custom location (user)
       $ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/custom/install/path
       $ make install
 
+    (If you've used another build directory, change the first command to ``$ cmake /path/to/cppmat/src``)
+
 3.  Add the following path to your ``~/.bashrc`` (or ``~/.zshrc``):
 
     .. code-block:: bash
 
       export PKG_CONFIG_PATH=/custom/install/path/share/pkgconfig:$PKG_CONFIG_PATH
 
-pkg-config
-----------
+.. note:: **(Not recommended)**
+
+  If you do not wish to use ``CMake`` for the installation, or you want to do something custom. You can of course. Follow these steps:
+
+  1.  Copy the file ``src/cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
+
+  2.  Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
+
+  3.  Modify the line ``Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@`` to ``Cflags: -I${prefix}/src``.
+
+  4.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
+
+Compiler arguments from 'pkg-config'
+------------------------------------
 
 Instead of ``-I...`` one can now use
 
@@ -109,10 +110,10 @@ Instead of ``-I...`` one can now use
 
   `pkg-config --cflags cppmat` -std=c++14
 
-to compile in a single command.
+as compiler argument.
 
-cmake
------
+Compiler arguments from 'cmake'
+-------------------------------
 
 Add the following to your ``CMakeLists.txt``:
 
@@ -124,5 +125,3 @@ Add the following to your ``CMakeLists.txt``:
 
   pkg_check_modules(CPPMAT REQUIRED cppmat)
   include_directories(${CPPMAT_INCLUDE_DIRS})
-
-or use ``set(CMAKE_CXX_STANDARD 14)``, ....

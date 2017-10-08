@@ -18,14 +18,14 @@ namespace py = pybind11;
 namespace pybind11 { namespace detail {
 
 // =================================================================================================
-// type caster: cppmat::tensor4 <-> NumPy-array
+// type caster: cppmat::cartesian::tensor4 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor4<T>>
+template <typename T> struct type_caster<cppmat::cartesian::tensor4<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor4<T>, _("cppmat::tensor4<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::cartesian::tensor4<T>, _("cppmat::cartesian::tensor4<T>"));
 
   // Python -> C++
   // -------------
@@ -59,7 +59,7 @@ public:
         return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor4<T>(nd,buf.data());
+    value = cppmat::cartesian::tensor4<T>(nd,buf.data());
 
     // - signal successful variable creation
     return true;
@@ -68,7 +68,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor4<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::cartesian::tensor4<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
@@ -83,14 +83,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor2 <-> NumPy-array
+// type caster: cppmat::cartesian::tensor2 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor2<T>>
+template <typename T> struct type_caster<cppmat::cartesian::tensor2<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor2<T>, _("cppmat::tensor2<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::cartesian::tensor2<T>, _("cppmat::cartesian::tensor2<T>"));
 
   // Python -> C++
   // -------------
@@ -124,7 +124,7 @@ public:
         return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor2<T>(nd,buf.data());
+    value = cppmat::cartesian::tensor2<T>(nd,buf.data());
 
     // - signal successful variable creation
     return true;
@@ -133,7 +133,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor2<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::cartesian::tensor2<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python
@@ -148,14 +148,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor2s <-> NumPy-array
+// type caster: cppmat::cartesian::tensor2s <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor2s<T>>
+template <typename T> struct type_caster<cppmat::cartesian::tensor2s<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor2s<T>, _("cppmat::tensor2s<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::cartesian::tensor2s<T>, _("cppmat::cartesian::tensor2s<T>"));
 
   // Python -> C++
   // -------------
@@ -189,7 +189,7 @@ public:
         return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor2s<T>(nd,buf.data());
+    value = cppmat::cartesian::tensor2s<T>(nd,buf.data());
 
     // - signal successful variable creation
     return true;
@@ -198,7 +198,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor2s<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::cartesian::tensor2s<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - extract number of dimensions
@@ -222,14 +222,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::tensor2d <-> NumPy-array
+// type caster: cppmat::cartesian::tensor2d <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::tensor2d<T>>
+template <typename T> struct type_caster<cppmat::cartesian::tensor2d<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tensor2d<T>, _("cppmat::tensor2d<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::cartesian::tensor2d<T>, _("cppmat::cartesian::tensor2d<T>"));
 
   // Python -> C++
   // -------------
@@ -263,7 +263,7 @@ public:
         return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::tensor2d<T>(nd,buf.data());
+    value = cppmat::cartesian::tensor2d<T>(nd,buf.data());
 
     // - signal successful variable creation
     return true;
@@ -272,7 +272,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::tensor2d<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::cartesian::tensor2d<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - extract number of dimensions
@@ -295,14 +295,14 @@ public:
 };
 
 // =================================================================================================
-// type caster: cppmat::vector <-> NumPy-array
+// type caster: cppmat::cartesian::vector <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::vector<T>>
+template <typename T> struct type_caster<cppmat::cartesian::vector<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::vector<T>, _("cppmat::vector<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::cartesian::vector<T>, _("cppmat::cartesian::vector<T>"));
 
   // Python -> C++
   // -------------
@@ -336,7 +336,7 @@ public:
         return false;
 
     // - all checks passed: create the proper C++ variable
-    value = cppmat::vector<T>(nd,buf.data());
+    value = cppmat::cartesian::vector<T>(nd,buf.data());
 
     // - signal successful variable creation
     return true;
@@ -345,7 +345,7 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::vector<T>& src, py::return_value_policy policy,
+  static py::handle cast(const cppmat::cartesian::vector<T>& src, py::return_value_policy policy,
     py::handle parent)
   {
     // - create "shape" array required by Python

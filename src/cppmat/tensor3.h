@@ -17,22 +17,23 @@
 #include "tensor.h"
 
 namespace cppmat {
+namespace cartesian3d {
 
 // =================================================================================================
 // forward declaration
 // =================================================================================================
 
-template<class X> class tensor3_4;
-template<class X> class tensor3_2;
-template<class X> class tensor3_2s;
-template<class X> class tensor3_2d;
-template<class X> class vector3;
+template<class X> class tensor4;
+template<class X> class tensor2;
+template<class X> class tensor2s;
+template<class X> class tensor2d;
+template<class X> class vector;
 
 // =================================================================================================
-// cppmat::tensor3_4
+// cppmat::tensor3::tensor4
 // =================================================================================================
 
-template<class X> class tensor3_4
+template<class X> class tensor4
 {
 private:
 
@@ -44,24 +45,27 @@ public:
   // ------------
 
   // implicit constructor
-  tensor3_4(){};
+  tensor4(){};
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
-  tensor3_4(      X  D) { for ( size_t i=0; i<81; ++i ) m_data[i]=D;    };
-  tensor3_4(const X *D) { for ( size_t i=0; i<81; ++i ) m_data[i]=D[i]; };
+  tensor4(      X  D) { for ( size_t i=0; i<81; ++i ) m_data[i]=D;    };
+  tensor4(const X *D) { for ( size_t i=0; i<81; ++i ) m_data[i]=D[i]; };
 
   // return strides array (see above)
-  std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(4,3,bytes); };
+  std::vector<size_t> strides(bool bytes=false) const
+  {
+    return cppmat::cartesian::_strides<X>(4,3,bytes);
+  };
 
   // copy constructor
   // ----------------
 
-  // copy "tensor3_4" -> "tensor3_4" ( + change of type )
+  // copy "tensor4" -> "tensor4" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_4<U> () const
+  operator tensor4<U> () const
   {
-    tensor3_4<U> out;
+    tensor4<U> out;
 
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       out[i  ] = static_cast<U>( m_data[i  ] );
@@ -115,13 +119,13 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor3_4 <X> inline ddot(const tensor3_4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
-  tensor3_2 <X> inline ddot(const tensor3_2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  tensor3_2 <X> inline ddot(const tensor3_2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  tensor3_2 <X> inline ddot(const tensor3_2d<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  tensor3_4 <X> inline T   (                      ) const; // transposition   : B_lkji = A_ijkl
-  tensor3_4 <X> inline RT  (                      ) const; // transposition   : B_ijlk = A_ijkl
-  tensor3_4 <X> inline LT  (                      ) const; // transposition   : B_jikl = A_ijkl
+  tensor4<X> inline ddot(const tensor4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
+  tensor2<X> inline ddot(const tensor2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor2<X> inline ddot(const tensor2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor2<X> inline ddot(const tensor2d<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
+  tensor4<X> inline T   (                    ) const; // transposition   : B_lkji = A_ijkl
+  tensor4<X> inline RT  (                    ) const; // transposition   : B_ijlk = A_ijkl
+  tensor4<X> inline LT  (                    ) const; // transposition   : B_jikl = A_ijkl
 
   // index operators
   // ---------------
@@ -138,10 +142,10 @@ public:
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const
   { return m_data[i*27+j*9+k*3+l]; };
 
-  // arithmetic operators: tensor3_4 ?= tensor3_4
-  // --------------------------------------------
+  // arithmetic operators: tensor4 ?= tensor4
+  // ----------------------------------------
 
-  tensor3_4<X>& operator*= (const tensor3_4<X> &B)
+  tensor4<X>& operator*= (const tensor4<X> &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] *= B[i  ];
@@ -152,7 +156,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator/= (const tensor3_4<X> &B)
+  tensor4<X>& operator/= (const tensor4<X> &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] /= B[i  ];
@@ -163,7 +167,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator+= (const tensor3_4<X> &B)
+  tensor4<X>& operator+= (const tensor4<X> &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] += B[i  ];
@@ -174,7 +178,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator-= (const tensor3_4<X> &B)
+  tensor4<X>& operator-= (const tensor4<X> &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] -= B[i  ];
@@ -185,10 +189,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_4 ?= tensor3_4
-  // --------------------------------------------
+  // arithmetic operators: tensor4 ?= tensor4
+  // ----------------------------------------
 
-  tensor3_4<X>& operator*= (const X &B)
+  tensor4<X>& operator*= (const X &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] *= B;
@@ -199,7 +203,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator/= (const X &B)
+  tensor4<X>& operator/= (const X &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] /= B;
@@ -210,7 +214,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator+= (const X &B)
+  tensor4<X>& operator+= (const X &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] += B;
@@ -221,7 +225,7 @@ public:
     return *this;
   };
 
-  tensor3_4<X>& operator-= (const X &B)
+  tensor4<X>& operator-= (const X &B)
   {
     for ( size_t i = 0 ; i < 81 ; i += 3 ) {
       m_data[i  ] -= B;
@@ -235,7 +239,7 @@ public:
   // equality operators
   // ------------------
 
-  bool operator== ( const tensor3_4<X> &B )
+  bool operator== ( const tensor4<X> &B )
   {
     for ( size_t i = 0 ; i<81 ; ++i )
       if ( m_data[i] != B[i] )
@@ -244,14 +248,14 @@ public:
     return true;
   };
 
-}; // class tensor3_4
+}; // class tensor4
 
-// arithmetic operators: tensor3_4 = tensor3_4 ? tensor3_4
-// -------------------------------------------------------
+// arithmetic operators: tensor4 = tensor4 ? tensor4
+// -------------------------------------------------
 
-template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] * B[i  ];
@@ -262,9 +266,9 @@ template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_4<X> operator/ (const tensor3_4<X> &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] / B[i  ];
@@ -275,9 +279,9 @@ template <class X> tensor3_4<X> operator/ (const tensor3_4<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_4<X> operator+ (const tensor3_4<X> &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] + B[i  ];
@@ -288,9 +292,9 @@ template <class X> tensor3_4<X> operator+ (const tensor3_4<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] - B[i  ];
@@ -301,12 +305,12 @@ template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const tensor3_
   return C;
 }
 
-// arithmetic operators: tensor3_4 = tensor3_4 ? scalar
-// ----------------------------------------------------
+// arithmetic operators: tensor4 = tensor4 ? scalar
+// ------------------------------------------------
 
-template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const X &B)
+template <class X> tensor4<X> operator* (const tensor4<X> &A, const X &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] * B;
@@ -316,9 +320,9 @@ template <class X> tensor3_4<X> operator* (const tensor3_4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor3_4<X> operator/ (const tensor3_4<X> &A, const X &B)
+template <class X> tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] / B;
@@ -328,9 +332,9 @@ template <class X> tensor3_4<X> operator/ (const tensor3_4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor3_4<X> operator+ (const tensor3_4<X> &A, const X &B)
+template <class X> tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] + B;
@@ -340,9 +344,9 @@ template <class X> tensor3_4<X> operator+ (const tensor3_4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const X &B)
+template <class X> tensor4<X> operator- (const tensor4<X> &A, const X &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A[i  ] - B;
@@ -352,12 +356,12 @@ template <class X> tensor3_4<X> operator- (const tensor3_4<X> &A, const X &B)
 
   return C; }
 
-// arithmetic operators: tensor3_4 = scalar ? tensor3_4
-// ----------------------------------------------------
+// arithmetic operators: tensor4 = scalar ? tensor4
+// ------------------------------------------------
 
-template <class X> tensor3_4<X> operator* (const X &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator* (const X &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A * B[i  ];
@@ -368,9 +372,9 @@ template <class X> tensor3_4<X> operator* (const X &A, const tensor3_4<X> &B)
   return C;
 }
 
-template <class X> tensor3_4<X> operator/ (const X &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator/ (const X &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A / B[i  ];
@@ -381,9 +385,9 @@ template <class X> tensor3_4<X> operator/ (const X &A, const tensor3_4<X> &B)
   return C;
 }
 
-template <class X> tensor3_4<X> operator+ (const X &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator+ (const X &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A + B[i  ];
@@ -394,9 +398,9 @@ template <class X> tensor3_4<X> operator+ (const X &A, const tensor3_4<X> &B)
   return C;
 }
 
-template <class X> tensor3_4<X> operator- (const X &A, const tensor3_4<X> &B)
+template <class X> tensor4<X> operator- (const X &A, const tensor4<X> &B)
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i = 0 ; i < 81 ; i += 3 ) {
     C[i  ] = A - B[i  ];
@@ -408,10 +412,10 @@ template <class X> tensor3_4<X> operator- (const X &A, const tensor3_4<X> &B)
 }
 
 // =================================================================================================
-// cppmat::tensor3_2
+// cppmat::tensor3::tensor2
 // =================================================================================================
 
-template<class X> class tensor3_2
+template<class X> class tensor2
 {
 private:
 
@@ -423,24 +427,27 @@ public:
   // ------------
 
   // implicit constructor
-  tensor3_2(){};
+  tensor2(){};
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
-  tensor3_2(      X  D) { for ( size_t i=0; i<9; ++i ) m_data[i]=D;    };
-  tensor3_2(const X *D) { for ( size_t i=0; i<9; ++i ) m_data[i]=D[i]; };
+  tensor2(      X  D) { for ( size_t i=0; i<9; ++i ) m_data[i]=D;    };
+  tensor2(const X *D) { for ( size_t i=0; i<9; ++i ) m_data[i]=D[i]; };
 
   // return strides array (see above)
-  std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(2,3,bytes); };
+  std::vector<size_t> strides(bool bytes=false) const
+  {
+    return cppmat::cartesian::_strides<X>(2,3,bytes);
+  };
 
   // copy constructors
   // -----------------
 
-  // copy "tensor3_2" -> "tensor3_2" ( + change of type )
+  // copy "tensor2" -> "tensor2" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2<U> () const
+  operator tensor2<U> () const
   {
-    tensor3_2<U> out;
+    tensor2<U> out;
 
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       out[i  ] = static_cast<U>( m_data[i  ] );
@@ -451,11 +458,11 @@ public:
     return out;
   }
 
-  // convert "tensor3_2 -> tensor3_2s"
+  // convert "tensor2 -> tensor2s"
   // WARNING: the output is symmetrized: "out(i,j) = ( this(i,j) + this(j,i) ) / 2."
-  tensor3_2s<X> astensor2s()
+  tensor2s<X> astensor2s()
   {
-    tensor3_2s<X> out;
+    tensor2s<X> out;
 
     out[0] =   m_data[0];
     out[1] = ( m_data[1] + m_data[3] ) / static_cast<X>(2);
@@ -467,11 +474,11 @@ public:
     return out;
   }
 
-  // convert "tensor3_2 -> tensor3_2d"
+  // convert "tensor2 -> tensor2d"
   // WARNING: all off-diagonal are discarded
-  tensor3_2d<X> astensor2d()
+  tensor2d<X> astensor2d()
   {
-    tensor3_2d<X> out;
+    tensor2d<X> out;
 
     out[0] = m_data[0];
     out[1] = m_data[4];
@@ -523,21 +530,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2 <X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  tensor3_4 <X> inline dyadic(const tensor3_2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_2 <X> inline T     (                      ) const; // transpose       : B_ij   = A_ji
-  X             inline trace (                      ) const; // trace           : A_ii
-  X             inline det   (                      ) const; // determinant (only in 2D/3D)
-  tensor3_2 <X> inline inv   (                      ) const; // inverse     (only in 2D/3D)
+  tensor2<X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2<X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2<X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X          inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X          inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X          inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4<X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4<X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4<X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor2<X> inline T     (                    ) const; // transpose       : B_ij   = A_ji
+  X          inline trace (                    ) const; // trace           : A_ii
+  X          inline det   (                    ) const; // determinant
+  tensor2<X> inline inv   (                    ) const; // inverse
 
   // index operators
   // ---------------
@@ -547,10 +554,10 @@ public:
   X&       operator()(size_t i, size_t j)       { return m_data[i*3+j]; };
   const X& operator()(size_t i, size_t j) const { return m_data[i*3+j]; };
 
-  // arithmetic operators: tensor3_2 ?= tensor3_2
-  // --------------------------------------------
+  // arithmetic operators: tensor2 ?= tensor2
+  // ----------------------------------------
 
-  tensor3_2<X>& operator*= (const tensor3_2<X> &B)
+  tensor2<X>& operator*= (const tensor2<X> &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] *= B[i  ];
@@ -561,7 +568,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator/= (const tensor3_2<X> &B)
+  tensor2<X>& operator/= (const tensor2<X> &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] /= B[i  ];
@@ -572,7 +579,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator+= (const tensor3_2<X> &B)
+  tensor2<X>& operator+= (const tensor2<X> &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] += B[i  ];
@@ -583,7 +590,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator-= (const tensor3_2<X> &B)
+  tensor2<X>& operator-= (const tensor2<X> &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] -= B[i  ];
@@ -594,10 +601,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2 ?= tensor3_2s
-  // ---------------------------------------------
+  // arithmetic operators: tensor2 ?= tensor2s
+  // -----------------------------------------
 
-  tensor3_2<X>& operator*= (const tensor3_2s<X> &B)
+  tensor2<X>& operator*= (const tensor2s<X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[1]; m_data[3] *= B[1];
@@ -609,7 +616,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator/= (const tensor3_2s<X> &B)
+  tensor2<X>& operator/= (const tensor2s<X> &B)
   {
     m_data[0] /= B[0];
     m_data[1] /= B[1]; m_data[3] /= B[1];
@@ -621,7 +628,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator+= (const tensor3_2s<X> &B)
+  tensor2<X>& operator+= (const tensor2s<X> &B)
   {
     m_data[0] += B[0];
     m_data[1] += B[1]; m_data[3] += B[1];
@@ -633,7 +640,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator-= (const tensor3_2s<X> &B)
+  tensor2<X>& operator-= (const tensor2s<X> &B)
   {
     m_data[0] -= B[0];
     m_data[1] -= B[1]; m_data[3] -= B[1];
@@ -645,10 +652,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2 ?= tensor3_2d
+  // arithmetic operators: tensor2 ?= tensor2d
   // -----------------------------------------
 
-  tensor3_2<X>& operator*= (const tensor3_2d<X> &B)
+  tensor2<X>& operator*= (const tensor2d<X> &B)
   {
     m_data[0] *= B[0];
     m_data[4] *= B[1];
@@ -658,7 +665,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator+= (const tensor3_2d<X> &B)
+  tensor2<X>& operator+= (const tensor2d<X> &B)
   {
     m_data[0] += B[0];
     m_data[4] += B[1];
@@ -667,7 +674,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator-= (const tensor3_2d<X> &B)
+  tensor2<X>& operator-= (const tensor2d<X> &B)
   {
     m_data[0] -= B[0];
     m_data[4] -= B[1];
@@ -676,10 +683,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2 ?= scalar
+  // arithmetic operators: tensor2 ?= scalar
   // ---------------------------------------
 
-  tensor3_2<X>& operator*= (const X &B)
+  tensor2<X>& operator*= (const X &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] *= B;
@@ -690,7 +697,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator/= (const X &B)
+  tensor2<X>& operator/= (const X &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] /= B;
@@ -701,7 +708,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator+= (const X &B)
+  tensor2<X>& operator+= (const X &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] += B;
@@ -712,7 +719,7 @@ public:
     return *this;
   };
 
-  tensor3_2<X>& operator-= (const X &B)
+  tensor2<X>& operator-= (const X &B)
   {
     for ( size_t i = 0 ; i < 9 ; i += 3 ) {
       m_data[i  ] -= B;
@@ -726,7 +733,7 @@ public:
   // equality operators
   // ------------------
 
-  bool operator== ( const tensor3_2<X> &B )
+  bool operator== ( const tensor2<X> &B )
   {
     for ( size_t i = 0;  i < 9 ; ++i )
       if ( m_data[i] != B[i] )
@@ -735,7 +742,7 @@ public:
     return true;
   };
 
-  bool operator== ( const tensor3_2s<X> &B )
+  bool operator== ( const tensor2s<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i )
       for ( size_t j = 0 ; j < 3 ; ++j )
@@ -745,7 +752,7 @@ public:
     return true;
   };
 
-  bool operator== ( const tensor3_2d<X> &B )
+  bool operator== ( const tensor2d<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i )
       for ( size_t j = 0 ; j < 3 ; ++j )
@@ -779,14 +786,14 @@ public:
     return true;
   };
 
-}; // class tensor3_2
+}; // class tensor2
 
-// arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2
-// -------------------------------------------------------
+// arithmetic operators: tensor2 = tensor2 ? tensor2
+// -------------------------------------------------
 
-template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] * B[i  ];
@@ -797,9 +804,9 @@ template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] / B[i  ];
@@ -810,9 +817,9 @@ template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] + B[i  ];
@@ -823,9 +830,9 @@ template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const tensor3_
   return C;
 }
 
-template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] - B[i  ];
@@ -836,12 +843,12 @@ template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const tensor3_
   return C;
 }
 
-// arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2s
-// --------------------------------------------------------
+// arithmetic operators: tensor2 = tensor2 ? tensor2s
+// --------------------------------------------------
 
-template <class X> tensor3_2 <X> operator* (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1]; C[3] = A[3] * B[1];
@@ -853,9 +860,9 @@ template <class X> tensor3_2 <X> operator* (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator/ (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1]; C[3] = A[3] / B[1];
@@ -867,9 +874,9 @@ template <class X> tensor3_2 <X> operator/ (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1]; C[3] = A[3] + B[1];
@@ -881,9 +888,9 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[3] = A[3] - B[1];
@@ -896,12 +903,12 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor
 }
 
 
-// arithmetic operators: tensor3_2 = tensor3_2 ? tensor3_2d
-// --------------------------------------------------------
+// arithmetic operators: tensor2 = tensor2 ? tensor2d
+// --------------------------------------------------
 
-template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1];
@@ -916,9 +923,9 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2 <X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -933,12 +940,12 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2 = tensor3_2 ? scalar
-// ----------------------------------------------------
+// arithmetic operators: tensor2 = tensor2 ? scalar
+// ------------------------------------------------
 
-template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const X &B)
+template <class X> tensor2<X> operator* (const tensor2<X> &A, const X &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] * B;
@@ -949,9 +956,9 @@ template <class X> tensor3_2<X> operator* (const tensor3_2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const X &B)
+template <class X> tensor2<X> operator/ (const tensor2<X> &A, const X &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] / B;
@@ -962,9 +969,9 @@ template <class X> tensor3_2<X> operator/ (const tensor3_2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const X &B)
+template <class X> tensor2<X> operator+ (const tensor2<X> &A, const X &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] + B;
@@ -975,9 +982,9 @@ template <class X> tensor3_2<X> operator+ (const tensor3_2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const X &B)
+template <class X> tensor2<X> operator- (const tensor2<X> &A, const X &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A[i  ] - B;
@@ -988,12 +995,12 @@ template <class X> tensor3_2<X> operator- (const tensor3_2<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: tensor3_2 = tensor3_2s ? tensor3_2
+// arithmetic operators: tensor2 = tensor2s ? tensor2
 // --------------------------------------------------
 
-template <class X> tensor3_2 <X> operator* (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1]; C[3] = A[1] * B[3];
@@ -1005,9 +1012,9 @@ template <class X> tensor3_2 <X> operator* (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator/ (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1]; C[3] = A[1] / B[3];
@@ -1019,9 +1026,9 @@ template <class X> tensor3_2 <X> operator/ (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator+ (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1]; C[3] = A[1] + B[3];
@@ -1033,9 +1040,9 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator- (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[3] = A[1] - B[3];
@@ -1047,12 +1054,12 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2 = tensor3_2d ? tensor3_2
+// arithmetic operators: tensor2 = tensor2d ? tensor2
 // --------------------------------------------------
 
-template <class X> tensor3_2 <X> operator+ (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] =        B[1];
@@ -1067,9 +1074,9 @@ template <class X> tensor3_2 <X> operator+ (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2 <X> operator- (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
 {
-  tensor3_2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] =      - B[1];
@@ -1084,12 +1091,12 @@ template <class X> tensor3_2 <X> operator- (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2 = scalar ? tensor3_2
+// arithmetic operators: tensor2 = scalar ? tensor2
 // ------------------------------------------------
 
-template <class X> tensor3_2<X> operator* (const X &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator* (const X &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A * B[i  ];
@@ -1100,9 +1107,9 @@ template <class X> tensor3_2<X> operator* (const X &A, const tensor3_2<X> &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator/ (const X &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator/ (const X &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A / B[i  ];
@@ -1113,9 +1120,9 @@ template <class X> tensor3_2<X> operator/ (const X &A, const tensor3_2<X> &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator+ (const X &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator+ (const X &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A + B[i  ];
@@ -1126,9 +1133,9 @@ template <class X> tensor3_2<X> operator+ (const X &A, const tensor3_2<X> &B)
   return C;
 }
 
-template <class X> tensor3_2<X> operator- (const X &A, const tensor3_2<X> &B)
+template <class X> tensor2<X> operator- (const X &A, const tensor2<X> &B)
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   for ( size_t i = 0 ; i < 9 ; i += 3 ) {
     C[i  ] = A - B[i  ];
@@ -1140,10 +1147,10 @@ template <class X> tensor3_2<X> operator- (const X &A, const tensor3_2<X> &B)
 }
 
 // =================================================================================================
-// cppmat::tensor3_2s (symmetric storage of "cppmat::tensor")
+// cppmat::tensor3::tensor2s (symmetric storage of "cppmat::tensor3::tensor")
 // =================================================================================================
 
-template<class X> class tensor3_2s
+template<class X> class tensor2s
 {
 private:
 
@@ -1155,14 +1162,14 @@ public:
   // ------------
 
   // implicit constructor
-  tensor3_2s(){};
+  tensor2s(){};
 
   // explicit constructor: set to constant "D"
-  tensor3_2s(X D) { for ( size_t i=0; i<6; ++i ) m_data[i]=D; };
+  tensor2s(X D) { for ( size_t i=0; i<6; ++i ) m_data[i]=D; };
 
   // explicit constructor: from full matrix
   // WARNING: the input is symmetrized: "this(i,j) = ( in(i,j) + in(j,i) ) / 2."
-  tensor3_2s(const X *D)
+  tensor2s(const X *D)
   {
     // check for symmetry (code eliminated if "NDEBUG" is defined at the beginning of the code)
     #ifndef NDEBUG
@@ -1177,18 +1184,21 @@ public:
   };
 
   // return strides array (see above)
-  // WARNING: strides do not coincide with storage of "cppmat::tensor3_2s", but of "cppmat::tensor3_2"
-  std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(2,3,bytes); };
+  // WARNING: strides do not coincide with storage of "tensor2s", but of "tensor2"
+  std::vector<size_t> strides(bool bytes=false) const
+  {
+    return cppmat::cartesian::_strides<X>(2,3,bytes);
+  };
 
   // copy constructors
   // -----------------
 
-  // copy "tensor3_2s" -> "tensor3_2s" ( + change of type )
+  // copy "tensor2s" -> "tensor2s" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2s<U> () const
+  operator tensor2s<U> () const
   {
-    tensor3_2s<U> out;
+    tensor2s<U> out;
 
     out[0] = static_cast<U>( m_data[0] );
     out[1] = static_cast<U>( m_data[1] );
@@ -1200,12 +1210,12 @@ public:
     return out;
   }
 
-  // copy "const tensor3_2s" -> "tensor3_2" ( + change of type )
+  // copy "const tensor2s" -> "tensor2" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2<U> () const
+  operator tensor2<U> () const
   {
-    tensor3_2<U> out;
+    tensor2<U> out;
 
     out[0]          = m_data[0];
     out[1] = out[3] = m_data[1];
@@ -1217,11 +1227,11 @@ public:
     return out;
   }
 
-  // convert "tensor3_2s -> tensor3_2d"
+  // convert "tensor2s -> tensor2d"
   // WARNING: all off-diagonal are discarded
-  tensor3_2d<X> astensor2d()
+  tensor2d<X> astensor2d()
   {
-    tensor3_2d<X> out;
+    tensor2d<X> out;
 
     out[0] = m_data[0];
     out[1] = m_data[3];
@@ -1274,21 +1284,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2 <X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  tensor3_4 <X> inline dyadic(const tensor3_2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  tensor3_2s<X> inline T     (                      ) const; // transpose       : B_ij   = A_ji
-  X             inline trace (                      ) const; // trace           : A_ii
-  X             inline det   (                      ) const; // determinant (only in 2D/3D)
-  tensor3_2s<X> inline inv   (                      ) const; // inverse     (only in 2D/3D)
+  tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X           inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
+  tensor2s<X> inline T     (                    ) const; // transpose       : B_ij   = A_ji
+  X           inline trace (                    ) const; // trace           : A_ii
+  X           inline det   (                    ) const; // determinant
+  tensor2s<X> inline inv   (                    ) const; // inverse
 
   // index operators
   // ---------------
@@ -1334,10 +1344,10 @@ public:
     }
   }
 
-  // arithmetic operators: tensor3_2s ?= tensor3_2s
+  // arithmetic operators: tensor2s ?= tensor2s
   // ------------------------------------------
 
-  tensor3_2s<X>& operator*= (const tensor3_2s<X> &B)
+  tensor2s<X>& operator*= (const tensor2s<X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[1];
@@ -1349,7 +1359,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator/= (const tensor3_2s<X> &B)
+  tensor2s<X>& operator/= (const tensor2s<X> &B)
   {
     m_data[0] /= B[0];
     m_data[1] /= B[1];
@@ -1361,7 +1371,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator+= (const tensor3_2s<X> &B)
+  tensor2s<X>& operator+= (const tensor2s<X> &B)
   {
     m_data[0] += B[0];
     m_data[1] += B[1];
@@ -1373,7 +1383,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator-= (const tensor3_2s<X> &B)
+  tensor2s<X>& operator-= (const tensor2s<X> &B)
   {
     m_data[0] -= B[0];
     m_data[1] -= B[1];
@@ -1385,10 +1395,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2s ?= tensor3_2d
+  // arithmetic operators: tensor2s ?= tensor2d
   // ------------------------------------------
 
-  tensor3_2s<X>& operator*= (const tensor3_2d<X> &B)
+  tensor2s<X>& operator*= (const tensor2d<X> &B)
   {
     m_data[0] *= B[0];
     m_data[3] *= B[1];
@@ -1398,7 +1408,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator+= (const tensor3_2d<X> &B)
+  tensor2s<X>& operator+= (const tensor2d<X> &B)
   {
     m_data[0] += B[0];
     m_data[3] += B[1];
@@ -1407,7 +1417,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator-= (const tensor3_2d<X> &B)
+  tensor2s<X>& operator-= (const tensor2d<X> &B)
   {
     m_data[0] -= B[0];
     m_data[3] -= B[1];
@@ -1416,10 +1426,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2s ?= scalar
+  // arithmetic operators: tensor2s ?= scalar
   // ----------------------------------------
 
-  tensor3_2s<X>& operator*= (const X &B)
+  tensor2s<X>& operator*= (const X &B)
   {
     m_data[0] *= B;
     m_data[1] *= B;
@@ -1431,7 +1441,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator/= (const X &B)
+  tensor2s<X>& operator/= (const X &B)
   {
     m_data[0] /= B;
     m_data[1] /= B;
@@ -1443,7 +1453,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator+= (const X &B)
+  tensor2s<X>& operator+= (const X &B)
   {
     m_data[0] += B;
     m_data[1] += B;
@@ -1455,7 +1465,7 @@ public:
     return *this;
   };
 
-  tensor3_2s<X>& operator-= (const X &B)
+  tensor2s<X>& operator-= (const X &B)
   {
     m_data[0] -= B;
     m_data[1] -= B;
@@ -1470,7 +1480,7 @@ public:
   // equality operators
   // ------------------
 
-  bool operator== ( const tensor3_2s<X> &B )
+  bool operator== ( const tensor2s<X> &B )
   {
     for ( size_t i = 0; i < 6 ; ++i )
       if ( m_data[i] != B[i] )
@@ -1479,7 +1489,7 @@ public:
     return true;
   };
 
-  bool operator== ( const tensor3_2<X> &B )
+  bool operator== ( const tensor2<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i ) {
       for ( size_t j = i ; j < 3 ; ++j ) {
@@ -1491,7 +1501,7 @@ public:
     return true;
   };
 
-  bool operator== ( const tensor3_2d<X> &B )
+  bool operator== ( const tensor2d<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i )
       for ( size_t j = i ; j < 3 ; ++j )
@@ -1513,14 +1523,14 @@ public:
     return true;
   };
 
-}; // class tensor3_2s
+}; // class tensor2s
 
-// arithmetic operators: tensor3_2s = tensor3_2s ? tensor3_2s
-// ----------------------------------------------------------
+// arithmetic operators: tensor2s = tensor2s ? tensor2s
+// ----------------------------------------------------
 
-template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -1532,9 +1542,9 @@ template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1];
@@ -1546,9 +1556,9 @@ template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -1560,9 +1570,9 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -1574,12 +1584,12 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2s = tensor3_2s ? tensor3_2d
-// ----------------------------------------------------------
+// arithmetic operators: tensor2s = tensor2s ? tensor2d
+// ----------------------------------------------------
 
-template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0]+B[0];
   C[1] = A[1];
@@ -1591,9 +1601,9 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0]-B[0];
   C[1] = A[1];
@@ -1605,12 +1615,12 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2s = tensor3_2s ? scalar
-// ------------------------------------------------------
+// arithmetic operators: tensor2s = tensor2s ? scalar
+// --------------------------------------------------
 
-template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const X &B)
+template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -1622,9 +1632,9 @@ template <class X> tensor3_2s<X> operator* (const tensor3_2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const X &B)
+template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -1636,9 +1646,9 @@ template <class X> tensor3_2s<X> operator/ (const tensor3_2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const X &B)
+template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] + B;
   C[1] = A[1] + B;
@@ -1650,9 +1660,9 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const X &B)
+template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] - B;
   C[1] = A[1] - B;
@@ -1664,12 +1674,12 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2s<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: tensor3_2s = tensor3_2d ? scalar
-// ------------------------------------------------------
+// arithmetic operators: tensor2s = tensor2d ? scalar
+// --------------------------------------------------
 
-template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const X &B)
+template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] + B;
   C[1] =        B;
@@ -1681,9 +1691,9 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const X &B)
+template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] - B;
   C[1] =      - B;
@@ -1695,12 +1705,12 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: tensor3_2s = tensor3_2d ? tensor3_2s
-// ----------------------------------------------------------
+// arithmetic operators: tensor2s = tensor2d ? tensor2s
+// ----------------------------------------------------
 
-template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] + B[0];
   C[1] =        B[1];
@@ -1712,9 +1722,9 @@ template <class X> tensor3_2s<X> operator+ (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A[0] - B[0];
   C[1] =      - B[1];
@@ -1726,12 +1736,12 @@ template <class X> tensor3_2s<X> operator- (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2s = scalar ? tensor3_2s
-// ------------------------------------------------------
+// arithmetic operators: tensor2s = scalar ? tensor2s
+// --------------------------------------------------
 
-template <class X> tensor3_2s<X> operator* (const X &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -1743,9 +1753,9 @@ template <class X> tensor3_2s<X> operator* (const X &A, const tensor3_2s<X> &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator/ (const X &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A / B[0];
   C[1] = A / B[1];
@@ -1757,9 +1767,9 @@ template <class X> tensor3_2s<X> operator/ (const X &A, const tensor3_2s<X> &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A + B[0];
   C[1] = A + B[1];
@@ -1771,9 +1781,9 @@ template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2s<X> &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2s<X> &B)
+template <class X> tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A - B[0];
   C[1] = A - B[1];
@@ -1785,12 +1795,12 @@ template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2s<X> &B)
   return C;
 }
 
-// arithmetic operators: tensor3_2s = scalar ? tensor3_2d
-// ------------------------------------------------------
+// arithmetic operators: tensor2s = scalar ? tensor2d
+// --------------------------------------------------
 
-template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2d<X> &B)
+template <class X> tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A + B[0];
   C[1] = A;
@@ -1802,9 +1812,9 @@ template <class X> tensor3_2s<X> operator+ (const X &A, const tensor3_2d<X> &B)
   return C;
 }
 
-template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2d<X> &B)
+template <class X> tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = A - B[0];
   C[1] = A;
@@ -1817,10 +1827,10 @@ template <class X> tensor3_2s<X> operator- (const X &A, const tensor3_2d<X> &B)
 }
 
 // =================================================================================================
-// cppmat::tensor3_2d (symmetric storage of "cppmat::tensor")
+// cppmat::tensor3::tensor2d (symmetric storage of "cppmat::tensor3::tensor")
 // =================================================================================================
 
-template<class X> class tensor3_2d
+template<class X> class tensor2d
 {
 private:
 
@@ -1832,14 +1842,14 @@ public:
   // ------------
 
   // implicit constructor
-  tensor3_2d(){ m_data[3] = static_cast<X>(0); };
+  tensor2d(){ m_data[3] = static_cast<X>(0); };
 
   // explicit constructor: set to constant "D"
-  tensor3_2d(X D) { m_data[0] = m_data[1] = m_data[2] = D; };
+  tensor2d(X D) { m_data[0] = m_data[1] = m_data[2] = D; m_data[3] = static_cast<X>(0); };
 
   // explicit constructor: from full matrix
   // WARNING: all off-diagonal are discarded
-  tensor3_2d(const X *D)
+  tensor2d(const X *D)
   {
     #ifndef NDEBUG
       for ( size_t i = 0 ; i < 3 ; ++i )
@@ -1850,21 +1860,26 @@ public:
 
     for ( size_t i=0; i<3; ++i )
       m_data[ i ] = D[ i*3 + i ];
+
+    m_data[3] = static_cast<X>(0);
   };
 
   // return strides array (see above)
-  // WARNING: strides do not coincide with storage of "cppmat::tensor3_2d", but of "cppmat::tensor3_2"
-  std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(2,3,bytes); };
+  // WARNING: strides do not coincide with storage of "tensor2d", but of "tensor2"
+  std::vector<size_t> strides(bool bytes=false) const
+  {
+    return cppmat::cartesian::_strides<X>(2,3,bytes);
+  };
 
   // copy constructors
   // -----------------
 
-  // copy "tensor3_2d" -> "tensor3_2d" ( + change of type )
+  // copy "tensor2d" -> "tensor2d" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2d<U> () const
+  operator tensor2d<U> () const
   {
-    tensor3_2d<U> out;
+    tensor2d<U> out;
 
     out[0] = static_cast<U>( m_data[0] );
     out[1] = static_cast<U>( m_data[1] );
@@ -1873,12 +1888,12 @@ public:
     return out;
   }
 
-  // copy "const tensor3_2d" -> "tensor3_2" ( + change of type )
+  // copy "const tensor2d" -> "tensor2" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2<U> () const
+  operator tensor2<U> () const
   {
-    tensor3_2<U> out;
+    tensor2<U> out;
 
     out[0] = static_cast<U>( m_data[0] );
     out[4] = static_cast<U>( m_data[1] );
@@ -1889,13 +1904,13 @@ public:
     return out;
   }
 
-  // copy "const tensor3_2d" -> "tensor3_2s" ( + change of type )
+  // copy "const tensor2d" -> "tensor2s" ( + change of type )
   // WARNING: all off-diagonal are discarded
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator tensor3_2s<U> () const
+  operator tensor2s<U> () const
   {
-    tensor3_2s<U> out;
+    tensor2s<U> out;
 
     out[0] = static_cast<U>( m_data[0] );
     out[3] = static_cast<U>( m_data[1] );
@@ -1947,21 +1962,21 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  tensor3_2 <X> inline dot   (const tensor3_2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2 <X> inline dot   (const tensor3_2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  tensor3_2d<X> inline dot   (const tensor3_2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  vector3   <X> inline dot   (const vector3   <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  tensor3_2 <X> inline ddot  (const tensor3_4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X             inline ddot  (const tensor3_2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X             inline ddot  (const tensor3_2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  tensor3_4 <X> inline dyadic(const tensor3_2 <X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2s<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  tensor3_4 <X> inline dyadic(const tensor3_2d<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  tensor3_2d<X> inline T     (                      ) const; // transpose      : B_ij   = A_ji
-  X             inline trace (                      ) const; // trace          : A_ii
-  X             inline det   (                      ) const; // determinant (only in 2D/3D)
-  tensor3_2d<X> inline inv   (                      ) const; // inverse     (only in 2D/3D)
+  tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  tensor2d<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
+  vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
+  tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
+  X           inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
+  X           inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
+  tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
+  tensor2d<X> inline T     (                    ) const; // transpose      : B_ij   = A_ji
+  X           inline trace (                    ) const; // trace          : A_ii
+  X           inline det   (                    ) const; // determinant
+  tensor2d<X> inline inv   (                    ) const; // inverse
 
   // index operators
   // ---------------
@@ -1981,10 +1996,10 @@ public:
     else        return m_data[3];
   }
 
-  // arithmetic operators: tensor3_2d ?= tensor3_2d
-  // ----------------------------------------------
+  // arithmetic operators: tensor2d ?= tensor2d
+  // ------------------------------------------
 
-  tensor3_2d<X>& operator*= (const tensor3_2d<X> &B)
+  tensor2d<X>& operator*= (const tensor2d<X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[1];
@@ -1993,7 +2008,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator+= (const tensor3_2d<X> &B)
+  tensor2d<X>& operator+= (const tensor2d<X> &B)
   {
     m_data[0] += B[0];
     m_data[1] += B[1];
@@ -2002,7 +2017,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator-= (const tensor3_2d<X> &B)
+  tensor2d<X>& operator-= (const tensor2d<X> &B)
   {
     m_data[0] -= B[0];
     m_data[1] -= B[1];
@@ -2011,10 +2026,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2d ?= tensor3_2
-  // ---------------------------------------------
+  // arithmetic operators: tensor2d ?= tensor2
+  // -----------------------------------------
 
-  tensor3_2d<X>& operator*= (const tensor3_2 <X> &B)
+  tensor2d<X>& operator*= (const tensor2 <X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[4];
@@ -2023,7 +2038,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator/= (const tensor3_2 <X> &B)
+  tensor2d<X>& operator/= (const tensor2 <X> &B)
   {
     m_data[0] /= B[0];
     m_data[1] /= B[4];
@@ -2032,10 +2047,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2d ?= tensor3_2s
-  // ----------------------------------------------
+  // arithmetic operators: tensor2d ?= tensor2s
+  // ------------------------------------------
 
-  tensor3_2d<X>& operator*= (const tensor3_2s<X> &B)
+  tensor2d<X>& operator*= (const tensor2s<X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[3];
@@ -2044,7 +2059,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator/= (const tensor3_2s<X> &B)
+  tensor2d<X>& operator/= (const tensor2s<X> &B)
   {
     m_data[0] /= B[0];
     m_data[1] /= B[3];
@@ -2053,10 +2068,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: tensor3_2d ?= scalar
-  // ------------------------------------------
+  // arithmetic operators: tensor2d ?= scalar
+  // ----------------------------------------
 
-  tensor3_2d<X>& operator*= (const X &B)
+  tensor2d<X>& operator*= (const X &B)
   {
     m_data[0] *= B;
     m_data[1] *= B;
@@ -2065,7 +2080,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator/= (const X &B)
+  tensor2d<X>& operator/= (const X &B)
   {
     m_data[0] /= B;
     m_data[1] /= B;
@@ -2074,7 +2089,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator+= (const X &B)
+  tensor2d<X>& operator+= (const X &B)
   {
     m_data[0] += B;
     m_data[1] += B;
@@ -2083,7 +2098,7 @@ public:
     return *this;
   };
 
-  tensor3_2d<X>& operator-= (const X &B)
+  tensor2d<X>& operator-= (const X &B)
   {
     m_data[0] -= B;
     m_data[1] -= B;
@@ -2095,16 +2110,16 @@ public:
   // equality operators
   // ------------------
 
-  bool operator== ( const tensor3_2d<X> &B )
+  bool operator== ( const tensor2d<X> &B )
   {
-    for ( size_t i = 0;  i < 3 ; ++i )
+    for ( size_t i = 0 ; i < 3 ; ++i )
       if ( m_data[i] != B[i] )
         return false;
 
     return true;
   };
 
-  bool operator== ( const tensor3_2<X> &B )
+  bool operator== ( const tensor2<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i ) {
       for ( size_t j = 0 ; j < 3 ; ++j ) {
@@ -2116,7 +2131,7 @@ public:
     return true;
   };
 
-  bool operator== ( const tensor3_2s<X> &B )
+  bool operator== ( const tensor2s<X> &B )
   {
     for ( size_t i = 0 ; i < 3 ; ++i ) {
       for ( size_t j = i ; j < 3 ; ++j ) {
@@ -2128,14 +2143,14 @@ public:
     return true;
   };
 
-}; // class tensor3_2d
+}; // class tensor2d
 
-// arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2d
-// ----------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2d ? tensor2d
+// ----------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -2144,9 +2159,9 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2d<X> operator+ (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -2155,9 +2170,9 @@ template <class X> tensor3_2d<X> operator+ (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2d<X> operator- (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -2166,12 +2181,12 @@ template <class X> tensor3_2d<X> operator- (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2
-// ---------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2d ? tensor2
+// ---------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[4];
@@ -2180,9 +2195,9 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[4];
@@ -2191,12 +2206,12 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2d = tensor3_2d ? tensor3_2s
-// ----------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2d ? tensor2s
+// ----------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[3];
@@ -2205,9 +2220,9 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const tensor
   return C;
 }
 
-template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[3];
@@ -2217,12 +2232,12 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const tensor
 }
 
 
-// arithmetic operators: tensor3_2d = tensor3_2d ? scalar
-// ------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2d ? scalar
+// --------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const X &B)
+template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -2231,9 +2246,9 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2d<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const X &B)
+template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -2242,12 +2257,12 @@ template <class X> tensor3_2d<X> operator/ (const tensor3_2d<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: tensor3_2d = tensor3_2 ? tensor3_2d
-// ---------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2 ? tensor2d
+// ---------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[4] * B[1];
@@ -2256,12 +2271,12 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2 <X> &A, const tensor
   return C;
 }
 
-// arithmetic operators: tensor3_2d = tensor3_2s ? tensor3_2d
-// ----------------------------------------------------------
+// arithmetic operators: tensor2d = tensor2s ? tensor2d
+// ----------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[3] * B[1];
@@ -2271,12 +2286,12 @@ template <class X> tensor3_2d<X> operator* (const tensor3_2s<X> &A, const tensor
 }
 
 
-// arithmetic operators: tensor3_2d = scalar ? tensor3_2d
-// ------------------------------------------------------
+// arithmetic operators: tensor2d = scalar ? tensor2d
+// --------------------------------------------------
 
-template <class X> tensor3_2d<X> operator* (const X &A, const tensor3_2d<X> &B)
+template <class X> tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -2286,10 +2301,10 @@ template <class X> tensor3_2d<X> operator* (const X &A, const tensor3_2d<X> &B)
 }
 
 // =================================================================================================
-// cppmat::vector3
+// cppmat::tensor3::vector
 // =================================================================================================
 
-template<class X> class vector3
+template<class X> class vector
 {
 private:
 
@@ -2301,24 +2316,27 @@ public:
   // ------------
 
   // implicit constructor
-  vector3(){};
+  vector(){};
 
   // explicit constructors: set to constant "D", or copy from array (specified as pointer "*D")
-  vector3(      X  D) { m_data[0] = m_data[1] = m_data[2] = D; };
-  vector3(const X *D) { m_data[0] = D[0]; m_data[1] = D[1]; m_data[2] = D[2]; };
+  vector(      X  D) { m_data[0] = m_data[1] = m_data[2] = D; };
+  vector(const X *D) { m_data[0] = D[0]; m_data[1] = D[1]; m_data[2] = D[2]; };
 
   // return strides array (see above)
-  std::vector<size_t> strides(bool bytes=false) const { return _strides<X>(1,3,bytes); };
+  std::vector<size_t> strides(bool bytes=false) const
+  {
+    return cppmat::cartesian::_strides<X>(1,3,bytes);
+  };
 
   // copy constructor
   // ----------------
 
-  // copy "vector3" -> "vector3" ( + change of type )
+  // copy "vector" -> "vector" ( + change of type )
   template<typename U,typename V=X,\
     typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  operator vector3<U> () const
+  operator vector<U> () const
   {
-    vector3<U> out;
+    vector<U> out;
 
     out[0] = static_cast<U>( m_data[0] );
     out[1] = static_cast<U>( m_data[1] );
@@ -2396,12 +2414,12 @@ public:
   // tensor products / operations
   // ----------------------------
 
-  X            inline dot   (const vector3   <X> &B) const; // dot    product: C   = A_i*B_i
-  vector3  <X> inline dot   (const tensor3_2 <X> &B) const; // dot    product: C_j = A_i*B_ij
-  vector3  <X> inline dot   (const tensor3_2s<X> &B) const; // dot    product: C_j = A_i*B_ij
-  vector3  <X> inline dot   (const tensor3_2d<X> &B) const; // dot    product: C_j = A_i*B_ij
-  tensor3_2<X> inline dyadic(const vector3   <X> &B) const; // dyadic product: C_ij = A_i*B_j
-  vector3  <X> inline cross (const vector3   <X> &B) const; // cross product (only in 3D)
+  X          inline dot   (const vector  <X> &B) const; // dot    product: C   = A_i*B_i
+  vector <X> inline dot   (const tensor2 <X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> inline dot   (const tensor2s<X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> inline dot   (const tensor2d<X> &B) const; // dot    product: C_j = A_i*B_ij
+  tensor2<X> inline dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
+  vector <X> inline cross (const vector  <X> &B) const; // cross  product
 
   // index operators
   // ---------------
@@ -2411,10 +2429,10 @@ public:
   X&       operator()(size_t i)       { return m_data[i]; };
   const X& operator()(size_t i) const { return m_data[i]; };
 
-  // arithmetic operators: vector3 ?= vector3
+  // arithmetic operators: vector ?= vector
   // --------------------------------------
 
-  vector3<X>& operator*= (const vector3<X> &B)
+  vector<X>& operator*= (const vector<X> &B)
   {
     m_data[0] *= B[0];
     m_data[1] *= B[1];
@@ -2423,7 +2441,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator/= (const vector3<X> &B)
+  vector<X>& operator/= (const vector<X> &B)
   {
     m_data[0] /= B[0];
     m_data[1] /= B[1];
@@ -2432,7 +2450,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator+= (const vector3<X> &B)
+  vector<X>& operator+= (const vector<X> &B)
   {
     m_data[0] += B[0];
     m_data[1] += B[1];
@@ -2441,7 +2459,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator-= (const vector3<X> &B)
+  vector<X>& operator-= (const vector<X> &B)
   {
     m_data[0] -= B[0];
     m_data[1] -= B[1];
@@ -2450,10 +2468,10 @@ public:
     return *this;
   };
 
-  // arithmetic operators: vector3 ?= scalar
+  // arithmetic operators: vector ?= scalar
   // --------------------------------------
 
-  vector3<X>& operator*= (const X &B)
+  vector<X>& operator*= (const X &B)
   {
     m_data[0] *= B;
     m_data[1] *= B;
@@ -2462,7 +2480,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator/= (const X &B)
+  vector<X>& operator/= (const X &B)
   {
     m_data[0] /= B;
     m_data[1] /= B;
@@ -2471,7 +2489,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator+= (const X &B)
+  vector<X>& operator+= (const X &B)
   {
     m_data[0] += B;
     m_data[1] += B;
@@ -2480,7 +2498,7 @@ public:
     return *this;
   };
 
-  vector3<X>& operator-= (const X &B)
+  vector<X>& operator-= (const X &B)
   {
     m_data[0] -= B;
     m_data[1] -= B;
@@ -2492,23 +2510,23 @@ public:
   // equality operator
   // -----------------
 
-  bool operator== ( const vector3<X> &B )
+  bool operator== ( const vector<X> &B )
   {
-    for ( size_t i = 0;  i < 3 ; ++i )
+    for ( size_t i = 0 ; i < 3 ; ++i )
       if ( m_data[i] != B[i] )
         return false;
 
     return true;
   };
 
-}; // class vector3
+}; // class vector
 
-// arithmetic operators: vector3 = vector3 ? vector3
-  // --------------------------------------------
+// arithmetic operators: vector = vector ? vector
+// ----------------------------------------------
 
-template <class X> vector3<X> operator* (const vector3<X> &A, const vector3<X> &B)
+template <class X> vector<X> operator* (const vector<X> &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -2517,9 +2535,9 @@ template <class X> vector3<X> operator* (const vector3<X> &A, const vector3<X> &
   return C;
 }
 
-template <class X> vector3<X> operator/ (const vector3<X> &A, const vector3<X> &B)
+template <class X> vector<X> operator/ (const vector<X> &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1];
@@ -2528,9 +2546,9 @@ template <class X> vector3<X> operator/ (const vector3<X> &A, const vector3<X> &
   return C;
 }
 
-template <class X> vector3<X> operator+ (const vector3<X> &A, const vector3<X> &B)
+template <class X> vector<X> operator+ (const vector<X> &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -2539,9 +2557,9 @@ template <class X> vector3<X> operator+ (const vector3<X> &A, const vector3<X> &
   return C;
 }
 
-template <class X> vector3<X> operator- (const vector3<X> &A, const vector3<X> &B)
+template <class X> vector<X> operator- (const vector<X> &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -2550,12 +2568,12 @@ template <class X> vector3<X> operator- (const vector3<X> &A, const vector3<X> &
   return C;
 }
 
-// arithmetic operators: vector3 = vector3 ? scalar
-  // --------------------------------------------
+// arithmetic operators: vector = vector ? scalar
+// ----------------------------------------------
 
-template <class X> vector3<X> operator* (const vector3<X> &A, const X &B)
+template <class X> vector<X> operator* (const vector<X> &A, const X &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -2564,9 +2582,9 @@ template <class X> vector3<X> operator* (const vector3<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector3<X> operator/ (const vector3<X> &A, const X &B)
+template <class X> vector<X> operator/ (const vector<X> &A, const X &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -2575,9 +2593,9 @@ template <class X> vector3<X> operator/ (const vector3<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector3<X> operator+ (const vector3<X> &A, const X &B)
+template <class X> vector<X> operator+ (const vector<X> &A, const X &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] + B;
   C[1] = A[1] + B;
@@ -2586,9 +2604,9 @@ template <class X> vector3<X> operator+ (const vector3<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector3<X> operator- (const vector3<X> &A, const X &B)
+template <class X> vector<X> operator- (const vector<X> &A, const X &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A[0] - B;
   C[1] = A[1] - B;
@@ -2597,12 +2615,12 @@ template <class X> vector3<X> operator- (const vector3<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: vector3 = scalar ? vector3
-  // --------------------------------------------
+// arithmetic operators: vector = scalar ? vector
+// ----------------------------------------------
 
-template <class X> vector3<X> operator* (const X &A, const vector3<X> &B)
+template <class X> vector<X> operator* (const X &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -2611,9 +2629,9 @@ template <class X> vector3<X> operator* (const X &A, const vector3<X> &B)
   return C;
 }
 
-template <class X> vector3<X> operator/ (const X &A, const vector3<X> &B)
+template <class X> vector<X> operator/ (const X &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A / B[0];
   C[1] = A / B[1];
@@ -2622,9 +2640,9 @@ template <class X> vector3<X> operator/ (const X &A, const vector3<X> &B)
   return C;
 }
 
-template <class X> vector3<X> operator+ (const X &A, const vector3<X> &B)
+template <class X> vector<X> operator+ (const X &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A + B[0];
   C[1] = A + B[1];
@@ -2633,9 +2651,9 @@ template <class X> vector3<X> operator+ (const X &A, const vector3<X> &B)
   return C;
 }
 
-template <class X> vector3<X> operator- (const X &A, const vector3<X> &B)
+template <class X> vector<X> operator- (const X &A, const vector<X> &B)
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] = A - B[0];
   C[1] = A - B[1];
@@ -2648,7 +2666,7 @@ template <class X> vector3<X> operator- (const X &A, const vector3<X> &B)
 // print to screen
 // =================================================================================================
 
-template<class X> void inline tensor3_4<X>::printf(std::string fmt) const
+template<class X> void inline tensor4<X>::printf(std::string fmt) const
 {
   std::string gmt = std::to_string(std::to_string(3).size());
   fmt = "(%"+gmt+"d,%"+gmt+"d,%"+gmt+"d,%"+gmt+"d) "+fmt+"\n";
@@ -2664,7 +2682,7 @@ template<class X> void inline tensor3_4<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor3_4<X>& src)
+std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
 {
   for ( size_t i = 0 ; i < 3 ; ++i )
     for ( size_t j = 0 ; j < 3 ; ++j )
@@ -2677,7 +2695,7 @@ std::ostream& operator<<(std::ostream& out, tensor3_4<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline tensor3_2<X>::printf(std::string fmt) const
+template<class X> void inline tensor2<X>::printf(std::string fmt) const
 {
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[3],m_data[4],m_data[5]);
@@ -2687,7 +2705,7 @@ template<class X> void inline tensor3_2<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor3_2<X>& src)
+std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
 {
   out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
   out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
@@ -2698,7 +2716,7 @@ std::ostream& operator<<(std::ostream& out, tensor3_2<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline tensor3_2s<X>::printf(std::string fmt) const
+template<class X> void inline tensor2s<X>::printf(std::string fmt) const
 {
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[1],m_data[3],m_data[4]);
@@ -2708,7 +2726,7 @@ template<class X> void inline tensor3_2s<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor3_2s<X>& src)
+std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
 {
   out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
   out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
@@ -2719,7 +2737,7 @@ std::ostream& operator<<(std::ostream& out, tensor3_2s<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline tensor3_2d<X>::printf(std::string fmt) const
+template<class X> void inline tensor2d<X>::printf(std::string fmt) const
 {
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[3],m_data[3]);
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[3],m_data[1],m_data[3]);
@@ -2729,7 +2747,7 @@ template<class X> void inline tensor3_2d<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor3_2d<X>& src)
+std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
 {
   out << src(0,0) << ", " << src(0,1) << ", " << src(0,2) << ";" << std::endl;
   out << src(1,0) << ", " << src(1,1) << ", " << src(1,2) << ";" << std::endl;
@@ -2740,7 +2758,7 @@ std::ostream& operator<<(std::ostream& out, tensor3_2d<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline vector3<X>::printf(std::string fmt) const
+template<class X> void inline vector<X>::printf(std::string fmt) const
 {
   std::printf((fmt+","+fmt+","+fmt+";\n").c_str(),m_data[0],m_data[1],m_data[2]);
 }
@@ -2748,7 +2766,7 @@ template<class X> void inline vector3<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, vector3<X>& src)
+std::ostream& operator<<(std::ostream& out, vector<X>& src)
 {
   out << src(0) << ", " << src(1) << ", " << src(2) << ";" << std::endl;
 
@@ -2759,9 +2777,9 @@ std::ostream& operator<<(std::ostream& out, vector3<X>& src)
 // identity tensors
 // =================================================================================================
 
-tensor3_4<double> inline identity3_4()
+tensor4<double> inline identity4()
 {
-  tensor3_4<double> I(0.0);
+  tensor4<double> I(0.0);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2775,9 +2793,9 @@ tensor3_4<double> inline identity3_4()
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_4<double> inline identity3_4rt()
+tensor4<double> inline identity4rt()
 {
-  tensor3_4<double> I(0.0);
+  tensor4<double> I(0.0);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2791,9 +2809,9 @@ tensor3_4<double> inline identity3_4rt()
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_4<double> inline identity3_II()
+tensor4<double> inline identityII()
 {
-  tensor3_4<double> I(0.0);
+  tensor4<double> I(0.0);
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2807,19 +2825,19 @@ tensor3_4<double> inline identity3_II()
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_4<double> inline identity3_4s()
-{ return (identity3_4()+identity3_4rt())/2.; }
+tensor4<double> inline identity4s()
+{ return (identity4()+identity4rt())/2.; }
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_4<double> inline identity3_4d()
-{ return identity3_4s()-identity3_II()/static_cast<double>(3); }
+tensor4<double> inline identity4d()
+{ return identity4s()-identityII()/static_cast<double>(3); }
 
 // -------------------------------------------------------------------------------------------------
 
-tensor3_2d<double> inline identity3_2()
+tensor2d<double> inline identity2()
 {
-  tensor3_2d<double> I(1.);
+  tensor2d<double> I(1.);
 
   return I;
 }
@@ -2828,9 +2846,9 @@ tensor3_2d<double> inline identity3_2()
 // tensor products
 // =================================================================================================
 
-template<class X> tensor3_4<X> inline tensor3_4<X>::ddot(const tensor3_4<X> &B) const
+template<class X> tensor4<X> inline tensor4<X>::ddot(const tensor4<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2845,9 +2863,9 @@ template<class X> tensor3_4<X> inline tensor3_4<X>::ddot(const tensor3_4<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2<X> &B) const
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2860,9 +2878,9 @@ template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2s<X> &B) const
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2s<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2875,9 +2893,9 @@ template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2d<X> &B) const
+template<class X> tensor2<X> inline tensor4<X>::ddot(const tensor2d<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2889,9 +2907,9 @@ template<class X> tensor3_2<X> inline tensor3_4<X>::ddot(const tensor3_2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::ddot(const tensor3_4<X> &B) const
+template<class X> tensor2<X> inline tensor2<X>::ddot(const tensor4<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2904,7 +2922,7 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::ddot(const tensor3_4<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2<X>::ddot(const tensor3_2<X> &B) const
+template<class X> X inline tensor2<X>::ddot(const tensor2<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2917,7 +2935,7 @@ template<class X> X inline tensor3_2<X>::ddot(const tensor3_2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2<X>::ddot(const tensor3_2s<X> &B) const
+template<class X> X inline tensor2<X>::ddot(const tensor2s<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2930,16 +2948,16 @@ template<class X> X inline tensor3_2<X>::ddot(const tensor3_2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2<X>::ddot(const tensor3_2d<X> &B) const
+template<class X> X inline tensor2<X>::ddot(const tensor2d<X> &B) const
 {
   return m_data[0]*B[0] + m_data[4]*B[1] + m_data[8]*B[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2s<X>::ddot(const tensor3_4<X> &B) const
+template<class X> tensor2<X> inline tensor2s<X>::ddot(const tensor4<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -2952,7 +2970,7 @@ template<class X> tensor3_2<X> inline tensor3_2s<X>::ddot(const tensor3_4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2<X> &B) const
+template<class X> X inline tensor2s<X>::ddot(const tensor2<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -2965,7 +2983,7 @@ template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2s<X> &B) const
+template<class X> X inline tensor2s<X>::ddot(const tensor2s<X> &B) const
 {
   X C;
 
@@ -2981,16 +2999,16 @@ template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2s<X>::ddot(const tensor3_2d<X> &B) const
+template<class X> X inline tensor2s<X>::ddot(const tensor2d<X> &B) const
 {
   return m_data[0]*B[0] + m_data[3]*B[1] + m_data[5]*B[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2d<X>::ddot(const tensor3_4<X> &B) const
+template<class X> tensor2<X> inline tensor2d<X>::ddot(const tensor4<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3002,21 +3020,21 @@ template<class X> tensor3_2<X> inline tensor3_2d<X>::ddot(const tensor3_4<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2<X> &B) const
+template<class X> X inline tensor2d<X>::ddot(const tensor2<X> &B) const
 {
   return m_data[0]*B[0] + m_data[1]*B[4] + m_data[2]*B[8];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2s<X> &B) const
+template<class X> X inline tensor2d<X>::ddot(const tensor2s<X> &B) const
 {
   return m_data[0]*B[0] + m_data[1]*B[3] + m_data[2]*B[5];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2d<X> &B) const
+template<class X> X inline tensor2d<X>::ddot(const tensor2d<X> &B) const
 {
   return m_data[0]*B[0] + m_data[1]*B[1] + m_data[2]*B[2];
 }
@@ -3024,9 +3042,9 @@ template<class X> X inline tensor3_2d<X>::ddot(const tensor3_2d<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2<X> &B) const
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3038,9 +3056,9 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2<X> &B) c
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2s<X> &B) const
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2s<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3052,9 +3070,9 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2s<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2d<X> &B) const
+template<class X> tensor2<X> inline tensor2<X>::dot(const tensor2d<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3065,9 +3083,9 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::dot(const tensor3_2d<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline tensor3_2<X>::dot(const vector3<X> &B) const
+template<class X> vector<X> inline tensor2<X>::dot(const vector<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3078,9 +3096,9 @@ template<class X> vector3<X> inline tensor3_2<X>::dot(const vector3<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2<X> &B) const
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3092,9 +3110,9 @@ template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2s<X> &B) const
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2s<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3106,9 +3124,9 @@ template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2d<X> &B) const
+template<class X> tensor2<X> inline tensor2s<X>::dot(const tensor2d<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3119,9 +3137,9 @@ template<class X> tensor3_2<X> inline tensor3_2s<X>::dot(const tensor3_2d<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline tensor3_2s<X>::dot(const vector3<X> &B) const
+template<class X> vector<X> inline tensor2s<X>::dot(const vector<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3132,9 +3150,9 @@ template<class X> vector3<X> inline tensor3_2s<X>::dot(const vector3<X> &B) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2d<X>::dot(const tensor3_2<X> &B) const
+template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3145,9 +3163,9 @@ template<class X> tensor3_2<X> inline tensor3_2d<X>::dot(const tensor3_2<X> &B) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2d<X>::dot(const tensor3_2s<X> &B) const
+template<class X> tensor2<X> inline tensor2d<X>::dot(const tensor2s<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3158,9 +3176,9 @@ template<class X> tensor3_2<X> inline tensor3_2d<X>::dot(const tensor3_2s<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2d<X> inline tensor3_2d<X>::dot(const tensor3_2d<X> &B) const
+template<class X> tensor2d<X> inline tensor2d<X>::dot(const tensor2d<X> &B) const
 {
-  tensor3_2d<X> C(static_cast<X>(0));
+  tensor2d<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     C(i,i) += (*this)(i,i)*B(i,i);
@@ -3170,9 +3188,9 @@ template<class X> tensor3_2d<X> inline tensor3_2d<X>::dot(const tensor3_2d<X> &B
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline tensor3_2d<X>::dot(const vector3<X> &B) const
+template<class X> vector<X> inline tensor2d<X>::dot(const vector<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     C(i) += (*this)(i,i)*B(i);
@@ -3182,9 +3200,9 @@ template<class X> vector3<X> inline tensor3_2d<X>::dot(const vector3<X> &B) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2<X> &B) const
+template<class X> vector<X> inline vector<X>::dot(const tensor2<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3195,9 +3213,9 @@ template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2s<X> &B) const
+template<class X> vector<X> inline vector<X>::dot(const tensor2s<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3208,9 +3226,9 @@ template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2s<X> &B) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2d<X> &B) const
+template<class X> vector<X> inline vector<X>::dot(const tensor2d<X> &B) const
 {
-  vector3<X> C(static_cast<X>(0));
+  vector<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     C(i) += (*this)(i)*B(i,i);
@@ -3220,7 +3238,7 @@ template<class X> vector3<X> inline vector3<X>::dot(const tensor3_2d<X> &B) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline vector3<X>::dot(const vector3<X> &B) const
+template<class X> X inline vector<X>::dot(const vector<X> &B) const
 {
   X C = static_cast<X>(0);
 
@@ -3232,9 +3250,9 @@ template<class X> X inline vector3<X>::dot(const vector3<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2<X> &B) const
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3247,9 +3265,9 @@ template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2<X> &B
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2s<X> &B) const
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2s<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3262,9 +3280,9 @@ template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2s<X> &
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2d<X> &B) const
+template<class X> tensor4<X> inline tensor2<X>::dyadic(const tensor2d<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3276,9 +3294,9 @@ template<class X> tensor3_4<X> inline tensor3_2<X>::dyadic(const tensor3_2d<X> &
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2<X> &B) const
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3291,9 +3309,9 @@ template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2<X> &
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2s<X> &B) const
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2s<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3306,9 +3324,9 @@ template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2s<X> 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2d<X> &B) const
+template<class X> tensor4<X> inline tensor2s<X>::dyadic(const tensor2d<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3320,9 +3338,9 @@ template<class X> tensor3_4<X> inline tensor3_2s<X>::dyadic(const tensor3_2d<X> 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2<X> &B) const
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3334,9 +3352,9 @@ template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2<X> &
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2s<X> &B) const
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2s<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3348,9 +3366,9 @@ template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2s<X> 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2d<X> &B) const
+template<class X> tensor4<X> inline tensor2d<X>::dyadic(const tensor2d<X> &B) const
 {
-  tensor3_4<X> C(static_cast<X>(0));
+  tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t k=0; k<3; ++k )
@@ -3361,9 +3379,9 @@ template<class X> tensor3_4<X> inline tensor3_2d<X>::dyadic(const tensor3_2d<X> 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline vector3<X>::dyadic(const vector3<X> &B) const
+template<class X> tensor2<X> inline vector<X>::dyadic(const vector<X> &B) const
 {
-  tensor3_2<X> C(static_cast<X>(0));
+  tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3374,9 +3392,9 @@ template<class X> tensor3_2<X> inline vector3<X>::dyadic(const vector3<X> &B) co
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> vector3<X> inline vector3<X>::cross(const vector3<X> &B) const
+template<class X> vector<X> inline vector<X>::cross(const vector<X> &B) const
 {
-  vector3<X> C;
+  vector<X> C;
 
   C[0] =                     m_data[1]*B[2]-B[1]*m_data[2] ;
   C[1] = static_cast<X>(-1)*(m_data[0]*B[2]-B[0]*m_data[2]);
@@ -3389,9 +3407,9 @@ template<class X> vector3<X> inline vector3<X>::cross(const vector3<X> &B) const
 // transpositions
 // =================================================================================================
 
-template<class X> tensor3_4<X> inline tensor3_4<X>::T() const
+template<class X> tensor4<X> inline tensor4<X>::T() const
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3404,9 +3422,9 @@ template<class X> tensor3_4<X> inline tensor3_4<X>::T() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_4<X>::RT() const
+template<class X> tensor4<X> inline tensor4<X>::RT() const
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3419,9 +3437,9 @@ template<class X> tensor3_4<X> inline tensor3_4<X>::RT() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_4<X> inline tensor3_4<X>::LT() const
+template<class X> tensor4<X> inline tensor4<X>::LT() const
 {
-  tensor3_4<X> C;
+  tensor4<X> C;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -3434,9 +3452,9 @@ template<class X> tensor3_4<X> inline tensor3_4<X>::LT() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::T() const
+template<class X> tensor2<X> inline tensor2<X>::T() const
 {
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   C[0] = m_data[0];
   C[3] = m_data[1];
@@ -3453,9 +3471,9 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::T() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2s<X> inline tensor3_2s<X>::T() const
+template<class X> tensor2s<X> inline tensor2s<X>::T() const
 {
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = m_data[0];
   C[1] = m_data[1];
@@ -3469,9 +3487,9 @@ template<class X> tensor3_2s<X> inline tensor3_2s<X>::T() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2d<X> inline tensor3_2d<X>::T() const
+template<class X> tensor2d<X> inline tensor2d<X>::T() const
 {
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = m_data[0];
   C[1] = m_data[1];
@@ -3484,28 +3502,28 @@ template<class X> tensor3_2d<X> inline tensor3_2d<X>::T() const
 // miscellaneous
 // =================================================================================================
 
-template<class X> X inline tensor3_2<X>::trace() const
+template<class X> X inline tensor2<X>::trace() const
 {
   return m_data[0]+m_data[4]+m_data[8];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2s<X>::trace() const
+template<class X> X inline tensor2s<X>::trace() const
 {
   return m_data[0]+m_data[3]+m_data[5];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2d<X>::trace() const
+template<class X> X inline tensor2d<X>::trace() const
 {
   return m_data[0]+m_data[1]+m_data[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2<X>::det() const
+template<class X> X inline tensor2<X>::det() const
 {
   return ( m_data[0] * m_data[4] * m_data[8] +
            m_data[1] * m_data[5] * m_data[6] +
@@ -3517,7 +3535,7 @@ template<class X> X inline tensor3_2<X>::det() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2s<X>::det() const
+template<class X> X inline tensor2s<X>::det() const
 {
   return (                     m_data[0] * m_data[3] * m_data[5] +
            static_cast<X>(2) * m_data[1] * m_data[2] * m_data[4] ) -
@@ -3528,20 +3546,20 @@ template<class X> X inline tensor3_2s<X>::det() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> X inline tensor3_2d<X>::det() const
+template<class X> X inline tensor2d<X>::det() const
 {
   return m_data[0] * m_data[1] * m_data[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
+template<class X> tensor2<X> inline tensor2<X>::inv() const
 {
   // compute determinant
   X D = det();
 
   // allocate result
-  tensor3_2<X> C;
+  tensor2<X> C;
 
   C[0] = (m_data[4]*m_data[8]-m_data[5]*m_data[7]) / D;
   C[1] = (m_data[2]*m_data[7]-m_data[1]*m_data[8]) / D;
@@ -3557,13 +3575,13 @@ template<class X> tensor3_2<X> inline tensor3_2<X>::inv() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2s<X> inline tensor3_2s<X>::inv() const
+template<class X> tensor2s<X> inline tensor2s<X>::inv() const
 {
   // compute determinant
   X D = det();
 
   // allocate result
-  tensor3_2s<X> C;
+  tensor2s<X> C;
 
   C[0] = (m_data[3]*m_data[5]-m_data[4]*m_data[4]) / D;
   C[1] = (m_data[2]*m_data[4]-m_data[1]*m_data[5]) / D;
@@ -3576,10 +3594,10 @@ template<class X> tensor3_2s<X> inline tensor3_2s<X>::inv() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> tensor3_2d<X> inline tensor3_2d<X>::inv() const
+template<class X> tensor2d<X> inline tensor2d<X>::inv() const
 {
   // allocate result
-  tensor3_2d<X> C;
+  tensor2d<X> C;
 
   C[0] = static_cast<X>(1) / m_data[0];
   C[1] = static_cast<X>(1) / m_data[1];
@@ -3596,167 +3614,168 @@ template<class X> tensor3_2d<X> inline tensor3_2d<X>::inv() const
 
 // --
 
-template<class X> tensor3_4 <X> inline ddot  (const tensor3_4 <X> &A, const tensor3_4 <X> &B)
+template<class X> tensor4 <X> inline ddot  (const tensor4 <X> &A, const tensor4 <X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_4 <X> &A, const tensor3_2 <X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor4 <X> &A, const tensor2 <X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_4 <X> &A, const tensor3_2s<X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor4 <X> &A, const tensor2s<X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_4 <X> &A, const tensor3_2d<X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor4 <X> &A, const tensor2d<X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_2 <X> &A, const tensor3_4 <X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor2 <X> &A, const tensor4 <X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_2s<X> &A, const tensor3_4 <X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor2s<X> &A, const tensor4 <X> &B)
 { return A.ddot(B); }
 
-template<class X> tensor3_2 <X> inline ddot  (const tensor3_2d<X> &A, const tensor3_4 <X> &B)
-{ return A.ddot(B); }
-
-// --
-
-template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2 <X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
-{ return A.ddot(B); }
-
-template<class X>            X  inline ddot  (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template<class X> tensor2 <X> inline ddot  (const tensor2d<X> &A, const tensor4 <X> &B)
 { return A.ddot(B); }
 
 // --
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2 <X> &A, const tensor3_2 <X> &B)
+template<class X>          X  inline ddot  (const tensor2 <X> &A, const tensor2 <X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2 <X> &A, const tensor2s<X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2 <X> &A, const tensor2d<X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2s<X> &A, const tensor2 <X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2s<X> &A, const tensor2s<X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2s<X> &A, const tensor2d<X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2d<X> &A, const tensor2 <X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2d<X> &A, const tensor2s<X> &B)
+{ return A.ddot(B); }
+
+template<class X>          X  inline ddot  (const tensor2d<X> &A, const tensor2d<X> &B)
+{ return A.ddot(B); }
+
+// --
+
+template<class X> tensor2 <X> inline dot   (const tensor2 <X> &A, const tensor2 <X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2 <X> &A, const tensor2s<X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2 <X> &A, const tensor2d<X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2s<X> &A, const tensor2 <X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2s<X> &A, const tensor2s<X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2s<X> &A, const tensor2d<X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2d<X> &A, const tensor2 <X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2 <X> inline dot   (const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template<class X> tensor2 <X> inline dot   (const tensor2d<X> &A, const tensor2s<X> &B)
 { return A.dot(B); }
 
-template<class X> tensor3_2d<X> inline dot   (const tensor3_2d<X> &A, const tensor3_2d<X> &B)
+template<class X> tensor2d<X> inline dot   (const tensor2d<X> &A, const tensor2d<X> &B)
 { return A.dot(B); }
 
 // --
 
-template<class X> vector3   <X> inline dot   (const tensor3_2 <X> &A, const vector3   <X> &B)
+template<class X> vector  <X> inline dot   (const tensor2 <X> &A, const vector  <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3   <X> inline dot   (const tensor3_2s<X> &A, const vector3   <X> &B)
+template<class X> vector  <X> inline dot   (const tensor2s<X> &A, const vector  <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3   <X> inline dot   (const tensor3_2d<X> &A, const vector3   <X> &B)
+template<class X> vector  <X> inline dot   (const tensor2d<X> &A, const vector  <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2 <X> &B)
+template<class X> vector  <X> inline dot   (const vector  <X> &A, const tensor2 <X> &B)
 { return A.dot(B); }
 
-template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2s<X> &B)
+template<class X> vector  <X> inline dot   (const vector  <X> &A, const tensor2s<X> &B)
 { return A.dot(B); }
 
-template<class X> vector3   <X> inline dot   (const vector3   <X> &A, const tensor3_2d<X> &B)
+template<class X> vector  <X> inline dot   (const vector  <X> &A, const tensor2d<X> &B)
 { return A.dot(B); }
 
-template<class X>            X  inline dot   (const vector3   <X> &A, const vector3   <X> &B)
+template<class X>          X  inline dot   (const vector  <X> &A, const vector  <X> &B)
 { return A.dot(B); }
 
 // --
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2 <X> &A, const tensor3_2 <X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2 <X> &A, const tensor2 <X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2 <X> &A, const tensor3_2s<X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2 <X> &A, const tensor2s<X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2 <X> &A, const tensor3_2d<X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2 <X> &A, const tensor2d<X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2s<X> &A, const tensor3_2 <X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2s<X> &A, const tensor2 <X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2s<X> &A, const tensor3_2s<X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2s<X> &A, const tensor2s<X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2s<X> &A, const tensor3_2d<X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2s<X> &A, const tensor2d<X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2d<X> &A, const tensor3_2 <X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2d<X> &A, const tensor2 <X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2d<X> &A, const tensor3_2s<X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2d<X> &A, const tensor2s<X> &B)
 { return A.dyadic(B); }
 
-template<class X> tensor3_4 <X> inline dyadic(const tensor3_2d<X> &A, const tensor3_2d<X> &B)
-{ return A.dyadic(B); }
-
-// --
-
-template<class X> tensor3_2 <X> inline dyadic(const vector3  <X> &A, const vector3  <X> &B)
+template<class X> tensor4 <X> inline dyadic(const tensor2d<X> &A, const tensor2d<X> &B)
 { return A.dyadic(B); }
 
 // --
 
-template<class X> vector3   <X> inline cross (const vector3  <X> &A, const vector3  <X> &B)
+template<class X> tensor2 <X> inline dyadic(const vector  <X> &A, const vector  <X> &B)
+{ return A.dyadic(B); }
+
+// --
+
+template<class X> vector  <X> inline cross (const vector  <X> &A, const vector  <X> &B)
 { return A.cross (B); }
 
 // operations
-template<class X> tensor3_2 <X> inline transpose (const tensor3_2 <X> &A) { return A.T    (); }
-template<class X> tensor3_2s<X> inline transpose (const tensor3_2s<X> &A) { return A.T    (); }
-template<class X> tensor3_2d<X> inline transpose (const tensor3_2d<X> &A) { return A.T    (); }
-template<class X> tensor3_4 <X> inline transpose (const tensor3_4 <X> &A) { return A.T    (); }
-template<class X> tensor3_4 <X> inline transposeR(const tensor3_4 <X> &A) { return A.RT   (); }
-template<class X> tensor3_4 <X> inline transposeL(const tensor3_4 <X> &A) { return A.LT   (); }
-template<class X> tensor3_2 <X> inline inv       (const tensor3_2 <X> &A) { return A.inv  (); }
-template<class X> tensor3_2s<X> inline inv       (const tensor3_2s<X> &A) { return A.inv  (); }
-template<class X> tensor3_2d<X> inline inv       (const tensor3_2d<X> &A) { return A.inv  (); }
-template<class X>             X  inline det      (const tensor3_2 <X> &A) { return A.det  (); }
-template<class X>             X  inline det      (const tensor3_2s<X> &A) { return A.det  (); }
-template<class X>             X  inline det      (const tensor3_2d<X> &A) { return A.det  (); }
-template<class X>             X  inline trace    (const tensor3_2 <X> &A) { return A.trace(); }
-template<class X>             X  inline trace    (const tensor3_2s<X> &A) { return A.trace(); }
-template<class X>             X  inline trace    (const tensor3_2d<X> &A) { return A.trace(); }
+template<class X> tensor2 <X> inline transpose (const tensor2 <X> &A) { return A.T    (); }
+template<class X> tensor2s<X> inline transpose (const tensor2s<X> &A) { return A.T    (); }
+template<class X> tensor2d<X> inline transpose (const tensor2d<X> &A) { return A.T    (); }
+template<class X> tensor4 <X> inline transpose (const tensor4 <X> &A) { return A.T    (); }
+template<class X> tensor4 <X> inline transposeR(const tensor4 <X> &A) { return A.RT   (); }
+template<class X> tensor4 <X> inline transposeL(const tensor4 <X> &A) { return A.LT   (); }
+template<class X> tensor2 <X> inline inv       (const tensor2 <X> &A) { return A.inv  (); }
+template<class X> tensor2s<X> inline inv       (const tensor2s<X> &A) { return A.inv  (); }
+template<class X> tensor2d<X> inline inv       (const tensor2d<X> &A) { return A.inv  (); }
+template<class X>          X  inline det       (const tensor2 <X> &A) { return A.det  (); }
+template<class X>          X  inline det       (const tensor2s<X> &A) { return A.det  (); }
+template<class X>          X  inline det       (const tensor2d<X> &A) { return A.det  (); }
+template<class X>          X  inline trace     (const tensor2 <X> &A) { return A.trace(); }
+template<class X>          X  inline trace     (const tensor2s<X> &A) { return A.trace(); }
+template<class X>          X  inline trace     (const tensor2d<X> &A) { return A.trace(); }
 
 // =================================================================================================
 
-} // namespace tensor
+} // namespace cartesian3d
+} // namespace cppmat
 
 #endif
 

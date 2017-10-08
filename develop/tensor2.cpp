@@ -2,24 +2,32 @@
 
 Compile using:
 
-$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test verify_tensor.cpp
+$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test *.cpp
 ================================================================================================= */
 
-#include <cppmat/tensor3.h>
+#include <catch/catch.hpp>
+
+#include <cppmat/tensor2.h>
 #include <Eigen/Eigen>
 
-int main()
+// =================================================================================================
+
+TEST_CASE("cppmat::cartesian2d", "tensor.h")
 {
 
-  double n;
+using     T4  = cppmat::cartesian2d::tensor4<double>;
+using     T2  = cppmat::cartesian2d::tensor2<double>;
+using     T2d = cppmat::cartesian2d::tensor2d<double>;
+using     T2s = cppmat::cartesian2d::tensor2s<double>;
+using     V   = cppmat::cartesian2d::vector<double>;
+namespace cm  = cppmat::cartesian2d;
 
-  size_t nd = 3;
-
+size_t nd = 2;
+double n;
 
 // =================================================================================================
-// tensor4 arithmetic
-// =================================================================================================
 
+SECTION("tensor4 arithmetic")
 {
   // compute using Eigen
 
@@ -35,7 +43,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A,B,C,D,E,F;
+  T4 A(nd),B(nd),C(nd),D(nd),E(nd),F(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -63,8 +71,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( f(i*nd*nd*nd+j*nd*nd+k*nd+l)-F(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   1   : failed   " << std::endl;
-  else              std::cout << "test   1   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -95,15 +102,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( f(i*nd*nd*nd+j*nd*nd+k*nd+l)-F(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   2   : failed   " << std::endl;
-  else              std::cout << "test   2   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor4 )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor4 )")
 {
   // compute using Eigen
 
@@ -123,7 +127,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A,B;
+  T4 A(nd),B(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -136,8 +140,8 @@ int main()
     }
   }
 
-  cppmat::tensor3_4 <double> C = A.ddot( B );
-  cppmat::tensor3_4 <double> D = cppmat::ddot( A , B );
+  T4 C = A.ddot( B );
+  T4 D = cm::ddot( A , B );
 
   // check the result
 
@@ -149,8 +153,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   3(a): failed   " << std::endl;
-  else              std::cout << "test   3(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -162,14 +165,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   3(b): failed   " << std::endl;
-  else              std::cout << "test   3(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor4.T() )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor4.T() )")
 {
   // compute using Eigen
 
@@ -195,7 +196,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A,B;
+  T4 A(nd),B(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -208,8 +209,8 @@ int main()
     }
   }
 
-  cppmat::tensor3_4 <double> C = A.ddot( B.T() );
-  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transpose(B) );
+  T4 C = A.ddot( B.T() );
+  T4 D = cm::ddot( A , cm::transpose(B) );
 
   // check the result
 
@@ -221,8 +222,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   4(a): failed   " << std::endl;
-  else              std::cout << "test   4(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -234,14 +234,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   4(b): failed   " << std::endl;
-  else              std::cout << "test   4(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor4.LT() )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor4.LT() )")
 {
   // compute using Eigen
 
@@ -267,7 +265,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A,B;
+  T4 A(nd),B(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -280,8 +278,8 @@ int main()
     }
   }
 
-  cppmat::tensor3_4 <double> C = A.ddot( B.LT() );
-  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transposeL(B) );
+  T4 C = A.ddot( B.LT() );
+  T4 D = cm::ddot( A , cm::transposeL(B) );
 
   // check the result
 
@@ -293,8 +291,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   5(a): failed   " << std::endl;
-  else              std::cout << "test   5(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -306,14 +303,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   5(b): failed   " << std::endl;
-  else              std::cout << "test   5(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor4.RT() )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor4.RT() )")
 {
   // compute using Eigen
 
@@ -339,7 +334,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A,B;
+  T4 A(nd),B(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -352,8 +347,8 @@ int main()
     }
   }
 
-  cppmat::tensor3_4 <double> C = A.ddot( B.RT() );
-  cppmat::tensor3_4 <double> D = cppmat::ddot( A , cppmat::transposeR(B) );
+  T4 C = A.ddot( B.RT() );
+  T4 D = cm::ddot( A , cm::transposeR(B) );
 
   // check the result
 
@@ -365,8 +360,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   6(a): failed   " << std::endl;
-  else              std::cout << "test   6(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -378,14 +372,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test   6(b): failed   " << std::endl;
-  else              std::cout << "test   6(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor2 )")
 {
   // compute using Eigen
 
@@ -403,8 +395,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4<double> A;
-  cppmat::tensor3_2<double> B;
+  T4 A(nd);
+  cm::tensor2<double> B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -416,8 +408,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A.ddot( B );
-  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
+  cm::tensor2<double> C = A.ddot( B );
+  cm::tensor2<double> D = cm::ddot( A , B );
 
   // check the result
 
@@ -427,8 +419,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   7(a): failed   " << std::endl;
-  else              std::cout << "test   7(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -438,20 +429,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   7(b): failed   " << std::endl;
-  else              std::cout << "test   7(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor2s )")
 {
   // compute using Eigen
 
@@ -475,8 +464,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T4 A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -488,8 +477,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A.ddot( B );
-  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
+  cm::tensor2<double> C = A.ddot( B );
+  cm::tensor2<double> D = cm::ddot( A , B );
 
   // check the result
 
@@ -499,8 +488,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   8(a): failed   " << std::endl;
-  else              std::cout << "test   8(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -510,20 +498,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   8(b): failed   " << std::endl;
-  else              std::cout << "test   8(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor4.ddot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor4.ddot( tensor2d )")
 {
   // compute using Eigen
 
@@ -546,8 +532,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_4 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T4 A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -559,8 +545,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A.ddot( B );
-  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
+  cm::tensor2<double> C = A.ddot( B );
+  cm::tensor2<double> D = cm::ddot( A , B );
 
   // check the result
 
@@ -570,8 +556,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   9(a): failed   " << std::endl;
-  else              std::cout << "test   9(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -581,20 +566,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test   9(b): failed   " << std::endl;
-  else              std::cout << "test   9(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.ddot( tensor4 )
-// =================================================================================================
 
+SECTION("tensor2.ddot( tensor4 )")
 {
   // compute using Eigen
 
@@ -612,8 +595,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2<double> A;
-  cppmat::tensor3_4 <double> B;
+  cm::tensor2<double> A(nd);
+  T4 B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -625,8 +608,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3_2<double> C = A.ddot( B );
-  cppmat::tensor3_2<double> D = cppmat::ddot( A , B );
+  cm::tensor2<double> C = A.ddot( B );
+  cm::tensor2<double> D = cm::ddot( A , B );
 
   // check the result
 
@@ -636,8 +619,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  10(a): failed   " << std::endl;
-  else              std::cout << "test  10(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -647,20 +629,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  10(b): failed   " << std::endl;
-  else              std::cout << "test  10(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.ddot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2.ddot( tensor2 )")
 {
   // compute using Eigen
 
@@ -674,7 +654,7 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2<double> A, B;
+  cm::tensor2<double> A(nd), B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -685,28 +665,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  11(a): failed   " << std::endl;
-  else              std::cout << "test  11(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  11(b): failed   " << std::endl;
-  else              std::cout << "test  11(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.ddot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2.ddot( tensor2s )")
 {
   // compute using Eigen
 
@@ -726,8 +702,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -738,28 +714,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  12(a): failed   " << std::endl;
-  else              std::cout << "test  12(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  12(b): failed   " << std::endl;
-  else              std::cout << "test  12(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.ddot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2.ddot( tensor2d )")
 {
   // compute using Eigen
 
@@ -778,8 +750,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -789,28 +761,24 @@ int main()
     B(i,i) = b(i,i);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  13(a): failed   " << std::endl;
-  else              std::cout << "test  13(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  13(b): failed   " << std::endl;
-  else              std::cout << "test  13(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.dot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2.dot( tensor2 )")
 {
   // compute using Eigen
 
@@ -827,8 +795,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -838,8 +806,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot ( A , B );
 
   // check the result
 
@@ -849,8 +817,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  14(a): failed   " << std::endl;
-  else              std::cout << "test  14(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -860,20 +827,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  14(b): failed   " << std::endl;
-  else              std::cout << "test  14(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.dot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2.dot( tensor2s )")
 {
   // compute using Eigen
 
@@ -896,8 +861,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -907,8 +872,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot ( A , B );
 
   // check the result
 
@@ -918,8 +883,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  15(a): failed   " << std::endl;
-  else              std::cout << "test  15(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -929,20 +893,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  15(b): failed   " << std::endl;
-  else              std::cout << "test  15(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.dot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2.dot( tensor2d )")
 {
   // compute using Eigen
 
@@ -964,8 +926,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -975,8 +937,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot ( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot ( A , B );
 
   // check the result
 
@@ -986,8 +948,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  16(a): failed   " << std::endl;
-  else              std::cout << "test  16(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -997,20 +958,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  16(b): failed   " << std::endl;
-  else              std::cout << "test  16(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.dot( vector )
-// =================================================================================================
 
+SECTION("tensor2.dot( vector )")
 {
   // compute using Eigen
 
@@ -1026,8 +985,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::vector3  <double> B;
+  T2  A(nd);
+  V B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1036,8 +995,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3 <double> C = A.dot( B );
-  cppmat::vector3 <double> D = cppmat::dot( A, B );
+  cm::vector <double> C = A.dot( B );
+  cm::vector <double> D = cm::dot( A, B );
 
   // check the result
 
@@ -1046,8 +1005,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  17(a): failed   " << std::endl;
-  else              std::cout << "test  17(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1056,15 +1014,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  17(b): failed   " << std::endl;
-  else              std::cout << "test  17(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.dyadic( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2.dyadic( tensor2 )")
 {
   // compute using Eigen
 
@@ -1082,8 +1037,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1093,8 +1048,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -1106,8 +1061,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  18(a): failed   " << std::endl;
-  else              std::cout << "test  18(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1119,15 +1073,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  18(b): failed   " << std::endl;
-  else              std::cout << "test  18(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.dyadic( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2.dyadic( tensor2s )")
 {
   // compute using Eigen
 
@@ -1151,8 +1102,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1162,8 +1113,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -1175,8 +1126,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  19(a): failed   " << std::endl;
-  else              std::cout << "test  19(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1188,15 +1138,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  19(b): failed   " << std::endl;
-  else              std::cout << "test  19(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.dyadic( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2.dyadic( tensor2d )")
 {
   // compute using Eigen
 
@@ -1219,8 +1166,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1229,8 +1176,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -1242,8 +1189,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  20(a): failed   " << std::endl;
-  else              std::cout << "test  20(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1255,15 +1201,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  20(b): failed   " << std::endl;
-  else              std::cout << "test  20(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2 - arithmetic
-// =================================================================================================
 
+SECTION("tensor2 arithmetic")
 {
   // compute using Eigen
 
@@ -1280,11 +1223,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
-  cppmat::tensor3_2 <double> C;
-  cppmat::tensor3_2 <double> D;
-  cppmat::tensor3_2 <double> E;
+  T2  A(nd);
+  T2  B(nd);
+  T2  C(nd);
+  T2  D(nd);
+  T2  E(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -1296,7 +1239,7 @@ int main()
     }
   }
 
-  cppmat::tensor3_2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  T2  F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -1306,8 +1249,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  21   : failed   " << std::endl;
-  else              std::cout << "test  21   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -1336,15 +1278,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  22   : failed   " << std::endl;
-  else              std::cout << "test  22   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.dot( tensor2.T() )
-// =================================================================================================
 
+SECTION("tensor2.dot( tensor2.T() )")
 {
   // compute using Eigen
 
@@ -1366,8 +1305,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1377,8 +1316,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B.T() );
-  cppmat::tensor3_2 <double> D = cppmat::dot ( A , cppmat::transpose( B ) );
+  T2  C = A.dot( B.T() );
+  T2  D = cm::dot ( A , cm::transpose( B ) );
 
   // check the result
 
@@ -1388,8 +1327,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  23(a): failed   " << std::endl;
-  else              std::cout << "test  23(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1399,20 +1337,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  23(b): failed   " << std::endl;
-  else              std::cout << "test  23(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2.trace()
-// =================================================================================================
 
+SECTION("tensor2.trace()")
 {
   // compute using Eigen
 
@@ -1421,122 +1357,111 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A;
+  T2  A(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
       A(i,j) = a(i,j);
 
   double C = A.trace();
-  double D = cppmat::trace ( A );
+  double D = cm::trace ( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  24(a): failed   " << std::endl;
-  else              std::cout << "test  24(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  24(b): failed   " << std::endl;
-  else              std::cout << "test  24(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.det() -- 3D
-// =================================================================================================
 
+SECTION("tensor2.det() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
   double c = a.determinant();
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A(3);
+  T2  A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       A(i,j) = a(i,j);
 
   double C = A.det();
-  double D = cppmat::det ( A );
+  double D = cm::det ( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  25(a): failed   " << std::endl;
-  else              std::cout << "test  25(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  25(b): failed   " << std::endl;
-  else              std::cout << "test  25(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2.inv() -- 3D
-// =================================================================================================
 
+SECTION("tensor2.inv() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
   Eigen::MatrixXd c = a.inverse();
 
   // compute using cppmat
 
-  cppmat::tensor3_2 <double> A(3);
+  T2  A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::tensor3_2 <double> C = A.inv();
-  cppmat::tensor3_2 <double> D = cppmat::inv( A );
+  T2  C = A.inv();
+  T2  D = cm::inv( A );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  27(a): failed   " << std::endl;
-  else              std::cout << "test  27(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  27(b): failed   " << std::endl;
-  else              std::cout << "test  27(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.ddot( tensor4 )
-// =================================================================================================
 
+SECTION("tensor2s.ddot( tensor4 )")
 {
   // compute using Eigen
 
@@ -1558,8 +1483,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_4 <double> B;
+  T2s A(nd);
+  T4 B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1571,8 +1496,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3_2 <double> C = A.ddot( B );
-  cppmat::tensor3_2 <double> D = cppmat::ddot( A , B );
+  T2  C = A.ddot( B );
+  T2  D = cm::ddot( A , B );
 
   // check the result
 
@@ -1582,8 +1507,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  29(a): failed   " << std::endl;
-  else              std::cout << "test  29(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1593,20 +1517,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  29(b): failed   " << std::endl;
-  else              std::cout << "test  29(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.ddot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2s.ddot( tensor2 )")
 {
   // compute using Eigen
 
@@ -1624,8 +1546,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1636,28 +1558,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  30(a): failed   " << std::endl;
-  else              std::cout << "test  30(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  30(b): failed   " << std::endl;
-  else              std::cout << "test  30(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.ddot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2s.ddot( tensor2s )")
 {
   // compute using Eigen
 
@@ -1681,8 +1599,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1693,28 +1611,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  31(a): failed   " << std::endl;
-  else              std::cout << "test  31(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  31(b): failed   " << std::endl;
-  else              std::cout << "test  31(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.ddot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2s.ddot( tensor2d )")
 {
   // compute using Eigen
 
@@ -1737,8 +1651,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1748,28 +1662,24 @@ int main()
     B(i,i) = b(i,i);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  32(a): failed   " << std::endl;
-  else              std::cout << "test  32(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  32(b): failed   " << std::endl;
-  else              std::cout << "test  32(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.dot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2s.dot( tensor2 )")
 {
   // compute using Eigen
 
@@ -1790,8 +1700,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1801,8 +1711,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot( A , B );
 
   // check the result
 
@@ -1812,8 +1722,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  33(a): failed   " << std::endl;
-  else              std::cout << "test  33(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1823,20 +1732,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  33(b): failed   " << std::endl;
-  else              std::cout << "test  33(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.dot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2s.dot( tensor2s )")
 {
   // compute using Eigen
 
@@ -1863,8 +1770,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1874,8 +1781,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot( A , B );
 
   // check the result
 
@@ -1885,8 +1792,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  34(a): failed   " << std::endl;
-  else              std::cout << "test  34(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1896,20 +1802,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  34(b): failed   " << std::endl;
-  else              std::cout << "test  34(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.dot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2s.dot( tensor2d )")
 {
   // compute using Eigen
 
@@ -1935,8 +1839,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1946,8 +1850,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot( A , B );
 
   // check the result
 
@@ -1957,8 +1861,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  35(a): failed   " << std::endl;
-  else              std::cout << "test  35(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -1968,20 +1871,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  35(b): failed   " << std::endl;
-  else              std::cout << "test  35(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.dot( vector )
-// =================================================================================================
 
+SECTION("tensor2s.dot( vector )")
 {
   // compute using Eigen
 
@@ -2001,8 +1902,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::vector3  <double> B;
+  T2s A(nd);
+  V B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2011,8 +1912,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3 <double> C = A.dot( B );
-  cppmat::vector3 <double> D = cppmat::dot( A , B );
+  cm::vector <double> C = A.dot( B );
+  cm::vector <double> D = cm::dot( A , B );
 
   // check the result
 
@@ -2021,8 +1922,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  36(a): failed   " << std::endl;
-  else              std::cout << "test  36(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2031,15 +1931,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  36(b): failed   " << std::endl;
-  else              std::cout << "test  36(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.dyadic( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2s.dyadic( tensor2 )")
 {
   // compute using Eigen
 
@@ -2061,8 +1958,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2072,8 +1969,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -2085,8 +1982,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  37(a): failed   " << std::endl;
-  else              std::cout << "test  37(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2098,15 +1994,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  37(b): failed   " << std::endl;
-  else              std::cout << "test  37(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.dyadic( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2s.dyadic( tensor2s )")
 {
   // compute using Eigen
 
@@ -2134,8 +2027,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2145,8 +2038,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -2158,8 +2051,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  38(a): failed   " << std::endl;
-  else              std::cout << "test  38(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2171,15 +2063,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  38(b): failed   " << std::endl;
-  else              std::cout << "test  38(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.dyadic( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2s.dyadic( tensor2d )")
 {
   // compute using Eigen
 
@@ -2206,8 +2095,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2216,8 +2105,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -2229,8 +2118,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  39(a): failed   " << std::endl;
-  else              std::cout << "test  39(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2242,15 +2130,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  39(b): failed   " << std::endl;
-  else              std::cout << "test  39(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s - arithmetic
-// =================================================================================================
 
+SECTION("tensor2s arithmetic")
 {
   // compute using Eigen
 
@@ -2277,11 +2162,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
-  cppmat::tensor3_2s<double> C;
-  cppmat::tensor3_2s<double> D;
-  cppmat::tensor3_2s<double> E;
+  T2s A(nd);
+  T2s B(nd);
+  T2s C(nd);
+  T2s D(nd);
+  T2s E(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=i; j<nd; ++j ) {
@@ -2293,7 +2178,7 @@ int main()
     }
   }
 
-  cppmat::tensor3_2s<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  T2s F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -2303,8 +2188,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  40   : failed   " << std::endl;
-  else              std::cout << "test  40   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -2333,15 +2217,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  41   : failed   " << std::endl;
-  else              std::cout << "test  41   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.dot( tensor2s.T() )
-// =================================================================================================
 
+SECTION("tensor2s.dot( tensor2s.T() )")
 {
   // compute using Eigen
 
@@ -2373,8 +2254,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2384,8 +2265,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B.T() );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
+  T2  C = A.dot( B.T() );
+  T2  D = cm::dot( A , cm::transpose( B ) );
 
   // check the result
 
@@ -2395,8 +2276,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  42(b): failed   " << std::endl;
-  else              std::cout << "test  42(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2406,20 +2286,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  42(b): failed   " << std::endl;
-  else              std::cout << "test  42(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2s.trace()
-// =================================================================================================
 
+SECTION("tensor2s.trace()")
 {
   // compute using Eigen
 
@@ -2432,132 +2310,121 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A;
+  T2s A(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
       A(i,j) = a(i,j);
 
   double C = A.trace();
-  double D = cppmat::trace( A );
+  double D = cm::trace( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  43(a): failed   " << std::endl;
-  else              std::cout << "test  43(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  43(b): failed   " << std::endl;
-  else              std::cout << "test  43(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2s.det() -- 3D
-// =================================================================================================
 
+SECTION("tensor2s.det() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
 
-  for ( size_t i = 0 ; i < 3 ; ++i )
-    for ( size_t j = i+1 ; j < 3 ; ++j )
+  for ( size_t i = 0 ; i < 2 ; ++i )
+    for ( size_t j = i+1 ; j < 2 ; ++j )
       a(j,i) = a(i,j);
 
   double c = a.determinant();
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A(3);
+  T2  A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=i; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       A(i,j) = a(i,j);
 
   double C = A.det();
-  double D = cppmat::det( A );
+  double D = cm::det( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-10 ) std::cout << "test  44(a): failed   " << std::endl;
-  else              std::cout << "test  44(a): completed" << std::endl;
+  REQUIRE( n < 1.e-10 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-10 ) std::cout << "test  44(b): failed   " << std::endl;
-  else              std::cout << "test  44(b): completed" << std::endl;
+  REQUIRE( n < 1.e-10 );
 
 }
 
 // =================================================================================================
-// tensor2s.inv() -- 3D
-// =================================================================================================
 
+SECTION("tensor2s.inv() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
 
-  for ( size_t i = 0 ; i < 3 ; ++i )
-    for ( size_t j = i+1 ; j < 3 ; ++j )
+  for ( size_t i = 0 ; i < 2 ; ++i )
+    for ( size_t j = i+1 ; j < 2 ; ++j )
       a(j,i) = a(i,j);
 
   Eigen::MatrixXd c = a.inverse();
 
   // compute using cppmat
 
-  cppmat::tensor3_2s<double> A(3);
+  T2s A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=i; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::tensor3_2s<double> C = A.inv();
-  cppmat::tensor3_2s<double> D = cppmat::inv( A );
+  T2s C = A.inv();
+  T2s D = cm::inv( A );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-10 ) std::cout << "test  46(a): failed   " << std::endl;
-  else              std::cout << "test  46(a): completed" << std::endl;
+  REQUIRE( n < 1.e-10 );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  46(b): failed   " << std::endl;
-  else              std::cout << "test  46(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
-
-// =================================================================================================
-// tensor2d.ddot( tensor4 )
 // =================================================================================================
 
+SECTION("tensor2d.ddot( tensor4 )")
 {
   // compute using Eigen
 
@@ -2580,8 +2447,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_4 <double> B;
+  T2d A(nd);
+  T4 B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2592,8 +2459,8 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cppmat::tensor3_2 <double> C = A.ddot( B );
-  cppmat::tensor3_2 <double> D = cppmat::ddot( A , B );
+  T2  C = A.ddot( B );
+  T2  D = cm::ddot( A , B );
 
   // check the result
 
@@ -2603,8 +2470,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  48(b): failed   " << std::endl;
-  else              std::cout << "test  48(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2614,20 +2480,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  48(b): failed   " << std::endl;
-  else              std::cout << "test  48(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2d.ddot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2d.ddot( tensor2 )")
 {
   // compute using Eigen
 
@@ -2646,8 +2510,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2657,28 +2521,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  49(a): failed   " << std::endl;
-  else              std::cout << "test  49(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  49(b): failed   " << std::endl;
-  else              std::cout << "test  49(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.ddot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2d.ddot( tensor2s )")
 {
   // compute using Eigen
 
@@ -2703,8 +2563,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2714,28 +2574,24 @@ int main()
       B(i,j) = b(i,j);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  50(a): failed   " << std::endl;
-  else              std::cout << "test  50(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  50(b): failed   " << std::endl;
-  else              std::cout << "test  50(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.ddot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2d.ddot( tensor2d )")
 {
   // compute using Eigen
 
@@ -2759,8 +2615,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2d A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2769,28 +2625,24 @@ int main()
     B(i,i) = b(i,i);
 
   double C = A.ddot( B );
-  double D = cppmat::ddot( A , B );
+  double D = cm::ddot( A , B );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  51(a): failed   " << std::endl;
-  else              std::cout << "test  51(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  51(b): failed   " << std::endl;
-  else              std::cout << "test  51(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dot( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2d.dot( tensor2 )")
 {
   // compute using Eigen
 
@@ -2812,8 +2664,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2822,8 +2674,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot( A , B );
 
   // check the result
 
@@ -2833,8 +2685,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  52(b): failed   " << std::endl;
-  else              std::cout << "test  52(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2844,20 +2695,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  52(b): failed   " << std::endl;
-  else              std::cout << "test  52(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2d.dot( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2d.dot( tensor2s )")
 {
   // compute using Eigen
 
@@ -2885,8 +2734,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2895,8 +2744,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , B );
+  T2  C = A.dot( B );
+  T2  D = cm::dot( A , B );
 
   // check the result
 
@@ -2906,8 +2755,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  53(b): failed   " << std::endl;
-  else              std::cout << "test  53(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2917,20 +2765,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  53(b): failed   " << std::endl;
-  else              std::cout << "test  53(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2d.dot( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2d.dot( tensor2d )")
 {
   // compute using Eigen
 
@@ -2957,8 +2803,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2d A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2967,8 +2813,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2d<double> C = A.dot( B );
-  cppmat::tensor3_2d<double> D = cppmat::dot( A , B );
+  T2d C = A.dot( B );
+  T2d D = cm::dot( A , B );
 
   // check the result
 
@@ -2978,8 +2824,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  54(b): failed   " << std::endl;
-  else              std::cout << "test  54(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -2989,15 +2834,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  54(b): failed   " << std::endl;
-  else              std::cout << "test  54(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dot( vector )
-// =================================================================================================
 
+SECTION("tensor2d.dot( vector )")
 {
   // compute using Eigen
 
@@ -3018,8 +2860,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::vector3  <double> B;
+  T2d A(nd);
+  V B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3027,8 +2869,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::vector3 <double> C = A.dot( B );
-  cppmat::vector3 <double> D = cppmat::dot( A , B );
+  cm::vector <double> C = A.dot( B );
+  cm::vector <double> D = cm::dot( A , B );
 
   // check the result
 
@@ -3037,8 +2879,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  55(a): failed   " << std::endl;
-  else              std::cout << "test  55(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3047,15 +2888,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  55(b): failed   " << std::endl;
-  else              std::cout << "test  55(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dyadic( tensor2 )
-// =================================================================================================
 
+SECTION("tensor2d.dyadic( tensor2 )")
 {
   // compute using Eigen
 
@@ -3078,8 +2916,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3088,8 +2926,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -3101,8 +2939,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  56(a): failed   " << std::endl;
-  else              std::cout << "test  56(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3114,15 +2951,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  56(b): failed   " << std::endl;
-  else              std::cout << "test  56(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dyadic( tensor2s )
-// =================================================================================================
 
+SECTION("tensor2d.dyadic( tensor2s )")
 {
   // compute using Eigen
 
@@ -3151,8 +2985,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3161,8 +2995,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -3174,8 +3008,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  57(a): failed   " << std::endl;
-  else              std::cout << "test  57(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3187,15 +3020,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  57(b): failed   " << std::endl;
-  else              std::cout << "test  57(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dyadic( tensor2d )
-// =================================================================================================
 
+SECTION("tensor2d.dyadic( tensor2d )")
 {
   // compute using Eigen
 
@@ -3223,8 +3053,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2d A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3232,8 +3062,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_4 <double> C = A.dyadic( B );
-  cppmat::tensor3_4 <double> D = cppmat::dyadic( A , B );
+  T4 C = A.dyadic( B );
+  T4 D = cm::dyadic( A , B );
 
   // check the result
 
@@ -3245,8 +3075,7 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l) - C(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  58(a): failed   " << std::endl;
-  else              std::cout << "test  58(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3258,15 +3087,12 @@ int main()
         for ( size_t l=0; l<nd; ++l )
           n += std::abs( c(i*nd*nd*nd+j*nd*nd+k*nd+l)-D(i,j,k,l) );
 
-  if ( n > 1.e-12 ) std::cout << "test  58(b): failed   " << std::endl;
-  else              std::cout << "test  58(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d - arithmetic
-// =================================================================================================
 
+SECTION("tensor2d arithmetic")
 {
   // compute using Eigen
 
@@ -3295,11 +3121,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
-  cppmat::tensor3_2d<double> C;
-  cppmat::tensor3_2d<double> D;
-  cppmat::tensor3_2d<double> E;
+  T2d A(nd);
+  T2d B(nd);
+  T2d C(nd);
+  T2d D(nd);
+  T2d E(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i,i) = a(i,i);
@@ -3309,7 +3135,7 @@ int main()
     E(i,i) = e(i,i);
   }
 
-  cppmat::tensor3_2d<double> F = ( 7.*A + 10.*B ) * ( C )  * ( D ) - 2.*E;
+  T2d F = ( 7.*A + 10.*B ) * ( C )  * ( D ) - 2.*E;
 
   // check the result
 
@@ -3319,8 +3145,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  59   : failed   " << std::endl;
-  else              std::cout << "test  59   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -3347,15 +3172,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  60   : failed   " << std::endl;
-  else              std::cout << "test  60   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.dot( tensor2s.T() )
-// =================================================================================================
 
+SECTION("tensor2d.dot( tensor2s.T() )")
 {
   // compute using Eigen
 
@@ -3388,8 +3210,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3398,8 +3220,8 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2 <double> C = A.dot( B.T() );
-  cppmat::tensor3_2 <double> D = cppmat::dot( A , cppmat::transpose( B ) );
+  T2  C = A.dot( B.T() );
+  T2  D = cm::dot( A , cm::transpose( B ) );
 
   // check the result
 
@@ -3409,8 +3231,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  61(b): failed   " << std::endl;
-  else              std::cout << "test  61(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3420,20 +3241,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  61(b): failed   " << std::endl;
-  else              std::cout << "test  61(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// tensor2d.trace()
-// =================================================================================================
 
+SECTION("tensor2d.trace()")
 {
   // compute using Eigen
 
@@ -3447,41 +3266,37 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
+  T2d A(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
 
   double C = A.trace();
-  double D = cppmat::trace( A );
+  double D = cm::trace( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  62(a): failed   " << std::endl;
-  else              std::cout << "test  62(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  62(b): failed   " << std::endl;
-  else              std::cout << "test  62(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.det() -- 3D
-// =================================================================================================
 
+SECTION("tensor2d.det() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
 
-  for ( size_t i = 0 ; i < 3 ; ++i )
-    for ( size_t j = 0 ; j < 3 ; ++j )
+  for ( size_t i = 0 ; i < 2 ; ++i )
+    for ( size_t j = 0 ; j < 2 ; ++j )
       if ( i != j )
         a(i,j) = 0.0;
 
@@ -3489,41 +3304,38 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A(3);
+  T2  A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    A(i,i) = a(i,i);
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
+      A(i,j) = a(i,j);
 
   double C = A.det();
-  double D = cppmat::det( A );
+  double D = cm::det( A );
 
   // check the result
 
   n = std::abs( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  63(a): failed   " << std::endl;
-  else              std::cout << "test  63(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  63(b): failed   " << std::endl;
-  else              std::cout << "test  63(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2d.inv() -- 3D
-// =================================================================================================
 
+SECTION("tensor2d.inv() -- 2D")
 {
   // compute using Eigen
 
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(3,3);
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(2,2);
 
-  for ( size_t i = 0 ; i < 3 ; ++i )
-    for ( size_t j = 0 ; j < 3 ; ++j )
+  for ( size_t i = 0 ; i < 2 ; ++i )
+    for ( size_t j = 0 ; j < 2 ; ++j )
       if ( i != j )
         a(i,j) = 0.0;
 
@@ -3531,42 +3343,39 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A(3);
+  T2d A(2);
 
-  for ( size_t i=0; i<3; ++i )
-    A(i,i) = a(i,i);
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
+      A(i,j) = a(i,j);
 
-  cppmat::tensor3_2d<double> C = A.inv();
-  cppmat::tensor3_2d<double> D = cppmat::inv( A );
+  T2d C = A.inv();
+  T2d D = cm::inv( A );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-10 ) std::cout << "test  65(a): failed   " << std::endl;
-  else              std::cout << "test  65(a): completed" << std::endl;
+  REQUIRE( n < 1.e-10 );
 
   // check the result
 
   n = 0.0;
 
-  for ( size_t i=0; i<3; ++i )
-    for ( size_t j=0; j<3; ++j )
+  for ( size_t i=0; i<2; ++i )
+    for ( size_t j=0; j<2; ++j )
       n += std::abs( c(i,j)-D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  65(b): failed   " << std::endl;
-  else              std::cout << "test  65(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// vector.dot( vector )
-// =================================================================================================
 
+SECTION("vector.dot( vector )")
 {
   // compute using Eigen
 
@@ -3579,8 +3388,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3  <double> A;
-  cppmat::vector3  <double> B;
+  V A(nd);
+  V B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3589,28 +3398,24 @@ int main()
     B(i) = b(i);
 
   double C = A.dot( B );
-  double D = cppmat::dot( A , B );
+  double D = cm::dot( A , B );
 
   // check the result
 
   n = std::abs ( C - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  67(a): failed   " << std::endl;
-  else              std::cout << "test  67(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
   n = std::abs ( D - c );
 
-  if ( n > 1.e-12 ) std::cout << "test  68(a): failed   " << std::endl;
-  else              std::cout << "test  68(a): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// vector.dot( tensor2 )
-// =================================================================================================
 
+SECTION("vector.dot( tensor2 )")
 {
   // compute using Eigen
 
@@ -3626,8 +3431,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3  <double> A;
-  cppmat::tensor3_2 <double> B;
+  V A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3636,8 +3441,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3  <double> C = A.dot( B );
-  cppmat::vector3  <double> D = cppmat::dot( A , B );
+  V C = A.dot( B );
+  V D = cm::dot( A , B );
 
   // check the result
 
@@ -3646,8 +3451,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  68(a): failed   " << std::endl;
-  else              std::cout << "test  68(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3656,15 +3460,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  68(b): failed   " << std::endl;
-  else              std::cout << "test  68(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// vector.dot( tensor2s )
-// =================================================================================================
 
+SECTION("vector.dot( tensor2s )")
 {
   // compute using Eigen
 
@@ -3686,8 +3487,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3  <double> A;
-  cppmat::tensor3_2s<double> B;
+  V A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3696,8 +3497,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3  <double> C = A.dot( B );
-  cppmat::vector3  <double> D = cppmat::dot( A , B );
+  V C = A.dot( B );
+  V D = cm::dot( A , B );
 
   // check the result
 
@@ -3706,8 +3507,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  69(a): failed   " << std::endl;
-  else              std::cout << "test  69(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3716,15 +3516,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  69(b): failed   " << std::endl;
-  else              std::cout << "test  69(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// vector.dot( tensor2d )
-// =================================================================================================
 
+SECTION("vector.dot( tensor2d )")
 {
   // compute using Eigen
 
@@ -3745,8 +3542,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3  <double> A;
-  cppmat::tensor3_2d<double> B;
+  V A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3755,8 +3552,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::vector3  <double> C = A.dot( B );
-  cppmat::vector3  <double> D = cppmat::dot( A , B );
+  V C = A.dot( B );
+  V D = cm::dot( A , B );
 
   // check the result
 
@@ -3765,8 +3562,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-C(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  70(a): failed   " << std::endl;
-  else              std::cout << "test  70(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3775,15 +3571,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( c(i)-D(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  70(b): failed   " << std::endl;
-  else              std::cout << "test  70(b): completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// vector.dyadic( vector )
-// =================================================================================================
 
+SECTION("vector.dyadic( vector )")
 {
   // compute using Eigen
 
@@ -3799,8 +3592,8 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3  <double> A;
-  cppmat::vector3  <double> B;
+  V A(nd);
+  V B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3808,8 +3601,8 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cppmat::tensor3_2 <double> C = A.dyadic( B );
-  cppmat::tensor3_2 <double> D = cppmat::dyadic( A , B );
+  T2  C = A.dyadic( B );
+  T2  D = cm::dyadic( A , B );
 
   // check the result
 
@@ -3819,8 +3612,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j) - C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  71(a): failed   " << std::endl;
-  else              std::cout << "test  71(a): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check the result
 
@@ -3830,71 +3622,18 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j) - D(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  71(b): failed   " << std::endl;
-  else              std::cout << "test  71(b): completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // check for symmetry
 
-  if ( C.issymmetric() ) std::cout << "Result unexpected symmetric" << std::endl;
-  if ( C.isdiagonal () ) std::cout << "Result unexpected diagonal"  << std::endl;
+  REQUIRE ( ! C.issymmetric() );
+  REQUIRE ( ! C.isdiagonal () );
 
 }
 
 // =================================================================================================
-// vector.cross( vector )
-// =================================================================================================
 
-{
-  // compute using Eigen
-
-  Eigen::VectorXd a = Eigen::VectorXd::Random(3);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(3);
-
-  Eigen::Vector3d aa(a(0),a(1),a(2));
-  Eigen::Vector3d bb(b(0),b(1),b(2));
-
-  Eigen::Vector3d c = aa.cross(bb);
-
-  // compute using cppmat
-
-  cppmat::vector3  <double> A(3);
-  cppmat::vector3  <double> B(3);
-
-  for ( size_t i=0; i<3; ++i )
-    A(i) = a(i);
-
-  for ( size_t i=0; i<3; ++i )
-    B(i) = b(i);
-
-  cppmat::vector3 <double> C = A.cross( B );
-  cppmat::vector3 <double> D = cppmat::cross( A , B );
-
-  // check the result
-
-  n = 0.0;
-
-  for ( size_t i=0; i<3; ++i )
-    n += std::abs( c(i) - C(i) );
-
-  if ( n > 1.e-12 ) std::cout << "test  72(a): failed   " << std::endl;
-  else              std::cout << "test  72(a): completed" << std::endl;
-
-  // check the result
-
-  n = 0.0;
-
-  for ( size_t i=0; i<3; ++i )
-    n += std::abs( c(i) - D(i) );
-
-  if ( n > 1.e-12 ) std::cout << "test  72(b): failed   " << std::endl;
-  else              std::cout << "test  72(b): completed" << std::endl;
-
-}
-
-// =================================================================================================
-// tensor2d - arithmetic
-// =================================================================================================
-
+SECTION("vector arithmetic")
 {
   // compute using Eigen
 
@@ -3910,11 +3649,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::vector3<double> A;
-  cppmat::vector3<double> B;
-  cppmat::vector3<double> C;
-  cppmat::vector3<double> D;
-  cppmat::vector3<double> E;
+  cm::vector<double> A(nd);
+  cm::vector<double> B(nd);
+  cm::vector<double> C(nd);
+  cm::vector<double> D(nd);
+  cm::vector<double> E(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i) = a(i);
@@ -3924,7 +3663,7 @@ int main()
     E(i) = e(i);
   }
 
-  cppmat::vector3<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  cm::vector<double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -3933,8 +3672,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( f(i)-F(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  73   : failed   " << std::endl;
-  else              std::cout << "test  73   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -3962,15 +3700,12 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     n += std::abs( f(i)-F(i) );
 
-  if ( n > 1.e-12 ) std::cout << "test  74   : failed   " << std::endl;
-  else              std::cout << "test  74   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// tensor2 - arithmetic
-// =================================================================================================
 
+SECTION("tensor2/tensor2d/tensor2d arithmetic")
 {
   // compute using Eigen
 
@@ -4005,11 +3740,11 @@ int main()
 
   // compute using cppmat
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
-  cppmat::tensor3_2s<double> C;
-  cppmat::tensor3_2s<double> D;
-  cppmat::tensor3_2d<double> E;
+  T2d A(nd);
+  T2  B(nd);
+  T2s C(nd);
+  T2s D(nd);
+  T2d E(nd);
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -4021,7 +3756,7 @@ int main()
     }
   }
 
-  cppmat::tensor3_2 <double> F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
+  T2  F = ( 7.*A + 10./B ) / ( C+2. ) * ( D-1. ) - 2.*E;
 
   // check the result
 
@@ -4031,8 +3766,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  75   : failed   " << std::endl;
-  else              std::cout << "test  75   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   // compute using cppmat
 
@@ -4061,15 +3795,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( f(i,j)-F(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  76   : failed   " << std::endl;
-  else              std::cout << "test  76   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 * tensor2
-// =================================================================================================
 
+SECTION("tensor2 * tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4079,8 +3810,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4090,7 +3821,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A * B;
+  cm::tensor2<double> C = A * B;
 
   A *= B;
 
@@ -4100,8 +3831,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  77   : failed   " << std::endl;
-  else              std::cout << "test  77   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4109,15 +3839,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  78   : failed   " << std::endl;
-  else              std::cout << "test  78   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 / tensor2
-// =================================================================================================
 
+SECTION("tensor2 / tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4127,8 +3854,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4138,7 +3865,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A / B;
+  cm::tensor2<double> C = A / B;
 
   A /= B;
 
@@ -4148,8 +3875,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  79   : failed   " << std::endl;
-  else              std::cout << "test  79   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4157,15 +3883,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  80   : failed   " << std::endl;
-  else              std::cout << "test  80   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 + tensor2
-// =================================================================================================
 
+SECTION("tensor2 + tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4175,8 +3898,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4186,7 +3909,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A + B;
+  cm::tensor2<double> C = A + B;
 
   A += B;
 
@@ -4196,8 +3919,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  81   : failed   " << std::endl;
-  else              std::cout << "test  81   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4205,15 +3927,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  82   : failed   " << std::endl;
-  else              std::cout << "test  82   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 - tensor2
-// =================================================================================================
 
+SECTION("tensor2 - tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4223,8 +3942,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2 <double> B;
+  T2  A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4234,7 +3953,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   A -= B;
 
@@ -4244,8 +3963,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  83   : failed   " << std::endl;
-  else              std::cout << "test  83   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4253,15 +3971,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  84   : failed   " << std::endl;
-  else              std::cout << "test  84   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 * tensor2s
-// =================================================================================================
 
+SECTION("tensor2 * tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4277,8 +3992,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4288,7 +4003,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A * B;
+  cm::tensor2<double> C = A * B;
 
   A *= B;
 
@@ -4298,8 +4013,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  85   : failed   " << std::endl;
-  else              std::cout << "test  85   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4307,15 +4021,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  86   : failed   " << std::endl;
-  else              std::cout << "test  86   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 / tensor2s
-// =================================================================================================
 
+SECTION("tensor2 / tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4331,8 +4042,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4342,7 +4053,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A / B;
+  cm::tensor2<double> C = A / B;
 
   A /= B;
 
@@ -4352,8 +4063,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  87   : failed   " << std::endl;
-  else              std::cout << "test  87   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4361,15 +4071,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  88   : failed   " << std::endl;
-  else              std::cout << "test  88   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 + tensor2s
-// =================================================================================================
 
+SECTION("tensor2 + tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4385,8 +4092,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4396,7 +4103,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A + B;
+  cm::tensor2<double> C = A + B;
 
   A += B;
 
@@ -4406,8 +4113,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  89   : failed   " << std::endl;
-  else              std::cout << "test  89   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4415,15 +4121,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  90   : failed   " << std::endl;
-  else              std::cout << "test  90   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 - tensor2s
-// =================================================================================================
 
+SECTION("tensor2 - tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4439,8 +4142,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2s<double> B;
+  T2  A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4450,7 +4153,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   A -= B;
 
@@ -4460,8 +4163,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  91   : failed   " << std::endl;
-  else              std::cout << "test  91   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4469,15 +4171,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  92   : failed   " << std::endl;
-  else              std::cout << "test  92   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 * tensor2d
-// =================================================================================================
 
+SECTION("tensor2 * tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4492,8 +4191,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4502,7 +4201,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2d<double> C = A * B;
+  T2d C = A * B;
 
   A *= B;
 
@@ -4512,8 +4211,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  93   : failed   " << std::endl;
-  else              std::cout << "test  93   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4521,15 +4219,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  94   : failed   " << std::endl;
-  else              std::cout << "test  94   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 + tensor2d
-// =================================================================================================
 
+SECTION("tensor2 + tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4544,8 +4239,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4554,7 +4249,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2<double> C = A + B;
+  cm::tensor2<double> C = A + B;
 
   A += B;
 
@@ -4564,8 +4259,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  95   : failed   " << std::endl;
-  else              std::cout << "test  95   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4573,15 +4267,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  96   : failed   " << std::endl;
-  else              std::cout << "test  96   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2 - tensor2d
-// =================================================================================================
 
+SECTION("tensor2 - tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4596,8 +4287,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2 <double> A;
-  cppmat::tensor3_2d<double> B;
+  T2  A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4606,7 +4297,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   A -= B;
 
@@ -4616,8 +4307,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  97   : failed   " << std::endl;
-  else              std::cout << "test  97   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4625,15 +4315,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  98   : failed   " << std::endl;
-  else              std::cout << "test  98   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s * tensor2
-// =================================================================================================
 
+SECTION("tensor2s * tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4647,8 +4334,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4658,7 +4345,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A * B;
+  cm::tensor2<double> C = A * B;
 
   n = 0.0;
 
@@ -4666,15 +4353,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test  99   : failed   " << std::endl;
-  else              std::cout << "test  99   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s / tensor2
-// =================================================================================================
 
+SECTION("tensor2s / tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4688,8 +4372,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4699,7 +4383,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A / B;
+  cm::tensor2<double> C = A / B;
 
   n = 0.0;
 
@@ -4707,15 +4391,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 100   : failed   " << std::endl;
-  else              std::cout << "test 100   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s + tensor2
-// =================================================================================================
 
+SECTION("tensor2s + tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4729,8 +4410,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4740,7 +4421,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A + B;
+  cm::tensor2<double> C = A + B;
 
   n = 0.0;
 
@@ -4748,15 +4429,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 101   : failed   " << std::endl;
-  else              std::cout << "test 101   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s - tensor2
-// =================================================================================================
 
+SECTION("tensor2s - tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4770,8 +4448,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2s A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4781,7 +4459,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   n = 0.0;
 
@@ -4789,15 +4467,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 102   : failed   " << std::endl;
-  else              std::cout << "test 102   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s * tensor2s
-// =================================================================================================
 
+SECTION("tensor2s * tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4817,8 +4492,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4828,7 +4503,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2s<double> C = A * B;
+  T2s C = A * B;
 
   A *= B;
 
@@ -4838,8 +4513,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 103   : failed   " << std::endl;
-  else              std::cout << "test 103   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4847,15 +4521,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 104   : failed   " << std::endl;
-  else              std::cout << "test 104   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s / tensor2s
-// =================================================================================================
 
+SECTION("tensor2s / tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4875,8 +4546,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4886,7 +4557,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2s<double> C = A / B;
+  T2s C = A / B;
 
   A /= B;
 
@@ -4896,8 +4567,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 105   : failed   " << std::endl;
-  else              std::cout << "test 105   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4905,15 +4575,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 106   : failed   " << std::endl;
-  else              std::cout << "test 106   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s + tensor2s
-// =================================================================================================
 
+SECTION("tensor2s + tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4933,8 +4600,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4944,7 +4611,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2s<double> C = A + B;
+  T2s C = A + B;
 
   A += B;
 
@@ -4954,8 +4621,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 107   : failed   " << std::endl;
-  else              std::cout << "test 107   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -4963,15 +4629,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 108   : failed   " << std::endl;
-  else              std::cout << "test 108   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s - tensor2s
-// =================================================================================================
 
+SECTION("tensor2s - tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -4991,8 +4654,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2s A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5002,7 +4665,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2s<double> C = A - B;
+  T2s C = A - B;
 
   A -= B;
 
@@ -5012,8 +4675,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 109   : failed   " << std::endl;
-  else              std::cout << "test 109   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5021,15 +4683,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 110   : failed   " << std::endl;
-  else              std::cout << "test 110   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s * tensor2d
-// =================================================================================================
 
+SECTION("tensor2s * tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5048,8 +4707,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5058,7 +4717,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2d<double> C = A * B;
+  T2d C = A * B;
 
   A *= B;
 
@@ -5068,8 +4727,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 111   : failed   " << std::endl;
-  else              std::cout << "test 111   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5077,15 +4735,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 112   : failed   " << std::endl;
-  else              std::cout << "test 112   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s + tensor2d
-// =================================================================================================
 
+SECTION("tensor2s + tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5104,8 +4759,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5114,7 +4769,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2s<double> C = A + B;
+  T2s C = A + B;
 
   A += B;
 
@@ -5124,8 +4779,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 113   : failed   " << std::endl;
-  else              std::cout << "test 113   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5133,15 +4787,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 114   : failed   " << std::endl;
-  else              std::cout << "test 114   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2s - tensor2d
-// =================================================================================================
 
+SECTION("tensor2s - tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5160,8 +4811,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2s<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2s A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -5170,7 +4821,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2s<double> C = A - B;
+  T2s C = A - B;
 
   A -= B;
 
@@ -5180,8 +4831,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 116   : failed   " << std::endl;
-  else              std::cout << "test 116   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5189,15 +4839,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 117   : failed   " << std::endl;
-  else              std::cout << "test 117   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d * tensor2
-// =================================================================================================
 
+SECTION("tensor2d * tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5212,8 +4859,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5222,7 +4869,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2d<double> C = A * B;
+  T2d C = A * B;
 
   A *= B;
 
@@ -5232,8 +4879,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 118   : failed   " << std::endl;
-  else              std::cout << "test 118   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5241,15 +4887,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 119   : failed   " << std::endl;
-  else              std::cout << "test 119   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d / tensor2
-// =================================================================================================
 
+SECTION("tensor2d / tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5264,8 +4907,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5274,7 +4917,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2d<double> C = A / B;
+  T2d C = A / B;
 
   A /= B;
 
@@ -5284,8 +4927,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 120   : failed   " << std::endl;
-  else              std::cout << "test 120   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5293,15 +4935,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 121   : failed   " << std::endl;
-  else              std::cout << "test 121   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d + tensor2
-// =================================================================================================
 
+SECTION("tensor2d + tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5316,8 +4955,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5326,7 +4965,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A + B;
+  cm::tensor2<double> C = A + B;
 
   n = 0.0;
 
@@ -5334,15 +4973,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 122   : failed   " << std::endl;
-  else              std::cout << "test 122   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d - tensor2
-// =================================================================================================
 
+SECTION("tensor2d - tensor2")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5357,8 +4993,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2 <double> B;
+  T2d A(nd);
+  T2  B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5367,7 +5003,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   n = 0.0;
 
@@ -5375,15 +5011,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 123   : failed   " << std::endl;
-  else              std::cout << "test 123   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d * tensor2s
-// =================================================================================================
 
+SECTION("tensor2d * tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5404,8 +5037,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5414,7 +5047,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A * B;
+  cm::tensor2<double> C = A * B;
 
   A *= B;
 
@@ -5424,8 +5057,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 124   : failed   " << std::endl;
-  else              std::cout << "test 124   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5433,15 +5065,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 125   : failed   " << std::endl;
-  else              std::cout << "test 125   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d / tensor2s
-// =================================================================================================
 
+SECTION("tensor2d / tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5462,8 +5091,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5472,7 +5101,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2d<double> C = A / B;
+  T2d C = A / B;
 
   A /= B;
 
@@ -5482,8 +5111,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 126   : failed   " << std::endl;
-  else              std::cout << "test 126   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5491,15 +5119,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 127   : failed   " << std::endl;
-  else              std::cout << "test 127   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d + tensor2s
-// =================================================================================================
 
+SECTION("tensor2d + tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5520,8 +5145,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5530,7 +5155,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2s<double> C = A + B;
+  T2s C = A + B;
 
   n = 0.0;
 
@@ -5538,15 +5163,12 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 128   : failed   " << std::endl;
-  else              std::cout << "test 128   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d - tensor2s
-// =================================================================================================
 
+SECTION("tensor2d - tensor2s")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5567,8 +5189,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2s<double> B;
+  T2d A(nd);
+  T2s B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5577,7 +5199,7 @@ int main()
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::tensor3_2<double> C = A - B;
+  cm::tensor2<double> C = A - B;
 
   n = 0.0;
 
@@ -5585,15 +5207,116 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 129   : failed   " << std::endl;
-  else              std::cout << "test 129   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
 // =================================================================================================
-// arithmetic -- tensor2d * tensor2d
+
+SECTION("tensor2d + tensor2d")
+{
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
+  Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
+  Eigen::MatrixXd c(nd,nd);
+
+  for ( size_t i = 0 ; i < nd ; ++i )
+    for ( size_t j = 0 ; j < nd ; ++j )
+      if ( i != j )
+        a(i,j) = 0.0;
+
+  for ( size_t i = 0 ; i < nd ; ++i )
+    for ( size_t j = 0 ; j < nd ; ++j )
+      if ( i != j )
+        b(i,j) = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      c(i,j) = a(i,j) + b(i,j);
+
+  T2d A(nd);
+  T2d B(nd);
+
+  for ( size_t i=0; i<nd; ++i )
+    A(i,i) = a(i,i);
+
+  for ( size_t i=0; i<nd; ++i )
+    B(i,i) = b(i,i);
+
+  cm::tensor2<double> C = A + B;
+
+  A += B;
+
+  n = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      n += std::abs( c(i,j)-C(i,j) );
+
+  REQUIRE( n < 1.e-12 );
+
+  n = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      n += std::abs( c(i,j)-A(i,j) );
+
+  REQUIRE( n < 1.e-12 );
+}
+
 // =================================================================================================
 
+SECTION("tensor2d - tensor2d")
+{
+  Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
+  Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
+  Eigen::MatrixXd c(nd,nd);
+
+  for ( size_t i = 0 ; i < nd ; ++i )
+    for ( size_t j = 0 ; j < nd ; ++j )
+      if ( i != j )
+        a(i,j) = 0.0;
+
+  for ( size_t i = 0 ; i < nd ; ++i )
+    for ( size_t j = 0 ; j < nd ; ++j )
+      if ( i != j )
+        b(i,j) = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      c(i,j) = a(i,j) - b(i,j);
+
+  T2d A(nd);
+  T2d B(nd);
+
+  for ( size_t i=0; i<nd; ++i )
+    A(i,i) = a(i,i);
+
+  for ( size_t i=0; i<nd; ++i )
+    B(i,i) = b(i,i);
+
+  cm::tensor2<double> C = A - B;
+
+  A -= B;
+
+  n = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      n += std::abs( c(i,j)-C(i,j) );
+
+  REQUIRE( n < 1.e-12 );
+
+  n = 0.0;
+
+  for ( size_t i=0; i<nd; ++i )
+    for ( size_t j=0; j<nd; ++j )
+      n += std::abs( c(i,j)-A(i,j) );
+
+  REQUIRE( n < 1.e-12 );
+}
+
+// =================================================================================================
+
+SECTION("tensor2d * tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5613,8 +5336,8 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
+  T2d A(nd);
+  T2d B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5622,7 +5345,7 @@ int main()
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cppmat::tensor3_2d<double> C = A * B;
+  T2d C = A * B;
 
   A *= B;
 
@@ -5632,8 +5355,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-C(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 130   : failed   " << std::endl;
-  else              std::cout << "test 130   : completed" << std::endl;
+  REQUIRE( n < 1.e-12 );
 
   n = 0.0;
 
@@ -5641,122 +5363,7 @@ int main()
     for ( size_t j=0; j<nd; ++j )
       n += std::abs( c(i,j)-A(i,j) );
 
-  if ( n > 1.e-12 ) std::cout << "test 131   : failed   " << std::endl;
-  else              std::cout << "test 131   : completed" << std::endl;
-
+  REQUIRE( n < 1.e-12 );
 }
 
-// =================================================================================================
-// arithmetic -- tensor2d + tensor2d
-// =================================================================================================
-
-{
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::MatrixXd c(nd,nd);
-
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = 0 ; j < nd ; ++j )
-      if ( i != j )
-        a(i,j) = 0.0;
-
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = 0 ; j < nd ; ++j )
-      if ( i != j )
-        b(i,j) = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      c(i,j) = a(i,j) + b(i,j);
-
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
-
-  for ( size_t i=0; i<nd; ++i )
-    A(i,i) = a(i,i);
-
-  for ( size_t i=0; i<nd; ++i )
-    B(i,i) = b(i,i);
-
-  cppmat::tensor3_2<double> C = A + B;
-
-  A += B;
-
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      n += std::abs( c(i,j)-C(i,j) );
-
-  if ( n > 1.e-12 ) std::cout << "test 132   : failed   " << std::endl;
-  else              std::cout << "test 132   : completed" << std::endl;
-
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      n += std::abs( c(i,j)-A(i,j) );
-
-  if ( n > 1.e-12 ) std::cout << "test 133   : failed   " << std::endl;
-  else              std::cout << "test 133   : completed" << std::endl;
-
-}
-
-// =================================================================================================
-// arithmetic -- tensor2d - tensor2d
-// =================================================================================================
-
-{
-  Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::MatrixXd c(nd,nd);
-
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = 0 ; j < nd ; ++j )
-      if ( i != j )
-        a(i,j) = 0.0;
-
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = 0 ; j < nd ; ++j )
-      if ( i != j )
-        b(i,j) = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      c(i,j) = a(i,j) - b(i,j);
-
-  cppmat::tensor3_2d<double> A;
-  cppmat::tensor3_2d<double> B;
-
-  for ( size_t i=0; i<nd; ++i )
-    A(i,i) = a(i,i);
-
-  for ( size_t i=0; i<nd; ++i )
-    B(i,i) = b(i,i);
-
-  cppmat::tensor3_2<double> C = A - B;
-
-  A -= B;
-
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      n += std::abs( c(i,j)-C(i,j) );
-
-  if ( n > 1.e-12 ) std::cout << "test 134   : failed   " << std::endl;
-  else              std::cout << "test 134   : completed" << std::endl;
-
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      n += std::abs( c(i,j)-A(i,j) );
-
-  if ( n > 1.e-12 ) std::cout << "test 135   : failed   " << std::endl;
-  else              std::cout << "test 135   : completed" << std::endl;
-
-}
-
-  return 0;
 }
