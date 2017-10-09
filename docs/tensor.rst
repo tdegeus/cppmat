@@ -30,7 +30,7 @@ Header-only module that provides C++ classes for 4th- and 2nd order tensors and 
 
 .. note:: **Tip**
 
-  The following notation can be shortened to:
+  The notation can be shortened to:
 
   .. code-block:: cpp
 
@@ -97,7 +97,7 @@ In addition, there are specialized classes available which employ information av
             X     ;
                 X ]
 
-    *The remaining components are imposed to be **zero***.
+    *The remaining components are imposed to be zero*.
 
 Because of the flexibility of C++ it is easy to switch between these specialized class and the more general ``cppmat::cartesian::tensor2`` class. For example, the following will work:
 
@@ -121,7 +121,7 @@ Also arithmetic works:
 
 Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, a typecast is performed to a more general class if needed.
 
-Finally, all the [methods](#methods) accept all three classes - ``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, ``cppmat::cartesian::tensor2d`` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
+Finally, all the :ref:`tensor-methods` accept all three classes - ``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, ``cppmat::cartesian::tensor2d`` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
 
 .. note::
 
@@ -138,6 +138,8 @@ Finally, all the [methods](#methods) accept all three classes - ``cppmat::cartes
 
     // take the diagonal of "A"
     cppmat::cartesian::tensor2d<double> C = A.astensor2d();
+
+.. _tensor-methods:
 
 Methods
 =======
@@ -157,86 +159,86 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
   Finally, each occurrence of ``cppmat::cartesian::tensor2`` can be replaced by ``cppmat::cartesian::tensor2s`` or ``cppmat::cartesian::tensor2d``. The latter two often perform better.
 
-*   ``cppmat::cartesian::tensor4``:
+*   ``cppmat::cartesian::tensor4<X>``:
 
-    -   ``C = A.ddot(cppmat::cartesian::tensor4)``
+    -   ``cppmat::cartesian::tensor4<X> C = A.ddot(const cppmat::cartesian::tensor4<X> &B)``
 
         Double tensor contraction : :math:`C_{ijmn} = A_{ijkl} B_{lkmn}`
 
-    -   ``C = A.ddot(cppmat::cartesian::tensor2)``
+    -   ``cppmat::cartesian::tensor2<X> C = A.ddot(const cppmat::cartesian::tensor2<X> &B)``
 
         Double tensor contraction :math:`C_{ij} = A_{ijkl} B_{lk}`
 
-    -   ``C = A.T()``
+    -   ``cppmat::cartesian::tensor4<X> C = A.T()``
 
         Transposition :math:`C_{lkji} = A_{ijkl}`
 
-    -   ``C = A.LT()``
+    -   ``cppmat::cartesian::tensor4<X> C = A.LT()``
 
         Left-transposition :math:`C_{jikl} = A_{ijkl}`
 
-    -   ``C = A.RT()``
+    -   ``cppmat::cartesian::tensor4<X> C = A.RT()``
 
         Right-transposition :math:`C_{ijlk} = A_{ijkl}`
 
-*   ``cppmat::cartesian::tensor2``:
+*   ``cppmat::cartesian::tensor2<X>``:
 
-    -   ``C = A.ddot(cppmat::cartesian::tensor4)``
+    -   ``cppmat::cartesian::tensor2<X> C = A.ddot(const cppmat::cartesian::tensor4<X> &B)``
 
         Double tensor contraction :math:`C_{kl} = A_{ij} B_{jikl}`
 
-    -   ``C = A.ddot(cppmat::cartesian::tensor2)``
+    -   ``X C = A.ddot(const cppmat::cartesian::tensor2<X> &B)``
 
         Double tensor contraction :math:`C = A_{ij} B_{ji}`
 
-    -   ``C = A.dot(cppmat::cartesian::tensor2)``
+    -   ``cppmat::cartesian::tensor2<X> C = A.dot(const cppmat::cartesian::tensor2<X> &B)``
 
         Tensor contraction :math:`C_{ik} = A_{ij} B_{jk}`
 
-    -   ``C = A.dot(cppmat::cartesian::vector)``
+    -   ``cppmat::cartesian::vector<X> C = A.dot(const cppmat::cartesian::vector<X> &B)``
 
         Tensor contraction :math:`C_{i} = A_{ij} B_{j}`
 
-    -   ``C = A.dyadic(cppmat::cartesian::tensor2)``
+    -   ``cppmat::cartesian::tensor4<X> C = A.dyadic(const cppmat::cartesian::tensor2<X> &B)``
 
         Dyadic product :math:`C_{ijkl} = A_{ij} B_{kl}`
 
-    -   ``C = A.T()``
+    -   ``cppmat::cartesian::tensor2<X> C = A.T()``
 
         Transposition :math:`C_{ji} = A_{ij}`
 
-    -   ``C = A.trace()``
+    -   ``X C = A.trace()``
 
         The trace of the tensor (i.e. the sum of the diagonal components) :math:`C = A_{ii}`
 
-    -   ``C = A.det()``
+    -   ``X C = A.det()``
 
-        The determinant :math:`C`
+        The determinant :math:`C = \det \underline{\bm{A}}`
 
-    -   ``C = A.inv()``
+    -   ``cppmat::cartesian::tensor2<X> C = A.inv()``
 
-        The inverse :math:`C_{ij}>`
+        The inverse :math:`C_{ij} = A_{ij}^{-1}`
 
-*   ``cppmat::cartesian::vector``:
+*   ``cppmat::cartesian::vector<X>``:
 
-    -   ``C = A.dot(cppmat::cartesian::vector)``
+    -   ``X C = A.dot(const cppmat::cartesian::vector<X> &B)``
 
-        Tensor contraction :math:`C = A_{i} B_{i}``
+        Tensor contraction :math:`C = A_{i} B_{i}`
 
-    -   ``C = A.dot(cppmat::cartesian::tensor2)``
+    -   ``cppmat::cartesian::vector<X> C = A.dot(const cppmat::cartesian::tensor2<X> &B)``
 
         Tensor contraction :math:`C_{j} = A_{i} B_{ij}`
 
-    -   ``C = A.dyadic(cppmat::cartesian::vector)``
+    -   ``cppmat::cartesian::tensor2<X> C = A.dyadic(const cppmat::cartesian::vector<X> &B)``
 
         Dyadic product :math:`C_{ij} = A_{i} B_{j}`
 
-    -   ``C = A.cross(cppmat::cartesian::vector)``
+    -   ``cppmat::cartesian::vector<X> C = A.cross(const cppmat::cartesian::vector<X> &B)``
 
-        Cross product :math:`C_{i}`
+        Cross product :math:`\vec{C} = \vec{A} \otimes \vec{B}`
 
 
 .. note::
 
-  One can also call the methods as functions using ``cppmmat::ddot( A , B )``, ``cppmmat::dot( A , B )``, ``cppmmat::dyadic( A , B )``, ``cppmmat::cross( A , B )``, ``cppmmat::transpose( A )``, ``cppmmat::transposeR( A )``, ``cppmmat::transposeL( A )``, ``cppmmat::inv( A )``, ``cppmmat::det( A )``, and ``cppmmat::trace( A )``, These methods are however just a front-end for the class-methods described above.
+  One can also call the methods as functions using ``cppmmat::ddot( A , B )``, ``cppmmat::dot( A , B )``, ``cppmmat::dyadic( A , B )``, ``cppmmat::cross( A , B )``, ``cppmmat::transpose( A )``, ``cppmmat::transposeR( A )``, ``cppmmat::transposeL( A )``, ``cppmmat::inv( A )``, ``cppmmat::det( A )``, and ``cppmmat::trace( A )``, These methods are just a front-end for the class-methods described above.
 
