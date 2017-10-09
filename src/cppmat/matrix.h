@@ -460,7 +460,7 @@ public:
 
   void printf(std::string fmt) const
   {
-    std::vector<size_t> s = m_strides;
+    std::vector<size_t> s = strides();
 
     if ( m_ndim == 1 )
     {
