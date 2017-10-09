@@ -2,7 +2,7 @@
 
 Compile using:
 
-$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test *.cpp
+$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test *.cpp
 ================================================================================================= */
 
 #include <catch/catch.hpp>
