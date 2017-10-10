@@ -16,6 +16,10 @@
 
 #include "tensor.h"
 
+#ifdef CPPMAT_EIGEN
+  #include <Eigen/Eigen>
+#endif
+
 namespace cppmat {
 namespace cartesian2d {
 
@@ -333,7 +337,8 @@ template <class X> tensor4<X> operator* (const tensor4<X> &A, const X &B)
     C[i+3] = A[i+3] * B;
   }
 
-  return C; }
+  return C;
+}
 
 template <class X> tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 {
@@ -346,7 +351,8 @@ template <class X> tensor4<X> operator/ (const tensor4<X> &A, const X &B)
     C[i+3] = A[i+3] / B;
   }
 
-  return C; }
+  return C;
+}
 
 template <class X> tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 {
@@ -359,7 +365,8 @@ template <class X> tensor4<X> operator+ (const tensor4<X> &A, const X &B)
     C[i+3] = A[i+3] + B;
   }
 
-  return C; }
+  return C;
+}
 
 template <class X> tensor4<X> operator- (const tensor4<X> &A, const X &B)
 {
@@ -372,7 +379,8 @@ template <class X> tensor4<X> operator- (const tensor4<X> &A, const X &B)
     C[i+3] = A[i+3] - B;
   }
 
-  return C; }
+  return C;
+}
 
 // arithmetic operators: tensor4 = scalar ? tensor4
 // ------------------------------------------------
@@ -455,6 +463,14 @@ public:
   tensor2(      X  D) { for ( size_t i=0; i<4; ++i ) m_data[i]=D;    };
   tensor2(const X *D) { for ( size_t i=0; i<4; ++i ) m_data[i]=D[i]; };
 
+  #ifdef CPPMAT_EIGEN
+    tensor2(const Eigen::Matrix<X,2,2,Eigen::RowMajor> &D)
+    {
+      for ( size_t i=0; i<4; ++i )
+        m_data[i]=D(i);
+    };
+  #endif
+
   // return strides array (see above)
   std::vector<size_t> strides(bool bytes=false) const
   {
@@ -478,6 +494,22 @@ public:
 
     return out;
   }
+
+  #ifdef CPPMAT_EIGEN
+    template<typename U,typename V=X,\
+      typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+    operator Eigen::Matrix<U,2,2,Eigen::RowMajor> () const
+    {
+      Eigen::Matrix<U,2,2,Eigen::RowMajor> out;
+
+      out(0) = static_cast<U>( m_data[0] );
+      out(1) = static_cast<U>( m_data[1] );
+      out(2) = static_cast<U>( m_data[2] );
+      out(3) = static_cast<U>( m_data[3] );
+
+      return out;
+    }
+  #endif
 
   // convert "tensor2 -> tensor2s"
   // WARNING: the output is symmetrized: "out(i,j) = ( this(i,j) + this(j,i) ) / 2."
