@@ -627,7 +627,7 @@ public:
 // arithmetic operators: matrix = matrix ? matrix
 // ----------------------------------------------
 
-template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
+template <class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -640,7 +640,7 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
+template <class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -653,7 +653,7 @@ template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
+template <class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -666,7 +666,7 @@ template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
+template <class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -682,7 +682,7 @@ template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
 // arithmetic operators: matrix = matrix ? scalar
 // ----------------------------------------------
 
-template<class T> matrix<T> operator* (const matrix<T> &A, const T &B)
+template <class T> matrix<T> operator* (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -692,7 +692,7 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix<T> operator/ (const matrix<T> &A, const T &B)
+template <class T> matrix<T> operator/ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -702,7 +702,7 @@ template<class T> matrix<T> operator/ (const matrix<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix<T> operator+ (const matrix<T> &A, const T &B)
+template <class T> matrix<T> operator+ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -712,7 +712,7 @@ template<class T> matrix<T> operator+ (const matrix<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix<T> operator- (const matrix<T> &A, const T &B)
+template <class T> matrix<T> operator- (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
@@ -725,7 +725,7 @@ template<class T> matrix<T> operator- (const matrix<T> &A, const T &B)
 // arithmetic operators: matrix = scalar ? matrix
 // ----------------------------------------------
 
-template<class T> matrix<T> operator* (const T &A, const matrix<T> &B)
+template <class T> matrix<T> operator* (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
@@ -735,7 +735,7 @@ template<class T> matrix<T> operator* (const T &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator/ (const T &A, const matrix<T> &B)
+template <class T> matrix<T> operator/ (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
@@ -745,7 +745,7 @@ template<class T> matrix<T> operator/ (const T &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator+ (const T &A, const matrix<T> &B)
+template <class T> matrix<T> operator+ (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
@@ -755,7 +755,7 @@ template<class T> matrix<T> operator+ (const T &A, const matrix<T> &B)
   return C;
 }
 
-template<class T> matrix<T> operator- (const T &A, const matrix<T> &B)
+template <class T> matrix<T> operator- (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 

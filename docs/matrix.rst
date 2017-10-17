@@ -24,7 +24,7 @@ Header-only module that provides a C++ class for n-d matrices. For example a ran
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a very small matrix, please the fixed sized :ref:`tiny_matrix2`. The latter doesn't need dynamic memory allocation, and can therefore be considerably faster.
+  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a very small matrix, please the fixed sized :ref:`tiny_matrix2`. The latter doesn't need dynamic memory allocation, and can therefore be considerably faster. In 1-d you can similarly use :ref:`vector` and :ref:`tiny_vector`.
 
 Methods
 =======

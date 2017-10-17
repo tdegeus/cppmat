@@ -13,7 +13,7 @@ namespace cppmat {
 namespace tiny {
 
 // =================================================================================================
-// cppmat::matrix2
+// cppmat::tiny::matrix2
 // =================================================================================================
 
 template <class T, size_t m, size_t n> class matrix2
@@ -241,7 +241,7 @@ public:
 // arithmetic operators: matrix2 = matrix2 ? matrix2
 // ----------------------------------------------
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator* (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -252,7 +252,7 @@ matrix2<T,m,n> operator* (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator/ (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -263,7 +263,7 @@ matrix2<T,m,n> operator/ (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator+ (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -274,7 +274,7 @@ matrix2<T,m,n> operator+ (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator- (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -288,7 +288,7 @@ matrix2<T,m,n> operator- (const matrix2<T,m,n> &A, const matrix2<T,m,n> &B)
 // arithmetic operators: matrix2 = matrix2 ? scalar
 // ----------------------------------------------
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator* (const matrix2<T,m,n> &A, const T &B)
 {
   matrix2<T,m,n> C;
@@ -299,7 +299,7 @@ matrix2<T,m,n> operator* (const matrix2<T,m,n> &A, const T &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator/ (const matrix2<T,m,n> &A, const T &B)
 {
   matrix2<T,m,n> C;
@@ -310,7 +310,7 @@ matrix2<T,m,n> operator/ (const matrix2<T,m,n> &A, const T &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator+ (const matrix2<T,m,n> &A, const T &B)
 {
   matrix2<T,m,n> C;
@@ -321,7 +321,7 @@ matrix2<T,m,n> operator+ (const matrix2<T,m,n> &A, const T &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator- (const matrix2<T,m,n> &A, const T &B)
 {
   matrix2<T,m,n> C;
@@ -335,7 +335,7 @@ matrix2<T,m,n> operator- (const matrix2<T,m,n> &A, const T &B)
 // arithmetic operators: matrix2 = scalar ? matrix2
 // ----------------------------------------------
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator* (const T &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -346,7 +346,7 @@ matrix2<T,m,n> operator* (const T &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator/ (const T &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -357,7 +357,7 @@ matrix2<T,m,n> operator/ (const T &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator+ (const T &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;
@@ -368,7 +368,7 @@ matrix2<T,m,n> operator+ (const T &A, const matrix2<T,m,n> &B)
   return C;
 }
 
-template<class T, size_t m, size_t n>
+template <class T, size_t m, size_t n>
 matrix2<T,m,n> operator- (const T &A, const matrix2<T,m,n> &B)
 {
   matrix2<T,m,n> C;

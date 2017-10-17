@@ -1,11 +1,11 @@
 
-.. _matrix2:
+.. _vector:
 
 ******************
-<cppmat/matrix2.h>
+<cppmat/vector.h>
 ******************
 
-Header-only module that provides a C++ class for 2-d matrices. For example:
+Header-only module that provides a C++ class for 1-d matrices (a.k.a. vectors). For example:
 
 .. code-block:: cpp
 
@@ -13,9 +13,9 @@ Header-only module that provides a C++ class for 2-d matrices. For example:
 
   int main()
   {
-      cppmat::matrix2<double> A(10,10);
+      cppmat::vector<double> A(10);
 
-      A(0,0) = ...
+      A(0) = ...
 
       ...
 
@@ -25,9 +25,9 @@ Header-only module that provides a C++ class for 2-d matrices. For example:
 Methods
 =======
 
-*   ``A(i,j)``
+*   ``A(i)``
 
-    Return the entry at ``(i,j)``.
+    Return the entry at ``(i)``.
 
 *   ``A[i]``
 
@@ -35,15 +35,11 @@ Methods
 
 *   ``size_t n = A.shape(i)``
 
-    Returns the shape along dimension ``i``.
+    Returns the shape along dimension ``i`` (where ``i`` can only be ``0`` in this case).
 
 *   ``std::vector<size_t> shape = A.shape()``
 
-    Returns the shape along both dimensions.
-
-*   ``A.reshape(m,n)``
-
-    Change the shape of the matrix. It is required that the total number of entries does not change.
+    Returns the shape as an array of length one.
 
 View
 ====

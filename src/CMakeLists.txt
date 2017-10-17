@@ -53,7 +53,9 @@ set(CPPMAT_HEADERS
   cppmat/macros.h
   cppmat/matrix.h
   cppmat/matrix2.h
+  cppmat/vector.h
   cppmat/tiny_matrix2.h
+  cppmat/tiny_vector.h
   cppmat/tensor.h
   cppmat/tensor2.h
   cppmat/tensor3.h

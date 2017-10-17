@@ -9,7 +9,9 @@
 
 #include "matrix.h"
 #include "matrix2.h"
+#include "vector.h"
 #include "tiny_matrix2.h"
+#include "tiny_vector.h"
 #include "tensor.h"
 #include "tensor2.h"
 #include "tensor3.h"

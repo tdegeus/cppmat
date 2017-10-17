@@ -21,7 +21,9 @@ Contents
 
    matrix.rst
    matrix2.rst
+   vector.rst
    tiny_matrix2.rst
+   tiny_vector.rst
    tensor.rst
    tensor2.rst
    tensor3.rst

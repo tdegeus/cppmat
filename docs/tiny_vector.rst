@@ -1,11 +1,11 @@
 
-.. _tiny_matrix2:
+.. _tiny_vector:
 
 ***********************
-<cppmat/tiny_matrix2.h>
+<cppmat/tiny_vector.h>
 ***********************
 
-Header-only module that provides a C++ class for fixed size, small, 2-d matrices. For example:
+Header-only module that provides a C++ class for fixed size, small, 1-d matrices (a.k.a. vectors). For example:
 
 .. code-block:: cpp
 
@@ -13,9 +13,9 @@ Header-only module that provides a C++ class for fixed size, small, 2-d matrices
 
   int main()
   {
-      cppmat::tiny::matrix2<double,10,10> A;
+      cppmat::tiny::vector<double,10> A;
 
-      A(0,0) = ...
+      A(0) = ...
 
       ...
 
@@ -25,9 +25,9 @@ Header-only module that provides a C++ class for fixed size, small, 2-d matrices
 Methods
 =======
 
-*   ``A(i,j)``
+*   ``A(i)``
 
-    Return the entry at ``(i,j)``.
+    Return the entry at ``(i)``.
 
 *   ``A[i]``
 
@@ -35,11 +35,11 @@ Methods
 
 *   ``size_t n = A.shape(i)``
 
-    Returns the shape along dimension ``i``.
+    Returns the shape along dimension ``i`` (where ``i`` can only be ``0`` in this case).
 
 *   ``std::vector<size_t> shape = A.shape()``
 
-    Returns the shape along both dimensions.
+    Returns the shape as an array of length one.
 
 View
 ====
