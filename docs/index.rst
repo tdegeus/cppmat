@@ -20,6 +20,8 @@ Contents
    :maxdepth: 1
 
    matrix.rst
+   matrix2.rst
+   tiny_matrix2.rst
    tensor.rst
    tensor2.rst
    tensor3.rst

@@ -9,7 +9,7 @@ Header-only module that provides C++ classes for 4th- and 2nd order tensors and 
 
 .. code-block:: cpp
 
-  #include <cppmat/tensor.h>
+  #include <cppmat/cppmat.h>
 
   int main()
   {
@@ -34,7 +34,7 @@ Header-only module that provides C++ classes for 4th- and 2nd order tensors and 
 
   .. code-block:: cpp
 
-    #include <cppmat/tensor.h>
+    #include <cppmat/cppmat.h>
 
     using     T4 = cppmat::cartesian::tensor4<double>;
     namespace cm = cppmat::cartesian;
