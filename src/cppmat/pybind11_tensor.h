@@ -4,14 +4,15 @@
 
 ================================================================================================= */
 
-#ifndef TENSOR_PYBIND11_H
-#define TENSOR_PYBIND11_H
+#ifndef CPPMAT_TENSOR_PYBIND11_H
+#define CPPMAT_TENSOR_PYBIND11_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
 #include "tensor.h"
+#include "macros.h"
 
 namespace py = pybind11;
 

@@ -5,7 +5,6 @@ Compile using:
 $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test *.cpp
 ================================================================================================= */
 
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch/catch.hpp>
 
 #include <cppmat/cppmat.h>
@@ -16,7 +15,7 @@ $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test
 
 // =================================================================================================
 
-TEST_CASE("cppmat::matrix", "matrix.h")
+TEST_CASE("cppmat::tiny::matrix2", "tiny_matrix.h")
 {
 
 // =================================================================================================
@@ -31,8 +30,8 @@ SECTION( "matrix + matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -41,7 +40,7 @@ SECTION( "matrix + matrix" )
     }
   }
 
-  cppmat::matrix<double> C = A + B;
+  cppmat::tiny::matrix2<double,M,N> C = A + B;
 
   A += B;
 
@@ -78,8 +77,8 @@ SECTION( "matrix - matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -88,7 +87,7 @@ SECTION( "matrix - matrix" )
     }
   }
 
-  cppmat::matrix<double> C = A - B;
+  cppmat::tiny::matrix2<double,M,N> C = A - B;
 
   A -= B;
 
@@ -129,8 +128,8 @@ SECTION( "matrix * matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -139,7 +138,7 @@ SECTION( "matrix * matrix" )
     }
   }
 
-  cppmat::matrix<double> C = A * B;
+  cppmat::tiny::matrix2<double,M,N> C = A * B;
 
   A *= B;
 
@@ -185,8 +184,8 @@ SECTION( "matrix / matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -195,7 +194,7 @@ SECTION( "matrix / matrix" )
     }
   }
 
-  cppmat::matrix<double> C = A / B;
+  cppmat::tiny::matrix2<double,M,N> C = A / B;
 
   A /= B;
 
@@ -238,13 +237,13 @@ SECTION( "matrix + scalar" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::matrix<double> C = A + B;
+  cppmat::tiny::matrix2<double,M,N> C = A + B;
 
   A += B;
 
@@ -287,13 +286,13 @@ SECTION( "matrix - scalar" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::matrix<double> C = A - B;
+  cppmat::tiny::matrix2<double,M,N> C = A - B;
 
   A -= B;
 
@@ -336,13 +335,13 @@ SECTION( "matrix * scalar" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::matrix<double> C = A * B;
+  cppmat::tiny::matrix2<double,M,N> C = A * B;
 
   A *= B;
 
@@ -391,13 +390,13 @@ SECTION( "matrix / scalar" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> A({M,N});
+  cppmat::tiny::matrix2<double,M,N> A;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       A(i,j) = a(i,j);
 
-  cppmat::matrix<double> C = A / B;
+  cppmat::tiny::matrix2<double,M,N> C = A / B;
 
   A /= B;
 
@@ -440,13 +439,13 @@ SECTION( "scalar + matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::matrix<double> C = A + B;
+  cppmat::tiny::matrix2<double,M,N> C = A + B;
 
   B += A;
 
@@ -489,13 +488,13 @@ SECTION( "scalar - matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::matrix<double> C = A - B;
+  cppmat::tiny::matrix2<double,M,N> C = A - B;
 
   // verify
 
@@ -526,13 +525,13 @@ SECTION( "scalar * matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::matrix<double> C = A * B;
+  cppmat::tiny::matrix2<double,M,N> C = A * B;
 
   B *= A;
 
@@ -575,13 +574,13 @@ SECTION( "scalar / matrix" )
 
   // compute using cppmat
 
-  cppmat::matrix<double> B({M,N});
+  cppmat::tiny::matrix2<double,M,N> B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       B(i,j) = b(i,j);
 
-  cppmat::matrix<double> C = A / B;
+  cppmat::tiny::matrix2<double,M,N> C = A / B;
 
   // verify
 

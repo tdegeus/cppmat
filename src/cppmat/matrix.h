@@ -4,16 +4,10 @@
 
 ================================================================================================= */
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef CPPMAT_MATRIX_H
+#define CPPMAT_MATRIX_H
 
-#include <assert.h>
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-#include <vector>
-#include <string>
-#include <algorithm>
+#include "macros.h"
 
 namespace cppmat {
 
@@ -125,9 +119,6 @@ public:
     resize(shape);
   }
 
-  // index operators (now up to 6-d, extend if needed)
-  // -------------------------------------------------
-
   // operator[] : direct storage access
   // ----------------------------------
 
@@ -189,6 +180,8 @@ public:
     return m_data[a*m_strides[0]];
   };
 
+  // --
+
   T& operator()(int a, int b)
   {
     a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
@@ -196,6 +189,22 @@ public:
 
     return m_data[a*m_strides[0]+b*m_strides[1]];
   };
+
+  T& operator()(size_t a, int b)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  T& operator()(int a, size_t b)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  // --
 
   T& operator()(int a, int b, int c)
   {
@@ -205,6 +214,53 @@ public:
 
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
   };
+
+  T& operator()(size_t a, int b, int c)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(size_t a, size_t b, int c)
+  {
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(size_t a, int b, size_t c)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, size_t b, int c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, size_t b, size_t c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, int b, size_t c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  // --
 
   T& operator()(int a, int b, int c, int d)
   {
@@ -216,6 +272,8 @@ public:
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
   };
 
+  // --
+
   T& operator()(int a, int b, int c, int d, int e)
   {
     a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
@@ -226,6 +284,8 @@ public:
 
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
   };
+
+  // --
 
   T& operator()(int a, int b, int c, int d, int e, int f)
   {
@@ -243,10 +303,12 @@ public:
 
   const T& operator()(int a) const
   {
-    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    a = ( a < 0 ) ? a + m_shape[0] : ( a >= m_shape[0] ) ? a - m_shape[0] : a ;
 
     return m_data[a*m_strides[0]];
   };
+
+  // --
 
   const T& operator()(int a, int b) const
   {
@@ -256,6 +318,22 @@ public:
     return m_data[a*m_strides[0]+b*m_strides[1]];
   };
 
+  const T& operator()(size_t a, int b) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  const T& operator()(int a, size_t b) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  // --
+
   const T& operator()(int a, int b, int c) const
   {
     a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
@@ -264,6 +342,53 @@ public:
 
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
   };
+
+  const T& operator()(size_t a, int b, int c) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(size_t a, size_t b, int c) const
+  {
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(size_t a, int b, size_t c) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, size_t b, int c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, size_t b, size_t c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, int b, size_t c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  // --
 
   const T& operator()(int a, int b, int c, int d) const
   {
@@ -275,6 +400,8 @@ public:
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
   };
 
+  // --
+
   const T& operator()(int a, int b, int c, int d, int e) const
   {
     a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
@@ -285,6 +412,8 @@ public:
 
     return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
   };
+
+  // --
 
   const T& operator()(int a, int b, int c, int d, int e, int f) const
   {
@@ -464,30 +593,30 @@ public:
 
     if ( m_ndim == 1 )
     {
-      for ( size_t h = 0 ; h < shape()[0]-1 ; ++h ) {
+      for ( size_t h = 0 ; h < shape(0)-1 ; ++h ) {
         std::printf((fmt+",").c_str(),m_data[h]);
       }
-      std::printf((fmt+"\n").c_str(),m_data[shape()[0]-1]);
+      std::printf((fmt+"\n").c_str(),m_data[shape(0)-1]);
     }
     else if ( m_ndim == 2 )
     {
-      for ( size_t h = 0 ; h < shape()[0] ; ++h ) {
-        for ( size_t i = 0 ; i < shape()[1]-1 ; ++i ) {
+      for ( size_t h = 0 ; h < shape(0) ; ++h ) {
+        for ( size_t i = 0 ; i < shape(1)-1 ; ++i ) {
           std::printf((fmt+",").c_str(),m_data[h*s[0]+i*s[1]]);
         }
-        std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape()[1]-1)*s[1]]);
+        std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape(1)-1)*s[1]]);
       }
     }
     else if ( m_ndim == 3 )
     {
-      for ( size_t h = 0 ; h < shape()[0] ; ++h ) {
-        for ( size_t i = 0 ; i < shape()[1] ; ++i ) {
-          for ( size_t j = 0 ; j < shape()[2]-1 ; ++j ) {
+      for ( size_t h = 0 ; h < shape(0) ; ++h ) {
+        for ( size_t i = 0 ; i < shape(1) ; ++i ) {
+          for ( size_t j = 0 ; j < shape(2)-1 ; ++j ) {
             std::printf((fmt+",").c_str(),m_data[h*s[0]+i*s[1]+j*s[2]]);
           }
-          std::printf((fmt+";\n").c_str(),m_data[h*s[0]+i*s[1]+(shape()[2]-1)*s[2]]);
+          std::printf((fmt+";\n").c_str(),m_data[h*s[0]+i*s[1]+(shape(2)-1)*s[2]]);
         }
-        if ( h<shape()[0]-1 )
+        if ( h<shape(0)-1 )
           std::printf("\n");
       }
     }
@@ -505,7 +634,7 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const matrix<T> &B)
 
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
 
   return C;
@@ -518,7 +647,7 @@ template<class T> matrix<T> operator/ (const matrix<T> &A, const matrix<T> &B)
 
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
 
   return C;
@@ -531,7 +660,7 @@ template<class T> matrix<T> operator+ (const matrix<T> &A, const matrix<T> &B)
 
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
 
   return C;
@@ -544,7 +673,7 @@ template<class T> matrix<T> operator- (const matrix<T> &A, const matrix<T> &B)
 
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
 
   return C;
@@ -557,7 +686,7 @@ template<class T> matrix<T> operator* (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
 
   return C;
@@ -567,7 +696,7 @@ template<class T> matrix<T> operator/ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
 
   return C;
@@ -577,7 +706,7 @@ template<class T> matrix<T> operator+ (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
 
   return C;
@@ -587,7 +716,7 @@ template<class T> matrix<T> operator- (const matrix<T> &A, const T &B)
 {
   matrix<T> C(A.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
 
   return C;
@@ -600,7 +729,7 @@ template<class T> matrix<T> operator* (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
 
   return C;
@@ -610,7 +739,7 @@ template<class T> matrix<T> operator/ (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
 
   return C;
@@ -620,7 +749,7 @@ template<class T> matrix<T> operator+ (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
 
   return C;
@@ -630,7 +759,7 @@ template<class T> matrix<T> operator- (const T &A, const matrix<T> &B)
 {
   matrix<T> C(B.shape());
 
-  for ( size_t i=0; i<C.size(); ++i )
+  for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
 
   return C;
@@ -644,30 +773,30 @@ std::ostream& operator<<(std::ostream& out, matrix<T>& src)
 {
   if ( src.ndim() == 1 )
   {
-    for ( size_t i = 0 ; i < src.shape()[0]-1 ; ++i ) {
+    for ( size_t i = 0 ; i < src.shape(0)-1 ; ++i ) {
       out << src(i) << " , ";
     }
-    out << src(src.shape()[0]-1) << std::endl;
+    out << src(src.shape(0)-1) << std::endl;
   }
   else if ( src.ndim() == 2 )
   {
-    for ( size_t i = 0 ; i < src.shape()[0] ; ++i ) {
-      for ( size_t j = 0 ; j < src.shape()[1]-1 ; ++j ) {
+    for ( size_t i = 0 ; i < src.shape(0) ; ++i ) {
+      for ( size_t j = 0 ; j < src.shape(1)-1 ; ++j ) {
         out << src(i,j) << ", ";
       }
-      out << src(i,src.shape()[1]-1) << "; " << std::endl;
+      out << src(i,src.shape(1)-1) << "; " << std::endl;
     }
   }
   else if ( src.ndim() == 3 )
   {
-    for ( size_t h = 0 ; h < src.shape()[0] ; ++h ) {
-      for ( size_t i = 0 ; i < src.shape()[1] ; ++i ) {
-        for ( size_t j = 0 ; j < src.shape()[2]-1 ; ++j ) {
+    for ( size_t h = 0 ; h < src.shape(0) ; ++h ) {
+      for ( size_t i = 0 ; i < src.shape(1) ; ++i ) {
+        for ( size_t j = 0 ; j < src.shape(2)-1 ; ++j ) {
           out << src(h,i,j) << ", ";
         }
-        out << src(h,i,src.shape()[2]-1) << "; " << std::endl;
+        out << src(h,i,src.shape(2)-1) << "; " << std::endl;
       }
-      if ( h < src.shape()[0]-1 )
+      if ( h < src.shape(0)-1 )
         out << std::endl;
     }
   }

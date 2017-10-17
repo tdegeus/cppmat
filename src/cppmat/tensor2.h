@@ -4,21 +4,11 @@
 
 ================================================================================================= */
 
-#ifndef TENSOR2_H
-#define TENSOR2_H
+#ifndef CPPMAT_TENSOR2_H
+#define CPPMAT_TENSOR2_H
 
-#include <assert.h>
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-#include <vector>
-#include <string>
-
-#include "tensor.h"
-
-#ifdef CPPMAT_EIGEN
-  #include <Eigen/Eigen>
-#endif
+#include "tensor.h" // strides
+#include "macros.h"
 
 namespace cppmat {
 namespace cartesian2d {

@@ -4,15 +4,10 @@
 
 ================================================================================================= */
 
-#ifndef TENSOR_H
-#define TENSOR_H
+#ifndef CPPMAT_TENSOR_H
+#define CPPMAT_TENSOR_H
 
-#include <assert.h>
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-#include <vector>
-#include <string>
+#include "macros.h"
 
 namespace cppmat {
 namespace cartesian {

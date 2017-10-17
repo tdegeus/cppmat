@@ -4,17 +4,11 @@
 
 ================================================================================================= */
 
-#ifndef TENSOR3_H
-#define TENSOR3_H
+#ifndef CPPMAT_TENSOR3_H
+#define CPPMAT_TENSOR3_H
 
-#include <assert.h>
-#include <iostream>
-#include <cstdlib>
-#include <cmath>
-#include <vector>
-#include <string>
-
-#include "tensor.h"
+#include "tensor.h" // strides
+#include "macros.h"
 
 namespace cppmat {
 namespace cartesian3d {

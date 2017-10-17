@@ -7,7 +7,7 @@ $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test
 
 #include <catch/catch.hpp>
 
-#include <cppmat/tensor2.h>
+#include <cppmat/cppmat.h>
 #include <Eigen/Eigen>
 
 // =================================================================================================
