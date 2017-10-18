@@ -16,7 +16,8 @@
 
 namespace py = pybind11;
 
-namespace pybind11 { namespace detail {
+namespace pybind11 {
+namespace detail {
 
 // =================================================================================================
 // type caster: cppmat::cartesian::tensor4 <-> NumPy-array
@@ -34,33 +35,28 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T>::check_(src) )
-      return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
-    // - require contiguous and row-major storage from NumPy
+    // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
+    // - check
+    if ( !buf ) return false;
 
-    // - check storage requirements
-    if ( !buf )
-      return false;
-
-    // - extract rank of the array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 4
     auto rank = buf.ndim();
-
-    // - input should be rank 4
-    if ( rank != 4 )
-      return false;
+    // - check
+    if ( rank != 4 ) return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
+    for ( ssize_t i = 0 ; i < rank ; ++i )
+      if ( buf.shape()[i] != nd )
         return false;
 
-    // - all checks passed: create the proper C++ variable
-    value = cppmat::cartesian::tensor4<T>(nd,buf.data());
+    // - all checks passed : create the proper C++ variable
+    value = cppmat::cartesian::tensor4<T>(nd, buf.data());
 
     // - signal successful variable creation
     return true;
@@ -69,14 +65,15 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::cartesian::tensor4<T>& src, py::return_value_policy policy,
-    py::handle parent)
+  static py::handle cast(
+    const cppmat::cartesian::tensor4<T>& src, py::return_value_policy policy, py::handle parent
+  )
   {
     // - create "shape" array required by Python
-    std::vector<size_t> shape(4,src.ndim());
+    std::vector<size_t> shape(4, src.ndim());
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape),std::move(src.strides(true)),src.data());
+    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -99,33 +96,28 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T>::check_(src) )
-      return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
-    // - require contiguous and row-major storage from NumPy
+    // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
+    // - check
+    if ( !buf ) return false;
 
-    // - check storage requirements
-    if ( !buf )
-      return false;
-
-    // - extract rank of the array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 2
     auto rank = buf.ndim();
-
-    // - input should be rank 2
-    if ( rank != 2 )
-      return false;
+    // - check
+    if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
+    for ( ssize_t i = 0 ; i < rank ; ++i )
+      if ( buf.shape()[i] != nd )
         return false;
 
-    // - all checks passed: create the proper C++ variable
-    value = cppmat::cartesian::tensor2<T>(nd,buf.data());
+    // - all checks passed : create the proper C++ variable
+    value = cppmat::cartesian::tensor2<T>(nd, buf.data());
 
     // - signal successful variable creation
     return true;
@@ -134,14 +126,15 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::cartesian::tensor2<T>& src, py::return_value_policy policy,
-    py::handle parent)
+  static py::handle cast(
+    const cppmat::cartesian::tensor2<T>& src, py::return_value_policy policy, py::handle parent
+  )
   {
     // - create "shape" array required by Python
-    std::vector<size_t> shape(2,src.ndim());
+    std::vector<size_t> shape(2, src.ndim());
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape),std::move(src.strides(true)),src.data());
+    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -164,33 +157,28 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T>::check_(src) )
-      return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
-    // - require contiguous and row-major storage from NumPy
+    // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
+    // - check
+    if ( !buf ) return false;
 
-    // - check storage requirements
-    if ( !buf )
-      return false;
-
-    // - extract rank of the array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 2
     auto rank = buf.ndim();
-
-    // - input should be rank 2
-    if ( rank != 2 )
-      return false;
+    // - check
+    if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
+    for ( ssize_t i = 0 ; i < rank ; ++i )
+      if ( buf.shape()[i] != nd )
         return false;
 
-    // - all checks passed: create the proper C++ variable
-    value = cppmat::cartesian::tensor2s<T>(nd,buf.data());
+    // - all checks passed : create the proper C++ variable
+    value = cppmat::cartesian::tensor2s<T>(nd, buf.data());
 
     // - signal successful variable creation
     return true;
@@ -199,14 +187,15 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::cartesian::tensor2s<T>& src, py::return_value_policy policy,
-    py::handle parent)
+  static py::handle cast(
+    const cppmat::cartesian::tensor2s<T>& src, py::return_value_policy policy, py::handle parent
+  )
   {
     // - extract number of dimensions
     size_t nd = src.ndim();
 
-    // - create "shape", allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2,nd);
+    // - create "shape" array required by Python, allocate "data" as 'full matrix'
+    std::vector<size_t> shape(2, nd);
     std::vector<T>      data(nd*nd);
 
     // - copy 'full matrix' "data" from symmetrically stored variable
@@ -215,7 +204,7 @@ public:
         data[i*nd+j] = src(i,j);
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape),std::move(src.strides(true)),data.data());
+    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
 
     // - release variable to Python
     return a.release();
@@ -238,33 +227,28 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T>::check_(src) )
-      return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
-    // - require contiguous and row-major storage from NumPy
+    // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
+    // - check
+    if ( !buf ) return false;
 
-    // - check storage requirements
-    if ( !buf )
-      return false;
-
-    // - extract rank of the array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 2
     auto rank = buf.ndim();
-
-    // - input should be rank 2
-    if ( rank != 2 )
-      return false;
+    // - check
+    if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
+    for ( ssize_t i = 0 ; i < rank ; ++i )
+      if ( buf.shape()[i] != nd )
         return false;
 
-    // - all checks passed: create the proper C++ variable
-    value = cppmat::cartesian::tensor2d<T>(nd,buf.data());
+    // - all checks passed : create the proper C++ variable
+    value = cppmat::cartesian::tensor2d<T>(nd, buf.data());
 
     // - signal successful variable creation
     return true;
@@ -273,22 +257,23 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::cartesian::tensor2d<T>& src, py::return_value_policy policy,
-    py::handle parent)
+  static py::handle cast(
+    const cppmat::cartesian::tensor2d<T>& src, py::return_value_policy policy, py::handle parent
+  )
   {
     // - extract number of dimensions
     size_t nd = src.ndim();
 
-    // - create "shape", allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2,nd);
-    std::vector<T>      data(nd*nd,static_cast<T>(0));
+    // - create "shape" array required by Python, allocate "data" as 'full matrix'
+    std::vector<size_t> shape(2, nd);
+    std::vector<T>      data(nd*nd, static_cast<T>(0));
 
     // - copy 'full matrix' "data" from symmetrically stored variable
     for ( size_t i = 0 ; i < nd ; ++i )
       data[i*nd+i] = src[i];
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape),std::move(src.strides(true)),data.data());
+    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
 
     // - release variable to Python
     return a.release();
@@ -311,33 +296,28 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T>::check_(src) )
-      return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
-    // - require contiguous and row-major storage from NumPy
+    // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
+    // - check
+    if ( !buf ) return false;
 
-    // - check storage requirements
-    if ( !buf )
-      return false;
-
-    // - extract rank of the array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 1
     auto rank = buf.ndim();
-
-    // - input should be rank 1
-    if ( rank != 1 )
-      return false;
+    // - check
+    if ( rank != 1 ) return false;
 
     // - read number of dimensions (shape in each direction)
-    size_t nd = buf.shape()[0];
+    ssize_t nd = buf.shape()[0];
 
     // - the shape in each direction should be equal ( == nd )
-    for ( ssize_t i=0 ; i<buf.ndim() ; i++ )
-      if ( buf.shape()[i] != static_cast<ssize_t>(nd) )
+    for ( ssize_t i = 0 ; i < rank ; ++i )
+      if ( buf.shape()[i] != nd )
         return false;
 
-    // - all checks passed: create the proper C++ variable
-    value = cppmat::cartesian::vector<T>(nd,buf.data());
+    // - all checks passed : create the proper C++ variable
+    value = cppmat::cartesian::vector<T>(nd, buf.data());
 
     // - signal successful variable creation
     return true;
@@ -346,14 +326,15 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(const cppmat::cartesian::vector<T>& src, py::return_value_policy policy,
-    py::handle parent)
+  static py::handle cast(
+    const cppmat::cartesian::vector<T>& src, py::return_value_policy policy, py::handle parent
+  )
   {
     // - create "shape" array required by Python
-    std::vector<size_t> shape(1,src.ndim());
+    std::vector<size_t> shape(1, src.ndim());
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape),std::move(src.strides(true)),src.data());
+    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -362,6 +343,6 @@ public:
 
 // =================================================================================================
 
-}} // namespace pybind11 { namespace detail {
+}} // namespace pybind11::detail
 
 #endif

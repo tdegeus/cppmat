@@ -29,14 +29,25 @@ setup(
    url              = 'https://github.com/tdegeus/cppmat',
    packages         = ['cppmat'],
    headers          = [
-     '../src/cppmat/matrix.h',
-     '../src/cppmat/tensor.h',
-     '../src/cppmat/tensor2.h',
-     '../src/cppmat/tensor3.h',
-     '../src/cppmat/pybind11_matrix.h',
-     '../src/cppmat/pybind11_tensor.h',
-     '../src/cppmat/pybind11_tensor2.h',
-     '../src/cppmat/pybind11_tensor3.h',
+      '../src/cppmat/cppmat.h'
+      '../src/cppmat/macros.h'
+      '../src/cppmat/matrix.h'
+      '../src/cppmat/matrix2.h'
+      '../src/cppmat/pybind11_cppmat.h'
+      '../src/cppmat/pybind11_matrix.h'
+      '../src/cppmat/pybind11_matrix2.h'
+      '../src/cppmat/pybind11_tensor.h'
+      '../src/cppmat/pybind11_tensor2.h'
+      '../src/cppmat/pybind11_tensor3.h'
+      '../src/cppmat/pybind11_tiny_matrix2.h'
+      '../src/cppmat/pybind11_tiny_vector.h'
+      '../src/cppmat/pybind11_vector.h'
+      '../src/cppmat/tensor.h'
+      '../src/cppmat/tensor2.h'
+      '../src/cppmat/tensor3.h'
+      '../src/cppmat/tiny_matrix2.h'
+      '../src/cppmat/tiny_vector.h'
+      '../src/cppmat/vector.h'
    ],
    install_requires = ['pybind11>=2.2.0'],
 )

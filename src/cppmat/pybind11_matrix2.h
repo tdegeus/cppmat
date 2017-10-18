@@ -4,14 +4,14 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_MATRIX_PYBIND11_H
-#define CPPMAT_MATRIX_PYBIND11_H
+#ifndef CPPMAT_MATRIX2_PYBIND11_H
+#define CPPMAT_MATRIX2_PYBIND11_H
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include "matrix.h"
+#include "matrix2.h"
 #include "macros.h"
 
 namespace py = pybind11;
@@ -20,14 +20,14 @@ namespace pybind11 {
 namespace detail {
 
 // =================================================================================================
-// type caster: cppmat::matrix <-> NumPy-array
+// type caster: cppmat::matrix2 <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::matrix<T>>
+template <typename T> struct type_caster<cppmat::matrix2<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::matrix<T>, _("cppmat::matrix<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::matrix2<T>, _("cppmat::matrix2<T>"));
 
   // Python -> C++
   // -------------
@@ -42,18 +42,13 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices)
+    // - rank of the input array (number of indices) : should be exactly 2
     auto rank = buf.ndim();
     // - check
-    if ( rank < 1 ) return false;
-
-    // - shape of the input array
-    std::vector<size_t> shape(rank);
-    // - copy
-    for ( ssize_t i = 0 ; i < rank ; i++ ) shape[i] = buf.shape()[i];
+    if ( rank != 2 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix<T>(shape, buf.data());
+    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1], buf.data());
 
     // - signal successful variable creation
     return true;
@@ -63,7 +58,7 @@ public:
   // -------------
 
   static py::handle cast(
-    const cppmat::matrix<T>& src, py::return_value_policy policy, py::handle parent
+    const cppmat::matrix2<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
     // - create Python variable (all variables are copied)
