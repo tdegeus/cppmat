@@ -23,11 +23,13 @@ namespace detail {
 // type caster: cppmat::tiny::matrix2 <-> NumPy-array
 // =================================================================================================
 
-template <typename T, size_t M, size_t N> struct type_caster<cppmat::tiny::matrix2<T,M,N>>
+template <class T, size_t M, size_t N> struct type_caster<cppmat::tiny::matrix2<T,M,N>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tiny::matrix2<T,M,N>, _("cppmat::tiny::matrix2<T,M,N>"));
+  using tinymat2 = cppmat::tiny::matrix2<T,M,N>;
+
+  PYBIND11_TYPE_CASTER(tinymat2, _("cppmat::tiny::matrix2<T,M,N>"));
 
   // Python -> C++
   // -------------
@@ -35,7 +37,7 @@ public:
   bool load(py::handle src, bool convert)
   {
     // - basic pybind11 check
-    if ( !convert && !py::array_t<T,M,N>::check_(src) ) return false;
+    if ( !convert && !py::array_t<T>::check_(src) ) return false;
 
     // - storage requirements : contiguous and row-major storage from NumPy
     auto buf = py::array_t<T, py::array::c_style | py::array::forcecast>::ensure(src);
