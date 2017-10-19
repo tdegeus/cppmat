@@ -170,6 +170,7 @@ public:
     if ( i == 0 ) return n;
 
     assert( false );
+    return 0;
   }
 
   // return strides array [ndim]

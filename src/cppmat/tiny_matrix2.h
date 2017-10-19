@@ -172,6 +172,7 @@ public:
     if ( i == 1 ) return n;
 
     assert( false );
+    return 0;
   }
 
   // return strides array [ndim]
@@ -232,7 +233,7 @@ public:
       for ( size_t i = 0 ; i < shape(1)-1 ; ++i )
         std::printf((fmt+",").c_str(),m_data[h*s[0]+i*s[1]]);
 
-      std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape()[1]-1)*s[1]]);
+      std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape(1)-1)*s[1]]);
     }
   }
 
@@ -390,7 +391,7 @@ std::ostream& operator<<(std::ostream& out, matrix2<T,m,n>& src)
     for ( size_t j = 0 ; j < src.shape(1)-1 ; ++j )
       out << src(i,j) << ", ";
 
-    out << src(i,src.shape()[1]-1) << "; " << std::endl;
+    out << src(i,src.shape(1)-1) << "; " << std::endl;
   }
 
   return out;
