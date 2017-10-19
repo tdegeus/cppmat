@@ -7,25 +7,50 @@ Python interface
 
 This library includes provides an interface to `pybind11 <https://github.com/pybind/pybind11>`_ such that an interface to NumPy arrays is automatically provided when including a function with any of the cppmat classes:
 
-+---------------------------------+---------------------------+
-| **cppmat class**                | **Rank of NumPy-array**   |
-+=================================+===========================+
-| ``cppmat::matrix``              | n                         |
-+---------------------------------+---------------------------+
-| ``cppmat::cartesian::tensor4``  | 4                         |
-+---------------------------------+---------------------------+
-| ``cppmat::cartesian::tensor2``  | 2                         |
-+---------------------------------+---------------------------+
-| ``cppmat::cartesian::tensor2s`` | 2                         |
-+---------------------------------+---------------------------+
-| ``cppmat::cartesian::tensor2d`` | 2                         |
-+---------------------------------+---------------------------+
-| ``cppmat::cartesian::vector``   | 1                         |
-+---------------------------------+---------------------------+
++-----------------------------------+---------------------------+
+| **cppmat class**                  | **Rank of NumPy-array**   |
++===================================+===========================+
+| ``cppmat::matrix``                | n                         |
++-----------------------------------+---------------------------+
+| ``cppmat::matrix2``               | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::vector``                | 1                         |
++-----------------------------------+---------------------------+
+| ``cppmat::tiny::matrix2``         | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::tiny::vector``          | 1                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian::tensor4``    | 4                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian::tensor2``    | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian::tensor2s``   | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian::tensor2d``   | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian::vector``     | 1                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian2d::tensor4``  | 4                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian2d::tensor2``  | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian2d::tensor2s`` | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian2d::tensor2d`` | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian2d::vector``   | 1                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian3d::tensor4``  | 4                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian3d::tensor2``  | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian3d::tensor2s`` | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian3d::tensor2d`` | 2                         |
++-----------------------------------+---------------------------+
+| ``cppmat::cartesian3d::vector``   | 1                         |
++-----------------------------------+---------------------------+
 
-.. note::
-
-  Here, and below, all classes and function from ``<cppmat/tensor2.h>`` and ``<cppmat/tensor3.h>`` are treated the same as those from ``<cppmat/tensor.h>``.
 
 .. note:: **Warning**
 
@@ -35,11 +60,20 @@ This library includes provides an interface to `pybind11 <https://github.com/pyb
 
   You can ask cppmat to check for this, by omitting the ``-DNDEBUG`` compiler flag (this enables several assertions, so it may cost you some efficiency).
 
-To use this feature one has to include (part of) the following:
+  (The same holds for the classes and functions from ``<cppmat/tensor2.h>`` and ``<cppmat/tensor3.h>``.)
+
+To use this feature one has to:
 
 .. code-block:: cpp
 
+  #include <cppmat/pybind11_cppmat.h>
+
+  // or select one or more of the following headers
   #include <cppmat/pybind11_matrix.h>
+  #include <cppmat/pybind11_matrix2.h>
+  #include <cppmat/pybind11_vector.h>
+  #include <cppmat/pybind11_tiny_matrix2.h>
+  #include <cppmat/pybind11_tiny_vector.h>
   #include <cppmat/pybind11_tensor.h>
   #include <cppmat/pybind11_tensor2.h>
   #include <cppmat/pybind11_tensor3.h>

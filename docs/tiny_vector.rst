@@ -22,6 +22,10 @@ Header-only module that provides a C++ class for fixed size, small, 1-d matrices
       return 0;
   }
 
+.. note::
+
+  Compared to `std::vector` this class avoid dynamic memory allocation, and is generally faster. Also it provides indexing also with round brackets, and and automated printing of entries.
+
 Methods
 =======
 
@@ -40,6 +44,10 @@ Methods
 *   ``std::vector<size_t> shape = A.shape()``
 
     Returns the shape as an array of length one.
+
+.. note::
+
+  This class does not allow for periodic indices, the never loose efficiency.
 
 View
 ====

@@ -41,6 +41,10 @@ Methods
 
     Returns the shape along both dimensions.
 
+.. note::
+
+  This class does not allow for periodic indices, the never loose efficiency.
+
 View
 ====
 

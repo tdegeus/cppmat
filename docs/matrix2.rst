@@ -45,6 +45,10 @@ Methods
 
     Change the shape of the matrix. It is required that the total number of entries does not change.
 
+.. note::
+
+  This class does not allow for periodic indices, the never loose efficiency.
+
 View
 ====
 
