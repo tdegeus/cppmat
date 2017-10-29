@@ -175,7 +175,7 @@ public:
 
   T& operator()(int a)
   {
-    a = ( a < 0 ) ? a + m_shape[0] : ( a >= m_shape[0] ) ? a - m_shape[0] : a ;
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
 
     return m_data[a*m_strides[0]];
   };
@@ -303,7 +303,7 @@ public:
 
   const T& operator()(int a) const
   {
-    a = ( a < 0 ) ? a + m_shape[0] : ( a >= m_shape[0] ) ? a - m_shape[0] : a ;
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
 
     return m_data[a*m_strides[0]];
   };
@@ -581,8 +581,11 @@ public:
   // initialize to zero/one
   // ----------------------
 
-  void zeros() { for ( auto &i : m_data ) i = static_cast<T>(0); };
-  void ones () { for ( auto &i : m_data ) i = static_cast<T>(1); };
+  void setValue(T val) { for ( auto &i : m_data ) i = val;               };
+  void setZero()       { for ( auto &i : m_data ) i = static_cast<T>(0); };
+  void setOne()        { for ( auto &i : m_data ) i = static_cast<T>(1); };
+  void zeros()         { for ( auto &i : m_data ) i = static_cast<T>(0); };
+  void ones()          { for ( auto &i : m_data ) i = static_cast<T>(1); };
 
   // print to screen
   // ---------------
