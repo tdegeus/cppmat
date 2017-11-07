@@ -51,23 +51,29 @@ set(PKGCONFIG_INSTALL_DIR
 set(CPPMAT_HEADERS
   cppmat/cppmat.h
   cppmat/macros.h
+  cppmat/vector.h
   cppmat/matrix.h
   cppmat/matrix2.h
-  cppmat/pybind11_cppmat.h
-  cppmat/pybind11_matrix.h
-  cppmat/pybind11_matrix2.h
-  cppmat/pybind11_tensor.h
-  cppmat/pybind11_tensor2.h
-  cppmat/pybind11_tensor3.h
-  cppmat/pybind11_tiny_matrix2.h
-  cppmat/pybind11_tiny_vector.h
-  cppmat/pybind11_vector.h
+  cppmat/periodic_vector.h
+  cppmat/periodic_matrix.h
+  cppmat/periodic_matrix2.h
+  cppmat/tiny_vector.h
+  cppmat/tiny_matrix2.h
   cppmat/tensor.h
   cppmat/tensor2.h
   cppmat/tensor3.h
-  cppmat/tiny_matrix2.h
-  cppmat/tiny_vector.h
-  cppmat/vector.h
+  cppmat/pybind11_cppmat.h
+  cppmat/pybind11_vector.h
+  cppmat/pybind11_matrix.h
+  cppmat/pybind11_matrix2.h
+  cppmat/pybind11_periodic_vector.h
+  cppmat/pybind11_periodic_matrix.h
+  cppmat/pybind11_periodic_matrix2.h
+  cppmat/pybind11_tiny_vector.h
+  cppmat/pybind11_tiny_matrix2.h
+  cppmat/pybind11_tensor.h
+  cppmat/pybind11_tensor2.h
+  cppmat/pybind11_tensor3.h
 )
 
 # Disable pkg-config for native Windows builds

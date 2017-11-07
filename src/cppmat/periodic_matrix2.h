@@ -4,12 +4,13 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_MATRIX2_H
-#define CPPMAT_MATRIX2_H
+#ifndef CPPMAT_PERIODIC_MATRIX2_H
+#define CPPMAT_PERIODIC_MATRIX2_H
 
 #include "macros.h"
 
 namespace cppmat {
+namespace periodic {
 
 // =================================================================================================
 // cppmat::matrix2
@@ -436,7 +437,7 @@ std::ostream& operator<<(std::ostream& out, matrix2<T>& src)
   return out;
 }
 
-} // namespace cppmat
+}} // namespace cppmat::periodic
 
 #endif
 

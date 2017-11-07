@@ -4,12 +4,13 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_MATRIX_H
-#define CPPMAT_MATRIX_H
+#ifndef CPPMAT_PERIODIC_MATRIX_H
+#define CPPMAT_PERIODIC_MATRIX_H
 
 #include "macros.h"
 
 namespace cppmat {
+namespace periodic {
 
 #define MAX_DIM 6
 
@@ -168,6 +169,264 @@ public:
 
   const T& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
   { return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]]; };
+
+
+  // operator() : indices along each dimension, allowing for "i < 0" or "i >= N"
+  // ---------------------------------------------------------------------------
+
+  T& operator()(int a)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]];
+  };
+
+  // --
+
+  T& operator()(int a, int b)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  T& operator()(size_t a, int b)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  T& operator()(int a, size_t b)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  // --
+
+  T& operator()(int a, int b, int c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(size_t a, int b, int c)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(size_t a, size_t b, int c)
+  {
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(size_t a, int b, size_t c)
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, size_t b, int c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, size_t b, size_t c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  T& operator()(int a, int b, size_t c)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  // --
+
+  T& operator()(int a, int b, int c, int d)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
+  };
+
+  // --
+
+  T& operator()(int a, int b, int c, int d, int e)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+    e = ( e < 0 ) ? e + static_cast<int>(m_shape[4]) : ( e >= static_cast<int>(m_shape[4]) ) ? e - static_cast<int>(m_shape[4]) : e ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
+  };
+
+  // --
+
+  T& operator()(int a, int b, int c, int d, int e, int f)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+    e = ( e < 0 ) ? e + static_cast<int>(m_shape[4]) : ( e >= static_cast<int>(m_shape[4]) ) ? e - static_cast<int>(m_shape[4]) : e ;
+    f = ( f < 0 ) ? f + static_cast<int>(m_shape[5]) : ( f >= static_cast<int>(m_shape[5]) ) ? f - static_cast<int>(m_shape[5]) : f ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
+  };
+
+  // const versions of the above (otherwise identical)
+
+  const T& operator()(int a) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]];
+  };
+
+  // --
+
+  const T& operator()(int a, int b) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  const T& operator()(size_t a, int b) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  const T& operator()(int a, size_t b) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]];
+  };
+
+  // --
+
+  const T& operator()(int a, int b, int c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(size_t a, int b, int c) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(size_t a, size_t b, int c) const
+  {
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(size_t a, int b, size_t c) const
+  {
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, size_t b, int c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, size_t b, size_t c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  const T& operator()(int a, int b, size_t c) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  };
+
+  // --
+
+  const T& operator()(int a, int b, int c, int d) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
+  };
+
+  // --
+
+  const T& operator()(int a, int b, int c, int d, int e) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+    e = ( e < 0 ) ? e + static_cast<int>(m_shape[4]) : ( e >= static_cast<int>(m_shape[4]) ) ? e - static_cast<int>(m_shape[4]) : e ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
+  };
+
+  // --
+
+  const T& operator()(int a, int b, int c, int d, int e, int f) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_shape[0]) : ( a >= static_cast<int>(m_shape[0]) ) ? a - static_cast<int>(m_shape[0]) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_shape[1]) : ( b >= static_cast<int>(m_shape[1]) ) ? b - static_cast<int>(m_shape[1]) : b ;
+    c = ( c < 0 ) ? c + static_cast<int>(m_shape[2]) : ( c >= static_cast<int>(m_shape[2]) ) ? c - static_cast<int>(m_shape[2]) : c ;
+    d = ( d < 0 ) ? d + static_cast<int>(m_shape[3]) : ( d >= static_cast<int>(m_shape[3]) ) ? d - static_cast<int>(m_shape[3]) : d ;
+    e = ( e < 0 ) ? e + static_cast<int>(m_shape[4]) : ( e >= static_cast<int>(m_shape[4]) ) ? e - static_cast<int>(m_shape[4]) : e ;
+    f = ( f < 0 ) ? f + static_cast<int>(m_shape[5]) : ( f >= static_cast<int>(m_shape[5]) ) ? f - static_cast<int>(m_shape[5]) : f ;
+
+    return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
+  };
 
   // arithmetic operators: matrix ?= matrix
   // --------------------------------------
@@ -549,7 +808,7 @@ std::ostream& operator<<(std::ostream& out, matrix<T>& src)
   return out;
 }
 
-} // namespace cppmat
+}} // namespace cppmat::periodic
 
 #endif
 

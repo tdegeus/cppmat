@@ -231,11 +231,14 @@ public:
   T      min () const { return *std::min_element(m_data.begin(),m_data.end()); };
   T      max () const { return *std::max_element(m_data.begin(),m_data.end()); };
 
-  // initialize to zero/one
-  // ----------------------
+  // initialize to zero/one/constant
+  // -------------------------------
 
-  void zeros() { for ( auto &i : m_data ) i = static_cast<T>(0); };
-  void ones () { for ( auto &i : m_data ) i = static_cast<T>(1); };
+  void setConstant(T D) { for ( auto &i : m_data ) i = D;                 };
+  void setZero    (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
+  void setOnes    (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
+  void zeros      (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
+  void ones       (   ) { for ( auto &i : m_data ) i = static_cast<T>(1); };
 
   // print to screen
   // ---------------
