@@ -1,6 +1,6 @@
 
-#include <cppmat/tensor.h>
-#include <cppmat/pybind11_tensor.h>
+#include <cppmat/cppmat.h>
+#include <cppmat/pybind11.h>
 
 // =================================================================================================
 // double tensor contraction 4-d : 2-d -> 2-d                                             (pure C++)

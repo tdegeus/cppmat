@@ -71,11 +71,8 @@ public:
     const cppmat::cartesian2d::tensor4<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(4, 2);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -134,11 +131,8 @@ public:
     const cppmat::cartesian2d::tensor2<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(2, 2);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -184,7 +178,8 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2s<T>(buf.data());
+    value = cppmat::cartesian2d::tensor2s<T>();
+    value.copyDense(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -197,17 +192,11 @@ public:
     const cppmat::cartesian2d::tensor2s<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python, allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2, 2);
-    std::vector<T>      data(2*2);
-
-    // - copy 'full matrix' "data" from symmetrically stored variable
-    for ( size_t i = 0 ; i < 2 ; ++i )
-      for ( size_t j = 0 ; j < 2 ; ++j )
-        data[i*2+j] = src(i,j);
+    // - convert to dense tensor
+    cppmat::cartesian2d::tensor2<T> tmp = src;
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
+    py::array a(std::move(tmp.shape()), std::move(tmp.strides(true)), tmp.data());
 
     // - release variable to Python
     return a.release();
@@ -253,7 +242,8 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2d<T>(buf.data());
+    value = cppmat::cartesian2d::tensor2d<T>();
+    value.copyDense(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -266,16 +256,11 @@ public:
     const cppmat::cartesian2d::tensor2d<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python, allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2, 2);
-    std::vector<T>      data(2*2, static_cast<T>(0));
-
-    // - copy 'full matrix' "data" from symmetrically stored variable
-    for ( size_t i = 0 ; i < 2 ; ++i )
-      data[i*2+i] = src[i];
+    // - convert to dense tensor
+    cppmat::cartesian2d::tensor2<T> tmp = src;
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
+    py::array a(std::move(tmp.shape()), std::move(tmp.strides(true)), tmp.data());
 
     // - release variable to Python
     return a.release();
@@ -305,12 +290,12 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices) : should be exactly 1
     auto rank = buf.ndim();
     // - check
     if ( rank != 1 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 1
+    // - read number of dimensions (shape in each direction) : should be exactly 2
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -334,11 +319,8 @@ public:
     const cppmat::cartesian2d::vector<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(1, 2);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();

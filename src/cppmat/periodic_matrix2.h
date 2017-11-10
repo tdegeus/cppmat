@@ -16,40 +16,79 @@ namespace periodic {
 // cppmat::matrix2
 // =================================================================================================
 
-template <class T> class matrix2
+template <class X> class matrix2
 {
 private:
 
-  std::vector<T> m_data;   // data array
-  size_t         m_m=0;    // number of rows
-  size_t         m_n=0;    // number of columns
+  std::vector<X> m_container;   // data container
+  X             *m_data;        // pointer to data container (may point outside)
+  size_t         m_m=0;         // number of rows
+  size_t         m_n=0;         // number of columns
+  size_t         m_size=0;      // total size
+  bool           m_owner=true;  // signal if m_data pointer to "m_container"
 
 public:
 
-  // (copy) constructor
-  // ------------------
+  // constructors
+  // ------------
 
-  matrix2               (const matrix2<T> &) = default;
-  matrix2<T>& operator= (const matrix2<T> &) = default;
-  matrix2<T>(){};
+  matrix2(){}
 
-  // explicit constructors
-  // ---------------------
+  matrix2(size_t m, size_t n){ resize(m,n); }
 
-  matrix2(size_t m, size_t n)
-  { resize(m,n); };
+  matrix2(size_t m, size_t n, X D)
+  {
+    resize(m,n);
 
-  matrix2(size_t m, size_t n, T D)
-  { resize(m,n); for ( auto &i: m_data ) i = D; };
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] = D;
+  }
 
-  matrix2(size_t m, size_t n, const T *D)
-  { resize(m,n); for ( size_t i=0; i<size(); ++i ) m_data[i] = D[i]; };
+  matrix2(size_t m, size_t n, const X *D)
+  {
+    resize(m,n);
+
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] = D[i];
+  }
+
+  // map external pointer
+  // --------------------
+
+  // raw pointer
+  // N.B. the user is responsible for the correct storage and to keep the pointer alive
+  void map(size_t m, size_t n, X *D)
+  {
+    // - release 'ownership' of data
+    m_owner = false;
+
+    // - change size settings without expanding "m_container"
+    resize(m,n);
+
+    // - point to input pointer
+    m_data = D;
+  }
+
+  // copy from external data array
+  // -----------------------------
+
+  void copy(size_t m, size_t n, const X *D)
+  {
+    assert( m_owner );
+
+    resize(m,n);
+
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] = D[i];
+  }
 
   // constructor to copy + change data type
   // --------------------------------------
 
-  template<typename U,typename V=T,\
-    typename=typename std::enable_if<std::is_convertible<T,U>::value>::type>
+  template<\
+    typename U,typename V=X,\
+    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type\
+  >
   operator matrix2<U> ()
   {
     matrix2<U> out(shape(0),shape(1));
@@ -65,10 +104,15 @@ public:
 
   void resize(size_t m, size_t n)
   {
-    m_m = m;
-    m_n = n;
+    m_m    = m;
+    m_n    = n;
+    m_size = m*n;
 
-    m_data.resize(m_m*m_n);
+    if ( m_owner )
+    {
+      m_container.resize(m_size);
+      m_data = &m_container[0];
+    }
   }
 
   // reshape
@@ -76,7 +120,7 @@ public:
 
   void reshape(size_t m, size_t n)
   {
-    assert( m_m*m_n == m*n );
+    assert( m_size == m*n );
 
     resize(m,n);
   }
@@ -84,109 +128,128 @@ public:
   // operator[] : direct storage access
   // ----------------------------------
 
-  T& operator[](size_t i)
-  { return m_data[i]; };
+  X& operator[](size_t i)
+  { return m_data[i]; }
 
-  const T& operator[](size_t i) const
-  { return m_data[i]; };
+  const X& operator[](size_t i) const
+  { return m_data[i]; }
 
   // operator() : indices along each dimension
   // -----------------------------------------
 
-  T& operator()(size_t a, size_t b)
-  { return m_data[a*m_n+b]; };
+  X& operator()(size_t a, size_t b)
+  { return m_data[a*m_n+b]; }
 
-  const T& operator()(size_t a, size_t b) const
-  { return m_data[a*m_n+b]; };
+  const X& operator()(size_t a, size_t b) const
+  { return m_data[a*m_n+b]; }
+
+  // operator() : indices along each dimension, allowing for "i < 0" or "i >= N"
+  // ---------------------------------------------------------------------------
+
+  X& operator()(int a, int b)
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_m) : ( a >= static_cast<int>(m_m) ) ? a - static_cast<int>(m_m) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_n) : ( b >= static_cast<int>(m_n) ) ? b - static_cast<int>(m_n) : b ;
+
+    return m_data[a*m_n+b];
+  }
+
+  const X& operator()(int a, int b) const
+  {
+    a = ( a < 0 ) ? a + static_cast<int>(m_m) : ( a >= static_cast<int>(m_m) ) ? a - static_cast<int>(m_m) : a ;
+    b = ( b < 0 ) ? b + static_cast<int>(m_n) : ( b >= static_cast<int>(m_n) ) ? b - static_cast<int>(m_n) : b ;
+
+    return m_data[a*m_n+b];
+  }
 
   // arithmetic operators: matrix2 ?= matrix2
   // --------------------------------------
 
-  matrix2<T>& operator*= (const matrix2<T> &B)
+  matrix2<X>& operator*= (const matrix2<X> &B)
   {
-    assert( shape(0) == B.shape(0) );
-    assert( shape(1) == B.shape(1) );
+    assert( m_m == B.shape(0) );
+    assert( m_n == B.shape(1) );
 
-    for ( size_t i = 0 ; i < m_m*m_n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] *= B[i];
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator/= (const matrix2<T> &B)
+  matrix2<X>& operator/= (const matrix2<X> &B)
   {
-    assert( shape(0) == B.shape(0) );
-    assert( shape(1) == B.shape(1) );
+    assert( m_m == B.shape(0) );
+    assert( m_n == B.shape(1) );
 
-    for ( size_t i = 0 ; i < m_m*m_n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] /= B[i];
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator+= (const matrix2<T> &B)
+  matrix2<X>& operator+= (const matrix2<X> &B)
   {
-    assert( shape(0) == B.shape(0) );
-    assert( shape(1) == B.shape(1) );
+    assert( m_m == B.shape(0) );
+    assert( m_n == B.shape(1) );
 
-    for ( size_t i = 0 ; i < m_m*m_n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] += B[i];
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator-= (const matrix2<T> &B)
+  matrix2<X>& operator-= (const matrix2<X> &B)
   {
-    assert( shape(0) == B.shape(0) );
-    assert( shape(1) == B.shape(1) );
+    assert( m_m == B.shape(0) );
+    assert( m_n == B.shape(1) );
 
-    for ( size_t i = 0 ; i < m_m*m_n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] -= B[i];
 
     return *this;
-  };
+  }
 
   // arithmetic operators: matrix2 ?= scalar
   // --------------------------------------
 
-  matrix2<T>& operator*= (T B)
+  matrix2<X>& operator*= (X B)
   {
-    for ( auto &i : m_data )
-      i *= B;
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] *= B;
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator/= (T B)
+  matrix2<X>& operator/= (X B)
   {
-    for ( auto &i : m_data )
-      i /= B;
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] /= B;
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator+= (T B)
+  matrix2<X>& operator+= (X B)
   {
-    for ( auto &i : m_data )
-      i += B;
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] += B;
 
     return *this;
-  };
+  }
 
-  matrix2<T>& operator-= (T B)
+  matrix2<X>& operator-= (X B)
   {
-    for ( auto &i : m_data )
-      i -= B;
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] -= B;
 
     return *this;
-  };
+  }
 
-  // iterators / pointer
+  // pointer / iterators
   // -------------------
 
-  const T* data () const { return m_data.data (); };
-  auto     begin()       { return m_data.begin(); };
-  auto     end  ()       { return m_data.end  (); };
+  const X* data () const { return &m_data[0];          }
+  auto     begin() const { return &m_data[0];          }
+  auto     end  () const { return &m_data[0] + m_size; }
 
   // return shape array [ndim]
   // -------------------------
@@ -199,7 +262,7 @@ public:
     ret[1] = m_n;
 
     return ret;
-  };
+  }
 
   // return shape in one direction
   // -----------------------------
@@ -224,42 +287,42 @@ public:
 
     if ( bytes )
       for ( size_t i = 0 ; i < 2 ; ++i )
-        ret[i] *= sizeof(T);
+        ret[i] *= sizeof(X);
 
     return ret;
-  };
+  }
 
   // return size
   // -----------
 
-  size_t size() const { return m_m*m_n; };
-  size_t ndim() const { return 2;       };
+  size_t size() const { return m_size; }
+  size_t ndim() const { return 2;      }
 
   // minimum / maximum / mean / sum
   // ------------------------------
 
-  T sum() const
+  X sum() const
   {
-    T out = static_cast<T>(0);
+    X out = static_cast<X>(0);
 
-    for ( auto &i : m_data )
-      out += i;
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      out += m_data[i];
 
     return out;
-  };
+  }
 
-  double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_m*m_n); };
-  T      min () const { return *std::min_element(m_data.begin(),m_data.end()); };
-  T      max () const { return *std::max_element(m_data.begin(),m_data.end()); };
+  double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_size); }
+  X      min () const { return *std::min_element(begin(),end()); }
+  X      max () const { return *std::max_element(begin(),end()); }
 
-  // initialize to zero/one/constant
-  // -------------------------------
+  // initialize all entries to zero/one/constant
+  // -------------------------------------------
 
-  void setConstant(T D) { for ( auto &i : m_data ) i = D;                 };
-  void setZero    (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
-  void setOnes    (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
-  void zeros      (   ) { for ( auto &i : m_data ) i = static_cast<T>(0); };
-  void ones       (   ) { for ( auto &i : m_data ) i = static_cast<T>(1); };
+  void setConstant(X D) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;                 }
+  void setZero    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
+  void setOnes    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
+  void zeros      (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
+  void ones       (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
 
   // print to screen
   // ---------------
@@ -282,12 +345,12 @@ public:
 // arithmetic operators: matrix2 = matrix2 ? matrix2
 // ----------------------------------------------
 
-template<class T> matrix2<T> operator* (const matrix2<T> &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
 
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -295,12 +358,12 @@ template<class T> matrix2<T> operator* (const matrix2<T> &A, const matrix2<T> &B
   return C;
 }
 
-template<class T> matrix2<T> operator/ (const matrix2<T> &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
 
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -308,12 +371,12 @@ template<class T> matrix2<T> operator/ (const matrix2<T> &A, const matrix2<T> &B
   return C;
 }
 
-template<class T> matrix2<T> operator+ (const matrix2<T> &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
 
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -321,12 +384,12 @@ template<class T> matrix2<T> operator+ (const matrix2<T> &A, const matrix2<T> &B
   return C;
 }
 
-template<class T> matrix2<T> operator- (const matrix2<T> &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
 
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -337,9 +400,9 @@ template<class T> matrix2<T> operator- (const matrix2<T> &A, const matrix2<T> &B
 // arithmetic operators: matrix2 = matrix2 ? scalar
 // ----------------------------------------------
 
-template<class T> matrix2<T> operator* (const matrix2<T> &A, const T &B)
+template<class X> matrix2<X> operator* (const matrix2<X> &A, const X &B)
 {
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -347,9 +410,9 @@ template<class T> matrix2<T> operator* (const matrix2<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix2<T> operator/ (const matrix2<T> &A, const T &B)
+template<class X> matrix2<X> operator/ (const matrix2<X> &A, const X &B)
 {
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -357,9 +420,9 @@ template<class T> matrix2<T> operator/ (const matrix2<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix2<T> operator+ (const matrix2<T> &A, const T &B)
+template<class X> matrix2<X> operator+ (const matrix2<X> &A, const X &B)
 {
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -367,9 +430,9 @@ template<class T> matrix2<T> operator+ (const matrix2<T> &A, const T &B)
   return C;
 }
 
-template<class T> matrix2<T> operator- (const matrix2<T> &A, const T &B)
+template<class X> matrix2<X> operator- (const matrix2<X> &A, const X &B)
 {
-  matrix2<T> C(A.shape(0),A.shape(1));
+  matrix2<X> C(A.shape(0),A.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -380,9 +443,9 @@ template<class T> matrix2<T> operator- (const matrix2<T> &A, const T &B)
 // arithmetic operators: matrix2 = scalar ? matrix2
 // ----------------------------------------------
 
-template<class T> matrix2<T> operator* (const T &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator* (const X &A, const matrix2<X> &B)
 {
-  matrix2<T> C(B.shape(0),B.shape(1));
+  matrix2<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -390,9 +453,9 @@ template<class T> matrix2<T> operator* (const T &A, const matrix2<T> &B)
   return C;
 }
 
-template<class T> matrix2<T> operator/ (const T &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator/ (const X &A, const matrix2<X> &B)
 {
-  matrix2<T> C(B.shape(0),B.shape(1));
+  matrix2<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -400,9 +463,9 @@ template<class T> matrix2<T> operator/ (const T &A, const matrix2<T> &B)
   return C;
 }
 
-template<class T> matrix2<T> operator+ (const T &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator+ (const X &A, const matrix2<X> &B)
 {
-  matrix2<T> C(B.shape(0),B.shape(1));
+  matrix2<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -410,9 +473,9 @@ template<class T> matrix2<T> operator+ (const T &A, const matrix2<T> &B)
   return C;
 }
 
-template<class T> matrix2<T> operator- (const T &A, const matrix2<T> &B)
+template<class X> matrix2<X> operator- (const X &A, const matrix2<X> &B)
 {
-  matrix2<T> C(B.shape(0),B.shape(1));
+  matrix2<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -423,8 +486,8 @@ template<class T> matrix2<T> operator- (const T &A, const matrix2<T> &B)
 // print to "std::cout"
 // --------------------
 
-template <class T>
-std::ostream& operator<<(std::ostream& out, matrix2<T>& src)
+template <class X>
+std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0) ; ++i )
   {

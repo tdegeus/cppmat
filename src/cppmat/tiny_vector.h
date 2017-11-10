@@ -16,35 +16,55 @@ namespace tiny {
 // cppmat::tiny::vector
 // =================================================================================================
 
-template <class T, size_t n> class vector
+template <class X, size_t n> class vector
 {
 private:
 
-  T m_data[n]; // data array
+  X  m_container[n];          // data container
+  X *m_data=&m_container[0];  // pointer to data container (may point outside)
+  size_t m_size=n;            // total number of entries
 
 public:
 
-  // (copy) constructor
-  // ------------------
+  // constructors
+  // ------------
 
-  vector                 (const vector<T,n> &) = default;
-  vector<T,n>& operator= (const vector<T,n> &) = default;
-  vector<T,n>(){};
+  vector(){}
 
-  // explicit constructors
-  // ---------------------
+  vector(X D) { for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D; }
 
-  vector(T D)
-  { for ( size_t i = 0; i < n ; ++i ) m_data[i] = D; };
+  vector(const X *D)
+  {
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] = D[i];
+  }
 
-  vector(const T *D)
-  { for ( size_t i = 0; i < n ; ++i ) m_data[i] = D[i]; };
+  // map external pointer
+  // --------------------
+
+  // raw pointer
+  // N.B. the user is responsible for the correct storage and to keep the pointer alive
+  void map(X *D)
+  {
+    m_data = D;
+  }
+
+  // copy from external data array
+  // -----------------------------
+
+  void copy(const X *D)
+  {
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_data[i] = D[i];
+  }
 
   // constructor to copy + change data type
   // --------------------------------------
 
-  template<typename U,typename V=T, size_t N,\
-    typename=typename std::enable_if<std::is_convertible<T,U>::value>::type>
+  template<\
+    typename U,typename V=X, size_t N,\
+    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type\
+  >
   operator vector<U,N> ()
   {
     vector<U,N> out;
@@ -58,97 +78,97 @@ public:
   // operator[] : direct storage access
   // ----------------------------------
 
-  T& operator[](size_t i)
-  { return m_data[i]; };
+  X& operator[](size_t i)
+  { return m_data[i]; }
 
-  const T& operator[](size_t i) const
-  { return m_data[i]; };
+  const X& operator[](size_t i) const
+  { return m_data[i]; }
 
   // operator() : indices along each dimension
   // -----------------------------------------
 
-  T& operator()(size_t a)
-  { return m_data[a]; };
+  X& operator()(size_t a)
+  { return m_data[a]; }
 
-  const T& operator()(size_t a) const
-  { return m_data[a]; };
+  const X& operator()(size_t a) const
+  { return m_data[a]; }
 
   // arithmetic operators: vector ?= vector
   // --------------------------------------
 
-  vector<T,n>& operator*= (const vector<T,n> &B)
+  vector<X,n>& operator*= (const vector<X,n> &B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] *= B[i];
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator/= (const vector<T,n> &B)
+  vector<X,n>& operator/= (const vector<X,n> &B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] /= B[i];
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator+= (const vector<T,n> &B)
+  vector<X,n>& operator+= (const vector<X,n> &B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] += B[i];
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator-= (const vector<T,n> &B)
+  vector<X,n>& operator-= (const vector<X,n> &B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] -= B[i];
 
     return *this;
-  };
+  }
 
   // arithmetic operators: vector ?= scalar
   // --------------------------------------
 
-  vector<T,n>& operator*= (T B)
+  vector<X,n>& operator*= (X B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] *= B;
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator/= (T B)
+  vector<X,n>& operator/= (X B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] /= B;
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator+= (T B)
+  vector<X,n>& operator+= (X B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] += B;
 
     return *this;
-  };
+  }
 
-  vector<T,n>& operator-= (T B)
+  vector<X,n>& operator-= (X B)
   {
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] -= B;
 
     return *this;
-  };
+  }
 
-  // iterators / pointer
+  // pointer / iterators
   // -------------------
 
-  const T* data () const { return &m_data[0]; };
-  auto     begin()       { return &m_data[0]; };
-  auto     end  ()       { return &m_data[n-1]; };
+  const X* data () const { return &m_data[0];          }
+  auto     begin() const { return &m_data[0];          }
+  auto     end  () const { return &m_data[0] + m_size; }
 
   // return shape array [ndim]
   // -------------------------
@@ -160,7 +180,7 @@ public:
     ret[0] = n;
 
     return ret;
-  };
+  }
 
   // return shape in one direction
   // -----------------------------
@@ -183,39 +203,42 @@ public:
     ret[0] = 1;
 
     if ( bytes )
-      ret[0] *= sizeof(T);
+      ret[0] *= sizeof(X);
 
     return ret;
-  };
+  }
 
   // return size
   // -----------
 
-  size_t size() const { return n; };
-  size_t ndim() const { return 1; };
+  size_t size() const { return m_size; }
+  size_t ndim() const { return 1;      }
 
   // minimum / maximum / mean / sum
   // ------------------------------
 
-  T sum() const
+  X sum() const
   {
-    T out = static_cast<T>(0);
+    X out = static_cast<X>(0);
 
-    for ( size_t i = 0 ; i < n ; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       out += m_data[i];
 
     return out;
-  };
+  }
 
-  double mean() const { return static_cast<double>(this->sum())/static_cast<double>(n); };
-  T      min () const { return *std::min_element(begin(),end()); };
-  T      max () const { return *std::max_element(begin(),end()); };
+  double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_size); }
+  X      min () const { return *std::min_element(begin(),end()); }
+  X      max () const { return *std::max_element(begin(),end()); }
 
-  // initialize to zero/one
-  // ----------------------
+  // initialize all entries to zero/one/constant
+  // -------------------------------------------
 
-  void zeros() { for ( size_t i = 0 ; i < n ; ++i ) m_data[i] = static_cast<T>(0); };
-  void ones () { for ( size_t i = 0 ; i < n ; ++i ) m_data[i] = static_cast<T>(1); };
+  void setConstant(X D) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;                 }
+  void setZero    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
+  void setOnes    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
+  void zeros      (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
+  void ones       (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
 
   // print to screen
   // ---------------
@@ -235,10 +258,10 @@ public:
 // arithmetic operators: vector = vector ? vector
 // ----------------------------------------------
 
-template <class T, size_t n>
-vector<T,n> operator* (const vector<T,n> &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -246,10 +269,10 @@ vector<T,n> operator* (const vector<T,n> &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator/ (const vector<T,n> &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -257,10 +280,10 @@ vector<T,n> operator/ (const vector<T,n> &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator+ (const vector<T,n> &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -268,10 +291,10 @@ vector<T,n> operator+ (const vector<T,n> &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator- (const vector<T,n> &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -282,10 +305,10 @@ vector<T,n> operator- (const vector<T,n> &A, const vector<T,n> &B)
 // arithmetic operators: vector = vector ? scalar
 // ----------------------------------------------
 
-template <class T, size_t n>
-vector<T,n> operator* (const vector<T,n> &A, const T &B)
+template <class X, size_t n>
+vector<X,n> operator* (const vector<X,n> &A, const X &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -293,10 +316,10 @@ vector<T,n> operator* (const vector<T,n> &A, const T &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator/ (const vector<T,n> &A, const T &B)
+template <class X, size_t n>
+vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -304,10 +327,10 @@ vector<T,n> operator/ (const vector<T,n> &A, const T &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator+ (const vector<T,n> &A, const T &B)
+template <class X, size_t n>
+vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -315,10 +338,10 @@ vector<T,n> operator+ (const vector<T,n> &A, const T &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator- (const vector<T,n> &A, const T &B)
+template <class X, size_t n>
+vector<X,n> operator- (const vector<X,n> &A, const X &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -329,10 +352,10 @@ vector<T,n> operator- (const vector<T,n> &A, const T &B)
 // arithmetic operators: vector = scalar ? vector
 // ----------------------------------------------
 
-template <class T, size_t n>
-vector<T,n> operator* (const T &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator* (const X &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -340,10 +363,10 @@ vector<T,n> operator* (const T &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator/ (const T &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -351,10 +374,10 @@ vector<T,n> operator/ (const T &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator+ (const T &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -362,10 +385,10 @@ vector<T,n> operator+ (const T &A, const vector<T,n> &B)
   return C;
 }
 
-template <class T, size_t n>
-vector<T,n> operator- (const T &A, const vector<T,n> &B)
+template <class X, size_t n>
+vector<X,n> operator- (const X &A, const vector<X,n> &B)
 {
-  vector<T,n> C;
+  vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -376,8 +399,8 @@ vector<T,n> operator- (const T &A, const vector<T,n> &B)
 // print to "std::cout"
 // --------------------
 
-template <class T, size_t n>
-std::ostream& operator<<(std::ostream& out, vector<T,n>& src)
+template <class X, size_t n>
+std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0)-1 ; ++i )
     out << src(i) << " , ";

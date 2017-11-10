@@ -71,11 +71,8 @@ public:
     const cppmat::cartesian3d::tensor4<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(4, 3);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -134,11 +131,8 @@ public:
     const cppmat::cartesian3d::tensor2<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(2, 3);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();
@@ -184,7 +178,8 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2s<T>(buf.data());
+    value = cppmat::cartesian3d::tensor2s<T>();
+    value.copyDense(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -197,17 +192,11 @@ public:
     const cppmat::cartesian3d::tensor2s<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python, allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2, 3);
-    std::vector<T>      data(3*3);
-
-    // - copy 'full matrix' "data" from symmetrically stored variable
-    for ( size_t i = 0 ; i < 3 ; ++i )
-      for ( size_t j = 0 ; j < 3 ; ++j )
-        data[i*3+j] = src(i,j);
+    // - convert to dense tensor
+    cppmat::cartesian3d::tensor2<T> tmp = src;
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
+    py::array a(std::move(tmp.shape()), std::move(tmp.strides(true)), tmp.data());
 
     // - release variable to Python
     return a.release();
@@ -253,7 +242,8 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2d<T>(buf.data());
+    value = cppmat::cartesian3d::tensor2d<T>();
+    value.copyDense(buf.data());
 
     // - signal successful variable creation
     return true;
@@ -266,19 +256,11 @@ public:
     const cppmat::cartesian3d::tensor2d<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - extract number of dimensions
-    size_t nd = src.ndim();
-
-    // - create "shape", allocate "data" as 'full matrix'
-    std::vector<size_t> shape(2,nd);
-    std::vector<T>      data(nd*nd,static_cast<T>(0));
-
-    // - copy 'full matrix' "data" from symmetrically stored variable
-    for ( size_t i = 0 ; i < nd ; ++i )
-      data[i*nd+i] = src[i];
+    // - convert to dense tensor
+    cppmat::cartesian3d::tensor2<T> tmp = src;
 
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), data.data());
+    py::array a(std::move(tmp.shape()), std::move(tmp.strides(true)), tmp.data());
 
     // - release variable to Python
     return a.release();
@@ -337,11 +319,8 @@ public:
     const cppmat::cartesian3d::vector<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
-    // - create "shape" array required by Python
-    std::vector<size_t> shape(1, 3);
-
     // - create Python variable (all variables are copied)
-    py::array a(std::move(shape), std::move(src.strides(true)), src.data());
+    py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());
 
     // - release variable to Python
     return a.release();

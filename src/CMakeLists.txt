@@ -62,7 +62,7 @@ set(CPPMAT_HEADERS
   cppmat/tensor.h
   cppmat/tensor2.h
   cppmat/tensor3.h
-  cppmat/pybind11_cppmat.h
+  cppmat/pybind11.h
   cppmat/pybind11_vector.h
   cppmat/pybind11_matrix.h
   cppmat/pybind11_matrix2.h
