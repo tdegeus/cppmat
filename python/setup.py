@@ -33,7 +33,7 @@ setup(
       '../src/cppmat/macros.h',
       '../src/cppmat/matrix.h',
       '../src/cppmat/matrix2.h',
-      '../src/cppmat/pybind11_cppmat.h',
+      '../src/cppmat/pybind11.h',
       '../src/cppmat/pybind11_matrix.h',
       '../src/cppmat/pybind11_matrix2.h',
       '../src/cppmat/pybind11_tensor.h',
