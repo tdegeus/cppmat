@@ -20,42 +20,66 @@ template <class X, size_t n> class vector
 {
 private:
 
-  X  m_container[n];          // data container
-  X *m_data=&m_container[0];  // pointer to data container (may point outside)
-  size_t m_size=n;            // total number of entries
+  X      m_container[n];    // data container
+  X     *m_data;            // pointer to container (may point outside)
+  size_t m_size=n;          // total number of entries
 
 public:
 
   // constructors
   // ------------
 
-  vector(){}
+  vector()
+  {
+    // - point to local data container
+    m_data = &m_container[0];
+  }
 
-  vector(X D) { for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D; }
+  vector(X D)
+  {
+    // - copy input
+    for ( size_t i = 0; i < m_size ; ++i )
+      m_container[i] = D;
+    // - point to local data container
+    m_data = &m_container[0];
+  }
 
   vector(const X *D)
   {
+    // - copy input
     for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+  }
+
+  vector(const vector<X,n> &D)
+  {
+    // - copy input
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+  }
+
+  vector<X,n>& operator= (const vector<X,n> &D)
+  {
+    // - copy input
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+    // - return pointer to current instance
+    return *this;
   }
 
   // map external pointer
   // --------------------
 
   // raw pointer
-  // N.B. the user is responsible for the correct storage and to keep the pointer alive
   void map(X *D)
   {
     m_data = D;
-  }
-
-  // copy from external data array
-  // -----------------------------
-
-  void copy(const X *D)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
   }
 
   // constructor to copy + change data type
@@ -70,7 +94,7 @@ public:
     vector<U,N> out;
 
     for ( size_t i = 0 ; i < N ; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+      out[i] = static_cast<U>(m_data[i]);
 
     return out;
   }

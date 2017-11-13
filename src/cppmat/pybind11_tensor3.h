@@ -178,8 +178,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2s<T>();
-    value.copyDense(buf.data());
+    value = cppmat::cartesian3d::tensor2s<T>(buf.data(), true);
 
     // - signal successful variable creation
     return true;
@@ -242,8 +241,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2d<T>();
-    value.copyDense(buf.data());
+    value = cppmat::cartesian3d::tensor2d<T>(buf.data(), true);
 
     // - signal successful variable creation
     return true;

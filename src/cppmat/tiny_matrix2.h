@@ -20,42 +20,66 @@ template <class X, size_t m, size_t n> class matrix2
 {
 private:
 
-  X  m_container[m*n];        // data container
-  X *m_data=&m_container[0];  // pointer to data container (may point outside)
-  size_t m_size=m*n;          // total number of entries
+  X      m_container[m*n];  // data container
+  X     *m_data;            // pointer to container (may point outside)
+  size_t m_size=m*n;        // total number of entries
 
 public:
 
   // constructors
   // ------------
 
-  matrix2(){}
+  matrix2()
+  {
+    // - point to local data container
+    m_data = &m_container[0];
+  }
 
-  matrix2(X D) { for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D; }
+  matrix2(X D)
+  {
+    // - copy input
+    for ( size_t i = 0; i < m_size ; ++i )
+      m_container[i] = D;
+    // - point to local data container
+    m_data = &m_container[0];
+  }
 
   matrix2(const X *D)
   {
+    // - copy input
     for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+  }
+
+  matrix2(const matrix2<X,m,n> &D)
+  {
+    // - copy input
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+  }
+
+  matrix2<X,m,n>& operator= (const matrix2<X,m,n> &D)
+  {
+    // - copy input
+    for ( size_t i = 0 ; i < m_size ; ++i )
+      m_container[i] = D[i];
+    // - point to local data container
+    m_data = &m_container[0];
+    // - return pointer to current instance
+    return *this;
   }
 
   // map external pointer
   // --------------------
 
   // raw pointer
-  // N.B. the user is responsible for the correct storage and to keep the pointer alive
   void map(X *D)
   {
     m_data = D;
-  }
-
-  // copy from external data array
-  // -----------------------------
-
-  void copy(const X *D)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
   }
 
   // constructor to copy + change data type
@@ -70,7 +94,7 @@ public:
     matrix2<U,M,N> out;
 
     for ( size_t i = 0 ; i < M*N ; ++i )
-      out[i] = static_cast<U>( m_data[i] );
+      out[i] = static_cast<U>(m_data[i]);
 
     return out;
   }
@@ -263,7 +287,7 @@ public:
 }; // class matrix2
 
 // arithmetic operators: matrix2 = matrix2 ? matrix2
-// ----------------------------------------------
+// -------------------------------------------------
 
 template <class X, size_t m, size_t n>
 matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
@@ -310,7 +334,7 @@ matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 }
 
 // arithmetic operators: matrix2 = matrix2 ? scalar
-// ----------------------------------------------
+// ------------------------------------------------
 
 template <class X, size_t m, size_t n>
 matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
@@ -357,7 +381,7 @@ matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 }
 
 // arithmetic operators: matrix2 = scalar ? matrix2
-// ----------------------------------------------
+// ------------------------------------------------
 
 template <class X, size_t m, size_t n>
 matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)

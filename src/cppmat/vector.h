@@ -19,11 +19,9 @@ template <class X> class vector
 {
 private:
 
-  std::vector<X> m_container;   // data container
-  X             *m_data;        // pointer to data container (may point outside)
-  size_t         m_n=0;         // number of columns
-  size_t         m_size=0;      // total size
-  bool           m_owner=true;  // signal if m_data pointer to "m_container"
+  std::vector<X> m_data;    // data container
+  size_t         m_n=0;     // number of columns
+  size_t         m_size=0;  // total size
 
 public:
 
@@ -32,7 +30,10 @@ public:
 
   vector(){}
 
-  vector(size_t n){ resize(n); }
+  vector(size_t n)
+  {
+    resize(n);
+  }
 
   vector(size_t n, X D)
   {
@@ -44,36 +45,6 @@ public:
 
   vector(size_t n, const X *D)
   {
-    resize(n);
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
-  }
-
-  // map external pointer
-  // --------------------
-
-  // raw pointer
-  // N.B. the user is responsible for the correct storage and to keep the pointer alive
-  void map(size_t n, X *D)
-  {
-    // - release 'ownership' of data
-    m_owner = false;
-
-    // - change size settings without expanding "m_container"
-    resize(n);
-
-    // - point to input pointer
-    m_data = D;
-  }
-
-  // copy from external data array
-  // -----------------------------
-
-  void copy(size_t n, const X *D)
-  {
-    assert( m_owner );
-
     resize(n);
 
     for ( size_t i = 0 ; i < m_size ; ++i )
@@ -119,11 +90,7 @@ public:
     m_n    = n;
     m_size = n;
 
-    if ( m_owner )
-    {
-      m_container.resize(m_size);
-      m_data = &m_container[0];
-    }
+    m_data.resize(m_size);
   }
 
   // operator[] : direct storage access
@@ -225,9 +192,9 @@ public:
   // pointer / iterators
   // -------------------
 
-  const X* data () const { return &m_data[0];          }
-  auto     begin() const { return &m_data[0];          }
-  auto     end  () const { return &m_data[0] + m_size; }
+  const X* data () const { return m_data.data (); }
+  auto     begin() const { return m_data.begin(); }
+  auto     end  () const { return m_data.end  (); }
 
   // return shape array [ndim]
   // -------------------------
@@ -287,8 +254,8 @@ public:
   }
 
   double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_size); }
-  X      min () const { return *std::min_element(begin(),end()); }
-  X      max () const { return *std::max_element(begin(),end()); }
+  X      min () const { return *std::min_element(m_data.begin(),m_data.end()); }
+  X      max () const { return *std::max_element(m_data.begin(),m_data.end()); }
 
   // initialize all entries to zero/one/constant
   // -------------------------------------------

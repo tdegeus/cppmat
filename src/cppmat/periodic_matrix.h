@@ -22,13 +22,11 @@ template <class X> class matrix
 {
 private:
 
-  std::vector<X> m_container;        // data container
-  X             *m_data;             // pointer to data container (may point outside)
+  std::vector<X> m_data;             // data container
   size_t         m_ndim=0;           // actual number of dimensions
   size_t         m_size=0;           // total number of entries == data.size() == prod(shape)
   size_t         m_shape[MAX_DIM];   // number of entries in each dimensions
   size_t         m_strides[MAX_DIM]; // stride length for each index
-  bool           m_owner=true;       // signal if m_data pointer to "m_container"
 
 public:
 
@@ -37,13 +35,16 @@ public:
 
   matrix(){}
 
-  matrix(const std::vector<size_t> &shape){ resize(shape); }
+  matrix(const std::vector<size_t> &shape)
+  {
+    resize(shape);
+  }
 
   matrix(const std::vector<size_t> &shape, X D)
   {
     resize(shape);
 
-    for ( size_t i=0; i<m_size; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] = D;
   }
 
@@ -51,37 +52,7 @@ public:
   {
     resize(shape);
 
-    for ( size_t i=0; i<m_size; ++i )
-      m_data[i] = D[i];
-  }
-
-  // map external pointer
-  // --------------------
-
-  // raw pointer
-  // N.B. the user is responsible for the correct storage and to keep the pointer alive
-  void map(const std::vector<size_t> &shape, X *D)
-  {
-    // - release 'ownership' of data
-    m_owner = false;
-
-    // - change size settings without expanding "m_container"
-    resize(shape);
-
-    // - point to input pointer
-    m_data = D;
-  }
-
-  // copy from external data array
-  // -----------------------------
-
-  void copy(const std::vector<size_t> &shape, const X *D)
-  {
-    assert( m_owner );
-
-    resize(shape);
-
-    for ( size_t i=0; i<m_size; ++i )
+    for ( size_t i = 0 ; i < m_size ; ++i )
       m_data[i] = D[i];
   }
 
@@ -127,11 +98,7 @@ public:
       for ( size_t j = i+1 ; j < m_ndim ; ++j )
         m_strides[i] *= m_shape[j];
 
-    if ( m_owner )
-    {
-      m_container.resize(m_size);
-      m_data = &m_container[0];
-    }
+    m_data.resize(m_size);
   }
 
   // change number of dimensions
@@ -151,8 +118,6 @@ public:
 
   void reshape(const std::vector<size_t> &shape)
   {
-    assert( m_owner );
-
     #ifndef NDEBUG
       size_t n = 1;
 
@@ -557,9 +522,9 @@ public:
   // pointer / iterators
   // -------------------
 
-  const X* data () const { return &m_data[0];          }
-  auto     begin() const { return &m_data[0];          }
-  auto     end  () const { return &m_data[0] + m_size; }
+  const X* data () const { return m_data.data (); }
+  auto     begin() const { return m_data.begin(); }
+  auto     end  () const { return m_data.end  (); }
 
   // return shape array [ndim]
   // -------------------------
@@ -620,8 +585,8 @@ public:
   }
 
   double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_size); }
-  X      min () const { return *std::min_element(begin(),end()); }
-  X      max () const { return *std::max_element(begin(),end()); }
+  X      min () const { return *std::min_element(m_data.begin(),m_data.end()); }
+  X      max () const { return *std::max_element(m_data.begin(),m_data.end()); }
 
   // initialize all entries to zero/one/constant
   // -------------------------------------------

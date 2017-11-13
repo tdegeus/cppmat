@@ -33,9 +33,15 @@ setup(
       '../src/cppmat/macros.h',
       '../src/cppmat/matrix.h',
       '../src/cppmat/matrix2.h',
+      '../src/cppmat/periodic_matrix.h',
+      '../src/cppmat/periodic_matrix2.h',
+      '../src/cppmat/periodic_vector.h',
       '../src/cppmat/pybind11.h',
       '../src/cppmat/pybind11_matrix.h',
       '../src/cppmat/pybind11_matrix2.h',
+      '../src/cppmat/pybind11_periodic_matrix.h',
+      '../src/cppmat/pybind11_periodic_matrix2.h',
+      '../src/cppmat/pybind11_periodic_vector.h',
       '../src/cppmat/pybind11_tensor.h',
       '../src/cppmat/pybind11_tensor2.h',
       '../src/cppmat/pybind11_tensor3.h',
@@ -51,3 +57,5 @@ setup(
    ],
    install_requires = ['pybind11>=2.2.0'],
 )
+
+
