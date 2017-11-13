@@ -91,6 +91,8 @@ Contents
    tensor.rst
    tensor2.rst
    tensor3.rst
+   map.rst
+   eigen.rst
    compile.rst
    python.rst
    develop.rst
