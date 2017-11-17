@@ -3,17 +3,30 @@
 Interface to Eigen
 ******************
 
-Where possible an interface to the popular Eigen linear algebra library is provided. This practically means that you can copy seamlessly to and from Eigen matrices, but you can also map an Eigen array to one of cppmat's classes (provided that the row-major) storage is used. To enable this feature, define ``CPPMAT_EIGEN`` somewhere before including cppmat.
+Where possible an interface to the popular Eigen linear algebra library is provided. This practically means that you can copy seamlessly to and from Eigen matrices, but you can also map an Eigen array to one of cppmat's classes (provided that the row-major) storage is used. To enable this feature:
+
+*   Include Eigen before cppmat:
+
+    .. code-block:: cpp
+
+      #include <Eigen/Eigen>
+      #include <cppmat/cppmat.h>
+
+*   Define ``CPPMAT_EIGEN`` somewhere before including cppmat:
+
+
+    .. code-block:: cpp
+
+      #define CPPMAT_EIGEN
+      #include <cppmat/cppmat.h>
+      #include <Eigen/Eigen>
 
 For example:
 
 .. code-block:: cpp
 
   #include <Eigen/Eigen>
-
-  #define CPPMAT_EIGEN
-
-  #include "cppmat.h"
+  #include <cppmat/cppmat.h>
 
   int main()
   {

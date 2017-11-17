@@ -7,6 +7,7 @@
 #ifndef CPPMAT_H
 #define CPPMAT_H
 
+#include "macros.h"
 #include "matrix.h"
 #include "matrix2.h"
 #include "vector.h"

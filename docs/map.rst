@@ -24,7 +24,7 @@ For example:
 
 .. code-block:: cpp
 
-  #include "cppmat.h"
+  #include <cppmat/cppmat.h>
 
   int main()
   {

@@ -1469,6 +1469,16 @@ public:
     m_data = D;
   }
 
+  // copy from object (like constructor, but can be used when "m_data" point outside)
+  // --------------------------------------------------------------------------------
+
+  void copy(const tensor2s<X> &D)
+  {
+    m_data[0] = D[0];
+    m_data[1] = D[1];
+    m_data[2] = D[2];
+  }
+
   // copy constructors : copy to a new tensor object
   // -----------------------------------------------
 

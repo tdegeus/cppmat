@@ -15,10 +15,13 @@
 #include <string>
 #include <vector>
 
-#ifdef CPPMAT_EIGEN
-  #include <Eigen/Eigen>
+#ifdef EIGEN_WORLD_VERSION
+#define CPPMAT_EIGEN
 #endif
 
+#ifdef CPPMAT_EIGEN
+#include <Eigen/Eigen>
+#endif
 
 #define CPPMAT_WORLD_VERSION 0
 #define CPPMAT_MAJOR_VERSION 3
