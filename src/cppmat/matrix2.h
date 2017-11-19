@@ -27,30 +27,10 @@ private:
 public:
 
   // constructors
-  // ------------
-
-  matrix2(){}
-
-  matrix2(size_t m, size_t n)
-  {
-    resize(m,n);
-  }
-
-  matrix2(size_t m, size_t n, X D)
-  {
-    resize(m,n);
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D;
-  }
-
-  matrix2(size_t m, size_t n, const X *D)
-  {
-    resize(m,n);
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
-  }
+  matrix2(){};
+  matrix2(size_t m, size_t n);
+  matrix2(size_t m, size_t n, X D);
+  matrix2(size_t m, size_t n, const X *D);
 
   // constructor to copy + change data type
   // --------------------------------------
@@ -447,6 +427,38 @@ std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
 
   return out;
 }
+
+// =================================================================================================
+// constructors
+// =================================================================================================
+
+template <class X>
+matrix2<X>::matrix2(size_t m, size_t n)
+{
+  resize(m,n);
+}
+
+template <class X>
+matrix2<X>::matrix2(size_t m, size_t n, X D)
+{
+  resize(m,n);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] = D;
+}
+
+template <class X>
+matrix2<X>::matrix2(size_t m, size_t n, const X *D)
+{
+  resize(m,n);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] = D[i];
+}
+
+
+
+// =================================================================================================
 
 } // namespace cppmat
 

@@ -27,51 +27,13 @@ private:
 public:
 
   // constructors
-  // ------------
+  matrix2();
+  matrix2(X D);
+  matrix2(const X *D);
+  matrix2(const matrix2<X,m,n> &D);
 
-  matrix2()
-  {
-    // - point to local data container
-    m_data = &m_container[0];
-  }
-
-  matrix2(X D)
-  {
-    // - copy input
-    for ( size_t i = 0; i < m_size ; ++i )
-      m_container[i] = D;
-    // - point to local data container
-    m_data = &m_container[0];
-  }
-
-  matrix2(const X *D)
-  {
-    // - copy input
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_container[i] = D[i];
-    // - point to local data container
-    m_data = &m_container[0];
-  }
-
-  matrix2(const matrix2<X,m,n> &D)
-  {
-    // - copy input
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_container[i] = D[i];
-    // - point to local data container
-    m_data = &m_container[0];
-  }
-
-  matrix2<X,m,n>& operator= (const matrix2<X,m,n> &D)
-  {
-    // - copy input
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_container[i] = D[i];
-    // - point to local data container
-    m_data = &m_container[0];
-    // - return pointer to current instance
-    return *this;
-  }
+  // copy constructor
+  matrix2<X,m,n>& operator= (const matrix2<X,m,n> &D);
 
   // map external pointer
   // --------------------
@@ -443,6 +405,71 @@ std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
 
   return out;
 }
+
+// =================================================================================================
+// constructors
+// =================================================================================================
+
+template <class X, size_t m, size_t n>
+matrix2<X,m,n>::matrix2()
+{
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template <class X, size_t m, size_t n>
+matrix2<X,m,n>::matrix2(X D)
+{
+  // copy input
+  for ( size_t i = 0; i < m_size ; ++i ) m_container[i] = D;
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template <class X, size_t m, size_t n>
+matrix2<X,m,n>::matrix2(const X *D)
+{
+  // copy input
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template <class X, size_t m, size_t n>
+matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
+{
+  // copy input
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// =================================================================================================
+// copy constructor
+// =================================================================================================
+
+template <class X, size_t m, size_t n>
+matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
+{
+  // - copy input
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_container[i] = D[i];
+  // - point to local data container
+  m_data = &m_container[0];
+  // - return pointer to current instance
+  return *this;
+}
+
+// =================================================================================================
 
 } // namespace tiny
 } // namespace cppmat
