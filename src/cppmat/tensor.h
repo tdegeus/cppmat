@@ -136,10 +136,13 @@ public:
   {
     std::vector<size_t> out = { m_nd*m_nd*m_nd, m_nd*m_nd, m_nd, 1 };
 
-    out[0] *= sizeof(X);
-    out[1] *= sizeof(X);
-    out[2] *= sizeof(X);
-    out[3] *= sizeof(X);
+    if ( bytes )
+    {
+      out[0] *= sizeof(X);
+      out[1] *= sizeof(X);
+      out[2] *= sizeof(X);
+      out[3] *= sizeof(X);
+    }
 
     return out;
   }
@@ -614,8 +617,11 @@ public:
   {
     std::vector<size_t> out = { m_nd, 1 };
 
-    out[0] *= sizeof(X);
-    out[1] *= sizeof(X);
+    if ( bytes )
+    {
+      out[0] *= sizeof(X);
+      out[1] *= sizeof(X);
+    }
 
     return out;
   }
@@ -2796,7 +2802,8 @@ public:
   {
     std::vector<size_t> out = { 1 };
 
-    out[0] *= sizeof(X);
+    if ( bytes )
+      out[0] *= sizeof(X);
 
     return out;
   }

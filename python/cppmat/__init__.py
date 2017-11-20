@@ -57,6 +57,23 @@ class BuildExt(build_ext):
 # --------------------------------------------------------------------------------------------------
 
 def find_eigen(hint=None):
+
+  # search with pkgconfig
+  # ---------------------
+
+  try:
+
+    import pkgconfig
+
+    if pkgconfig.installed('eigen3','>3.0.0'):
+      return pkgconfig.parse('eigen3')['include_dirs'][0]
+
+  except:
+    pass
+
+  # manual search
+  # -------------
+
   import os,re
 
   search_dirs = [] if hint is None else hint
@@ -85,4 +102,5 @@ def find_eigen(hint=None):
       v = "{0}.{1}.{2}".format(v1[0], v2[0], v3[0])
       print("Found Eigen version {0} in: {1}".format(v, d))
       return d
+
   return None

@@ -102,12 +102,11 @@ public:
   #endif
 
   // basic algebra
-  X              sum() const;
-  X              min() const;
-  X              max() const;
-  double         mean() const;
-  double         average(const matrix<X> &weights) const;
-  matrix<double> average(const matrix<X> &weights, size_t axis) const;
+  X      sum() const;
+  X      min() const;
+  X      max() const;
+  double mean() const;
+  double average(const matrix<X> &weights) const;
 
   // basic initialization
   void setConstant(X D);
@@ -832,36 +831,6 @@ double matrix<X>::average(const matrix<X> &weights) const
     out += m_data[i] * weights[i];
 
   return static_cast<double>(out)/static_cast<double>(weights.sum());
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template <class X>
-matrix<double> matrix<X>::average(const matrix<X> &weights, size_t axis) const
-{
-  assert( size() == weights.size() );
-  assert( m_ndim == weights.ndim() );
-  assert( axis   <  m_ndim         );
-  assert( m_ndim == 2              ); // TODO: generalize
-  assert( axis   == 1              ); // TODO: generalize
-
-
-  matrix<X> out ({m_shape[0]}, static_cast<X>(0));
-  matrix<X> norm({m_shape[0]}, static_cast<X>(0));
-
-  for ( size_t i = 0 ; i < m_shape[0] ; ++i ) {
-    for ( size_t j = 0 ; j < m_shape[1] ; ++j ) {
-      out (i) += (*this)(i,j) * weights(i,j);
-      norm(i) +=                weights(i,j);
-    }
-  }
-
-  matrix<double> normlized({m_shape[0]});
-
-  for ( size_t i = 0 ; i < m_shape[0] ; ++i )
-    normlized[i] = static_cast<double>(out[i]) / static_cast<double>(norm[i]);
-
-  return normlized;
 }
 
 // =================================================================================================
