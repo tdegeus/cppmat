@@ -649,7 +649,7 @@ public:
 // arithmetic operators: matrix = matrix ? matrix
 // ----------------------------------------------
 
-template <class X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -662,7 +662,7 @@ template <class X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -675,7 +675,7 @@ template <class X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -688,7 +688,7 @@ template <class X> matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -704,7 +704,7 @@ template <class X> matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 // arithmetic operators: matrix = matrix ? scalar
 // ----------------------------------------------
 
-template <class X> matrix<X> operator* (const matrix<X> &A, const X &B)
+template <class X> inline matrix<X> operator* (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -714,7 +714,7 @@ template <class X> matrix<X> operator* (const matrix<X> &A, const X &B)
   return C;
 }
 
-template <class X> matrix<X> operator/ (const matrix<X> &A, const X &B)
+template <class X> inline matrix<X> operator/ (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -724,7 +724,7 @@ template <class X> matrix<X> operator/ (const matrix<X> &A, const X &B)
   return C;
 }
 
-template <class X> matrix<X> operator+ (const matrix<X> &A, const X &B)
+template <class X> inline matrix<X> operator+ (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -734,7 +734,7 @@ template <class X> matrix<X> operator+ (const matrix<X> &A, const X &B)
   return C;
 }
 
-template <class X> matrix<X> operator- (const matrix<X> &A, const X &B)
+template <class X> inline matrix<X> operator- (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -747,7 +747,7 @@ template <class X> matrix<X> operator- (const matrix<X> &A, const X &B)
 // arithmetic operators: matrix = scalar ? matrix
 // ----------------------------------------------
 
-template <class X> matrix<X> operator* (const X &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator* (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -757,7 +757,7 @@ template <class X> matrix<X> operator* (const X &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator/ (const X &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator/ (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -767,7 +767,7 @@ template <class X> matrix<X> operator/ (const X &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator+ (const X &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator+ (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -777,7 +777,7 @@ template <class X> matrix<X> operator+ (const X &A, const matrix<X> &B)
   return C;
 }
 
-template <class X> matrix<X> operator- (const X &A, const matrix<X> &B)
+template <class X> inline matrix<X> operator- (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -791,7 +791,7 @@ template <class X> matrix<X> operator- (const X &A, const matrix<X> &B)
 // --------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, matrix<X>& src)
+inline std::ostream& operator<<(std::ostream& out, matrix<X>& src)
 {
   if ( src.ndim() == 1 )
   {

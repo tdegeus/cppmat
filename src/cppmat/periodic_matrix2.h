@@ -313,7 +313,7 @@ public:
 // arithmetic operators: matrix2 = matrix2 ? matrix2
 // ----------------------------------------------
 
-template<class X> matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -326,7 +326,7 @@ template<class X> matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B
   return C;
 }
 
-template<class X> matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -339,7 +339,7 @@ template<class X> matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B
   return C;
 }
 
-template<class X> matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -352,7 +352,7 @@ template<class X> matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B
   return C;
 }
 
-template<class X> matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -368,7 +368,7 @@ template<class X> matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B
 // arithmetic operators: matrix2 = matrix2 ? scalar
 // ----------------------------------------------
 
-template<class X> matrix2<X> operator* (const matrix2<X> &A, const X &B)
+template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -378,7 +378,7 @@ template<class X> matrix2<X> operator* (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> matrix2<X> operator/ (const matrix2<X> &A, const X &B)
+template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -388,7 +388,7 @@ template<class X> matrix2<X> operator/ (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> matrix2<X> operator+ (const matrix2<X> &A, const X &B)
+template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -398,7 +398,7 @@ template<class X> matrix2<X> operator+ (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> matrix2<X> operator- (const matrix2<X> &A, const X &B)
+template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -411,7 +411,7 @@ template<class X> matrix2<X> operator- (const matrix2<X> &A, const X &B)
 // arithmetic operators: matrix2 = scalar ? matrix2
 // ----------------------------------------------
 
-template<class X> matrix2<X> operator* (const X &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator* (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -421,7 +421,7 @@ template<class X> matrix2<X> operator* (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> matrix2<X> operator/ (const X &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator/ (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -431,7 +431,7 @@ template<class X> matrix2<X> operator/ (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> matrix2<X> operator+ (const X &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator+ (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -441,7 +441,7 @@ template<class X> matrix2<X> operator+ (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> matrix2<X> operator- (const X &A, const matrix2<X> &B)
+template<class X> inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -455,7 +455,7 @@ template<class X> matrix2<X> operator- (const X &A, const matrix2<X> &B)
 // --------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
+inline std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0) ; ++i )
   {

@@ -310,7 +310,7 @@ public:
 // arithmetic operators: tensor4 = tensor4 ? tensor4
 // -------------------------------------------------
 
-template <class X> tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -323,7 +323,7 @@ template <class X> tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &
   return C;
 }
 
-template <class X> tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -336,7 +336,7 @@ template <class X> tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &
   return C;
 }
 
-template <class X> tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -349,7 +349,7 @@ template <class X> tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &
   return C;
 }
 
-template <class X> tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -365,7 +365,7 @@ template <class X> tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &
 // arithmetic operators: tensor4 = tensor4 ? scalar
 // ------------------------------------------------
 
-template <class X> tensor4<X> operator* (const tensor4<X> &A, const X &B)
+template <class X> inline tensor4<X> operator* (const tensor4<X> &A, const X &B)
 {
   tensor4<X> C(A.ndim());
 
@@ -374,7 +374,7 @@ template <class X> tensor4<X> operator* (const tensor4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor4<X> operator/ (const tensor4<X> &A, const X &B)
+template <class X> inline tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 {
   tensor4<X> C(A.ndim());
 
@@ -383,7 +383,7 @@ template <class X> tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor4<X> operator+ (const tensor4<X> &A, const X &B)
+template <class X> inline tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 {
   tensor4<X> C(A.ndim());
 
@@ -392,7 +392,7 @@ template <class X> tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 
   return C; }
 
-template <class X> tensor4<X> operator- (const tensor4<X> &A, const X &B)
+template <class X> inline tensor4<X> operator- (const tensor4<X> &A, const X &B)
 {
   tensor4<X> C(A.ndim());
 
@@ -404,7 +404,7 @@ template <class X> tensor4<X> operator- (const tensor4<X> &A, const X &B)
 // arithmetic operators: tensor4 = scalar ? tensor4
 // ------------------------------------------------
 
-template <class X> tensor4<X> operator* (const X &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator* (const X &A, const tensor4<X> &B)
 {
   tensor4<X> C(B.ndim());
 
@@ -414,7 +414,7 @@ template <class X> tensor4<X> operator* (const X &A, const tensor4<X> &B)
   return C;
 }
 
-template <class X> tensor4<X> operator/ (const X &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator/ (const X &A, const tensor4<X> &B)
 {
   tensor4<X> C(B.ndim());
 
@@ -424,7 +424,7 @@ template <class X> tensor4<X> operator/ (const X &A, const tensor4<X> &B)
   return C;
 }
 
-template <class X> tensor4<X> operator+ (const X &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator+ (const X &A, const tensor4<X> &B)
 {
   tensor4<X> C(B.ndim());
 
@@ -434,7 +434,7 @@ template <class X> tensor4<X> operator+ (const X &A, const tensor4<X> &B)
   return C;
 }
 
-template <class X> tensor4<X> operator- (const X &A, const tensor4<X> &B)
+template <class X> inline tensor4<X> operator- (const X &A, const tensor4<X> &B)
 {
   tensor4<X> C(B.ndim());
 
@@ -945,7 +945,7 @@ public:
 // arithmetic operators: tensor2 = tensor2 ? tensor2
 // -------------------------------------------------
 
-template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
 {
   assert( A.size() == B.size() );
   assert( B.ndim() == B.ndim() );
@@ -958,7 +958,7 @@ template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &
   return C;
 }
 
-template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
 {
   assert( A.size() == B.size() );
   assert( B.ndim() == B.ndim() );
@@ -971,7 +971,7 @@ template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &
   return C;
 }
 
-template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
 {
   assert( A.size() == B.size() );
   assert( B.ndim() == B.ndim() );
@@ -984,7 +984,7 @@ template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
 {
   assert( A.size() == B.size() );
   assert( B.ndim() == B.ndim() );
@@ -1000,7 +1000,7 @@ template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &
 // arithmetic operators: tensor2 = tensor2 ? tensor2s
 // --------------------------------------------------
 
-template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1020,7 +1020,7 @@ template <class X> tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1040,7 +1040,7 @@ template <class X> tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1060,7 +1060,7 @@ template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1084,7 +1084,7 @@ template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> 
 // arithmetic operators: tensor2 = tensor2 ? tensor2d
 // --------------------------------------------------
 
-template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1101,7 +1101,7 @@ template <class X> tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1121,7 +1121,7 @@ template <class X> tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> 
 // arithmetic operators: tensor2 = tensor2 ? scalar
 // ------------------------------------------------
 
-template <class X> tensor2<X> operator* (const tensor2<X> &A, const X &B)
+template <class X> inline tensor2<X> operator* (const tensor2<X> &A, const X &B)
 {
   tensor2<X> C(A.ndim());
 
@@ -1131,7 +1131,7 @@ template <class X> tensor2<X> operator* (const tensor2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2<X> operator/ (const tensor2<X> &A, const X &B)
+template <class X> inline tensor2<X> operator/ (const tensor2<X> &A, const X &B)
 {
   tensor2<X> C(A.ndim());
 
@@ -1141,7 +1141,7 @@ template <class X> tensor2<X> operator/ (const tensor2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2<X> operator+ (const tensor2<X> &A, const X &B)
+template <class X> inline tensor2<X> operator+ (const tensor2<X> &A, const X &B)
 {
   tensor2<X> C(A.ndim());
 
@@ -1151,7 +1151,7 @@ template <class X> tensor2<X> operator+ (const tensor2<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2<X> &A, const X &B)
+template <class X> inline tensor2<X> operator- (const tensor2<X> &A, const X &B)
 {
   tensor2<X> C(A.ndim());
 
@@ -1164,7 +1164,7 @@ template <class X> tensor2<X> operator- (const tensor2<X> &A, const X &B)
 // arithmetic operators: tensor2 = tensor2s ? tensor2
 // --------------------------------------------------
 
-template <class X> tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1184,7 +1184,7 @@ template <class X> tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1204,7 +1204,7 @@ template <class X> tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1224,7 +1224,7 @@ template <class X> tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1247,7 +1247,7 @@ template <class X> tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> 
 // arithmetic operators: tensor2 = tensor2d ? tensor2
 // --------------------------------------------------
 
-template <class X> tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1264,7 +1264,7 @@ template <class X> tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> 
   return C;
 }
 
-template <class X> tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1284,7 +1284,7 @@ template <class X> tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> 
 // arithmetic operators: tensor2 = scalar ? tensor2
 // ------------------------------------------------
 
-template <class X> tensor2<X> operator* (const X &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator* (const X &A, const tensor2<X> &B)
 {
   tensor2<X> C(B.ndim());
 
@@ -1294,7 +1294,7 @@ template <class X> tensor2<X> operator* (const X &A, const tensor2<X> &B)
   return C;
 }
 
-template <class X> tensor2<X> operator/ (const X &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator/ (const X &A, const tensor2<X> &B)
 {
   tensor2<X> C(B.ndim());
 
@@ -1304,7 +1304,7 @@ template <class X> tensor2<X> operator/ (const X &A, const tensor2<X> &B)
   return C;
 }
 
-template <class X> tensor2<X> operator+ (const X &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator+ (const X &A, const tensor2<X> &B)
 {
   tensor2<X> C(B.ndim());
 
@@ -1314,7 +1314,7 @@ template <class X> tensor2<X> operator+ (const X &A, const tensor2<X> &B)
   return C;
 }
 
-template <class X> tensor2<X> operator- (const X &A, const tensor2<X> &B)
+template <class X> inline tensor2<X> operator- (const X &A, const tensor2<X> &B)
 {
   tensor2<X> C(B.ndim());
 
@@ -1751,7 +1751,7 @@ public:
 // arithmetic operators: tensor2s = tensor2s ? tensor2s
 // ----------------------------------------------------
 
-template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -1764,7 +1764,7 @@ template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X
   return C;
 }
 
-template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -1777,7 +1777,7 @@ template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X
   return C;
 }
 
-template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -1790,7 +1790,7 @@ template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X
   return C;
 }
 
-template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -1806,7 +1806,7 @@ template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X
 // arithmetic operators: tensor2s = tensor2s ? tensor2d
 // ----------------------------------------------------
 
-template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1823,7 +1823,7 @@ template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X
   return C;
 }
 
-template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1843,7 +1843,7 @@ template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X
 // arithmetic operators: tensor2s = tensor2s ? scalar
 // --------------------------------------------------
 
-template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
 {
   tensor2s<X> C(A.ndim());
 
@@ -1853,7 +1853,7 @@ template <class X> tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
 {
   tensor2s<X> C(A.ndim());
 
@@ -1863,7 +1863,7 @@ template <class X> tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
 {
   tensor2s<X> C(A.ndim());
 
@@ -1873,7 +1873,7 @@ template <class X> tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
 {
   tensor2s<X> C(A.ndim());
 
@@ -1886,7 +1886,7 @@ template <class X> tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
 // arithmetic operators: tensor2s = tensor2d ? scalar
 // --------------------------------------------------
 
-template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
 {
   size_t nd = A.ndim();
   tensor2s<X> C(nd);
@@ -1901,7 +1901,7 @@ template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
    return C;
 }
 
-template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
+template <class X> inline tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
 {
   size_t nd = A.ndim();
   tensor2s<X> C(nd);
@@ -1919,7 +1919,7 @@ template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
 // arithmetic operators: tensor2s = tensor2d ? tensor2s
 // ----------------------------------------------------
 
-template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1936,7 +1936,7 @@ template <class X> tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X
   return C;
 }
 
-template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -1956,7 +1956,7 @@ template <class X> tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X
 // arithmetic operators: tensor2s = scalar ? tensor2s
 // --------------------------------------------------
 
-template <class X> tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
 {
   tensor2s<X> C(B.ndim());
 
@@ -1966,7 +1966,7 @@ template <class X> tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
 {
   tensor2s<X> C(B.ndim());
 
@@ -1976,7 +1976,7 @@ template <class X> tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
 {
   tensor2s<X> C(B.ndim());
 
@@ -1986,7 +1986,7 @@ template <class X> tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
   return C;
 }
 
-template <class X> tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
+template <class X> inline tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
 {
   tensor2s<X> C(B.ndim());
 
@@ -1999,7 +1999,7 @@ template <class X> tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
 // arithmetic operators: tensor2s = scalar ? tensor2d
 // --------------------------------------------------
 
-template <class X> tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
+template <class X> inline tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
 {
   size_t      nd = B.ndim();
   tensor2s<X> C(nd);
@@ -2016,7 +2016,7 @@ template <class X> tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
 
 
 
-template <class X> tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
+template <class X> inline tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
 {
   size_t      nd = B.ndim();
   tensor2s<X> C(nd);
@@ -2463,7 +2463,7 @@ public:
 // arithmetic operators: tensor2d = tensor2d ? tensor2d
 // ----------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -2476,7 +2476,7 @@ template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X
   return C;
 }
 
-template <class X> tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -2489,7 +2489,7 @@ template <class X> tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X
   return C;
 }
 
-template <class X> tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -2505,7 +2505,7 @@ template <class X> tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X
 // arithmetic operators: tensor2d = tensor2d ? tensor2
 // ---------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
+template <class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2518,7 +2518,7 @@ template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X
   return C;
 }
 
-template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
+template <class X> inline tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2534,7 +2534,7 @@ template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X
 // arithmetic operators: tensor2d = tensor2d ? tensor2s
 // ----------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2547,7 +2547,7 @@ template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X
   return C;
 }
 
-template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B)
+template <class X> inline tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2563,7 +2563,7 @@ template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X
 // arithmetic operators: tensor2d = tensor2d ? scalar
 // --------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
+template <class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
 {
   tensor2d<X> C(A.ndim());
 
@@ -2573,7 +2573,7 @@ template <class X> tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
   return C;
 }
 
-template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
+template <class X> inline tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 {
   tensor2d<X> C(A.ndim());
 
@@ -2586,7 +2586,7 @@ template <class X> tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 // arithmetic operators: tensor2d = tensor2 ? tensor2d
 // ---------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2602,7 +2602,7 @@ template <class X> tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X
 // arithmetic operators: tensor2d = tensor2s ? tensor2d
 // ----------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B)
 {
   assert( A.ndim() == B.ndim() );
 
@@ -2619,7 +2619,7 @@ template <class X> tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X
 // arithmetic operators: tensor2d = scalar ? tensor2d
 // --------------------------------------------------
 
-template <class X> tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
+template <class X> inline tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
 {
   tensor2d<X> C(B.ndim());
 
@@ -2986,7 +2986,7 @@ public:
 // arithmetic operators: vector = vector ? vector
 // ----------------------------------------------
 
-template <class X> vector<X> operator* (const vector<X> &A, const vector<X> &B)
+template <class X> inline vector<X> operator* (const vector<X> &A, const vector<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -2999,7 +2999,7 @@ template <class X> vector<X> operator* (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator/ (const vector<X> &A, const vector<X> &B)
+template <class X> inline vector<X> operator/ (const vector<X> &A, const vector<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -3012,7 +3012,7 @@ template <class X> vector<X> operator/ (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator+ (const vector<X> &A, const vector<X> &B)
+template <class X> inline vector<X> operator+ (const vector<X> &A, const vector<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -3025,7 +3025,7 @@ template <class X> vector<X> operator+ (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator- (const vector<X> &A, const vector<X> &B)
+template <class X> inline vector<X> operator- (const vector<X> &A, const vector<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -3041,7 +3041,7 @@ template <class X> vector<X> operator- (const vector<X> &A, const vector<X> &B)
 // arithmetic operators: vector = vector ? scalar
 // ----------------------------------------------
 
-template <class X> vector<X> operator* (const vector<X> &A, const X &B)
+template <class X> inline vector<X> operator* (const vector<X> &A, const X &B)
 {
   vector<X> C(A.ndim());
 
@@ -3051,7 +3051,7 @@ template <class X> vector<X> operator* (const vector<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector<X> operator/ (const vector<X> &A, const X &B)
+template <class X> inline vector<X> operator/ (const vector<X> &A, const X &B)
 {
   vector<X> C(A.ndim());
 
@@ -3061,7 +3061,7 @@ template <class X> vector<X> operator/ (const vector<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector<X> operator+ (const vector<X> &A, const X &B)
+template <class X> inline vector<X> operator+ (const vector<X> &A, const X &B)
 {
   vector<X> C(A.ndim());
 
@@ -3071,7 +3071,7 @@ template <class X> vector<X> operator+ (const vector<X> &A, const X &B)
   return C;
 }
 
-template <class X> vector<X> operator- (const vector<X> &A, const X &B)
+template <class X> inline vector<X> operator- (const vector<X> &A, const X &B)
 {
   vector<X> C(A.ndim());
 
@@ -3084,7 +3084,7 @@ template <class X> vector<X> operator- (const vector<X> &A, const X &B)
 // arithmetic operators: vector = scalar ? vector
 // ----------------------------------------------
 
-template <class X> vector<X> operator* (const X &A, const vector<X> &B)
+template <class X> inline vector<X> operator* (const X &A, const vector<X> &B)
 {
   vector<X> C(B.ndim());
 
@@ -3094,7 +3094,7 @@ template <class X> vector<X> operator* (const X &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator/ (const X &A, const vector<X> &B)
+template <class X> inline vector<X> operator/ (const X &A, const vector<X> &B)
 {
   vector<X> C(B.ndim());
 
@@ -3104,7 +3104,7 @@ template <class X> vector<X> operator/ (const X &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator+ (const X &A, const vector<X> &B)
+template <class X> inline vector<X> operator+ (const X &A, const vector<X> &B)
 {
   vector<X> C(B.ndim());
 
@@ -3114,7 +3114,7 @@ template <class X> vector<X> operator+ (const X &A, const vector<X> &B)
   return C;
 }
 
-template <class X> vector<X> operator- (const X &A, const vector<X> &B)
+template <class X> inline vector<X> operator- (const X &A, const vector<X> &B)
 {
   vector<X> C(B.ndim());
 
@@ -3128,7 +3128,7 @@ template <class X> vector<X> operator- (const X &A, const vector<X> &B)
 // print to screen
 // =================================================================================================
 
-template<class X> void inline tensor4<X>::printf(std::string fmt) const
+template<class X> inline void tensor4<X>::printf(std::string fmt) const
 {
   std::string gmt = std::to_string(std::to_string(m_nd).size());
   fmt = "(%"+gmt+"d,%"+gmt+"d,%"+gmt+"d,%"+gmt+"d) "+fmt+"\n";
@@ -3144,7 +3144,7 @@ template<class X> void inline tensor4<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
+inline std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
 {
   for ( size_t i = 0 ; i < src.ndim() ; ++i )
     for ( size_t j = 0 ; j < src.ndim() ; ++j )
@@ -3171,7 +3171,7 @@ template<class X> void inline tensor2<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
+inline std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
 {
   for ( size_t i=0; i<src.ndim(); ++i ) {
     for ( size_t j=0; j<src.ndim()-1; ++j )
@@ -3183,7 +3183,7 @@ std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline tensor2s<X>::printf(std::string fmt) const
+template<class X> inline void tensor2s<X>::printf(std::string fmt) const
 {
   size_t nd = m_nd;
   size_t i,j;
@@ -3202,7 +3202,7 @@ template<class X> void inline tensor2s<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
+inline std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
 {
   for ( size_t i=0; i<src.ndim(); ++i ) {
     for ( size_t j=0; j<src.ndim()-1; ++j )
@@ -3214,7 +3214,7 @@ std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline tensor2d<X>::printf(std::string fmt) const
+template<class X> inline void tensor2d<X>::printf(std::string fmt) const
 {
   size_t nd = m_nd;
   size_t i,j;
@@ -3233,7 +3233,7 @@ template<class X> void inline tensor2d<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
+inline std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
 {
   for ( size_t i=0; i<src.ndim(); ++i ) {
     for ( size_t j=0; j<src.ndim()-1; ++j )
@@ -3245,7 +3245,7 @@ std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> void inline vector<X>::printf(std::string fmt) const
+template<class X> inline void vector<X>::printf(std::string fmt) const
 {
   size_t nd = m_nd;
 
@@ -3257,7 +3257,7 @@ template<class X> void inline vector<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, vector<X>& src)
+inline std::ostream& operator<<(std::ostream& out, vector<X>& src)
 {
   for ( size_t i=0; i<src.ndim()-1; ++i )
     out << src(i) << ", ";
@@ -3269,7 +3269,7 @@ std::ostream& operator<<(std::ostream& out, vector<X>& src)
 // identity tensors
 // =================================================================================================
 
-tensor4<double> inline identity4(size_t nd)
+inline tensor4<double> identity4(size_t nd)
 {
   tensor4<double> I(nd,0.0);
 
@@ -3285,7 +3285,7 @@ tensor4<double> inline identity4(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-tensor4<double> inline identity4rt(size_t nd)
+inline tensor4<double> identity4rt(size_t nd)
 {
   tensor4<double> I(nd,0.0);
 
@@ -3301,7 +3301,7 @@ tensor4<double> inline identity4rt(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-tensor4<double> inline identity4II(size_t nd)
+inline tensor4<double> identity4II(size_t nd)
 {
   tensor4<double> I(nd,0.0);
 
@@ -3317,17 +3317,17 @@ tensor4<double> inline identity4II(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-tensor4<double> inline identity4s(size_t nd)
+inline tensor4<double> identity4s(size_t nd)
 { return (identity4(nd)+identity4rt(nd))/2.; }
 
 // -------------------------------------------------------------------------------------------------
 
-tensor4<double> inline identity4d(size_t nd)
+inline tensor4<double> identity4d(size_t nd)
 { return identity4s(nd)-identity4II(nd)/static_cast<double>(nd); }
 
 // -------------------------------------------------------------------------------------------------
 
-tensor2d<double> inline identity2(size_t nd)
+inline tensor2d<double> identity2(size_t nd)
 {
   tensor2d<double> I(nd,1.);
 

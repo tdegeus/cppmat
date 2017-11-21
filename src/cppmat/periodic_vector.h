@@ -302,7 +302,7 @@ public:
 // arithmetic operators: vector = vector ? vector
 // ----------------------------------------------
 
-template<class X> vector<X> operator* (const vector<X> &A, const vector<X> &B)
+template<class X> inline vector<X> operator* (const vector<X> &A, const vector<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
 
@@ -314,7 +314,7 @@ template<class X> vector<X> operator* (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator/ (const vector<X> &A, const vector<X> &B)
+template<class X> inline vector<X> operator/ (const vector<X> &A, const vector<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
 
@@ -326,7 +326,7 @@ template<class X> vector<X> operator/ (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator+ (const vector<X> &A, const vector<X> &B)
+template<class X> inline vector<X> operator+ (const vector<X> &A, const vector<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
 
@@ -338,7 +338,7 @@ template<class X> vector<X> operator+ (const vector<X> &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator- (const vector<X> &A, const vector<X> &B)
+template<class X> inline vector<X> operator- (const vector<X> &A, const vector<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
 
@@ -353,7 +353,7 @@ template<class X> vector<X> operator- (const vector<X> &A, const vector<X> &B)
 // arithmetic operators: vector = vector ? scalar
 // ----------------------------------------------
 
-template<class X> vector<X> operator* (const vector<X> &A, const X &B)
+template<class X> inline vector<X> operator* (const vector<X> &A, const X &B)
 {
   vector<X> C(A.shape(0));
 
@@ -363,7 +363,7 @@ template<class X> vector<X> operator* (const vector<X> &A, const X &B)
   return C;
 }
 
-template<class X> vector<X> operator/ (const vector<X> &A, const X &B)
+template<class X> inline vector<X> operator/ (const vector<X> &A, const X &B)
 {
   vector<X> C(A.shape(0));
 
@@ -373,7 +373,7 @@ template<class X> vector<X> operator/ (const vector<X> &A, const X &B)
   return C;
 }
 
-template<class X> vector<X> operator+ (const vector<X> &A, const X &B)
+template<class X> inline vector<X> operator+ (const vector<X> &A, const X &B)
 {
   vector<X> C(A.shape(0));
 
@@ -383,7 +383,7 @@ template<class X> vector<X> operator+ (const vector<X> &A, const X &B)
   return C;
 }
 
-template<class X> vector<X> operator- (const vector<X> &A, const X &B)
+template<class X> inline vector<X> operator- (const vector<X> &A, const X &B)
 {
   vector<X> C(A.shape(0));
 
@@ -396,7 +396,7 @@ template<class X> vector<X> operator- (const vector<X> &A, const X &B)
 // arithmetic operators: vector = scalar ? vector
 // ----------------------------------------------
 
-template<class X> vector<X> operator* (const X &A, const vector<X> &B)
+template<class X> inline vector<X> operator* (const X &A, const vector<X> &B)
 {
   vector<X> C(B.shape(0));
 
@@ -406,7 +406,7 @@ template<class X> vector<X> operator* (const X &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator/ (const X &A, const vector<X> &B)
+template<class X> inline vector<X> operator/ (const X &A, const vector<X> &B)
 {
   vector<X> C(B.shape(0));
 
@@ -416,7 +416,7 @@ template<class X> vector<X> operator/ (const X &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator+ (const X &A, const vector<X> &B)
+template<class X> inline vector<X> operator+ (const X &A, const vector<X> &B)
 {
   vector<X> C(B.shape(0));
 
@@ -426,7 +426,7 @@ template<class X> vector<X> operator+ (const X &A, const vector<X> &B)
   return C;
 }
 
-template<class X> vector<X> operator- (const X &A, const vector<X> &B)
+template<class X> inline vector<X> operator- (const X &A, const vector<X> &B)
 {
   vector<X> C(B.shape(0));
 
@@ -440,7 +440,7 @@ template<class X> vector<X> operator- (const X &A, const vector<X> &B)
 // --------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, vector<X>& src)
+inline std::ostream& operator<<(std::ostream& out, vector<X>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0)-1 ; ++i )
     out << src(i) << " , ";

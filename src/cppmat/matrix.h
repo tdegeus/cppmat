@@ -121,31 +121,31 @@ public:
 }; // class matrix
 
 // arithmetic operators
-template <class X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
-template <class X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
-template <class X> matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
-template <class X> matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
-template <class X> matrix<X> operator* (const matrix<X> &A, const        X  &B);
-template <class X> matrix<X> operator/ (const matrix<X> &A, const        X  &B);
-template <class X> matrix<X> operator+ (const matrix<X> &A, const        X  &B);
-template <class X> matrix<X> operator- (const matrix<X> &A, const        X  &B);
-template <class X> matrix<X> operator* (const        X  &A, const matrix<X> &B);
-template <class X> matrix<X> operator/ (const        X  &A, const matrix<X> &B);
-template <class X> matrix<X> operator+ (const        X  &A, const matrix<X> &B);
-template <class X> matrix<X> operator- (const        X  &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator* (const matrix<X> &A, const        X  &B);
+template <class X> inline matrix<X> operator/ (const matrix<X> &A, const        X  &B);
+template <class X> inline matrix<X> operator+ (const matrix<X> &A, const        X  &B);
+template <class X> inline matrix<X> operator- (const matrix<X> &A, const        X  &B);
+template <class X> inline matrix<X> operator* (const        X  &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator/ (const        X  &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator+ (const        X  &A, const matrix<X> &B);
+template <class X> inline matrix<X> operator- (const        X  &A, const matrix<X> &B);
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
 template <class X>
-matrix<X>::matrix(const std::vector<size_t> &shape)
+inline matrix<X>::matrix(const std::vector<size_t> &shape)
 {
   resize(shape);
 }
 
 template <class X>
-matrix<X>::matrix(const std::vector<size_t> &shape, X D)
+inline matrix<X>::matrix(const std::vector<size_t> &shape, X D)
 {
   resize(shape);
 
@@ -154,7 +154,7 @@ matrix<X>::matrix(const std::vector<size_t> &shape, X D)
 }
 
 template <class X>
-matrix<X>::matrix(const std::vector<size_t> &shape, const X *D)
+inline matrix<X>::matrix(const std::vector<size_t> &shape, const X *D)
 {
   resize(shape);
 
@@ -167,7 +167,7 @@ matrix<X>::matrix(const std::vector<size_t> &shape, const X *D)
 // =================================================================================================
 
 template <class X>
-size_t matrix<X>::size() const
+inline size_t matrix<X>::size() const
 {
   return m_size;
 }
@@ -175,7 +175,7 @@ size_t matrix<X>::size() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-size_t matrix<X>::ndim() const
+inline size_t matrix<X>::ndim() const
 {
   return m_ndim;
 }
@@ -183,7 +183,7 @@ size_t matrix<X>::ndim() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-size_t matrix<X>::shape(size_t i) const
+inline size_t matrix<X>::shape(size_t i) const
 {
   assert( i < MAX_DIM );
 
@@ -193,7 +193,7 @@ size_t matrix<X>::shape(size_t i) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::vector<size_t> matrix<X>::shape() const
+inline std::vector<size_t> matrix<X>::shape() const
 {
   std::vector<size_t> ret(m_ndim);
 
@@ -205,7 +205,7 @@ std::vector<size_t> matrix<X>::shape() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::vector<size_t> matrix<X>::strides(bool bytes) const
+inline std::vector<size_t> matrix<X>::strides(bool bytes) const
 {
   std::vector<size_t> ret(m_ndim);
 
@@ -224,7 +224,7 @@ std::vector<size_t> matrix<X>::strides(bool bytes) const
 // =================================================================================================
 
 template <class X>
-void matrix<X>::resize(const std::vector<size_t> &shape)
+inline void matrix<X>::resize(const std::vector<size_t> &shape)
 {
   assert( shape.size()  > 0       );
   assert( shape.size() <= MAX_DIM );
@@ -252,7 +252,7 @@ void matrix<X>::resize(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::chdim(size_t ndim)
+inline void matrix<X>::chdim(size_t ndim)
 {
   #ifndef NDEBUG
     for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( m_shape[i] == 1 );
@@ -264,7 +264,7 @@ void matrix<X>::chdim(size_t ndim)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::reshape(const std::vector<size_t> &shape)
+inline void matrix<X>::reshape(const std::vector<size_t> &shape)
 {
   #ifndef NDEBUG
     size_t n = 1;
@@ -282,7 +282,7 @@ void matrix<X>::reshape(const std::vector<size_t> &shape)
 // =================================================================================================
 
 template <class X>
-X& matrix<X>::operator[](size_t i)
+inline X& matrix<X>::operator[](size_t i)
 {
   return m_data[i];
 }
@@ -290,7 +290,7 @@ X& matrix<X>::operator[](size_t i)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator[](size_t i) const
+inline const X& matrix<X>::operator[](size_t i) const
 {
   return m_data[i];
 }
@@ -298,7 +298,7 @@ const X& matrix<X>::operator[](size_t i) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a)
+inline X& matrix<X>::operator()(size_t a)
 {
   return m_data[a*m_strides[0]];
 }
@@ -306,7 +306,7 @@ X& matrix<X>::operator()(size_t a)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a) const
+inline const X& matrix<X>::operator()(size_t a) const
 {
   return m_data[a*m_strides[0]];
 }
@@ -314,7 +314,7 @@ const X& matrix<X>::operator()(size_t a) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a, size_t b)
+inline X& matrix<X>::operator()(size_t a, size_t b)
 {
   return m_data[a*m_strides[0]+b*m_strides[1]];
 }
@@ -322,7 +322,7 @@ X& matrix<X>::operator()(size_t a, size_t b)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a, size_t b) const
+inline const X& matrix<X>::operator()(size_t a, size_t b) const
 {
   return m_data[a*m_strides[0]+b*m_strides[1]];
 }
@@ -330,7 +330,7 @@ const X& matrix<X>::operator()(size_t a, size_t b) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a, size_t b, size_t c)
+inline X& matrix<X>::operator()(size_t a, size_t b, size_t c)
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
 }
@@ -338,7 +338,7 @@ X& matrix<X>::operator()(size_t a, size_t b, size_t c)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a, size_t b, size_t c) const
+inline const X& matrix<X>::operator()(size_t a, size_t b, size_t c) const
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
 }
@@ -346,7 +346,7 @@ const X& matrix<X>::operator()(size_t a, size_t b, size_t c) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d)
+inline X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d)
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
 }
@@ -354,7 +354,7 @@ X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
+inline const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
 }
@@ -362,7 +362,7 @@ const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
+inline X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
 }
@@ -370,7 +370,7 @@ X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
+inline const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
 }
@@ -378,7 +378,7 @@ const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+inline X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
 }
@@ -386,7 +386,7 @@ X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+inline const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
 }
@@ -396,7 +396,7 @@ const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e,
 // =================================================================================================
 
 template <class X>
-matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
+inline matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
 {
   assert( size() == B.size() );
   assert( ndim() == B.ndim() );
@@ -410,7 +410,7 @@ matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator/= (const matrix<X> &B)
+inline matrix<X>& matrix<X>::operator/= (const matrix<X> &B)
 {
   assert( size() == B.size() );
   assert( ndim() == B.ndim() );
@@ -424,7 +424,7 @@ matrix<X>& matrix<X>::operator/= (const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
+inline matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
 {
   assert( size() == B.size() );
   assert( ndim() == B.ndim() );
@@ -438,7 +438,7 @@ matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
+inline matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
 {
   assert( size() == B.size() );
   assert( ndim() == B.ndim() );
@@ -452,7 +452,7 @@ matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator*= (X B)
+inline matrix<X>& matrix<X>::operator*= (X B)
 {
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] *= B;
@@ -463,7 +463,7 @@ matrix<X>& matrix<X>::operator*= (X B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator/= (X B)
+inline matrix<X>& matrix<X>::operator/= (X B)
 {
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] /= B;
@@ -474,7 +474,7 @@ matrix<X>& matrix<X>::operator/= (X B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator+= (X B)
+inline matrix<X>& matrix<X>::operator+= (X B)
 {
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] += B;
@@ -485,7 +485,7 @@ matrix<X>& matrix<X>::operator+= (X B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X>& matrix<X>::operator-= (X B)
+inline matrix<X>& matrix<X>::operator-= (X B)
 {
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] -= B;
@@ -496,7 +496,7 @@ matrix<X>& matrix<X>::operator-= (X B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
+inline matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -512,7 +512,7 @@ matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
+inline matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -528,7 +528,7 @@ matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
+inline matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -544,7 +544,7 @@ matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
+inline matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 {
   assert( A.size() == B.size() );
   assert( A.ndim() == B.ndim() );
@@ -560,7 +560,7 @@ matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator* (const matrix<X> &A, const X &B)
+inline matrix<X> operator* (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -573,7 +573,7 @@ matrix<X> operator* (const matrix<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator/ (const matrix<X> &A, const X &B)
+inline matrix<X> operator/ (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -586,7 +586,7 @@ matrix<X> operator/ (const matrix<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator+ (const matrix<X> &A, const X &B)
+inline matrix<X> operator+ (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -599,7 +599,7 @@ matrix<X> operator+ (const matrix<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator- (const matrix<X> &A, const X &B)
+inline matrix<X> operator- (const matrix<X> &A, const X &B)
 {
   matrix<X> C(A.shape());
 
@@ -612,7 +612,7 @@ matrix<X> operator- (const matrix<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator* (const X &A, const matrix<X> &B)
+inline matrix<X> operator* (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -625,7 +625,7 @@ matrix<X> operator* (const X &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator/ (const X &A, const matrix<X> &B)
+inline matrix<X> operator/ (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -638,7 +638,7 @@ matrix<X> operator/ (const X &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator+ (const X &A, const matrix<X> &B)
+inline matrix<X> operator+ (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -651,7 +651,7 @@ matrix<X> operator+ (const X &A, const matrix<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-matrix<X> operator- (const X &A, const matrix<X> &B)
+inline matrix<X> operator- (const X &A, const matrix<X> &B)
 {
   matrix<X> C(B.shape());
 
@@ -666,7 +666,7 @@ matrix<X> operator- (const X &A, const matrix<X> &B)
 // =================================================================================================
 
 template<class X>
-X* matrix<X>::data ()
+inline X* matrix<X>::data ()
 {
   return m_data.data();
 }
@@ -674,7 +674,7 @@ X* matrix<X>::data ()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-auto matrix<X>::begin()
+inline auto matrix<X>::begin()
 {
   return m_data.begin();
 }
@@ -682,7 +682,7 @@ auto matrix<X>::begin()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-auto matrix<X>::end()
+inline auto matrix<X>::end()
 {
   return m_data.end();
 }
@@ -690,7 +690,7 @@ auto matrix<X>::end()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-const X* matrix<X>::data() const
+inline const X* matrix<X>::data() const
 {
   return m_data.data();
 }
@@ -698,7 +698,7 @@ const X* matrix<X>::data() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-auto matrix<X>::begin() const
+inline auto matrix<X>::begin() const
 {
   return m_data.begin();
 }
@@ -706,7 +706,7 @@ auto matrix<X>::begin() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-auto matrix<X>::end() const
+inline auto matrix<X>::end() const
 {
   return m_data.end();
 }
@@ -717,7 +717,7 @@ auto matrix<X>::end() const
 
 template<class X>
 template<typename U, typename V, typename E>
-matrix<X>::operator matrix<U> () const
+inline matrix<X>::operator matrix<U> () const
 {
   matrix<U> out(shape());
 
@@ -731,7 +731,7 @@ matrix<X>::operator matrix<U> () const
 
 template<class X>
 template<typename U, typename V, typename E>
-matrix<X>::operator std::vector<U> () const
+inline matrix<X>::operator std::vector<U> () const
 {
   std::vector<U> out(m_size);
 
@@ -746,7 +746,7 @@ matrix<X>::operator std::vector<U> () const
 #ifdef CPPMAT_EIGEN
 template<class X>
 template<typename U, typename V, typename E>
-matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> () const
+inline matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> () const
 {
   assert( m_ndim == 2 );
 
@@ -764,7 +764,7 @@ matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajo
 #ifdef CPPMAT_EIGEN
 template<class X>
 template<typename U, typename V, typename E>
-matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> () const
+inline matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> () const
 {
   assert( m_ndim == 2 );
 
@@ -783,7 +783,7 @@ matrix<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajo
 // =================================================================================================
 
 template <class X>
-X matrix<X>::sum() const
+inline X matrix<X>::sum() const
 {
   X out = static_cast<X>(0);
 
@@ -796,7 +796,7 @@ X matrix<X>::sum() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-double matrix<X>::mean() const
+inline double matrix<X>::mean() const
 {
   return static_cast<double>(this->sum())/static_cast<double>(m_size);
 }
@@ -804,7 +804,7 @@ double matrix<X>::mean() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X matrix<X>::min() const
+inline X matrix<X>::min() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
 }
@@ -812,7 +812,7 @@ X matrix<X>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-X matrix<X>::max() const
+inline X matrix<X>::max() const
 {
   return *std::max_element(m_data.begin(),m_data.end());
 }
@@ -820,7 +820,7 @@ X matrix<X>::max() const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-double matrix<X>::average(const matrix<X> &weights) const
+inline double matrix<X>::average(const matrix<X> &weights) const
 {
   assert( size() == weights.size() );
   assert( ndim() == weights.ndim() );
@@ -838,7 +838,7 @@ double matrix<X>::average(const matrix<X> &weights) const
 // =================================================================================================
 
 template <class X>
-void matrix<X>::setConstant(X D)
+inline void matrix<X>::setConstant(X D)
 {
   for ( size_t i=0; i<m_size; ++i )
     m_data[i] = D;
@@ -847,7 +847,7 @@ void matrix<X>::setConstant(X D)
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::setZero()
+inline void matrix<X>::setZero()
 {
   for ( size_t i=0; i<m_size; ++i )
     m_data[i] = static_cast<X>(0);
@@ -856,7 +856,7 @@ void matrix<X>::setZero()
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::setOnes()
+inline void matrix<X>::setOnes()
 {
   for ( size_t i=0; i<m_size; ++i )
     m_data[i] = static_cast<X>(1);
@@ -865,7 +865,7 @@ void matrix<X>::setOnes()
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::zeros()
+inline void matrix<X>::zeros()
 {
   for ( size_t i=0; i<m_size; ++i )
     m_data[i] = static_cast<X>(0);
@@ -874,7 +874,7 @@ void matrix<X>::zeros()
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-void matrix<X>::ones()
+inline void matrix<X>::ones()
 {
   for ( size_t i=0; i<m_size; ++i )
     m_data[i] = static_cast<X>(1);
@@ -885,7 +885,7 @@ void matrix<X>::ones()
 // =================================================================================================
 
 template <class X>
-void matrix<X>::printf(std::string fmt) const
+inline void matrix<X>::printf(std::string fmt) const
 {
   std::vector<size_t> s = strides();
 
@@ -932,7 +932,7 @@ void matrix<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template <class X>
-std::ostream& operator<<(std::ostream& out, matrix<X>& src)
+inline std::ostream& operator<<(std::ostream& out, matrix<X>& src)
 {
   if ( src.ndim() == 1 )
   {

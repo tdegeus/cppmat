@@ -283,7 +283,7 @@ public:
 // ----------------------------------------------
 
 template <class X, size_t n>
-vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
+inline vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -294,7 +294,7 @@ vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
+inline vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -305,7 +305,7 @@ vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
+inline vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -316,7 +316,7 @@ vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
+inline vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -330,7 +330,7 @@ vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
 // ----------------------------------------------
 
 template <class X, size_t n>
-vector<X,n> operator* (const vector<X,n> &A, const X &B)
+inline vector<X,n> operator* (const vector<X,n> &A, const X &B)
 {
   vector<X,n> C;
 
@@ -341,7 +341,7 @@ vector<X,n> operator* (const vector<X,n> &A, const X &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator/ (const vector<X,n> &A, const X &B)
+inline vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 {
   vector<X,n> C;
 
@@ -352,7 +352,7 @@ vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator+ (const vector<X,n> &A, const X &B)
+inline vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 {
   vector<X,n> C;
 
@@ -363,7 +363,7 @@ vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator- (const vector<X,n> &A, const X &B)
+inline vector<X,n> operator- (const vector<X,n> &A, const X &B)
 {
   vector<X,n> C;
 
@@ -377,7 +377,7 @@ vector<X,n> operator- (const vector<X,n> &A, const X &B)
 // ----------------------------------------------
 
 template <class X, size_t n>
-vector<X,n> operator* (const X &A, const vector<X,n> &B)
+inline vector<X,n> operator* (const X &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -388,7 +388,7 @@ vector<X,n> operator* (const X &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator/ (const X &A, const vector<X,n> &B)
+inline vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -399,7 +399,7 @@ vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator+ (const X &A, const vector<X,n> &B)
+inline vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -410,7 +410,7 @@ vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 }
 
 template <class X, size_t n>
-vector<X,n> operator- (const X &A, const vector<X,n> &B)
+inline vector<X,n> operator- (const X &A, const vector<X,n> &B)
 {
   vector<X,n> C;
 
@@ -424,7 +424,7 @@ vector<X,n> operator- (const X &A, const vector<X,n> &B)
 // --------------------
 
 template <class X, size_t n>
-std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
+inline std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0)-1 ; ++i )
     out << src(i) << " , ";

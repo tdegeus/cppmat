@@ -252,7 +252,7 @@ public:
 // -------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -263,7 +263,7 @@ matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -274,7 +274,7 @@ matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -285,7 +285,7 @@ matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -299,7 +299,7 @@ matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 // ------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
+inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
 {
   matrix2<X,m,n> C;
 
@@ -310,7 +310,7 @@ matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
+inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
 {
   matrix2<X,m,n> C;
 
@@ -321,7 +321,7 @@ matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
+inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
 {
   matrix2<X,m,n> C;
 
@@ -332,7 +332,7 @@ matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
+inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 {
   matrix2<X,m,n> C;
 
@@ -346,7 +346,7 @@ matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 // ------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -357,7 +357,7 @@ matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -368,7 +368,7 @@ matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -379,7 +379,7 @@ matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
 }
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
+inline matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
 {
   matrix2<X,m,n> C;
 
@@ -393,7 +393,7 @@ matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
 // --------------------
 
 template <class X, size_t m, size_t n>
-std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
+inline std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0) ; ++i )
   {
@@ -411,7 +411,7 @@ std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
 // =================================================================================================
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n>::matrix2()
+inline matrix2<X,m,n>::matrix2()
 {
   // point to local data container
   m_data = &m_container[0];
@@ -420,7 +420,7 @@ matrix2<X,m,n>::matrix2()
 // -------------------------------------------------------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n>::matrix2(X D)
+inline matrix2<X,m,n>::matrix2(X D)
 {
   // copy input
   for ( size_t i = 0; i < m_size ; ++i ) m_container[i] = D;
@@ -432,7 +432,7 @@ matrix2<X,m,n>::matrix2(X D)
 // -------------------------------------------------------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n>::matrix2(const X *D)
+inline matrix2<X,m,n>::matrix2(const X *D)
 {
   // copy input
   for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
@@ -444,7 +444,7 @@ matrix2<X,m,n>::matrix2(const X *D)
 // -------------------------------------------------------------------------------------------------
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
+inline matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
 {
   // copy input
   for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
@@ -458,7 +458,7 @@ matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
 // =================================================================================================
 
 template <class X, size_t m, size_t n>
-matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
+inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
 {
   // - copy input
   for ( size_t i = 0 ; i < m_size ; ++i )
