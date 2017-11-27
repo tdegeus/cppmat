@@ -178,12 +178,12 @@ inline matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
 template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
 {
-  // - copy input
+  // copy input
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_container[i] = D[i];
-  // - point to local data container
+  // point to local data container
   m_data = &m_container[0];
-  // - return pointer to current instance
+  // return pointer to current instance
   return *this;
 }
 
