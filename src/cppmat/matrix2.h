@@ -90,24 +90,25 @@ public:
   void printf(std::string fmt) const;
 
   // conversion operators
-  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  template<typename U, typename V=X, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator matrix2<U> () const;
 
-  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  template<typename U, typename V=X, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator std::vector<U> () const;
 
   #ifdef CPPMAT_EIGEN
-  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  template<typename U, typename V=X, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> () const;
   #endif
 
   #ifdef CPPMAT_EIGEN
-  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  template<typename U, typename V=X, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
   operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> () const;
   #endif
 
 }; // class matrix2
 
+// arithmetic operators
 template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B);
 template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B);
 template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B);
