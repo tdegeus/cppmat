@@ -4,316 +4,409 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PERIODIC_MATRIX2_H
-#define CPPMAT_PERIODIC_MATRIX2_H
+#ifndef CPPMAT_MATRIX2_H
+#define CPPMAT_MATRIX2_H
 
 #include "macros.h"
 
 namespace cppmat {
-namespace periodic {
 
 // =================================================================================================
 // cppmat::matrix2
 // =================================================================================================
 
-template <class X> class matrix2
+template<class X>
+class matrix2
 {
 private:
 
   std::vector<X> m_data;    // data container
   size_t         m_m=0;     // number of rows
   size_t         m_n=0;     // number of columns
+  int            m_m_i=0;   // == m_m, but int
+  int            m_n_i=0;   // == m_n, but int
   size_t         m_size=0;  // total size
 
 public:
 
   // constructors
-  // ------------
+  matrix2(){};
+  matrix2(size_t m, size_t n);
+  matrix2(size_t m, size_t n, X D);
+  matrix2(size_t m, size_t n, const X *D);
 
-  matrix2(){}
+  // get dimensions
+  size_t size() const;
+  size_t ndim() const;
+  size_t shape(size_t i) const;
+  std::vector<size_t> shape() const;
+  std::vector<size_t> strides(bool bytes=false) const;
 
-  matrix2(size_t m, size_t n)
-  {
-    resize(m,n);
-  }
+  // resize
+  void resize (size_t m, size_t n);
+  void reshape(size_t m, size_t n);
 
-  matrix2(size_t m, size_t n, X D)
-  {
-    resize(m,n);
+  // index operators: access plain storage
+  X&       operator[](size_t i);
+  const X& operator[](size_t i) const;
 
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D;
-  }
+  // index operators: access using matrix indices
+  X&       operator()(size_t a);
+  const X& operator()(size_t a) const;
+  X&       operator()(size_t a, size_t b);
+  const X& operator()(size_t a, size_t b) const;
 
-  matrix2(size_t m, size_t n, const X *D)
-  {
-    resize(m,n);
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] = D[i];
-  }
-
-  // constructor to copy + change data type
-  // --------------------------------------
-
-  template<\
-    typename U,typename V=X,\
-    typename=typename std::enable_if<std::is_convertible<X,U>::value>::type\
-  >
-  operator matrix2<U> ()
-  {
-    matrix2<U> out(shape(0),shape(1));
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      out[i] = static_cast<U>( m_data[i] );
-
-    return out;
-  }
-
-  // resize matrix2
-  // -------------
-
-  void resize(size_t m, size_t n)
-  {
-    m_m    = m;
-    m_n    = n;
-    m_size = m*n;
-
-    m_data.resize(m_size);
-  }
-
-  // reshape
-  // -------
-
-  void reshape(size_t m, size_t n)
-  {
-    assert( m_size == m*n );
-
-    resize(m,n);
-  }
-
-  // operator[] : direct storage access
-  // ----------------------------------
-
-  X& operator[](size_t i)
-  { return m_data[i]; }
-
-  const X& operator[](size_t i) const
-  { return m_data[i]; }
-
-  // operator() : indices along each dimension
-  // -----------------------------------------
-
-  X& operator()(size_t a, size_t b)
-  { return m_data[a*m_n+b]; }
-
-  const X& operator()(size_t a, size_t b) const
-  { return m_data[a*m_n+b]; }
-
-  // operator() : indices along each dimension, allowing for "i < 0" or "i >= N"
-  // ---------------------------------------------------------------------------
-
-  X& operator()(int a, int b)
-  {
-    a = ( a < 0 ) ? a + static_cast<int>(m_m) : ( a >= static_cast<int>(m_m) ) ? a - static_cast<int>(m_m) : a ;
-    b = ( b < 0 ) ? b + static_cast<int>(m_n) : ( b >= static_cast<int>(m_n) ) ? b - static_cast<int>(m_n) : b ;
-
-    return m_data[a*m_n+b];
-  }
-
-  const X& operator()(int a, int b) const
-  {
-    a = ( a < 0 ) ? a + static_cast<int>(m_m) : ( a >= static_cast<int>(m_m) ) ? a - static_cast<int>(m_m) : a ;
-    b = ( b < 0 ) ? b + static_cast<int>(m_n) : ( b >= static_cast<int>(m_n) ) ? b - static_cast<int>(m_n) : b ;
-
-    return m_data[a*m_n+b];
-  }
-
-  // arithmetic operators: matrix2 ?= matrix2
-  // --------------------------------------
-
-  matrix2<X>& operator*= (const matrix2<X> &B)
-  {
-    assert( m_m == B.shape(0) );
-    assert( m_n == B.shape(1) );
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] *= B[i];
-
-    return *this;
-  }
-
-  matrix2<X>& operator/= (const matrix2<X> &B)
-  {
-    assert( m_m == B.shape(0) );
-    assert( m_n == B.shape(1) );
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] /= B[i];
-
-    return *this;
-  }
-
-  matrix2<X>& operator+= (const matrix2<X> &B)
-  {
-    assert( m_m == B.shape(0) );
-    assert( m_n == B.shape(1) );
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] += B[i];
-
-    return *this;
-  }
-
-  matrix2<X>& operator-= (const matrix2<X> &B)
-  {
-    assert( m_m == B.shape(0) );
-    assert( m_n == B.shape(1) );
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] -= B[i];
-
-    return *this;
-  }
-
-  // arithmetic operators: matrix2 ?= scalar
-  // --------------------------------------
-
-  matrix2<X>& operator*= (X B)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] *= B;
-
-    return *this;
-  }
-
-  matrix2<X>& operator/= (X B)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] /= B;
-
-    return *this;
-  }
-
-  matrix2<X>& operator+= (X B)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] += B;
-
-    return *this;
-  }
-
-  matrix2<X>& operator-= (X B)
-  {
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      m_data[i] -= B;
-
-    return *this;
-  }
+  // arithmetic operators
+  matrix2<X>& operator*= (const matrix2<X> &B);
+  matrix2<X>& operator/= (const matrix2<X> &B);
+  matrix2<X>& operator+= (const matrix2<X> &B);
+  matrix2<X>& operator-= (const matrix2<X> &B);
+  matrix2<X>& operator*= (              X   B);
+  matrix2<X>& operator/= (              X   B);
+  matrix2<X>& operator+= (              X   B);
+  matrix2<X>& operator-= (              X   B);
 
   // pointer / iterators
-  // -------------------
+  X*       data();
+  const X* data() const;
+  auto     begin();
+  auto     begin() const;
+  auto     end();
+  auto     end() const;
 
-  const X* data () const { return m_data.data (); }
-  auto     begin() const { return m_data.begin(); }
-  auto     end  () const { return m_data.end  (); }
+  // basic algebra
+  X      min() const;
+  X      max() const;
+  X      sum() const;
+  double mean() const;
+  double average(const matrix2<X> &weights) const;
 
-  // return shape array [ndim]
-  // -------------------------
+  // basic initialization
+  void setConstant(X D);
+  void setZero();
+  void setOnes();
+  void zeros();
+  void ones();
 
-  std::vector<size_t> shape() const
-  {
-    std::vector<size_t> ret(2);
+  // formatted print; NB also "operator<<" is defined below
+  void printf(std::string fmt) const;
 
-    ret[0] = m_m;
-    ret[1] = m_n;
+  // conversion operators
+  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  operator matrix2<U> () const;
 
-    return ret;
-  }
+  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  operator std::vector<U> () const;
 
-  // return shape in one direction
-  // -----------------------------
+  #ifdef CPPMAT_EIGEN
+  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> () const;
+  #endif
 
-  size_t shape(size_t i) const
-  {
-    if ( i == 0 ) return m_m;
-    if ( i == 1 ) return m_n;
-
-    assert( false );
-    return 0;
-  }
-
-  // return strides array [ndim]
-  // ---------------------------
-
-  std::vector<size_t> strides(bool bytes=false) const
-  {
-    std::vector<size_t> ret(2);
-
-    ret[0] = m_n;
-    ret[1] = 1;
-
-    if ( bytes )
-      for ( size_t i = 0 ; i < 2 ; ++i )
-        ret[i] *= sizeof(X);
-
-    return ret;
-  }
-
-  // return size
-  // -----------
-
-  size_t size() const { return m_size; }
-  size_t ndim() const { return 2;      }
-
-  // minimum / maximum / mean / sum
-  // ------------------------------
-
-  X sum() const
-  {
-    X out = static_cast<X>(0);
-
-    for ( size_t i = 0 ; i < m_size ; ++i )
-      out += m_data[i];
-
-    return out;
-  }
-
-  double mean() const { return static_cast<double>(this->sum())/static_cast<double>(m_size); }
-  X      min () const { return *std::min_element(m_data.begin(),m_data.end()); }
-  X      max () const { return *std::max_element(m_data.begin(),m_data.end()); }
-
-  // initialize all entries to zero/one/constant
-  // -------------------------------------------
-
-  void setConstant(X D) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;                 }
-  void setZero    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
-  void setOnes    (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
-  void zeros      (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0); }
-  void ones       (   ) { for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1); }
-
-  // print to screen
-  // ---------------
-
-  void printf(std::string fmt) const
-  {
-    std::vector<size_t> s = strides();
-
-    for ( size_t h = 0 ; h < shape(0) ; ++h )
-    {
-      for ( size_t i = 0 ; i < shape(1)-1 ; ++i )
-        std::printf((fmt+",").c_str(),m_data[h*s[0]+i*s[1]]);
-
-      std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape(1)-1)*s[1]]);
-    }
-  }
+  #ifdef CPPMAT_EIGEN
+  template<typename U,typename V=X,typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> () const;
+  #endif
 
 }; // class matrix2
 
-// arithmetic operators: matrix2 = matrix2 ? matrix2
-// ----------------------------------------------
+template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const         X  &B);
+template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const         X  &B);
+template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const         X  &B);
+template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const         X  &B);
+template<class X> inline matrix2<X> operator* (const         X  &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator/ (const         X  &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator+ (const         X  &A, const matrix2<X> &B);
+template<class X> inline matrix2<X> operator- (const         X  &A, const matrix2<X> &B);
 
-template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B)
+// =================================================================================================
+// constructors
+// =================================================================================================
+
+template<class X>
+inline matrix2<X>::matrix2(size_t m, size_t n)
+{
+  resize(m,n);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>::matrix2(size_t m, size_t n, X D)
+{
+  resize(m,n);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>::matrix2(size_t m, size_t n, const X *D)
+{
+  resize(m,n);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] = D[i];
+}
+
+// =================================================================================================
+// get dimensions
+// =================================================================================================
+
+template<class X>
+inline size_t matrix2<X>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix2<X>::ndim() const
+{
+  return 2;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix2<X>::shape(size_t i) const
+{
+  if ( i == 0 ) return m_m;
+  if ( i == 1 ) return m_n;
+
+  assert( false );
+  return 0;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline std::vector<size_t> matrix2<X>::shape() const
+{
+  std::vector<size_t> ret(2);
+
+  ret[0] = m_m;
+  ret[1] = m_n;
+
+  return ret;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline std::vector<size_t> matrix2<X>::strides(bool bytes) const
+{
+  std::vector<size_t> ret(2);
+
+  ret[0] = m_n;
+  ret[1] = 1;
+
+  if ( bytes )
+    for ( size_t i = 0 ; i < 2 ; ++i )
+      ret[i] *= sizeof(X);
+
+  return ret;
+}
+
+// =================================================================================================
+// resize
+// =================================================================================================
+
+template<class X>
+inline void matrix2<X>::resize(size_t m, size_t n)
+{
+  m_m    = m;
+  m_n    = n;
+  m_m_i  = static_cast<int>(m);
+  m_n_i  = static_cast<int>(n);
+  m_size = m*n;
+
+  m_data.resize(m_size);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void matrix2<X>::reshape(size_t m, size_t n)
+{
+  assert( m_size == m*n );
+
+  resize(m,n);
+}
+
+// =================================================================================================
+// index operators
+// =================================================================================================
+
+template<class X>
+inline X& matrix2<X>::operator[](size_t i)
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix2<X>::operator[](size_t i) const
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& matrix2<X>::operator()(size_t a)
+{
+  a = ( a < 0 ) ? a + m_m_i : ( a >= m_m_i ) ? a - m_m_i : a ;
+
+  return m_data[a*m_n];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix2<X>::operator()(size_t a) const
+{
+  a = ( a < 0 ) ? a + m_m_i : ( a >= m_m_i ) ? a - m_m_i : a ;
+
+  return m_data[a*m_n];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& matrix2<X>::operator()(size_t a, size_t b)
+{
+  a = ( a < 0 ) ? a + m_m_i : ( a >= m_m_i ) ? a - m_m_i : a ;
+  b = ( b < 0 ) ? b + m_n_i : ( b >= m_n_i ) ? b - m_n_i : b ;
+
+  return m_data[a*m_n+b];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix2<X>::operator()(size_t a, size_t b) const
+{
+  a = ( a < 0 ) ? a + m_m_i : ( a >= m_m_i ) ? a - m_m_i : a ;
+  b = ( b < 0 ) ? b + m_n_i : ( b >= m_n_i ) ? b - m_n_i : b ;
+
+  return m_data[a*m_n+b];
+}
+
+// =================================================================================================
+// arithmetic operators
+// =================================================================================================
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator*= (const matrix2<X> &B)
+{
+  assert( m_m == B.shape(0) );
+  assert( m_n == B.shape(1) );
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] *= B[i];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator/= (const matrix2<X> &B)
+{
+  assert( m_m == B.shape(0) );
+  assert( m_n == B.shape(1) );
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] /= B[i];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator+= (const matrix2<X> &B)
+{
+  assert( m_m == B.shape(0) );
+  assert( m_n == B.shape(1) );
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] += B[i];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator-= (const matrix2<X> &B)
+{
+  assert( m_m == B.shape(0) );
+  assert( m_n == B.shape(1) );
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] -= B[i];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator*= (X B)
+{
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] *= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator/= (X B)
+{
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] /= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator+= (X B)
+{
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] += B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X>& matrix2<X>::operator-= (X B)
+{
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    m_data[i] -= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator* (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -326,7 +419,10 @@ template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const matrix
   return C;
 }
 
-template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator/ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -339,7 +435,10 @@ template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const matrix
   return C;
 }
 
-template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator+ (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -352,7 +451,10 @@ template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const matrix
   return C;
 }
 
-template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator- (const matrix2<X> &A, const matrix2<X> &B)
 {
   assert( A.shape(0) == B.shape(0) );
   assert( A.shape(1) == B.shape(1) );
@@ -365,10 +467,10 @@ template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const matrix
   return C;
 }
 
-// arithmetic operators: matrix2 = matrix2 ? scalar
-// ----------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
-template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const X &B)
+template<class X>
+inline matrix2<X> operator* (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -378,7 +480,10 @@ template<class X> inline matrix2<X> operator* (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const X &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator/ (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -388,7 +493,10 @@ template<class X> inline matrix2<X> operator/ (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const X &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator+ (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -398,7 +506,10 @@ template<class X> inline matrix2<X> operator+ (const matrix2<X> &A, const X &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const X &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator- (const matrix2<X> &A, const X &B)
 {
   matrix2<X> C(A.shape(0),A.shape(1));
 
@@ -408,10 +519,10 @@ template<class X> inline matrix2<X> operator- (const matrix2<X> &A, const X &B)
   return C;
 }
 
-// arithmetic operators: matrix2 = scalar ? matrix2
-// ----------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
-template<class X> inline matrix2<X> operator* (const X &A, const matrix2<X> &B)
+template<class X>
+inline matrix2<X> operator* (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -421,7 +532,10 @@ template<class X> inline matrix2<X> operator* (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator/ (const X &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator/ (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -431,7 +545,10 @@ template<class X> inline matrix2<X> operator/ (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator+ (const X &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator+ (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -441,7 +558,10 @@ template<class X> inline matrix2<X> operator+ (const X &A, const matrix2<X> &B)
   return C;
 }
 
-template<class X> inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
 {
   matrix2<X> C(B.shape(0),B.shape(1));
 
@@ -451,10 +571,237 @@ template<class X> inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
   return C;
 }
 
-// print to "std::cout"
-// --------------------
+// =================================================================================================
+// pointers / iterators
+// =================================================================================================
 
-template <class X>
+template<class X>
+inline X* matrix2<X>::data()
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::begin()
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::end()
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X* matrix2<X>::data() const
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::begin() const
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::end() const
+{
+  return m_data.end();
+}
+
+// =================================================================================================
+// basic algebra
+// =================================================================================================
+
+template<class X>
+inline X matrix2<X>::min() const
+{
+  return *std::min_element(m_data.begin(),m_data.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X matrix2<X>::max() const
+{
+  return *std::max_element(m_data.begin(),m_data.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X matrix2<X>::sum() const
+{
+  X out = static_cast<X>(0);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    out += m_data[i];
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline double matrix2<X>::mean() const
+{
+  return static_cast<double>(this->sum())/static_cast<double>(m_size);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline double matrix2<X>::average(const matrix2<X> &weights) const
+{
+  assert( m_m == weights.shape(0) );
+  assert( m_n == weights.shape(1) );
+
+  X out = static_cast<X>(0);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    out += m_data[i] * weights[i];
+
+  return static_cast<double>(out)/static_cast<double>(weights.sum());
+}
+
+// =================================================================================================
+// basic initialization
+// =================================================================================================
+
+template<class X>
+inline void matrix2<X>::setConstant(X D)
+{
+  for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void matrix2<X>::setZero()
+{
+  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void matrix2<X>::setOnes()
+{
+  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void matrix2<X>::zeros()
+{
+  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void matrix2<X>::ones()
+{
+  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
+}
+
+// =================================================================================================
+// conversion operators
+// =================================================================================================
+
+template<class X>
+template<typename U, typename V, typename E>
+inline matrix2<X>::operator matrix2<U> () const
+{
+  matrix2<U> out(shape(0),shape(1));
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    out[i] = static_cast<U>( m_data[i] );
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename U, typename V, typename E>
+inline matrix2<X>::operator std::vector<U> () const
+{
+  std::vector<U> out(m_size);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    out[i] = m_data[i];
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+#ifdef CPPMAT_EIGEN
+template<class X>
+template<typename U, typename V, typename E>
+inline matrix2<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> () const
+{
+  Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> out(m_m,m_n);
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    out(i) = m_data[i];
+
+  return out;
+}
+#endif
+
+// -------------------------------------------------------------------------------------------------
+
+#ifdef CPPMAT_EIGEN
+template<class X>
+template<typename U, typename V, typename E>
+inline matrix2<X>::operator Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> () const
+{
+  Eigen::Matrix<U,Eigen::Dynamic,Eigen::Dynamic,Eigen::ColMajor> out(m_m,m_n);
+
+  for ( size_t i = 0 ; i < m_m ; ++i )
+    for ( size_t j = 0 ; j < m_n ; ++j )
+      out(i,j) = m_data[i*m_n+j];
+
+  return out;
+}
+#endif
+
+// =================================================================================================
+// formatted print
+// =================================================================================================
+
+template<class X>
+inline void matrix2<X>::printf(std::string fmt) const
+{
+  std::vector<size_t> s = strides();
+
+  for ( size_t h = 0 ; h < shape(0) ; ++h )
+  {
+    for ( size_t i = 0 ; i < shape(1)-1 ; ++i )
+      std::printf((fmt+",").c_str(),m_data[h*s[0]+i*s[1]]);
+
+    std::printf((fmt+";\n").c_str(),m_data[h*s[0]+(shape(1)-1)*s[1]]);
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
 {
   for ( size_t i = 0 ; i < src.shape(0) ; ++i )
@@ -468,7 +815,9 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
   return out;
 }
 
-}} // namespace cppmat::periodic
+// =================================================================================================
+
+} // namespace ...
 
 #endif
 

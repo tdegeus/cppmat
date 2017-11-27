@@ -49,6 +49,8 @@ public:
   const X& operator[](size_t i) const;
 
   // index operators: access using matrix indices
+  X&       operator()(size_t a);
+  const X& operator()(size_t a) const;
   X&       operator()(size_t a, size_t b);
   const X& operator()(size_t a, size_t b) const;
 
@@ -57,10 +59,10 @@ public:
   matrix2<X>& operator/= (const matrix2<X> &B);
   matrix2<X>& operator+= (const matrix2<X> &B);
   matrix2<X>& operator-= (const matrix2<X> &B);
-  matrix2<X>& operator*= (X B);
-  matrix2<X>& operator/= (X B);
-  matrix2<X>& operator+= (X B);
-  matrix2<X>& operator-= (X B);
+  matrix2<X>& operator*= (              X   B);
+  matrix2<X>& operator/= (              X   B);
+  matrix2<X>& operator+= (              X   B);
+  matrix2<X>& operator-= (              X   B);
 
   // pointer / iterators
   X*       data();
@@ -251,6 +253,22 @@ template<class X>
 inline const X& matrix2<X>::operator[](size_t i) const
 {
   return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& matrix2<X>::operator()(size_t a)
+{
+  return m_data[a*m_n];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix2<X>::operator()(size_t a) const
+{
+  return m_data[a*m_n];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -785,7 +803,7 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
 
 // =================================================================================================
 
-} // namespace cppmat
+} // namespace ...
 
 #endif
 

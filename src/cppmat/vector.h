@@ -55,10 +55,10 @@ public:
   vector<X>& operator/= (const vector<X> &B);
   vector<X>& operator+= (const vector<X> &B);
   vector<X>& operator-= (const vector<X> &B);
-  vector<X>& operator*= (X B);
-  vector<X>& operator/= (X B);
-  vector<X>& operator+= (X B);
-  vector<X>& operator-= (X B);
+  vector<X>& operator*= (             X   B);
+  vector<X>& operator/= (             X   B);
+  vector<X>& operator+= (             X   B);
+  vector<X>& operator-= (             X   B);
 
   // pointer / iterators
   X*       data();
@@ -752,7 +752,7 @@ inline std::ostream& operator<<(std::ostream& out, vector<X>& src)
 
 // =================================================================================================
 
-} // namespace cppmat
+} // namespace ...
 
 #endif
 
