@@ -182,12 +182,12 @@ public:
     value = cppmat::cartesian2d::tensor2s<T>();
 
     // - check for symmetry
-    assert( buf[1] == buf[2] );
+    assert( buf.data()[1] == buf.data()[2] );
 
     // - copy from input (ignores lower diagonal terms)
-    value[0] = buf[0];
-    value[1] = buf[1];
-    value[2] = buf[3];
+    value[0] = buf.data()[0];
+    value[1] = buf.data()[1];
+    value[2] = buf.data()[3];
 
     // - signal successful variable creation
     return true;
@@ -253,12 +253,12 @@ public:
     value = cppmat::cartesian2d::tensor2d<T>();
 
     // - check the input to be diagonal
-    assert( ! buf[1] );
-    assert( ! buf[2] );
+    assert( ! buf.data()[1] );
+    assert( ! buf.data()[2] );
 
     // - copy from input (ignores off-diagonal terms)
-    value[0] = buf[0];
-    value[1] = buf[3];
+    value[0] = buf.data()[0];
+    value[1] = buf.data()[3];
 
     // - signal successful variable creation
     return true;

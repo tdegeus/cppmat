@@ -179,13 +179,13 @@ public:
     #ifndef NDEBUG
     for ( size_t i = 0 ; i < nd ; ++i )
       for ( size_t j = i+1 ; j < nd ; ++j )
-        assert( buf[i*nd+j] == buf[j*nd+i] );
+        assert( buf.data()[i*nd+j] == buf.data()[j*nd+i] );
     #endif
 
     // - copy from input (ignores lower diagonal terms)
     for ( size_t i = 0 ; i < nd ; ++i )
       for ( size_t j = i ; j < nd ; ++j )
-        value[i*nd-(i-1)*i/2+j-i] = buf[i*nd+j];
+        value[i*nd-(i-1)*i/2+j-i] = buf.data()[i*nd+j];
 
     // - signal successful variable creation
     return true;
@@ -253,12 +253,12 @@ public:
     for ( size_t i = 0 ; i < nd ; ++i )
       for ( size_t j = 0 ; j < nd ; ++j )
         if ( i !=j )
-          assert( !buf[i*nd+j] );
+          assert( !buf.data()[i*nd+j] );
     #endif
 
     // - copy from input (ignores off-diagonal terms)
     for ( size_t i = 0 ; i < nd ; ++i )
-      value[i] = buf[i*nd+i];
+      value[i] = buf.data()[i*nd+i];
 
     // - signal successful variable creation
     return true;

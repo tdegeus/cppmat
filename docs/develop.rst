@@ -12,26 +12,26 @@ The `Catch <http://catch-lib.net>`_ library has been used to run the checks, it 
 
 1.  Download and install Catch.
 
-2.  Compile all test cases.
+2.  Compile all test cases:
 
     .. code-block:: bash
 
-      $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -Wpedantic -Wall -o test *.cpp
+      $ mkdir develop/build
+      $ cd develop/build
+      $ cmake ..
+      $ make
 
-3.  Run ``./test``.
+3.  Run ``./cppmatTest``.
 
 Python
 ======
 
-The Python package of this module ``cppmat/__init__.py`` is essentially used to allow distribution of the header files that constitute this library through PyPi. In addition a small Python package *cppmat* is provided that allows easy ``setup.py`` formulations of derived packages. These features can also be used when one is just interested in using *pybind11* and one does not intend to use *cppmat* itself.
+The Python package of this module ``python/cppmat/__init__.py`` is essentially used to allow distribution of the header files that constitute this library through PyPi. In addition a small Python package *cppmat* is provided that allows easy ``setup.py`` formulations of derived packages. These features can also be used when one is just interested in using *pybind11* and one does not intend to use *cppmat* itself.
 
 Create a new release
 ====================
 
-1.  Update the version numbers as follows:
-
-    -   Modify ``__version__ = ...`` in ``setup.py``.
-    -   Modify ``set(CPPMAT_VERSION_NUMBER ...)`` in ``CMakeLists.txt``
+1.  Update the version number in ``src/cppmat/macros.h``.
 
 2.  Upload the changes to GitHub and create a new release there (with the correct version number).
 

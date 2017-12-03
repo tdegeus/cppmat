@@ -182,17 +182,17 @@ public:
     value = cppmat::cartesian3d::tensor2s<T>();
 
     // - check for symmetry
-    assert( buf[1] == buf[3] );
-    assert( buf[2] == buf[6] );
-    assert( buf[5] == buf[7] );
+    assert( buf[1] == buf.data()[3] );
+    assert( buf[2] == buf.data()[6] );
+    assert( buf[5] == buf.data()[7] );
 
     // - copy from input (ignores lower diagonal terms)
-    value[0] = buf[0];
-    value[1] = buf[1];
-    value[2] = buf[2];
-    value[3] = buf[4];
-    value[4] = buf[5];
-    value[5] = buf[8];
+    value[0] = buf.data()[0];
+    value[1] = buf.data()[1];
+    value[2] = buf.data()[2];
+    value[3] = buf.data()[4];
+    value[4] = buf.data()[5];
+    value[5] = buf.data()[8];
 
     // - signal successful variable creation
     return true;
@@ -258,17 +258,17 @@ public:
     value = cppmat::cartesian3d::tensor2d<T>();
 
     // - check the input to be diagonal
-    assert( ! buf[1] );
-    assert( ! buf[2] );
-    assert( ! buf[3] );
-    assert( ! buf[5] );
-    assert( ! buf[6] );
-    assert( ! buf[7] );
+    assert( ! buf.data()[1] );
+    assert( ! buf.data()[2] );
+    assert( ! buf.data()[3] );
+    assert( ! buf.data()[5] );
+    assert( ! buf.data()[6] );
+    assert( ! buf.data()[7] );
 
     // - copy from input (ignores off-diagonal terms)
-    value[0] = buf[0];
-    value[1] = buf[4];
-    value[2] = buf[8];
+    value[0] = buf.data()[0];
+    value[1] = buf.data()[4];
+    value[2] = buf.data()[8];
 
     // - signal successful variable creation
     return true;

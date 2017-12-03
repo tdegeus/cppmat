@@ -35,8 +35,8 @@ setup(
       '../src/cppmat/matrix.cpp',
       '../src/cppmat/matrix2.h',
       '../src/cppmat/matrix2.cpp',
-      '../src/cppmat/vector.h'
-      '../src/cppmat/vector.cpp'
+      '../src/cppmat/vector.h',
+      '../src/cppmat/vector.cpp',
       '../src/cppmat/periodic_matrix.h',
       '../src/cppmat/periodic_matrix.cpp',
       '../src/cppmat/periodic_matrix2.h',
