@@ -6,7 +6,7 @@
 // sqrt of every entry                                                                    (pure C++)
 // =================================================================================================
 
-cppmat::matrix<double> squareRoot ( cppmat::matrix<double> &A )
+cppmat::matrix<double> squareRoot(cppmat::matrix<double> &A)
 {
   cppmat::matrix<double> C = A;
 

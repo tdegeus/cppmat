@@ -1,9 +1,9 @@
 
 .. _tiny_matrix2:
 
-***********************
-<cppmat/tiny_matrix2.h>
-***********************
+*********************
+cppmat::tiny::matrix2
+*********************
 
 Header-only module that provides a C++ class for fixed size, small, 2-d matrices. For example:
 

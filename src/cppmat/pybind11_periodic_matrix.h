@@ -7,12 +7,7 @@
 #ifndef CPPMAT_MATRIX_PYBIND11_H
 #define CPPMAT_MATRIX_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "periodic_matrix.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -53,7 +48,10 @@ public:
     for ( ssize_t i = 0 ; i < rank ; i++ ) shape[i] = buf.shape()[i];
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::periodic::matrix<T>(shape, buf.data());
+    value = cppmat::periodic::matrix<T>(shape);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+value.size(), value.data());
 
     // - signal successful variable creation
     return true;

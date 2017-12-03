@@ -1,9 +1,9 @@
 
 .. _tensor3:
 
-******************
-<cppmat/tensor3.h>
-******************
+********************
+cppmat::cartesian3::
+********************
 
 A specialization of :ref:`tensor`, that takes advantage of the knowledge that the arrays are fixed-size and small. Also several loops are unrolled. All the functionality and names of :ref:`tensor` are transferable to :ref:`tensor3`.
 

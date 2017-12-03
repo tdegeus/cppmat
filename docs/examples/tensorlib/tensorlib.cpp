@@ -9,7 +9,7 @@
 namespace cm = cppmat::cartesian;
 
 template <class T>
-cm::tensor2<T> ddot42 ( cm::tensor4<T> &A, cm::tensor2<T> &B )
+cm::tensor2<T> ddot42(cm::tensor4<T> &A, cm::tensor2<T> &B)
 {
   return A.ddot(B);
 }
@@ -19,27 +19,17 @@ template cm::tensor2<double> ddot42<double>(cm::tensor4<double>&, cm::tensor2<do
 
 // -------------------------------------------------------------------------------------------------
 
-template <class T>
-cm::tensor2s<T> symmetric ( cm::tensor2<T> &B )
+cm::tensor2s<double> symmetric(cm::tensor2<double> &B)
 {
-  cm::tensor2s<T> C = B.astensor2s();
-  return C;
+  return B.cast<cm::tensor2s<double>>();
 }
-
-template cm::tensor2s<int>    symmetric<int>    (cm::tensor2<int>    &);
-template cm::tensor2s<double> symmetric<double> (cm::tensor2<double> &);
 
 // -------------------------------------------------------------------------------------------------
 
-template <class T>
-cm::tensor2d<T> diagonal ( cm::tensor2<T> &B )
+cm::tensor2s<double> diagonal(cm::tensor2<double> &B)
 {
-  cm::tensor2d<T> C = B.astensor2d();
-  return C;
+  return B.cast<cm::tensor2d<double>>();
 }
-
-template cm::tensor2d<int>    diagonal<int>    (cm::tensor2<int>    &);
-template cm::tensor2d<double> diagonal<double> (cm::tensor2<double> &);
 
 // =================================================================================================
 // create Python module                                                                   (pybind11)
@@ -62,24 +52,12 @@ m.def("ddot42",py::overload_cast<cm::tensor4<double>&,cm::tensor2<double>&>(&ddo
   py::arg("B")
 );
 
-
-m.def("symmetric",py::overload_cast<cm::tensor2<int>&>(&symmetric<int>),
+m.def("symmetric",&symmetric,
   "Symmetric part of the tensor",
   py::arg("A")
 );
 
-m.def("symmetric",py::overload_cast<cm::tensor2<double>&>(&symmetric<double>),
-  "Symmetric part of the tensor",
-  py::arg("A")
-);
-
-
-m.def("diagonal",py::overload_cast<cm::tensor2<int>&>(&diagonal<int>),
-  "Diagonal part of the tensor",
-  py::arg("A")
-);
-
-m.def("diagonal",py::overload_cast<cm::tensor2<double>&>(&diagonal<double>),
+m.def("diagonal",&diagonal,
   "Diagonal part of the tensor",
   py::arg("A")
 );

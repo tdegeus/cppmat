@@ -7,7 +7,9 @@ $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test
 
 #include <catch/catch.hpp>
 
+#define CPPMAT_NOCONVERT
 #include <cppmat/cppmat.h>
+
 #include <Eigen/Eigen>
 
 // =================================================================================================
@@ -5092,7 +5094,7 @@ SECTION("tensor2d * tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A * B;
+  cm::tensor2d<double> C = A * B;
 
   A *= B;
 
@@ -5244,7 +5246,7 @@ SECTION("tensor2d - tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A - B;
+  cm::tensor2s<double> C = A - B;
 
   n = 0.0;
 
@@ -5286,7 +5288,7 @@ SECTION("tensor2d + tensor2d", "cppmat::cartesian3d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2<double> C = A + B;
+  cm::tensor2d<double> C = A + B;
 
   A += B;
 
@@ -5338,7 +5340,7 @@ SECTION("tensor2d - tensor2d", "cppmat::cartesian3d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2<double> C = A - B;
+  cm::tensor2d<double> C = A - B;
 
   A -= B;
 

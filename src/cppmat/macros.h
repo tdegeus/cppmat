@@ -12,6 +12,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <vector>
 
@@ -25,7 +26,7 @@
 
 #define CPPMAT_WORLD_VERSION 0
 #define CPPMAT_MAJOR_VERSION 3
-#define CPPMAT_MINOR_VERSION 4
+#define CPPMAT_MINOR_VERSION 5
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \

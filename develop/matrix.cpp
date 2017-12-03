@@ -8,7 +8,9 @@ $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include <catch/catch.hpp>
 
+#define CPPMAT_NOCONVERT
 #include <cppmat/cppmat.h>
+
 #include <Eigen/Eigen>
 
 #define M 11

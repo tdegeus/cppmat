@@ -6,7 +6,7 @@ project(cppmatTest)
 set(CMAKE_CXX_STANDARD 14)
 
 # option switch on warnings, run : $ cmake .. -DWARNINGS=ON
-option(WARNINGS "Show build warnings" OFF)
+option(WARNINGS "Show build warnings" ON)
 if(WARNINGS)
   if(MSVC)
     # Force to always compile with W4

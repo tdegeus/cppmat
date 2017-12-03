@@ -7,12 +7,7 @@
 #ifndef CPPMAT_TINY_VECTOR_PYBIND11_H
 #define CPPMAT_TINY_VECTOR_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "tiny_vector.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -53,7 +48,10 @@ public:
     if ( buf.shape()[0] != static_cast<ssize_t>(N) ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::tiny::vector<T,N>(buf.data());
+    value = cppmat::tiny::vector<T,N>();
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+value.size(), value.data());
 
     // - signal successful variable creation
     return true;

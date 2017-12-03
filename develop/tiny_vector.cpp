@@ -7,7 +7,9 @@ $ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test
 
 #include <catch/catch.hpp>
 
+#define CPPMAT_NOCONVERT
 #include <cppmat/cppmat.h>
+
 #include <Eigen/Eigen>
 
 #define N 9

@@ -7,12 +7,7 @@
 #ifndef CPPMAT_TENSOR_PYBIND11_H
 #define CPPMAT_TENSOR_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "tensor.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -56,7 +51,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor4<T>(nd, buf.data());
+    value = cppmat::cartesian::tensor4<T>(nd);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+nd*nd*nd*nd, value.data());
 
     // - signal successful variable creation
     return true;
@@ -114,7 +112,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2<T>(nd, buf.data());
+    value = cppmat::cartesian::tensor2<T>(nd);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+nd*nd, value.data());
 
     // - signal successful variable creation
     return true;
@@ -172,7 +173,19 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2s<T>(nd, buf.data(), true);
+    value = cppmat::cartesian::tensor2s<T>(nd);
+
+    // - check for symmetry
+    #ifndef NDEBUG
+    for ( size_t i = 0 ; i < nd ; ++i )
+      for ( size_t j = i+1 ; j < nd ; ++j )
+        assert( buf[i*nd+j] == buf[j*nd+i] );
+    #endif
+
+    // - copy from input (ignores lower diagonal terms)
+    for ( size_t i = 0 ; i < nd ; ++i )
+      for ( size_t j = i ; j < nd ; ++j )
+        value[i*nd-(i-1)*i/2+j-i] = buf[i*nd+j];
 
     // - signal successful variable creation
     return true;
@@ -233,7 +246,19 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2d<T>(nd, buf.data(), true);
+    value = cppmat::cartesian::tensor2d<T>(nd);
+
+    // - check the input to be diagonal
+    #ifndef NDEBUG
+    for ( size_t i = 0 ; i < nd ; ++i )
+      for ( size_t j = 0 ; j < nd ; ++j )
+        if ( i !=j )
+          assert( !buf[i*nd+j] );
+    #endif
+
+    // - copy from input (ignores off-diagonal terms)
+    for ( size_t i = 0 ; i < nd ; ++i )
+      value[i] = buf[i*nd+i];
 
     // - signal successful variable creation
     return true;
@@ -294,7 +319,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::vector<T>(nd, buf.data());
+    value = cppmat::cartesian::vector<T>(nd);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+nd, value.data());
 
     // - signal successful variable creation
     return true;

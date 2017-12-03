@@ -1,9 +1,9 @@
 
 .. _tensor:
 
-*****************
-<cppmat/tensor.h>
-*****************
+*******************
+cppmat::cartesian::
+*******************
 
 Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
 

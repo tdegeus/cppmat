@@ -7,12 +7,7 @@
 #ifndef CPPMAT_VECTOR_PYBIND11_H
 #define CPPMAT_VECTOR_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "periodic_vector.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -48,7 +43,10 @@ public:
     if ( rank != 1 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::periodic::vector<T>(buf.shape()[0], buf.data());
+    value = cppmat::periodic::vector<T>(buf.shape()[0]);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+value.size(), value.data());
 
     // - signal successful variable creation
     return true;

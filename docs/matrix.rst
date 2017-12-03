@@ -1,9 +1,9 @@
 
 .. _matrix:
 
-*****************
-<cppmat/matrix.h>
-*****************
+**************
+cppmat::matrix
+**************
 
 Header-only module that provides a C++ class for n-d matrices. For example a rank 3 matrix is allocated as follows:
 
@@ -65,36 +65,6 @@ Methods
 
 Indexing
 ========
-
-Periodicity
------------
-
-Periodic indices can be used. For example ``-1`` will refer to the last index along that dimension (i.e. ``-1 -> N-1``, with ``N = A.shape(i)``), while ``N`` will refer the the first index (``N -> 0``).
-
-This does require a check and possible modification for each index reference. If you know that your indices are within the bounds of the matrix you can avoid it by using indices of type ``size_t``. I.e.
-
-.. code-block:: cpp
-
-  cppmat::matrix<double> A({10,10});
-
-  for ( size_t i = 0 ; i < A.shape(0) ; ++i )
-    for ( size_t j = 0 ; j < A.shape(1) ; ++j )
-      A(i,j) = ...
-
-is faster than
-
-.. code-block:: cpp
-
-  cppmat::matrix<double> A({10,10});
-
-  for ( int i = 0 ; i < A.shape(0) ; ++i )
-    for ( int j = 0 ; j < A.shape(1) ; ++j )
-      A(i,j) = ...
-
-since in the latter case the indices are checked, while this check is omitted in the former case.
-
-Number of indices
------------------
 
 In principle the number of indices should match the dimensions of the matrix (i.e. ``A.ndim()`` and ``A.shape().size()``), though it is no problem to reference to a matrix certain index using a higher-dimensional equivalent. For example:
 

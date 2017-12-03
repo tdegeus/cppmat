@@ -3,9 +3,9 @@
 cppmat
 ******
 
-This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to include the relevant header file and tell your compiler where it is located (and to the C++14 or younger standard). Really, that's it!
+This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to the C++14 or younger standard). Really, that's it!
 
-After ``#include <cppmat/cppmat.h>`` the following classes can be used.
+The following classes can be used.
 
 +--------------------------------------+-------------------------------------------+---------------------+
 | **Class**                            | **Description**                           | **Header**          |
@@ -86,13 +86,16 @@ Contents
    matrix.rst
    matrix2.rst
    vector.rst
+   periodic_matrix.rst
+   periodic_matrix2.rst
+   periodic_vector.rst
    tiny_matrix2.rst
    tiny_vector.rst
    tensor.rst
    tensor2.rst
    tensor3.rst
+   copy.rst
    map.rst
-   eigen.rst
    compile.rst
    python.rst
    develop.rst

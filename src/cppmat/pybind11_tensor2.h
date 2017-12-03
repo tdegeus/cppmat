@@ -7,12 +7,7 @@
 #ifndef CPPMAT_TENSOR2_PYBIND11_H
 #define CPPMAT_TENSOR2_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "tensor2.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -58,7 +53,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor4<T>(buf.data());
+    value = cppmat::cartesian2d::tensor4<T>();
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+16, value.data());
 
     // - signal successful variable creation
     return true;
@@ -118,7 +116,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2<T>(buf.data());
+    value = cppmat::cartesian2d::tensor2<T>();
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+4, value.data());
 
     // - signal successful variable creation
     return true;
@@ -178,7 +179,15 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2s<T>(buf.data(), true);
+    value = cppmat::cartesian2d::tensor2s<T>();
+
+    // - check for symmetry
+    assert( buf[1] == buf[2] );
+
+    // - copy from input (ignores lower diagonal terms)
+    value[0] = buf[0];
+    value[1] = buf[1];
+    value[2] = buf[3];
 
     // - signal successful variable creation
     return true;
@@ -241,7 +250,15 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2d<T>(buf.data(), true);
+    value = cppmat::cartesian2d::tensor2d<T>();
+
+    // - check the input to be diagonal
+    assert( ! buf[1] );
+    assert( ! buf[2] );
+
+    // - copy from input (ignores off-diagonal terms)
+    value[0] = buf[0];
+    value[1] = buf[3];
 
     // - signal successful variable creation
     return true;
@@ -304,7 +321,10 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::vector<T>(buf.data());
+    value = cppmat::cartesian2d::vector<T>();
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+2, value.data());
 
     // - signal successful variable creation
     return true;

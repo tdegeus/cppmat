@@ -1,9 +1,9 @@
 
 .. _matrix2:
 
-******************
-<cppmat/matrix2.h>
-******************
+***************
+cppmat::matrix2
+***************
 
 Header-only module that provides a C++ class for 2-d matrices. For example:
 
@@ -44,10 +44,6 @@ Methods
 *   ``A.reshape(m,n)``
 
     Change the shape of the matrix. It is required that the total number of entries does not change.
-
-.. note::
-
-  This class does not allow for periodic indices, the never loose efficiency.
 
 View
 ====

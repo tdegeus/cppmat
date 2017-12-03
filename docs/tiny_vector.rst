@@ -1,9 +1,9 @@
 
 .. _tiny_vector:
 
-***********************
-<cppmat/tiny_vector.h>
-***********************
+********************
+cppmat::tiny::vector
+********************
 
 Header-only module that provides a C++ class for fixed size, small, 1-d matrices (a.k.a. vectors). For example:
 

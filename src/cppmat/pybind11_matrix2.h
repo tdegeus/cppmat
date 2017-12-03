@@ -7,12 +7,7 @@
 #ifndef CPPMAT_MATRIX2_PYBIND11_H
 #define CPPMAT_MATRIX2_PYBIND11_H
 
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
-
-#include "matrix2.h"
-#include "macros.h"
+#include "pybind11.h"
 
 namespace py = pybind11;
 
@@ -48,7 +43,10 @@ public:
     if ( rank != 2 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1], buf.data());
+    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1]);
+
+    // - copy data
+    std::copy(buf.data(), buf.data()+value.size(), value.data());
 
     // - signal successful variable creation
     return true;

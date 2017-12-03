@@ -52,16 +52,27 @@ set(CPPMAT_HEADERS
   cppmat/cppmat.h
   cppmat/macros.h
   cppmat/vector.h
+  cppmat/vector.cpp
   cppmat/matrix.h
+  cppmat/matrix.cpp
   cppmat/matrix2.h
+  cppmat/matrix2.cpp
   cppmat/periodic_vector.h
+  cppmat/periodic_vector.cpp
   cppmat/periodic_matrix.h
+  cppmat/periodic_matrix.cpp
   cppmat/periodic_matrix2.h
+  cppmat/periodic_matrix2.cpp
   cppmat/tiny_vector.h
+  cppmat/tiny_vector.cpp
   cppmat/tiny_matrix2.h
+  cppmat/tiny_matrix2.cpp
   cppmat/tensor.h
+  cppmat/tensor.cpp
   cppmat/tensor2.h
+  cppmat/tensor2.cpp
   cppmat/tensor3.h
+  cppmat/tensor3.cpp
   cppmat/pybind11.h
   cppmat/pybind11_vector.h
   cppmat/pybind11_matrix.h
