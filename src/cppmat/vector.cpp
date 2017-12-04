@@ -18,6 +18,7 @@ namespace cppmat {
 template<class X>
 inline vector<X>::vector(size_t n)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(n);
 }
 
@@ -26,10 +27,31 @@ inline vector<X>::vector(size_t n)
 template<class X>
 inline vector<X>::vector(size_t n, X D)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(n);
 
+  // copy input
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline vector<X>::vector(Iterator first, Iterator last)
+{
+  // store shape, and other size parameters, allocate "m_data"
+  resize(last - first);
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
 }
 
 // =================================================================================================

@@ -40,6 +40,9 @@ public:
   tensor4();
   tensor4(X D);
 
+  template<typename Iterator>
+  tensor4(Iterator first, Iterator last);
+
   // copy constructor
   tensor4<X>& operator= (const tensor4<X> &D);
 
@@ -122,6 +125,9 @@ public:
   // constructors
   tensor2();
   tensor2(X D);
+
+  template<typename Iterator>
+  tensor2(Iterator first, Iterator last);
 
   // copy constructor
   tensor2<X>& operator= (const tensor2<X> &D);
@@ -230,6 +236,9 @@ public:
   tensor2s();
   tensor2s(X D);
 
+  template<typename Iterator>
+  tensor2s(Iterator first, Iterator last);
+
   // copy constructor
   tensor2s<X>& operator= (const tensor2s<X> &D);
 
@@ -336,6 +345,9 @@ public:
   tensor2d();
   tensor2d(X D);
 
+  template<typename Iterator>
+  tensor2d(Iterator first, Iterator last);
+
   // copy constructor
   tensor2d<X>& operator= (const tensor2d<X> &D);
 
@@ -438,6 +450,9 @@ public:
   // constructors
   vector();
   vector(X D);
+
+  template<typename Iterator>
+  vector(Iterator first, Iterator last);
 
   // copy constructor
   vector<X>& operator= (const vector<X> &D);

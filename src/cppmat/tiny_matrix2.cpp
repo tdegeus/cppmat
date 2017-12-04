@@ -35,6 +35,28 @@ inline matrix2<X,m,n>::matrix2(X D)
   m_data = &m_container[0];
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+template<typename Iterator>
+inline matrix2<X,m,n>::matrix2(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_container[i] = *it; ++i;
+  }
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
 // =================================================================================================
 // copy constructors
 // =================================================================================================
@@ -528,9 +550,9 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
   for ( size_t i = 0 ; i < m ; ++i ) {
     for ( size_t j = 0 ; j < n ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(i,j);
-      if      ( i != m-1 and j != n-1 ) out << ", ";
-      else if ( i != m-1              ) out << ";" << std::endl;
-      else                              out << ";";
+      if      ( j != n-1 ) out << ", ";
+      else if ( i != m-1 ) out << ";" << std::endl;
+      else                 out << ";";
     }
   }
 

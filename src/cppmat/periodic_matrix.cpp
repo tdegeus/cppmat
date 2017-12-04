@@ -19,6 +19,7 @@ namespace periodic {
 template<class X>
 inline matrix<X>::matrix(const std::vector<size_t> &shape)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(shape);
 }
 
@@ -27,10 +28,34 @@ inline matrix<X>::matrix(const std::vector<size_t> &shape)
 template<class X>
 inline matrix<X>::matrix(const std::vector<size_t> &shape, X D)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(shape);
 
+  // copy input
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline matrix<X>::matrix(const std::vector<size_t> &shape, Iterator first, Iterator last)
+{
+  // store shape, and other size parameters, allocate "m_data"
+  resize(shape);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
 }
 
 // =================================================================================================
@@ -686,9 +711,9 @@ inline void matrix<X>::printf(std::string fmt) const
 {
   if ( m_ndim == 1 )
   {
-    for ( size_t j = 0 ; j < m_ndim ; ++j ) {
-      if ( j != m_ndim-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
-      else                 std::printf((fmt + ";\n").c_str(), (*this)(j));
+    for ( size_t j = 0 ; j < m_shape[0] ; ++j ) {
+      if ( j != m_shape[0]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
+      else                     std::printf((fmt + ";\n").c_str(), (*this)(j));
     }
 
     return;
@@ -696,10 +721,10 @@ inline void matrix<X>::printf(std::string fmt) const
 
   if ( m_ndim == 2 )
   {
-    for ( size_t i = 0 ; i < m_ndim ; ++i ) {
-      for ( size_t j = 0 ; j < m_ndim ; ++j ) {
-        if ( j != m_ndim-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
-        else                 std::printf((fmt + ";\n").c_str(), (*this)(i,j));
+    for ( size_t i = 0 ; i < m_shape[0] ; ++i ) {
+      for ( size_t j = 0 ; j < m_shape[1] ; ++j ) {
+        if ( j != m_shape[1]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
+        else                     std::printf((fmt + ";\n").c_str(), (*this)(i,j));
       }
     }
 
@@ -711,7 +736,7 @@ inline void matrix<X>::printf(std::string fmt) const
   for ( size_t i = 0 ; i < m_ndim-1 ; ++i )
     std::cout << shape(i) << ",";
 
-  std::cout << shape(m_ndim-1) << "]";
+  std::cout << shape(m_ndim-1) << "]\n";
 
 }
 
@@ -725,9 +750,9 @@ inline std::ostream& operator<<(std::ostream& out, matrix<X>& src)
 
   if ( src.ndim() == 1 )
   {
-    for ( size_t j = 0 ; j < src.ndim() ; ++j ) {
+    for ( size_t j = 0 ; j < src.shape(0) ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(j);
-      if ( j != src.ndim()-1 ) out << ", ";
+      if ( j != src.shape(0)-1 ) out << ", ";
     }
 
     return out;
@@ -735,12 +760,12 @@ inline std::ostream& operator<<(std::ostream& out, matrix<X>& src)
 
   if ( src.ndim() == 2 )
   {
-    for ( size_t i = 0 ; i < src.ndim() ; ++i ) {
-      for ( size_t j = 0 ; j < src.ndim() ; ++j ) {
+    for ( size_t i = 0 ; i < src.shape(0) ; ++i ) {
+      for ( size_t j = 0 ; j < src.shape(1) ; ++j ) {
         out << std::setw(w) << std::setprecision(p) << src(i,j);
-        if      ( i != src.ndim()-1 and j != src.ndim()-1 ) out << ", ";
-        else if ( i != src.ndim()-1                       ) out << ";" << std::endl;
-        else                                                out << ";";
+        if      ( j != src.shape(1)-1 ) out << ", ";
+        else if ( i != src.shape(0)-1 ) out << ";" << std::endl;
+        else                            out << ";";
       }
     }
 

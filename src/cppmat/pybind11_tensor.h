@@ -51,10 +51,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor4<T>(nd);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+nd*nd*nd*nd, value.data());
+    value = cppmat::cartesian::tensor4<T>(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -112,10 +109,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2<T>(nd);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+nd*nd, value.data());
+    value = cppmat::cartesian::tensor2<T>(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -319,10 +313,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::vector<T>(nd);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+nd, value.data());
+    value = cppmat::cartesian::vector<T>(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

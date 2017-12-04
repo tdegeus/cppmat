@@ -43,10 +43,7 @@ public:
     if ( rank != 1 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::periodic::vector<T>(buf.shape()[0]);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+value.size(), value.data());
+    value = cppmat::periodic::vector<T>(buf.shape()[0], buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

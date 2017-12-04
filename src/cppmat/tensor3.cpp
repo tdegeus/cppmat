@@ -43,6 +43,27 @@ inline tensor4<X>::tensor4(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor4<X>::tensor4(Iterator first, Iterator last)
+{
+  // check size
+  assert( 81 == last - first );
+
+  // copy input
+  for ( size_t i = 0 ; i < 81 ; i += 3 )
+  {
+    m_container[i  ] = first[i  ];
+    m_container[i+1] = first[i+1];
+    m_container[i+2] = first[i+2];
+  }
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline tensor2<X>::tensor2()
 {
   // point to local data container
@@ -60,6 +81,27 @@ inline tensor2<X>::tensor2(X D)
     m_container[i  ] = D;
     m_container[i+1] = D;
     m_container[i+2] = D;
+  }
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline tensor2<X>::tensor2(Iterator first, Iterator last)
+{
+  // check size
+  assert( 9 == last - first );
+
+  // copy input
+  for ( size_t i = 0 ; i < 9 ; i += 3 )
+  {
+    m_container[i  ] = first[i  ];
+    m_container[i+1] = first[i+1];
+    m_container[i+2] = first[i+2];
   }
 
   // point to local data container
@@ -95,6 +137,27 @@ inline tensor2s<X>::tensor2s(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor2s<X>::tensor2s(Iterator first, Iterator last)
+{
+  // check size
+  assert( 6 == last - first );
+
+  // copy input
+  m_container[0] = first[0];
+  m_container[1] = first[1];
+  m_container[2] = first[2];
+  m_container[3] = first[3];
+  m_container[4] = first[4];
+  m_container[5] = first[5];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline tensor2d<X>::tensor2d()
 {
   // point to local data container
@@ -122,6 +185,24 @@ inline tensor2d<X>::tensor2d(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor2d<X>::tensor2d(Iterator first, Iterator last)
+{
+  // check size
+  assert( 3 == last - first );
+
+  // copy input
+  m_container[0] = first[0];
+  m_container[1] = first[1];
+  m_container[2] = first[2];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline vector<X>::vector()
 {
   // point to local data container
@@ -135,6 +216,24 @@ inline vector<X>::vector(X D)
 {
   // copy input
   m_container[0] = m_container[1] = m_container[2] = D;
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline vector<X>::vector(Iterator first, Iterator last)
+{
+  // check size
+  assert( 3 == last - first );
+
+  // copy input
+  m_container[0] = first[0];
+  m_container[1] = first[1];
+  m_container[2] = first[2];
 
   // point to local data container
   m_data = &m_container[0];

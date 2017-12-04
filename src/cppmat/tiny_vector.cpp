@@ -35,6 +35,28 @@ inline vector<X,n>::vector(X D)
   m_data = &m_container[0];
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+template<typename Iterator>
+inline vector<X,n>::vector(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_container[i] = *it; ++i;
+  }
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
 // =================================================================================================
 // copy constructors
 // =================================================================================================

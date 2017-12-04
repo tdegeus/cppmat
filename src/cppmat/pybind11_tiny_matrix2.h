@@ -49,10 +49,7 @@ public:
     if ( buf.shape()[1] != static_cast<ssize_t>(N) ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::tiny::matrix2<T,M,N>();
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+value.size(), value.data());
+    value = cppmat::tiny::matrix2<T,M,N>(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

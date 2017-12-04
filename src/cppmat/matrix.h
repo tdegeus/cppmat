@@ -35,6 +35,9 @@ public:
   matrix(const std::vector<size_t> &shape);
   matrix(const std::vector<size_t> &shape, X D);
 
+  template<typename Iterator>
+  matrix(const std::vector<size_t> &shape, Iterator first, Iterator last);
+
   // resize
   void resize (const std::vector<size_t> &shape);
   void reshape(const std::vector<size_t> &shape);

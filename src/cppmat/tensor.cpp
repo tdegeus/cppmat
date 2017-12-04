@@ -38,6 +38,28 @@ inline tensor4<X>::tensor4(size_t nd, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor4<X>::tensor4(size_t nd, Iterator first, Iterator last)
+{
+  // change size of internal storage
+  resize(nd);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline tensor2<X>::tensor2(size_t nd)
 {
   // change size of internal storage
@@ -59,6 +81,28 @@ inline tensor2<X>::tensor2(size_t nd, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor2<X>::tensor2(size_t nd, Iterator first, Iterator last)
+{
+  // change size of internal storage
+  resize(nd);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline tensor2s<X>::tensor2s(size_t nd)
 {
   // change size of internal storage
@@ -75,6 +119,28 @@ inline tensor2s<X>::tensor2s(size_t nd, X D)
 
   // copy input
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline tensor2s<X>::tensor2s(size_t nd, Iterator first, Iterator last)
+{
+  // change size of internal storage
+  resize(nd);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -116,6 +182,28 @@ inline tensor2d<X>::tensor2d(size_t nd, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<typename Iterator>
+inline tensor2d<X>::tensor2d(size_t nd, Iterator first, Iterator last)
+{
+  // change size of internal storage
+  resize(nd);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline vector<X>::vector(size_t nd)
 {
   // change size of internal storage
@@ -132,6 +220,28 @@ inline vector<X>::vector(size_t nd, X D)
 
   // copy input
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline vector<X>::vector(size_t nd, Iterator first, Iterator last)
+{
+  // change size of internal storage
+  resize(nd);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
 }
 
 // =================================================================================================
@@ -4607,9 +4717,9 @@ inline std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
   for ( size_t i = 0 ; i < src.ndim() ; ++i ) {
     for ( size_t j = 0 ; j < src.ndim() ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(i,j);
-      if      ( i != src.ndim()-1 and j != src.ndim()-1 ) out << ", ";
-      else if ( i != src.ndim()-1                       ) out << ";" << std::endl;
-      else                                                out << ";";
+      if      ( j != src.ndim()-1 ) out << ", ";
+      else if ( i != src.ndim()-1 ) out << ";" << std::endl;
+      else                          out << ";";
     }
   }
 
@@ -4627,9 +4737,9 @@ inline std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
   for ( size_t i = 0 ; i < src.ndim() ; ++i ) {
     for ( size_t j = 0 ; j < src.ndim() ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(i,j);
-      if      ( i != src.ndim()-1 and j != src.ndim()-1 ) out << ", ";
-      else if ( i != src.ndim()-1                       ) out << ";" << std::endl;
-      else                                                out << ";";
+      if      ( j != src.ndim()-1 ) out << ", ";
+      else if ( i != src.ndim()-1 ) out << ";" << std::endl;
+      else                          out << ";";
     }
   }
 
@@ -4647,9 +4757,9 @@ inline std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
   for ( size_t i = 0 ; i < src.ndim() ; ++i ) {
     for ( size_t j = 0 ; j < src.ndim() ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(i,j);
-      if      ( i != src.ndim()-1 and j != src.ndim()-1 ) out << ", ";
-      else if ( i != src.ndim()-1                       ) out << ";" << std::endl;
-      else                                                out << ";";
+      if      ( j != src.ndim()-1 ) out << ", ";
+      else if ( i != src.ndim()-1 ) out << ";" << std::endl;
+      else                          out << ";";
     }
   }
 

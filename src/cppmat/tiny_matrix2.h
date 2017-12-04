@@ -31,6 +31,9 @@ public:
   matrix2();
   matrix2(X D);
 
+  template<typename Iterator>
+  matrix2(Iterator first, Iterator last);
+
   // copy constructor
   matrix2<X,m,n>& operator= (const matrix2<X,m,n> &D);
 

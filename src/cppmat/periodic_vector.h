@@ -33,6 +33,9 @@ public:
   vector(size_t n);
   vector(size_t n, X D);
 
+  template<typename Iterator>
+  vector(Iterator first, Iterator last);
+
   // resize
   void resize(size_t n);
 

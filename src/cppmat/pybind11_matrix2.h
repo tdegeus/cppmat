@@ -43,10 +43,7 @@ public:
     if ( rank != 2 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1]);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+value.size(), value.data());
+    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1], buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

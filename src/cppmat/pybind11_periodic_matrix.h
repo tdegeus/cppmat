@@ -48,10 +48,7 @@ public:
     for ( ssize_t i = 0 ; i < rank ; i++ ) shape[i] = buf.shape()[i];
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::periodic::matrix<T>(shape);
-
-    // - copy data
-    std::copy(buf.data(), buf.data()+value.size(), value.data());
+    value = cppmat::periodic::matrix<T>(shape, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

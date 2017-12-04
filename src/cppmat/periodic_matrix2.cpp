@@ -4,10 +4,10 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PERIODIC_MATRIX_CPP
-#define CPPMAT_PERIODIC_MATRIX_CPP
+#ifndef CPPMAT_PERIODIC_MATRIX2_CPP
+#define CPPMAT_PERIODIC_MATRIX2_CPP
 
-#include "periodic_matrix.h"
+#include "periodic_matrix2.h"
 
 namespace cppmat {
 namespace periodic {
@@ -19,6 +19,7 @@ namespace periodic {
 template<class X>
 inline matrix2<X>::matrix2(size_t m, size_t n)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(m,n);
 }
 
@@ -27,10 +28,34 @@ inline matrix2<X>::matrix2(size_t m, size_t n)
 template<class X>
 inline matrix2<X>::matrix2(size_t m, size_t n, X D)
 {
+  // store shape, and other size parameters, allocate "m_data"
   resize(m,n);
 
+  // copy input
   for ( size_t i = 0 ; i < m_size ; ++i )
     m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline matrix2<X>::matrix2(size_t m, size_t n, Iterator first, Iterator last)
+{
+  // store shape, and other size parameters, allocate "m_data"
+  resize(m,n);
+
+  // check size
+  assert( m_size == last - first );
+
+  // initialize counter
+  size_t i = 0;
+
+  // copy input
+  for (auto it = first; it != last; ++it)
+  {
+    m_data[i] = *it; ++i;
+  }
 }
 
 // =================================================================================================
@@ -561,9 +586,9 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X>& src)
   for ( size_t i = 0 ; i < src.shape(0) ; ++i ) {
     for ( size_t j = 0 ; j < src.shape(1) ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(i,j);
-      if      ( i != src.shape(0)-1 and j != src.shape(1)-1 ) out << ", ";
-      else if ( i != src.shape(0)-1                         ) out << ";" << std::endl;
-      else                                                    out << ";";
+      if      ( j != src.shape(1)-1 ) out << ", ";
+      else if ( i != src.shape(0)-1 ) out << ";" << std::endl;
+      else                            out << ";";
     }
   }
 

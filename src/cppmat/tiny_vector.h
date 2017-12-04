@@ -31,6 +31,9 @@ public:
   vector();
   vector(X D);
 
+  template<typename Iterator>
+  vector(Iterator first, Iterator last);
+
   // copy constructor
   vector<X,n>& operator= (const vector<X,n> &D);
 

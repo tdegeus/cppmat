@@ -44,6 +44,9 @@ public:
   tensor4(size_t nd);
   tensor4(size_t nd, X D);
 
+  template<typename Iterator>
+  tensor4(size_t nd, Iterator first, Iterator last);
+
   // resize
   void resize(size_t nd);
 
@@ -125,6 +128,9 @@ public:
   tensor2(){};
   tensor2(size_t nd);
   tensor2(size_t nd, X D);
+
+  template<typename Iterator>
+  tensor2(size_t nd, Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -232,6 +238,9 @@ public:
   tensor2s(size_t nd);
   tensor2s(size_t nd, X D);
 
+  template<typename Iterator>
+  tensor2s(size_t nd, Iterator first, Iterator last);
+
   // cast into another object
   template<class U> U cast() const;
 
@@ -337,6 +346,9 @@ public:
   tensor2d(size_t nd);
   tensor2d(size_t nd, X D);
 
+  template<typename Iterator>
+  tensor2d(size_t nd, Iterator first, Iterator last);
+
   // cast into another object
   template<class U> U cast() const;
 
@@ -438,6 +450,9 @@ public:
   vector(){};
   vector(size_t nd);
   vector(size_t nd, X D);
+
+  template<typename Iterator>
+  vector(size_t nd, Iterator first, Iterator last);
 
   // resize
   void resize(size_t nd);

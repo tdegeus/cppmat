@@ -32,6 +32,9 @@ public:
   matrix2(size_t m, size_t n);
   matrix2(size_t m, size_t n, X D);
 
+  template<typename Iterator>
+  matrix2(size_t m, size_t n, Iterator first, Iterator last);
+
   // resize
   void resize (size_t m, size_t n);
   void reshape(size_t m, size_t n);
