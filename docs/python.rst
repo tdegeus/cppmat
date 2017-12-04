@@ -66,17 +66,7 @@ To use this feature one has to:
 
 .. code-block:: cpp
 
-  #include <cppmat/pybind11_cppmat.h>
-
-  // or select one or more of the following headers
-  #include <cppmat/pybind11_matrix.h>
-  #include <cppmat/pybind11_matrix2.h>
-  #include <cppmat/pybind11_vector.h>
-  #include <cppmat/pybind11_tiny_matrix2.h>
-  #include <cppmat/pybind11_tiny_vector.h>
-  #include <cppmat/pybind11_tensor.h>
-  #include <cppmat/pybind11_tensor2.h>
-  #include <cppmat/pybind11_tensor3.h>
+  #include <cppmat/pybind11.h>
 
 An example is provided in ``docs/examples/tensorlib``. This example includes two forms of building:
 

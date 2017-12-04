@@ -1,11 +1,11 @@
 
 .. _tensor:
 
-*******************
-cppmat::cartesian::
-*******************
+*****************
+cppmat::cartesian
+*****************
 
-Header-only module that provides C++ classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
+Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
 
 .. code-block:: cpp
 
@@ -13,7 +13,7 @@ Header-only module that provides C++ classes for 4th- and 2nd order tensors and 
 
   int main()
   {
-    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4(3);
+    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4<double>(3);
 
     ...
 
@@ -41,7 +41,7 @@ Header-only module that provides C++ classes for 4th- and 2nd order tensors and 
 
     int main()
     {
-      T4 A = cm::identity4(3);
+      T4 A = cm::identity4<double>(3);
 
       ...
 
@@ -103,7 +103,7 @@ Because of the flexibility of C++ it is easy to switch between these specialized
 
 .. code-block:: cpp
 
-  cppmat::cartesian::tensor2d<double> I = cppmat::cartesian::identity2(3);
+  cppmat::cartesian::tensor2d<double> I = cppmat::cartesian::identity2<double>(3);
 
   cppmat::cartesian::tensor2 <double> A = I;
 
@@ -111,7 +111,7 @@ or even
 
 .. code-block:: cpp
 
-  cppmat::cartesian::tensor2 <double> I = cppmat::cartesian::identity2(3);
+  cppmat::cartesian::tensor2 <double> I = cppmat::cartesian::identity2<double>(3);
 
 Also arithmetic works:
 
@@ -119,7 +119,7 @@ Also arithmetic works:
 
   cppmat::cartesian::tensor2d<double> A = 3.0 * I;
 
-Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, a typecast is performed to a more general class if needed.
+Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, whereby the output type depends on the type of operator.
 
 Finally, all the :ref:`tensor-methods` accept all three classes - ``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, ``cppmat::cartesian::tensor2d`` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
 
@@ -129,15 +129,19 @@ Finally, all the :ref:`tensor-methods` accept all three classes - ``cppmat::cart
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor2 <double> A(3);
+    cppmat::cartesian::tensor2<double> A(3);
 
     A(0,0) = ...
 
     // take the symmetric part of "A": "C = (A+A.T())/2."
-    cppmat::cartesian::tensor2s<double> C = A.astensor2s();
+    cppmat::cartesian::tensor2s<double> C = A.cast<cppmat::cartesian::tensor2s<double>>();
 
     // take the diagonal of "A"
-    cppmat::cartesian::tensor2d<double> C = A.astensor2d();
+    cppmat::cartesian::tensor2d<double> C = A.cast<cppmat::cartesian::tensor2d<double>>();
+
+.. note::
+
+  The feature of automatic casting of ``cppmat::cartesian::tensor2s`` and ``cppmat::cartesian::tensor2d`` to a more general class can be switched off by ``#define CPPMAT_NOCONVERT``. It should be remarked that the Python interface relies on this feature.
 
 .. _tensor-methods:
 
@@ -152,8 +156,8 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4(3);
-    cppmat::cartesian::tensor2<double> B = cppmat::cartesian::identity2(3);
+    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4<double>(3);
+    cppmat::cartesian::tensor2<double> B = cppmat::cartesian::identity2<double>(3);
 
     cppmat::cartesian::tensor2<double> C = A.ddot(B);
 
