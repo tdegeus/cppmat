@@ -10,6 +10,10 @@ cppmat
 cppmat::matrix
 ==============
 
+.. note::
+
+  See `matrix.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.h>`_ and `matrix.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.cpp>`_
+
 Header-only module that provides a C++ class for n-d matrices. For example a rank 3 matrix is allocated as follows:
 
 .. code-block:: cpp
@@ -93,7 +97,11 @@ To print, use the common C++ ``std::cout << A << std::endl;``. To customize form
 cppmat::matrix2
 ===============
 
-Header-only module that provides a C++ class for 2-d matrices. For example:
+.. note::
+
+  See `matrix2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix2.h>`_ and `matrix2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix2.cpp>`_
+
+Class for 2-d matrices. For example:
 
 .. code-block:: cpp
 
@@ -119,7 +127,11 @@ Header-only module that provides a C++ class for 2-d matrices. For example:
 cppmat::vector
 ==============
 
-Header-only module that provides a C++ class for 1-d matrices (a.k.a. vectors). For example:
+.. note::
+
+  See `vector.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/vector.h>`_ and `vector.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/vector.cpp>`_
+
+Class for 1-d matrices (a.k.a. vectors). For example:
 
 .. code-block:: cpp
 

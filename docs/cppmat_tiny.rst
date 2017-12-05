@@ -10,6 +10,10 @@ cppmat::tiny
 cppmat::tiny::matrix2
 =====================
 
+.. note::
+
+  See `tiny_matrix2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tiny_matrix2.h>`_ and `tiny_matrix2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tiny_matrix2.cpp>`_
+
 Class for fixed size, small, 2-d matrices. For example:
 
 .. code-block:: cpp
@@ -63,6 +67,10 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
 cppmat::tiny::vector
 ====================
+
+.. note::
+
+  See `tiny_vector.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tiny_vector.h>`_ and `tiny_vector.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tiny_vector.cpp>`_
 
 Class for fixed size, small, 2-d matrices. For example:
 

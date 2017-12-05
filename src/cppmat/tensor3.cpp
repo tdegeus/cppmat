@@ -46,6 +46,9 @@ template<class X>
 template<typename Iterator>
 inline tensor4<X>::tensor4(Iterator first, Iterator last)
 {
+  // avoid compiler warning
+  UNUSED(last);
+
   // check size
   assert( 81 == last - first );
 
@@ -93,6 +96,9 @@ template<class X>
 template<typename Iterator>
 inline tensor2<X>::tensor2(Iterator first, Iterator last)
 {
+  // avoid compiler warning
+  UNUSED(last);
+
   // check size
   assert( 9 == last - first );
 
@@ -140,6 +146,9 @@ template<class X>
 template<typename Iterator>
 inline tensor2s<X>::tensor2s(Iterator first, Iterator last)
 {
+  // avoid compiler warning
+  UNUSED(last);
+
   // check size
   assert( 6 == last - first );
 
@@ -188,6 +197,9 @@ template<class X>
 template<typename Iterator>
 inline tensor2d<X>::tensor2d(Iterator first, Iterator last)
 {
+  // avoid compiler warning
+  UNUSED(last);
+
   // check size
   assert( 3 == last - first );
 
@@ -227,6 +239,9 @@ template<class X>
 template<typename Iterator>
 inline vector<X>::vector(Iterator first, Iterator last)
 {
+  // avoid compiler warning
+  UNUSED(last);
+
   // check size
   assert( 3 == last - first );
 

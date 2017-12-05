@@ -3,59 +3,64 @@
 cppmat
 ******
 
+.. note::
+
+  This document should be considered as a quick-start guide. A lot effort has been spend on the readability of the code itself. One is highly encouraged to answer more advanced questions that rise from this guide directly using the code.
+
 This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to the C++14 or younger standard). Really, that's it!
+
 
 The following classes can be used.
 
-+--------------------------------------+-------------------------------------------+-------------------------+
-| **Class**                            | **Description**                           | **Header**              |
-+======================================+===========================================+=========================+
-| ``cppmat::matrix<T>``                | n-d matrix of flexible size               | :ref:`matrix`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::matrix2<T>``               | 2-d matrix of flexible size               | :ref:`matrix2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::vector<T>``                | array (1-d matrix) of flexible size       | :ref:`vector`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::periodic::matrix<T>``      | n-d matrix of flexible size               | :ref:`periodic_matrix`  |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::periodic::matrix2<T>``     | 2-d matrix of flexible size               | :ref:`periodic_matrix2` |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::periodic::vector<T>``      | array (1-d matrix) of flexible size       | :ref:`periodic_vector`  |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::tiny::matrix2<T,M,N>``     | small, fixed size, 2-d matrix             | :ref:`tiny_matrix2`     |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::tiny::vector<T,N>``        | small, fixed size, array                  | :ref:`tiny_vector`      |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian::tensor4<T>``    | n-d tensors of rank 4                     | :ref:`tensor`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian::tensor2<T>``    | n-d tensors of rank 2                     | :ref:`tensor`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian::tensor2s<T>``   | n-d symmetric tensors of rank 2           | :ref:`tensor`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian::tensor2d<T>``   | n-d diagonal tensors of rank 2            | :ref:`tensor`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian::vector<T>``     | n-d diagonal vectors (tensors of rank 1)  | :ref:`tensor`           |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian2d::tensor4<T>``  | 2-d tensors of rank 4                     | :ref:`tensor2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian2d::tensor2<T>``  | 2-d tensors of rank 2                     | :ref:`tensor2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian2d::tensor2s<T>`` | 2-d symmetric tensors of rank 2           | :ref:`tensor2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian2d::tensor2d<T>`` | 2-d diagonal tensors of rank 2            | :ref:`tensor2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian2d::vector<T>``   | 2-d diagonal vectors (tensors of rank 1)  | :ref:`tensor2`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian3d::tensor4<T>``  | 3-d tensors of rank 4                     | :ref:`tensor3`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian3d::tensor2<T>``  | 3-d tensors of rank 2                     | :ref:`tensor3`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian3d::tensor2s<T>`` | 3-d symmetric tensors of rank 2           | :ref:`tensor3`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian3d::tensor2d<T>`` | 3-d diagonal tensors of rank 2            | :ref:`tensor3`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
-| ``cppmat::cartesian3d::vector<T>``   | 3-d diagonal vectors (tensors of rank 1)  | :ref:`tensor3`          |
-+--------------------------------------+-------------------------------------------+-------------------------+
++--------------------------------------+-------------------------------------------+----------------------------+
+| **Class**                            | **Description**                           | **Header**                 |
++======================================+===========================================+============================+
+| ``cppmat::matrix<T>``                | n-d matrix of flexible size               | :ref:`matrix`              |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::matrix2<T>``               | 2-d matrix of flexible size               | :ref:`matrix2`             |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::vector<T>``                | array (1-d matrix) of flexible size       | :ref:`vector`              |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::periodic::matrix<T>``      | n-d matrix of flexible size               | :ref:`periodic_matrix`     |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::periodic::matrix2<T>``     | 2-d matrix of flexible size               | :ref:`periodic_matrix2`    |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::periodic::vector<T>``      | array (1-d matrix) of flexible size       | :ref:`periodic_vector`     |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::tiny::matrix2<T,M,N>``     | small, fixed size, 2-d matrix             | :ref:`tiny_matrix2`        |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::tiny::vector<T,N>``        | small, fixed size, array                  | :ref:`tiny_vector`         |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian::tensor4<T>``    | n-d tensors of rank 4                     | :ref:`cartesian_tensor4`   |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian::tensor2<T>``    | n-d tensors of rank 2                     | :ref:`cartesian_tensor2`   |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian::tensor2s<T>``   | n-d symmetric tensors of rank 2           | :ref:`cartesian_tensor2s`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian::tensor2d<T>``   | n-d diagonal tensors of rank 2            | :ref:`cartesian_tensor2d`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian::vector<T>``     | n-d diagonal vectors (tensors of rank 1)  | :ref:`cartesian_vector`    |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian2d::tensor4<T>``  | 2-d tensors of rank 4                     | :ref:`cartesian2_tensor4`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian2d::tensor2<T>``  | 2-d tensors of rank 2                     | :ref:`cartesian2_tensor2`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian2d::tensor2s<T>`` | 2-d symmetric tensors of rank 2           | :ref:`cartesian2_tensor2s` |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian2d::tensor2d<T>`` | 2-d diagonal tensors of rank 2            | :ref:`cartesian2_tensor2d` |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian2d::vector<T>``   | 2-d diagonal vectors (tensors of rank 1)  | :ref:`cartesian2_vector`   |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian3d::tensor4<T>``  | 3-d tensors of rank 4                     | :ref:`cartesian3_tensor4`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian3d::tensor2<T>``  | 3-d tensors of rank 2                     | :ref:`cartesian3_tensor2`  |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian3d::tensor2s<T>`` | 3-d symmetric tensors of rank 2           | :ref:`cartesian3_tensor2s` |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian3d::tensor2d<T>`` | 3-d diagonal tensors of rank 2            | :ref:`cartesian3_tensor2d` |
++--------------------------------------+-------------------------------------------+----------------------------+
+| ``cppmat::cartesian3d::vector<T>``   | 3-d diagonal vectors (tensors of rank 1)  | :ref:`cartesian3_vector`   |
++--------------------------------------+-------------------------------------------+----------------------------+
 
 
 For example:

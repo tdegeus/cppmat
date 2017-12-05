@@ -1,9 +1,13 @@
 
-.. _tensor:
+.. _cartesian:
 
 *****************
 cppmat::cartesian
 *****************
+
+.. note::
+
+  See `tensor.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.h>`_ and `tensor.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.cpp>`_
 
 Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
 
@@ -51,77 +55,116 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 Classes
 =======
 
-The module consists of three basic classes:
+.. _cartesian_tensor4:
 
-*   ``cppmat::cartesian::vector``: vector (rank 1 tensor) of arbitrary dimension. For example:
+``cppmat::cartesian::tensor4``
+------------------------------
 
-    .. code-block:: cpp
-
-      cppmat::cartesian::vector<double> A(3);
-
-      A(0) = ...
-
-*   ``cppmat::cartesian::tensor2``: 2nd-order tensor (rank 2 tensor) of arbitrary dimension. For example:
-
-    .. code-block:: cpp
-
-      cppmat::cartesian::tensor2<double> A(3);
-
-      A(0,0) = ...
-
-*   ``cppmat::cartesian::tensor4``: 4nd-order tensor (rank 4 tensor) of arbitrary dimension. For example:
-
-    .. code-block:: cpp
-
-      cppmat::cartesian::tensor4<double> A(3);
-
-      A(0,0,0,0) = ...
-
-In addition, there are specialized classes available which employ information available to end-user, and can be used to optimize the final code for speed and memory consumption. These classes are:
-
-*   ``cppmat::cartesian::tensor2s``: symmetric 2nd-order tensor. For example, for the case of 3 dimensions, the following components are stored:
-
-    .. code-block:: cpp
-
-      [ X , X , X ;
-            X , X ;
-                X ]
-
-    *The remaining components are inferred from symmetry*.
-
-*   ``cppmat::cartesian::tensor2d``: diagonal 2nd-order tensor. For example, for the case of 3 dimensions, the following components are stored:
-
-    .. code-block:: cpp
-
-      [ X         ;
-            X     ;
-                X ]
-
-    *The remaining components are imposed to be zero*.
-
-Because of the flexibility of C++ it is easy to switch between these specialized class and the more general ``cppmat::cartesian::tensor2`` class. For example, the following will work:
+4th-order tensor (rank 4 tensor) of arbitrary dimension.
 
 .. code-block:: cpp
 
-  cppmat::cartesian::tensor2d<double> I = cppmat::cartesian::identity2<double>(3);
+  cppmat::cartesian::tensor4<double> A(3);
 
-  cppmat::cartesian::tensor2 <double> A = I;
+  A(0,0,0,0) = ...
 
-or even
+.. _cartesian_tensor2:
+
+``cppmat::cartesian::tensor2``
+------------------------------
+
+2nd-order tensor (rank 2 tensor) of arbitrary dimension.
 
 .. code-block:: cpp
 
-  cppmat::cartesian::tensor2 <double> I = cppmat::cartesian::identity2<double>(3);
+  cppmat::cartesian::tensor2<double> A(3);
 
-Also arithmetic works:
+  A(0,0) = ...
+
+.. _cartesian_tensor2s:
+
+``cppmat::cartesian::tensor2s``
+-------------------------------
+
+Symmetric 2nd-order tensor.
 
 .. code-block:: cpp
 
-  cppmat::cartesian::tensor2d<double> A = 3.0 * I;
+  cppmat::cartesian::tensor2s<double> A(3);
 
-Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, whereby the output type depends on the type of operator.
+  A(0,0) = ...
 
-Finally, all the :ref:`tensor-methods` accept all three classes - ``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, ``cppmat::cartesian::tensor2d`` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
+For example, for the case of 3 dimensions, the following components are stored:
+
+.. code-block:: cpp
+
+  [ X , X , X ;
+        X , X ;
+            X ]
+
+*The remaining components are inferred from symmetry*.
+
+.. _cartesian_tensor2d:
+
+``cppmat::cartesian::tensor2d``
+-------------------------------
+
+diagonal 2nd-order tensor.
+
+.. code-block:: cpp
+
+  cppmat::cartesian::tensor2d<double> A(3);
+
+  A(0,0) = ...
+
+For example, for the case of 3 dimensions, the following components are stored:
+
+.. code-block:: cpp
+
+  [ X         ;
+        X     ;
+            X ]
+
+*The remaining components are imposed to be zero*.
+
+.. _cartesian_vector:
+
+``cppmat::cartesian::vector``
+-----------------------------
+
+Vector (rank 1 tensor) of arbitrary dimension. For example:
+
+.. code-block:: cpp
+
+  cppmat::cartesian::vector<double> A(3);
+
+  A(0) = ...
+
+.. note::
+
+  Because of the flexibility of C++ it is easy to switch between these specialized class and the more general ``cppmat::cartesian::tensor2`` class. For example, the following will work:
+
+  .. code-block:: cpp
+
+    cppmat::cartesian::tensor2d<double> I = cppmat::cartesian::identity2<double>(3);
+
+    cppmat::cartesian::tensor2 <double> A = I;
+
+  or even
+
+  .. code-block:: cpp
+
+    cppmat::cartesian::tensor2 <double> I = cppmat::cartesian::identity2<double>(3);
+
+  Also arithmetic works:
+
+  .. code-block:: cpp
+
+    cppmat::cartesian::tensor2d<double> A = 3.0 * I;
+
+  Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, whereby the output type depends on the type of operator.
+
+  Finally, all the :ref:`tensor-methods` accept all three classes - ``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, ``cppmat::cartesian::tensor2d`` - allowing their usage without any prior type casting. In fact the methods will often perform better for the specialized classes since fewer operations are needed.
 
 .. note::
 

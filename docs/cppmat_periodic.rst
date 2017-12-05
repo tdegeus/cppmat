@@ -10,6 +10,10 @@ The class below are identical to those under :ref:`cppmat`, with the exception t
 cppmat::periodic::matrix
 ========================
 
+.. note::
+
+  See `periodic_matrix.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix.h>`_ and `periodic_matrix.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix.cpp>`_
+
 .. code-block:: cpp
 
   #include <cppmat/cppmat.h>
@@ -34,6 +38,10 @@ cppmat::periodic::matrix
 cppmat::periodic::matrix2
 =========================
 
+.. note::
+
+  See `periodic_matrix2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix2.h>`_ and `periodic_matrix2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix2.cpp>`_
+
 .. code-block:: cpp
 
   #include <cppmat/cppmat.h>
@@ -57,6 +65,10 @@ cppmat::periodic::matrix2
 
 cppmat::periodic::vector
 ========================
+
+.. note::
+
+  See `periodic_vector.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_vector.h>`_ and `periodic_vector.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_vector.cpp>`_
 
 .. code-block:: cpp
 
