@@ -128,8 +128,8 @@ Contents
    cppmat.rst
    cppmat_periodic.rst
    cppmat_tiny.rst
-   cppmat_tensor.rst
-   cppmat_tensor2.rst
+   cppmat_cartesian.rst
+   cppmat_cartesian2.rst
    copy.rst
    compile.rst
    python.rst
