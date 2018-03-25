@@ -8,9 +8,9 @@ Compiling
 Introduction
 ============
 
-This module is header only. So one just has to ``#include <cppmat/cppmat.h>`` somewhere in the source code, and to tell the compiler where the header-files are. For the latter, several ways are described below.
+This module is header only. So one just has to ``#include <cppmat/cppmat.h>`` somewhere in the source code, and to tell the compiler where the header files are. For the latter, several ways are described below.
 
-Before proceeding, a words about optimization. Of course one should use optimization when compiling the release of the code (``-O2`` or ``-O3``). But it is also a good idea to switch off the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag ``-DNDEBUG``. Note that this is all C++ standard. I.e. it should be no surprise, and it always a good idea to do.
+Before proceeding, a word about optimization. Of course one should use optimization when compiling the release of the code (``-O2`` or ``-O3``). But it is also a good idea to switch off the assertions in the code (mostly checks on size) that facilitate easy debugging, but do cost time. Therefore, include the flag ``-DNDEBUG``. Note that this is all C++ standard. I.e. it should be no surprise, and it is always a good idea to do.
 
 Manual compiler flags
 =====================
@@ -46,7 +46,7 @@ Install
 
 To enable (semi-)automatic build, one should 'install' ``cppmat`` somewhere.
 
-Install system-wide (root)
+Install systemwide (root)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1.  Proceed to a (temporary) build directory. For example
@@ -91,7 +91,7 @@ Install in custom location (user)
 
 .. note:: **(Not recommended)**
 
-  If you do not wish to use ``CMake`` for the installation, or you want to do something custom. You can of course. Follow these steps:
+  If you do not wish to use ``CMake`` for the installation, or you want to do something custom. You can, of course. Follow these steps:
 
   1.  Copy the file ``src/cppmat.pc.in`` to ``cppmat.pc`` to some location that can be found by ``pkg_config`` (for example by adding ``export PKG_CONFIG_PATH=/path/to/cppmat.pc:$PKG_CONFIG_PATH`` to the ``.bashrc``).
 

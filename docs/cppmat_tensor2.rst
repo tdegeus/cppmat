@@ -9,7 +9,7 @@ cppmat::cartesian2
 
   See `tensor2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor2.h>`_ and `tensor2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.cpp>`_
 
-A specialization of :ref:`cartesian`, that takes advantage of the knowledge that the arrays are fixed-size and small. Also several loops are unrolled. All the functionality and names of :ref:`cartesian` are transferable to :ref:`cartesian2` and :ref:`cartesian3`.
+A specialization of :ref:`cartesian`, that takes advantage of the knowledge that the arrays are fixed size and small. Also several loops are unrolled. All the functionality and names of :ref:`cartesian` are transferable to :ref:`cartesian2` and :ref:`cartesian3`.
 
 Compared to :ref:`cartesian` the dimension argument must be omitted everywhere.
 
@@ -128,6 +128,41 @@ Like in :ref:`tiny`, the classes under :ref:`cartesian2` can be used to 'view' a
           }
       }
   }
+
+.. note::
+
+  The situation can occur that you want to map a ``const`` pointer, for example when you are designing a function that reads from a matrix that is marked ``const`` (because you want to use the matrix 'read-only'). In that case the ``cppmat::cartesian2d`` tensor that you use to map the larger object should be templated using ``const`` (e.g. ``const double``, ``const size_t``, etc.). The ``cppmat::cartesian2d`` tensor can then only be used 'read-only'.
+
+  This case is illustrated in this example:
+
+  .. code-block:: cpp
+
+    #include "cppmat.h"
+
+    void view(const cppmat::matrix<double> &matrix)
+    {
+      cppmat::cartesian2d::tensor2s<const double> view;
+
+      for ( auto i = 0 ; i < matrix.shape(0) ; ++i )
+      {
+        view.map(&matrix(i));
+        std::cout << view << std::endl;
+      }
+    }
+
+
+    int main()
+    {
+      cppmat::matrix<double> A({2,3});
+
+      A(0,0) = 1.0;  A(1,0) = 101.0;
+      A(0,1) = 2.0;  A(1,1) = 102.0;
+      A(0,2) = 3.0;  A(1,2) = 103.0;
+
+      view(A);
+
+      return 0;
+    }
 
 .. _cartesian3:
 

@@ -21,9 +21,12 @@ class matrix2
 {
 private:
 
-  X      m_container[m*n];  // data container
-  X     *m_data;            // pointer to container (may point outside)
-  size_t m_size=m*n;        // total number of entries
+  // data container
+  typename std::remove_const<X>::type m_container[m*n];
+  // pointer to container (may point outside)
+  X *m_data;
+  // total number of entries
+  size_t m_size=m*n;
 
 public:
 

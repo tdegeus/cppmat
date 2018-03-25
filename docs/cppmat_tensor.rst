@@ -9,7 +9,7 @@ cppmat::cartesian
 
   See `tensor.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.h>`_ and `tensor.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.cpp>`_
 
-Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example a fourth order identity tensor in 3-D is obtained as follows:
+Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example, a fourth order identity tensor in 3-D is obtained as follows:
 
 .. code-block:: cpp
 
@@ -26,11 +26,11 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 
 .. note:: **Tip**
 
-  To print, use the common C++ ``std::cout << A << std::endl;``. To customize formating use the more classic C syntax ``A.printf("%16.8e");``
+  To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively in 2 or 3 dimensions, please consider using :ref:`tensor2` or :ref:`tensor3` instead of :ref:`tensor`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed-size and relatively small. Also several loops are unrolled.
+  If you know that you will work exclusively in 2 or 3 dimensions, please consider using :ref:`cartesian2` or :ref:`cartesian3` instead of :ref:`cartesian`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed size and relatively small. Also several loops are unrolled.
 
 .. note:: **Tip**
 
@@ -142,7 +142,7 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 
 .. note::
 
-  Because of the flexibility of C++ it is easy to switch between these specialized class and the more general ``cppmat::cartesian::tensor2`` class. For example, the following will work:
+  Because of the flexibility of C++ it is easy to switch between these specialized classes and the more general ``cppmat::cartesian::tensor2`` classes. For example, the following will work:
 
   .. code-block:: cpp
 
@@ -168,7 +168,7 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 
 .. note::
 
-  The easy automatic conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from ``cppmat::cartesian::tensor2`` to ``cppmat::cartesian::tensor2d``) because information is (potentially) lost. To still move forward with the conversion the following manual conversion can be used:
+  The easy automatic conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from ``cppmat::cartesian::tensor2`` to ``cppmat::cartesian::tensor2d``) because information is (potentially) lost. To still move forward with the conversion, the following manual conversion can be used:
 
   .. code-block:: cpp
 
@@ -222,11 +222,11 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
     -   ``cppmat::cartesian::tensor4<X> C = A.LT()``
 
-        Left-transposition :math:`C_{jikl} = A_{ijkl}`
+        Left transposition :math:`C_{jikl} = A_{ijkl}`
 
     -   ``cppmat::cartesian::tensor4<X> C = A.RT()``
 
-        Right-transposition :math:`C_{ijlk} = A_{ijkl}`
+        Right transposition :math:`C_{ijlk} = A_{ijkl}`
 
 *   ``cppmat::cartesian::tensor2<X>``:
 
@@ -287,5 +287,5 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
 .. note::
 
-  One can also call the methods as functions using ``cppmmat::ddot( A , B )``, ``cppmmat::dot( A , B )``, ``cppmmat::dyadic( A , B )``, ``cppmmat::cross( A , B )``, ``cppmmat::transpose( A )``, ``cppmmat::transposeR( A )``, ``cppmmat::transposeL( A )``, ``cppmmat::inv( A )``, ``cppmmat::det( A )``, and ``cppmmat::trace( A )``, These methods are just a front-end for the class-methods described above.
+  One can also call the methods as functions using ``cppmmat::ddot( A , B )``, ``cppmmat::dot( A , B )``, ``cppmmat::dyadic( A , B )``, ``cppmmat::cross( A , B )``, ``cppmmat::transpose( A )``, ``cppmmat::transposeR( A )``, ``cppmmat::transposeL( A )``, ``cppmmat::inv( A )``, ``cppmmat::det( A )``, and ``cppmmat::trace( A )``, These methods are just a front end for the class methods described above.
 

@@ -3,9 +3,42 @@
 cppmat
 ******
 
+.. image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
+  :target: https://github.com/tdegeus/cppmat/blob/master/LICENSE
+  :alt: MIT license
+
+.. image:: https://img.shields.io/badge/warranty-no-red.svg
+  :target: https://github.com/tdegeus/cppmat/blob/master/LICENSE
+  :alt: MIT license
+
+.. image:: https://img.shields.io/badge/download-.zip-lightgray.svg
+  :target: https://github.com/tdegeus/cppmat/zipball/master
+  :alt: Download as .zip
+
+.. image:: https://img.shields.io/badge/download-.tar.gz-lightgray.svg
+  :target: https://github.com/tdegeus/cppmat/tarball/master
+  :alt: Download as .tar.gz
+
+.. image:: https://img.shields.io/badge/contact-tom@geus.me-blue.svg
+  :target: mailto:tom@geus.me
+  :alt: Contact tom@geus.me
+
+.. image:: https://img.shields.io/badge/contact-cppmat.geus.me-blue.svg
+  :target: http://cppmat.geus.me
+  :alt: Website cppmat.geus.me
+
+.. image:: https://img.shields.io/badge/contact-www.geus.me-blue.svg
+  :target: http://www.geus.me
+  :alt: Website www.geus.me
+
+.. image:: https://img.shields.io/badge/GitHub-tdegeus/cppmat-blue.svg
+  :target: https://github.com/tdegeus/cppmat
+  :alt: Github tdegeus/cppmat
+
+
 .. note::
 
-  This document should be considered as a quick-start guide. A lot effort has been spend on the readability of the code itself. One is highly encouraged to answer more advanced questions that rise from this guide directly using the code.
+  This document should be considered as a quick-start guide. A lot effort has been spent on the readability of the code itself. One is highly encouraged to answer more advanced questions that arise from this guide directly using the code.
 
 This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to the C++14 or younger standard). Really, that's it!
 
@@ -83,8 +116,6 @@ For example:
 .. note::
 
   This library is free to use under the `MIT license <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_. Any additions are very much appreciated, in terms of suggested functionality, code, documentation, testimonials, word of mouth advertisement, .... Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
-
-  Download: `.zip file <https://github.com/tdegeus/cppmat/zipball/master>`_ | `.tar.gz file <https://github.com/tdegeus/cppmat/tarball/master>`_.
 
   (c - `MIT <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_) T.W.J. de Geus (Tom) | tom@geus.me | `www.geus.me <http://www.geus.me>`_ | `github.com/tdegeus/cppmat <http://github.com/tdegeus/cppmat>`_
 

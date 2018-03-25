@@ -3,7 +3,7 @@
 cppmat::periodic
 ****************
 
-The class below are identical to those under :ref:`cppmat`, with the exception that periodic indices can be used. For example ``-1`` will refer to the last index along that dimension (i.e. ``-1 -> N-1``, with ``N = A.shape(i)``), while ``N`` will refer the the first index (``N -> 0``).
+The classes below are identical to those under :ref:`cppmat`, with the exception that periodic indices can be used. For example ``-1`` will refer to the last index along that dimension (i.e. ``-1 -> N-1``, with ``N = A.shape(i)``), while ``N`` will refer to the first index (``N -> 0``).
 
 .. _periodic_matrix:
 

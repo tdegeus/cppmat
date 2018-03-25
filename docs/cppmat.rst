@@ -14,7 +14,7 @@ cppmat::matrix
 
   See `matrix.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.h>`_ and `matrix.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.cpp>`_
 
-Header-only module that provides a C++ class for n-d matrices. For example a rank 3 matrix is allocated as follows:
+Header-only module that provides a C++ class for n-d matrices. For example, a rank 3 matrix is allocated as follows:
 
 .. code-block:: cpp
 
@@ -33,7 +33,7 @@ Header-only module that provides a C++ class for n-d matrices. For example a ran
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a very small matrix, please the fixed sized :ref:`tiny_matrix2`. The latter doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`vector` and :ref:`tiny_vector`, but generally one can just just the standard C++ ``std::vector``.
+  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a very small matrix, please the fixed sized :ref:`tiny_matrix2`. The latter doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`vector` and :ref:`tiny_vector`, but generally one can just use the standard C++ ``std::vector``.
 
 Methods
 -------
@@ -85,12 +85,12 @@ In principle the number of indices should match the dimensions of the matrix (i.
 
 is perfectly acceptable. Note that higher-dimensions can only be trailing ones, using for example ``A(0,5,5)`` is not acceptable, nor is of course ``A(5,5,1)``.
 
-Similarly to refer to the beginning of a block (e.g. a row) one can omit the zero arguments. For example to the beginning of the second row of the above matrix one can use ``&A(1)``.
+Similarly to refer to the beginning of a block (e.g. a row) one can omit the zero arguments. For example, to the beginning of the second row of the above matrix one can use ``&A(1)``.
 
 View
 ----
 
-To print, use the common C++ ``std::cout << A << std::endl;``. To customize formating use the more classic C syntax ``A.printf("%16.8e");``
+To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
 
 .. _matrix2:
 
@@ -154,5 +154,5 @@ Class for 1-d matrices (a.k.a. vectors). For example:
 
 .. note::
 
-  Compared to `std::vector` this class is not so much different, with the exception that it provides indexing also with round brackets, and and automated printing of entries.
+  Compared to `std::vector` this class is not so much different, with the exception that it provides indexing also with round brackets, and automated printing of entries.
 

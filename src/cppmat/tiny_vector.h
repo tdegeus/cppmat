@@ -21,9 +21,12 @@ class vector
 {
 private:
 
-  X      m_container[n];    // data container
-  X     *m_data;            // pointer to container (may point outside)
-  size_t m_size=n;          // total number of entries
+  // data container
+  typename std::remove_const<X>::type m_container[n];
+  // pointer to container (may point outside)
+  X *m_data;
+  // total number of entries
+  size_t m_size=n;
 
 public:
 

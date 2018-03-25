@@ -46,7 +46,6 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
 .. code-block:: cpp
 
-
   #include <cppmat/cppmat.h>
 
   int main()
@@ -62,6 +61,42 @@ This class can be used to 'view' and external pointer. This can be useful to ref
           view(0,0) = ... // directly stored in "container"
       }
   }
+
+.. note::
+
+  The situation can occur that you want to map a ``const`` pointer, for example when you are designing a function that reads from a matrix that is marked ``const`` (because you want to use the matrix 'read-only'). In that case the ``cppmat::tiny`` matrix (or vector) that you use to map the larger object should be templated using ``const`` (e.g. ``const double``, ``const size_t``, etc.). The ``cppmat::tiny`` matrix can then only be used 'read-only'.
+
+  This case is illustrated in this example:
+
+  .. code-block:: cpp
+
+    #include "cppmat.h"
+
+    void view(const cppmat::matrix<size_t> &matrix)
+    {
+      cppmat::tiny::matrix2<const size_t,2,2> view;
+
+      for ( auto i = 0 ; i < matrix.shape(0) ; ++i )
+      {
+        view.map(&matrix(i));
+        std::cout << view << std::endl;
+      }
+    }
+
+
+    int main()
+    {
+      cppmat::matrix<size_t> A({2,2,2});
+
+      A(0,0,0) =  1;  A(1,0,0) = 101;
+      A(0,0,1) =  2;  A(1,0,1) = 102;
+      A(0,1,0) = 11;  A(1,1,0) = 111;
+      A(0,1,1) = 12;  A(1,1,1) = 112;
+
+      view(A);
+
+      return 0;
+    }
 
 .. _tiny_vector:
 
