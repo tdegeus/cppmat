@@ -10,9 +10,8 @@ The classes below are identical to those under :ref:`cppmat`, with the exception
 cppmat::periodic::matrix
 ========================
 
-.. note::
+[:download:`periodic_matrix.h <../src/cppmat/periodic_matrix.h>`, :download:`periodic_matrix.cpp <../src/cppmat/periodic_matrix.cpp>`]
 
-  See `periodic_matrix.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix.h>`_ and `periodic_matrix.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix.cpp>`_
 
 .. code-block:: cpp
 
@@ -38,9 +37,7 @@ cppmat::periodic::matrix
 cppmat::periodic::matrix2
 =========================
 
-.. note::
-
-  See `periodic_matrix2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix2.h>`_ and `periodic_matrix2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_matrix2.cpp>`_
+[:download:`periodic_matrix2.h <../src/cppmat/periodic_matrix2.h>`, :download:`periodic_matrix2.cpp <../src/cppmat/periodic_matrix2.cpp>`]
 
 .. code-block:: cpp
 
@@ -66,9 +63,7 @@ cppmat::periodic::matrix2
 cppmat::periodic::vector
 ========================
 
-.. note::
-
-  See `periodic_vector.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_vector.h>`_ and `periodic_vector.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/periodic_vector.cpp>`_
+[:download:`periodic_vector.h <../src/cppmat/periodic_vector.h>`, :download:`periodic_vector.cpp <../src/cppmat/periodic_vector.cpp>`]
 
 .. code-block:: cpp
 

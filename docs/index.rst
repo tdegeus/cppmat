@@ -3,38 +3,45 @@
 cppmat
 ******
 
-.. image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
+.. |badge1| image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
   :target: https://github.com/tdegeus/cppmat/blob/master/LICENSE
   :alt: MIT license
 
-.. image:: https://img.shields.io/badge/warranty-no-red.svg
+.. |badge2| image:: https://img.shields.io/badge/warranty-no-red.svg
   :target: https://github.com/tdegeus/cppmat/blob/master/LICENSE
   :alt: MIT license
 
-.. image:: https://img.shields.io/badge/download-.zip-lightgray.svg
+.. |badge3| image:: https://img.shields.io/badge/download-.zip-lightgray.svg
   :target: https://github.com/tdegeus/cppmat/zipball/master
   :alt: Download as .zip
 
-.. image:: https://img.shields.io/badge/download-.tar.gz-lightgray.svg
+.. |badge4| image:: https://img.shields.io/badge/download-.tar.gz-lightgray.svg
   :target: https://github.com/tdegeus/cppmat/tarball/master
   :alt: Download as .tar.gz
 
-.. image:: https://img.shields.io/badge/contact-tom@geus.me-blue.svg
+.. |badge5| image:: https://img.shields.io/badge/contact-tom@geus.me-blue.svg
   :target: mailto:tom@geus.me
   :alt: Contact tom@geus.me
 
-.. image:: https://img.shields.io/badge/contact-cppmat.geus.me-blue.svg
-  :target: http://cppmat.geus.me
-  :alt: Website cppmat.geus.me
-
-.. image:: https://img.shields.io/badge/contact-www.geus.me-blue.svg
+.. |badge6| image:: https://img.shields.io/badge/contact-www.geus.me-blue.svg
   :target: http://www.geus.me
   :alt: Website www.geus.me
 
-.. image:: https://img.shields.io/badge/GitHub-tdegeus/cppmat-blue.svg
+.. |badge7| image:: https://img.shields.io/badge/GitHub-tdegeus/cppmat-blue.svg
   :target: https://github.com/tdegeus/cppmat
   :alt: Github tdegeus/cppmat
 
+.. |badge8| image:: https://img.shields.io/badge/documentation-cppmat.geus.me-blue.svg
+  :target: http://cppmat.geus.me
+  :alt: Website cppmat.geus.me
+
+| |badge1| |badge2| |badge3| |badge4|
+| |badge5| |badge6| |badge7|
+| |badge8|
+
+.. note::
+
+  This library is free to use under the `MIT license <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_. Any additions are very much appreciated, in terms of suggested functionality, code, documentation, testimonials, word of mouth advertisement, .... Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
 
 .. note::
 
@@ -113,12 +120,6 @@ For example:
       return 0;
   }
 
-.. note::
-
-  This library is free to use under the `MIT license <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_. Any additions are very much appreciated, in terms of suggested functionality, code, documentation, testimonials, word of mouth advertisement, .... Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
-
-  (c - `MIT <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_) T.W.J. de Geus (Tom) | tom@geus.me | `www.geus.me <http://www.geus.me>`_ | `github.com/tdegeus/cppmat <http://github.com/tdegeus/cppmat>`_
-
 Contents
 ========
 
@@ -130,6 +131,7 @@ Contents
    cppmat_tiny.rst
    cppmat_cartesian.rst
    cppmat_cartesian2.rst
+   cppmat_cartesian3.rst
    copy.rst
    compile.rst
    python.rst

@@ -10,9 +10,7 @@ cppmat
 cppmat::matrix
 ==============
 
-.. note::
-
-  See `matrix.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.h>`_ and `matrix.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix.cpp>`_
+[:download:`matrix.h <../src/cppmat/matrix.h>`, :download:`matrix.cpp <../src/cppmat/matrix.cpp>`]
 
 Header-only module that provides a C++ class for n-d matrices. For example, a rank 3 matrix is allocated as follows:
 
@@ -33,7 +31,7 @@ Header-only module that provides a C++ class for n-d matrices. For example, a ra
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a very small matrix, please the fixed sized :ref:`tiny_matrix2`. The latter doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`vector` and :ref:`tiny_vector`, but generally one can just use the standard C++ ``std::vector``.
+  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please the fixed sized :ref:`tiny_matrix2`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`vector` and :ref:`tiny_vector`, but generally one can just use the standard C++ ``std::vector``.
 
 Methods
 -------
@@ -97,9 +95,7 @@ To print, use the common C++ ``std::cout << A << std::endl;``. To customize form
 cppmat::matrix2
 ===============
 
-.. note::
-
-  See `matrix2.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix2.h>`_ and `matrix2.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/matrix2.cpp>`_
+[:download:`matrix2.h <../src/cppmat/matrix2.h>`, :download:`matrix2.cpp <../src/cppmat/matrix2.cpp>`]
 
 Class for 2-d matrices. For example:
 
@@ -127,9 +123,7 @@ Class for 2-d matrices. For example:
 cppmat::vector
 ==============
 
-.. note::
-
-  See `vector.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/vector.h>`_ and `vector.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/vector.cpp>`_
+[:download:`vector.h <../src/cppmat/vector.h>`, :download:`vector.cpp <../src/cppmat/vector.cpp>`]
 
 Class for 1-d matrices (a.k.a. vectors). For example:
 
@@ -154,5 +148,5 @@ Class for 1-d matrices (a.k.a. vectors). For example:
 
 .. note::
 
-  Compared to `std::vector` this class is not so much different, with the exception that it provides indexing also with round brackets, and automated printing of entries.
+  Compared to ``std::vector`` this class is not so much different, with the exception that it provides indexing also with round brackets, and automated printing of entries.
 

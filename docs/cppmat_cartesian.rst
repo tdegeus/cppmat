@@ -5,9 +5,7 @@
 cppmat::cartesian
 *****************
 
-.. note::
-
-  See `tensor.h <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.h>`_ and `tensor.cpp <https://github.com/tdegeus/cppmat/blob/master/src/cppmat/tensor.cpp>`_
+[:download:`tensor.h <../src/cppmat/tensor.h>`, :download:`tensor.cpp <../src/cppmat/tensor.cpp>`]
 
 Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example, a fourth order identity tensor in 3-D is obtained as follows:
 
@@ -287,5 +285,5 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
 .. note::
 
-  One can also call the methods as functions using ``cppmmat::ddot( A , B )``, ``cppmmat::dot( A , B )``, ``cppmmat::dyadic( A , B )``, ``cppmmat::cross( A , B )``, ``cppmmat::transpose( A )``, ``cppmmat::transposeR( A )``, ``cppmmat::transposeL( A )``, ``cppmmat::inv( A )``, ``cppmmat::det( A )``, and ``cppmmat::trace( A )``, These methods are just a front end for the class methods described above.
+  One can also call the methods as functions using ``cppmmat::ddot(A,B)``, ``cppmmat::dot(A,B)``, ``cppmmat::dyadic(A,B)``, ``cppmmat::cross(A,B)``, ``cppmmat::transpose(A)``, ``cppmmat::transposeR(A)``, ``cppmmat::transposeL(A)``, ``cppmmat::inv(A)``, ``cppmmat::det(A)``, and ``cppmmat::trace(A)``, These methods are just a front end for the class methods described above.
 
