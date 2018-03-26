@@ -7,7 +7,7 @@
 #ifndef CPPMAT_MATRIX2_H
 #define CPPMAT_MATRIX2_H
 
-#include "macros.h"
+#include "cppmat.h"
 
 namespace cppmat {
 

@@ -7,7 +7,7 @@
 #ifndef CPPMAT_TENSOR3_H
 #define CPPMAT_TENSOR3_H
 
-#include "macros.h"
+#include "cppmat.h"
 
 namespace cppmat {
 namespace cartesian3d {

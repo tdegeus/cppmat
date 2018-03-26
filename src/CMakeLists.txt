@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.0)
 project(cppmat)
 
 # automatically parse the version number
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/cppmat/macros.h" _cppmat_version_header)
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/cppmat/cppmat.h" _cppmat_version_header)
 string(REGEX MATCH "define[ \t]+CPPMAT_WORLD_VERSION[ \t]+([0-9]+)" _cppmat_world_version_match "${_cppmat_version_header}")
 set(CPPMAT_WORLD_VERSION "${CMAKE_MATCH_1}")
 string(REGEX MATCH "define[ \t]+CPPMAT_MAJOR_VERSION[ \t]+([0-9]+)" _cppmat_major_version_match "${_cppmat_version_header}")
@@ -50,7 +50,6 @@ set(PKGCONFIG_INSTALL_DIR
 # list all header files
 set(CPPMAT_HEADERS
   cppmat/cppmat.h
-  cppmat/macros.h
   cppmat/vector.h
   cppmat/vector.cpp
   cppmat/matrix.h

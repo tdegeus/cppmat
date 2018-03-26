@@ -7,7 +7,7 @@
 #ifndef CPPMAT_TENSOR2_H
 #define CPPMAT_TENSOR2_H
 
-#include "macros.h"
+#include "cppmat.h"
 
 namespace cppmat {
 namespace cartesian2d {

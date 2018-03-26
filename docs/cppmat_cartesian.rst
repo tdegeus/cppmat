@@ -28,7 +28,7 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively in 2 or 3 dimensions, please consider using :ref:`cartesian2` or :ref:`cartesian3` instead of :ref:`cartesian`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed size and relatively small. Also several loops are unrolled.
+  If you know that you will work exclusively in 2 or 3 dimensions, please consider using :ref:`cartesian2d` or :ref:`cartesian3d` instead of :ref:`cartesian`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed size and relatively small. Also several loops are unrolled.
 
 .. note:: **Tip**
 

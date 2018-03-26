@@ -7,7 +7,7 @@
 #ifndef CPPMAT_TENSOR_H
 #define CPPMAT_TENSOR_H
 
-#include "macros.h"
+#include "cppmat.h"
 #include "tensor2.h"
 #include "tensor3.h"
 

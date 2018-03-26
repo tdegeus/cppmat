@@ -7,7 +7,7 @@
 #ifndef CPPMAT_PERIODIC_MATRIX_H
 #define CPPMAT_PERIODIC_MATRIX_H
 
-#include "macros.h"
+#include "cppmat.h"
 
 namespace cppmat {
 namespace periodic {
