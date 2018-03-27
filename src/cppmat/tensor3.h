@@ -54,6 +54,9 @@ public:
   // map external pointer
   void map(X *D);
 
+  // copy from external point
+  void copy(const X *D);
+
   // get dimensions
   size_t size() const;
   size_t ndim() const;
@@ -144,6 +147,9 @@ public:
 
   // map external pointer
   void map(X *D);
+
+  // copy from external point
+  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -260,6 +266,9 @@ public:
   // map external pointer
   void map(X *D);
 
+  // copy from external point
+  void copy(const X *D);
+
   // cast into another object
   template<class U> U cast() const;
 
@@ -375,6 +384,9 @@ public:
   // map external pointer
   void map(X *D);
 
+  // copy from external point
+  void copy(const X *D);
+
   // cast into another object
   template<class U> U cast() const;
 
@@ -485,6 +497,9 @@ public:
 
   // map external pointer
   void map(X *D);
+
+  // copy from external point
+  void copy(const X *D);
 
   // get dimensions
   size_t size() const;

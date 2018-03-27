@@ -46,6 +46,9 @@ public:
   // map external pointer
   void map(X *D);
 
+  // copy from external point
+  void copy(const X *D);
+
   // get dimensions
   size_t size() const;
   size_t ndim() const;

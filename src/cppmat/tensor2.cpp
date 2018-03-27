@@ -421,6 +421,58 @@ template<class X> inline void tensor2d<X>::map(X *D) { m_data = D; }
 template<class X> inline void vector  <X>::map(X *D) { m_data = D; }
 
 // =================================================================================================
+// copy from external pointer
+// =================================================================================================
+
+template<class X>
+inline void tensor4 <X>::copy(const X *D)
+{
+  std::copy(D, D+16, &m_container[0]);
+
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void tensor2 <X>::copy(const X *D)
+{
+  std::copy(D, D+4, &m_container[0]);
+
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void tensor2s<X>::copy(const X *D)
+{
+  std::copy(D, D+3, &m_container[0]);
+
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void tensor2d<X>::copy(const X *D)
+{
+  std::copy(D, D+2, &m_container[0]);
+
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void vector  <X>::copy(const X *D)
+{
+  std::copy(D, D+2, &m_container[0]);
+
+  m_data = &m_container[0];
+}
+
+// =================================================================================================
 // cast to different class / type
 // =================================================================================================
 
