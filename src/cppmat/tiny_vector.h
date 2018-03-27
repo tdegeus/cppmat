@@ -38,6 +38,9 @@ public:
   vector(Iterator first, Iterator last);
 
   // copy constructor
+  vector(const vector<X,n> &D);
+
+  // assignment operator
   vector<X,n>& operator= (const vector<X,n> &D);
 
   // map external pointer

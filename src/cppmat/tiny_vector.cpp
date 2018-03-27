@@ -58,7 +58,21 @@ inline vector<X,n>::vector(Iterator first, Iterator last)
 }
 
 // =================================================================================================
-// copy constructors
+// copy constructor
+// =================================================================================================
+
+template<class X, size_t n>
+inline vector<X,n>::vector(const vector<X,n> &D)
+{
+  // copy input
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// =================================================================================================
+// assignment operator
 // =================================================================================================
 
 template<class X, size_t n>

@@ -244,6 +244,84 @@ inline vector<X>::vector(Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X>
+inline tensor4<X>::tensor4(const tensor4<X> &D)
+{
+  // copy input
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    m_container[i  ] = D[i  ];
+    m_container[i+1] = D[i+1];
+    m_container[i+2] = D[i+2];
+    m_container[i+3] = D[i+3];
+  }
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>::tensor2(const tensor2<X> &D)
+{
+  // copy input
+  m_container[0] = D[0];
+  m_container[1] = D[1];
+  m_container[2] = D[2];
+  m_container[3] = D[3];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>::tensor2s(const tensor2s<X> &D)
+{
+  // copy input
+  m_container[0] = D[0];
+  m_container[1] = D[1];
+  m_container[2] = D[2];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>::tensor2d(const tensor2d<X> &D)
+{
+  // copy input
+  m_container[0] = D[0];
+  m_container[1] = D[1];
+
+  // point to local data container
+  m_data = &m_container[0];
+
+  // set dummy parameter
+  m_zero[0] = static_cast<X>(0);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>::vector(const vector<X> &D)
+{
+  // copy input
+  m_container[0] = D[0];
+  m_container[1] = D[1];
+
+  // point to local data container
+  m_data = &m_container[0];
+}
+
+// =================================================================================================
+// assignment operators
+// =================================================================================================
+
+template<class X>
 inline tensor4<X>& tensor4<X>::operator= (const tensor4<X> &D)
 {
   // copy input

@@ -46,6 +46,9 @@ public:
   tensor4(Iterator first, Iterator last);
 
   // copy constructor
+  tensor4(const tensor4<X> &D);
+
+  // assignment operator
   tensor4<X>& operator= (const tensor4<X> &D);
 
   // map external pointer
@@ -134,6 +137,9 @@ public:
   tensor2(Iterator first, Iterator last);
 
   // copy constructor
+  tensor2(const tensor2<X> &D);
+
+  // assignment operator
   tensor2<X>& operator= (const tensor2<X> &D);
 
   // map external pointer
@@ -246,6 +252,9 @@ public:
   tensor2s(Iterator first, Iterator last);
 
   // copy constructor
+  tensor2s(const tensor2s<X> &D);
+
+  // assignment operator
   tensor2s<X>& operator= (const tensor2s<X> &D);
 
   // map external pointer
@@ -358,6 +367,9 @@ public:
   tensor2d(Iterator first, Iterator last);
 
   // copy constructor
+  tensor2d(const tensor2d<X> &D);
+
+  // assignment operator
   tensor2d<X>& operator= (const tensor2d<X> &D);
 
   // map external pointer
@@ -466,6 +478,9 @@ public:
   vector(Iterator first, Iterator last);
 
   // copy constructor
+  vector(const vector<X> &D);
+
+  // assignment operator
   vector<X>& operator= (const vector<X> &D);
 
   // map external pointer

@@ -38,6 +38,9 @@ public:
   matrix2(Iterator first, Iterator last);
 
   // copy constructor
+  matrix2(const matrix2<X,m,n> &D);
+
+  // assignment operator
   matrix2<X,m,n>& operator= (const matrix2<X,m,n> &D);
 
   // map external pointer
