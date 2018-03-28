@@ -161,3 +161,7 @@ Like in :ref:`tiny`, the classes under :ref:`cartesian2` can be used to 'view' a
 
       return 0;
     }
+
+.. note::
+
+  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
