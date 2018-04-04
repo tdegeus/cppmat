@@ -22,7 +22,7 @@ class matrix2
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[m*n];
+  X m_container[m*n];
   // pointer to container (may point outside)
   X *m_data;
   // total number of entries
@@ -82,6 +82,7 @@ public:
   void ones();
 
   // arithmetic operators
+  // TODO for view as well
   matrix2<X,m,n>& operator*= (const matrix2<X,m,n> &B);
   matrix2<X,m,n>& operator/= (const matrix2<X,m,n> &B);
   matrix2<X,m,n>& operator+= (const matrix2<X,m,n> &B);
@@ -104,6 +105,7 @@ public:
 };
 
 // arithmetic operators
+// TODO for view as well
 template<class X, size_t m, size_t n> inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
 template<class X, size_t m, size_t n> inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
 template<class X, size_t m, size_t n> inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);

@@ -22,7 +22,7 @@
 
 #define CPPMAT_WORLD_VERSION 0
 #define CPPMAT_MAJOR_VERSION 3
-#define CPPMAT_MINOR_VERSION 10
+#define CPPMAT_MINOR_VERSION 11
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -50,9 +50,13 @@
 #include "periodic_vector.h"
 #include "tiny_matrix2.h"
 #include "tiny_vector.h"
+#include "view_matrix2.h"
+#include "view_vector.h"
 #include "tensor.h"
 #include "tensor2.h"
 #include "tensor3.h"
+#include "view_tensor2.h"
+#include "view_tensor3.h"
 
 #include "matrix.cpp"
 #include "matrix2.cpp"
@@ -62,9 +66,13 @@
 #include "periodic_vector.cpp"
 #include "tiny_matrix2.cpp"
 #include "tiny_vector.cpp"
+#include "view_matrix2.cpp"
+#include "view_vector.cpp"
 #include "tensor.cpp"
 #include "tensor2.cpp"
 #include "tensor3.cpp"
+#include "view_tensor2.cpp"
+#include "view_tensor3.cpp"
 
 // =================================================================================================
 

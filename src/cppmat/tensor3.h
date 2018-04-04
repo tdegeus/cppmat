@@ -32,7 +32,7 @@ class tensor4
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[81];
+  X m_container[81];
   // pointer to container (may point outside)
   X *m_data;
 
@@ -126,7 +126,7 @@ class tensor2
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[9];
+  X m_container[9];
   // pointer to container (may point outside)
   X *m_data;
 
@@ -244,7 +244,7 @@ class tensor2s
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[6];
+  X m_container[6];
   // pointer to container (may point outside)
   X *m_data;
 
@@ -360,7 +360,7 @@ class tensor2d
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[3];
+  X m_container[3];
   // pointer to container (may point outside)
   X *m_data;
   // dummy parameter, used to return "0" for any off-diagonal entry
@@ -476,7 +476,7 @@ class vector
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[3];
+  X m_container[3];
   // pointer to container (may point outside)
   X *m_data;
 

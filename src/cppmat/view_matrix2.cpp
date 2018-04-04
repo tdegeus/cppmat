@@ -4,13 +4,13 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_TINY_MATRIX_CPP
-#define CPPMAT_TINY_MATRIX_CPP
+#ifndef CPPMAT_VIEW_MATRIX_CPP
+#define CPPMAT_VIEW_MATRIX_CPP
 
-#include "tiny_matrix2.h"
+#include "view_matrix2.h"
 
 namespace cppmat {
-namespace tiny {
+namespace view {
 
 // =================================================================================================
 // constructors
@@ -19,56 +19,14 @@ namespace tiny {
 template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>::matrix2()
 {
-  // point to local data container
-  m_data = &m_container[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2(X D)
+inline matrix2<X,m,n>::matrix2(const X *D)
 {
-  // copy input
-  for ( size_t i = 0; i < m_size ; ++i ) m_container[i] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-template<typename Iterator>
-inline matrix2<X,m,n>::matrix2(Iterator first, Iterator last)
-{
-  // check size
-  assert( m_size == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for (auto it = first; it != last; ++it)
-  {
-    m_container[i] = *it; ++i;
-  }
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
-
-  // point to local data container
-  m_data = &m_container[0];
+  m_data = D;
 }
 
 // =================================================================================================
@@ -78,13 +36,8 @@ inline matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
 template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
 {
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
+  m_data = &D[0];
 
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
   return *this;
 }
 
@@ -93,21 +46,9 @@ inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::map(X *D)
+inline void matrix2<X,m,n>::map(const X *D)
 {
   m_data = D;
-}
-
-// =================================================================================================
-// copy from external pointer
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::copy(const X *D)
-{
-  std::copy(D, D+m_size, &m_container[0]);
-
-  m_data = &m_container[0];
 }
 
 // =================================================================================================
@@ -163,24 +104,9 @@ inline std::vector<size_t> matrix2<X,m,n>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline X&       matrix2<X,m,n>::operator[](size_t i)
-{
-  return m_data[i];
-}
-
-// -------------------------------------------------------------------------------------------------
-
 template<class X, size_t m, size_t n> inline const X& matrix2<X,m,n>::operator[](size_t i) const
 {
   return m_data[i];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline X& matrix2<X,m,n>::operator()(size_t a)
-{
-  return m_data[a*n];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -194,39 +120,16 @@ inline const X& matrix2<X,m,n>::operator()(size_t a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline X& matrix2<X,m,n>::operator()(size_t a, size_t b)
-{
-  return m_data[a*n+b];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
 inline const X& matrix2<X,m,n>::operator()(size_t a, size_t b) const
 {
   return m_data[a*n+b];
 }
 
-
 // =================================================================================================
 // pointers / iterators
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline X* matrix2<X,m,n>::data()
-{
-  return &m_data[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
 template<class X, size_t m, size_t n> inline const X* matrix2<X,m,n>::data() const
-{
-  return &m_data[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::begin()
 {
   return &m_data[0];
 }
@@ -240,58 +143,9 @@ template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::begin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::end()
-{
-  return &m_data[0] + m_size;
-}
-
-// -------------------------------------------------------------------------------------------------
-
 template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::end() const
 {
   return &m_data[0] + m_size;
-}
-
-// =================================================================================================
-// basic initialization
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::setConstant(X D)
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::setZero()
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::setOnes()
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::zeros()
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::ones()
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
 }
 
 // =================================================================================================
@@ -299,97 +153,9 @@ inline void matrix2<X,m,n>::ones()
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator*= (const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B[i];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator/= (const matrix2<X,m,n> &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B[i];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator+= (const matrix2<X,m,n> &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B[i];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator-= (const matrix2<X,m,n> &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B[i];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator*= (const X &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator/= (const X &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator+= (const X &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator-= (const X &B)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
-{
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -400,9 +166,9 @@ inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -413,9 +179,9 @@ inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -426,9 +192,9 @@ inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -439,9 +205,9 @@ inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
+inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -452,9 +218,9 @@ inline matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
+inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -465,9 +231,9 @@ inline matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
+inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -478,9 +244,9 @@ inline matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
+inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -491,9 +257,9 @@ inline matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -504,9 +270,9 @@ inline matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -517,9 +283,9 @@ inline matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -530,9 +296,9 @@ inline matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
+inline cppmat::tiny::matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
 {
-  matrix2<X,m,n> C;
+  cppmat::tiny::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];

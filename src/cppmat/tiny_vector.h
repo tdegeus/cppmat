@@ -22,7 +22,7 @@ class vector
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[n];
+  X m_container[n];
   // pointer to container (may point outside)
   X *m_data;
   // total number of entries
@@ -80,6 +80,7 @@ public:
   void ones();
 
   // arithmetic operators
+  // TODO for view as well
   vector<X,n>& operator*= (const vector<X,n> &B);
   vector<X,n>& operator/= (const vector<X,n> &B);
   vector<X,n>& operator+= (const vector<X,n> &B);
@@ -102,6 +103,7 @@ public:
 };
 
 // arithmetic operators
+// TODO for view as well
 template<class X, size_t n> inline vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B);
 template<class X, size_t n> inline vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B);
 template<class X, size_t n> inline vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B);

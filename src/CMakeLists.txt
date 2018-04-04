@@ -66,12 +66,20 @@ set(CPPMAT_HEADERS
   cppmat/tiny_vector.cpp
   cppmat/tiny_matrix2.h
   cppmat/tiny_matrix2.cpp
+  cppmat/view_vector.h
+  cppmat/view_vector.cpp
+  cppmat/view_matrix2.h
+  cppmat/view_matrix2.cpp
   cppmat/tensor.h
   cppmat/tensor.cpp
   cppmat/tensor2.h
   cppmat/tensor2.cpp
   cppmat/tensor3.h
   cppmat/tensor3.cpp
+  cppmat/view_tensor2.h
+  cppmat/view_tensor2.cpp
+  cppmat/view_tensor3.h
+  cppmat/view_tensor3.cpp
   cppmat/pybind11.h
   cppmat/pybind11_vector.h
   cppmat/pybind11_matrix.h

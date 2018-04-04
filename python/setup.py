@@ -10,7 +10,7 @@ depend on cppmat. There is no direct use for Python.
 import re
 from setuptools import setup
 
-header = open('../src/cppmat/macros.h','r').read()
+header = open('../src/cppmat/cppmat.h','r').read()
 world  = re.split('(.*)(\#define CPPMAT_WORLD_VERSION\ )([0-9]+)(.*)',header)[3]
 major  = re.split('(.*)(\#define CPPMAT_MAJOR_VERSION\ )([0-9]+)(.*)',header)[3]
 minor  = re.split('(.*)(\#define CPPMAT_MINOR_VERSION\ )([0-9]+)(.*)',header)[3]
@@ -30,7 +30,6 @@ setup(
    packages         = ['cppmat'],
    headers          = [
       '../src/cppmat/cppmat.h',
-      '../src/cppmat/macros.h',
       '../src/cppmat/matrix.h',
       '../src/cppmat/matrix.cpp',
       '../src/cppmat/matrix2.h',

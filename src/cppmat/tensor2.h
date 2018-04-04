@@ -32,7 +32,7 @@ class tensor4
 private:
 
   // data container
-  typename std::remove_const<X>::type m_container[16];
+  X m_container[16];
   // pointer to container (may point outside)
   X *m_data;
 
@@ -97,6 +97,7 @@ public:
   tensor4<X>& operator-= (const         X  &B); // A_ijkl -= B
 
   // tensor products / operations
+  // TODO accept other tensor formats
   tensor4<X> inline ddot(const tensor4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
   tensor2<X> inline ddot(const tensor2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
   tensor2<X> inline ddot(const tensor2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
@@ -106,6 +107,7 @@ public:
   tensor4<X> inline LT  (                    ) const; // transposition   : C_jikl = A_ijkl
 
   // equality operators
+  // TODO accept other tensor formats
   bool operator== (const tensor4<X> &B) const; // A_ijkl == B_ijkl
 
   // basic algebra
@@ -201,6 +203,7 @@ public:
   tensor2<X>& operator-= (const          X  &B); // A_ij -= B
 
   // tensor products / operations
+  // TODO accept other tensor formats
   tensor2<X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2<X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -218,6 +221,7 @@ public:
   tensor2<X> inline inv   (                    ) const; // inverse
 
   // equality operators
+  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -318,6 +322,7 @@ public:
   tensor2s<X>& operator-= (const          X  &B); // A_ij -= B
 
   // tensor products / operations
+  // TODO accept other tensor formats
   tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -335,6 +340,7 @@ public:
   tensor2s<X> inline inv   (                    ) const; // inverse
 
   // equality operators
+  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -437,6 +443,7 @@ public:
   tensor2d<X>& operator-= (const          X  &B); // A_ii - B
 
   // tensor products / operations
+  // TODO accept other tensor formats
   tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2d<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -454,6 +461,7 @@ public:
   tensor2d<X> inline inv   (                    ) const; // inverse
 
   // equality operators
+  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -548,6 +556,7 @@ public:
   tensor2<X> inline dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
 
   // equality operators
+  // TODO accept other tensor formats
   bool operator== (const vector<X> &B) const; // A_i == B_i
 
   // basic algebra
