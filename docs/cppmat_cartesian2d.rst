@@ -129,39 +129,29 @@ Like in :ref:`tiny`, the classes under :ref:`cartesian2` can be used to 'view' a
 
 .. note::
 
-  The situation can occur that you want to map a ``const`` pointer, for example when you are designing a function that reads from a matrix that is marked ``const`` (because you want to use the matrix 'read-only'). In that case the ``cppmat::cartesian2d`` tensor that you use to map the larger object should be templated using ``const`` (e.g. ``const double``, ``const size_t``, etc.). The ``cppmat::cartesian2d`` tensor can then only be used 'read-only'.
-
-  This case is illustrated in this example:
-
-  .. code-block:: cpp
-
-    #include "cppmat.h"
-
-    void view(const cppmat::matrix<double> &matrix)
-    {
-      cppmat::cartesian2d::tensor2s<const double> view;
-
-      for ( auto i = 0 ; i < matrix.shape(0) ; ++i )
-      {
-        view.map(&matrix(i));
-        std::cout << view << std::endl;
-      }
-    }
-
-
-    int main()
-    {
-      cppmat::matrix<double> A({2,3});
-
-      A(0,0) = 1.0;  A(1,0) = 101.0;
-      A(0,1) = 2.0;  A(1,1) = 102.0;
-      A(0,2) = 3.0;  A(1,2) = 103.0;
-
-      view(A);
-
-      return 0;
-    }
+  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
 
 .. note::
 
-  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
+  To map a ``const``-pointer (read-only):
+
+  .. code-block:: cpp
+
+    #include <cppmat/cppmat.h>
+
+    int main()
+    {
+        cppmat::matrix2<double> container({50,50,3});
+
+        cppmat::view::cartesian2d::tensor2s view;
+
+        for ( size_t i = 0 ; i < container.shape(0) ; ++i )
+        {
+            for ( size_t j = 0 ; j < container.shape(1) ; ++j )
+            {
+                view.map(&container(i,j));
+
+                std::cout << view << std::endl;
+            }
+        }
+    }

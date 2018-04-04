@@ -53,7 +53,7 @@ This header-only module provides C++ classes and several accompanying methods to
 The following classes can be used.
 
 +--------------------------------------+-------------------------------------------+-----------------------------+
-| **Class**                            | **Description**                           | **Header**                  |
+| **Class**                            | **Description**                           | **See**                     |
 +======================================+===========================================+=============================+
 | ``cppmat::matrix<T>``                | n-d matrix of flexible size               | :ref:`matrix`               |
 +--------------------------------------+-------------------------------------------+-----------------------------+
@@ -102,6 +102,35 @@ The following classes can be used.
 | ``cppmat::cartesian3d::vector<T>``   | 3-d diagonal vectors (tensors of rank 1)  | :ref:`cartesian3d_vector`   |
 +--------------------------------------+-------------------------------------------+-----------------------------+
 
+In addition, the following classes are available to view a ``const``-pointer:
+
++--------------------------------------------+--------------------------------------+-----------------------------+
+| **Class**                                  | **Equivalent class**                 | **Seer**                    |
++============================================+======================================+=============================+
+| ``cppmat::view::matrix2<T,M,N>``           | ``cppmat::tiny::matrix2<T,M,N>``     | :ref:`tiny_matrix2`         |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::vector<T,N>``              | ``cppmat::tiny::vector<T,N>``        | :ref:`tiny_vector`          |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian2d::tensor4<T>``  | ``cppmat::cartesian2d::tensor4<T>``  | :ref:`cartesian2d_tensor4`  |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian2d::tensor2<T>``  | ``cppmat::cartesian2d::tensor2<T>``  | :ref:`cartesian2d_tensor2`  |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian2d::tensor2s<T>`` | ``cppmat::cartesian2d::tensor2s<T>`` | :ref:`cartesian2d_tensor2s` |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian2d::tensor2d<T>`` | ``cppmat::cartesian2d::tensor2d<T>`` | :ref:`cartesian2d_tensor2d` |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian2d::vector<T>``   | ``cppmat::cartesian2d::vector<T>``   | :ref:`cartesian2d_vector`   |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian3d::tensor4<T>``  | ``cppmat::cartesian3d::tensor4<T>``  | :ref:`cartesian3d_tensor4`  |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian3d::tensor2<T>``  | ``cppmat::cartesian3d::tensor2<T>``  | :ref:`cartesian3d_tensor2`  |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian3d::tensor2s<T>`` | ``cppmat::cartesian3d::tensor2s<T>`` | :ref:`cartesian3d_tensor2s` |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian3d::tensor2d<T>`` | ``cppmat::cartesian3d::tensor2d<T>`` | :ref:`cartesian3d_tensor2d` |
++--------------------------------------------+-+------------------------------------+-----------------------------+
+| ``cppmat::view::cartesian3d::vector<T>``   | ``cppmat::cartesian3d::vector<T>``   | :ref:`cartesian3d_vector`   |
++--------------------------------------------+-+------------------------------------+-----------------------------+
 
 For example:
 

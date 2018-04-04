@@ -62,43 +62,29 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
 .. note::
 
-  The situation can occur that you want to map a ``const`` pointer, for example when you are designing a function that reads from a matrix that is marked ``const`` (because you want to use the matrix 'read-only'). In that case the ``cppmat::tiny`` matrix (or vector) that you use to map the larger object should be templated using ``const`` (e.g. ``const double``, ``const size_t``, etc.). The ``cppmat::tiny`` matrix can then only be used 'read-only'.
-
-  This case is illustrated in this example:
-
-  .. code-block:: cpp
-
-    #include "cppmat.h"
-
-    void view(const cppmat::matrix<size_t> &matrix)
-    {
-      cppmat::tiny::matrix2<const size_t,2,2> view;
-
-      for ( auto i = 0 ; i < matrix.shape(0) ; ++i )
-      {
-        view.map(&matrix(i));
-        std::cout << view << std::endl;
-      }
-    }
-
-
-    int main()
-    {
-      cppmat::matrix<size_t> A({2,2,2});
-
-      A(0,0,0) =  1;  A(1,0,0) = 101;
-      A(0,0,1) =  2;  A(1,0,1) = 102;
-      A(0,1,0) = 11;  A(1,1,0) = 111;
-      A(0,1,1) = 12;  A(1,1,1) = 112;
-
-      view(A);
-
-      return 0;
-    }
+  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
 
 .. note::
 
-  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
+  To map a ``const``-pointer (read-only):
+
+  .. code-block:: cpp
+
+    #include <cppmat/cppmat.h>
+
+    int main()
+    {
+        cppmat::matrix2<double> container({100,4,2});
+
+        cppmat::view::matrix2<double,4,2> view;
+
+        for ( size_t i = 0 ; i < container.shape(0) ; ++i )
+        {
+            view.map(&container(i));
+
+            std::cout << view << std::endl;
+        }
+    }
 
 .. _tiny_vector:
 

@@ -51,7 +51,6 @@ This library includes provides an interface to `pybind11 <https://github.com/pyb
 | ``cppmat::cartesian3d::vector``   | 1                         |
 +-----------------------------------+---------------------------+
 
-
 .. note:: **Warning**
 
   On the Python side all 2nd-order tensors (``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, and ``cppmat::cartesian::tensor2d``) are all square matrices (rank 2 NumPy arrays). This means that when a function that has ``cppmat::cartesian::tensor2s`` as argument, the upper-diagonal part is read; while when it has an argument ``cppmat::cartesian::tensor2d`` only the diagonal is considered.
