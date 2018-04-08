@@ -398,7 +398,7 @@ SECTION("tensor4.ddot( tensor2 )")
   // compute using cppmat
 
   T4 A(nd);
-  cm::tensor2<double> B(nd);
+  T2 B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -410,8 +410,8 @@ SECTION("tensor4.ddot( tensor2 )")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A.ddot( B );
-  cm::tensor2<double> D = cm::ddot( A , B );
+  T2 C = A.ddot( B );
+  T2 D = cm::ddot( A , B );
 
   // check the result
 
@@ -479,8 +479,8 @@ SECTION("tensor4.ddot( tensor2s )")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A.ddot( B );
-  cm::tensor2<double> D = cm::ddot( A , B );
+  T2 C = A.ddot( B );
+  T2 D = cm::ddot( A , B );
 
   // check the result
 
@@ -547,8 +547,8 @@ SECTION("tensor4.ddot( tensor2d )")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A.ddot( B );
-  cm::tensor2<double> D = cm::ddot( A , B );
+  T2 C = A.ddot( B );
+  T2 D = cm::ddot( A , B );
 
   // check the result
 
@@ -597,7 +597,7 @@ SECTION("tensor2.ddot( tensor4 )")
 
   // compute using cppmat
 
-  cm::tensor2<double> A(nd);
+  T2 A(nd);
   T4 B(nd);
 
   for ( size_t i=0; i<nd; ++i )
@@ -610,8 +610,8 @@ SECTION("tensor2.ddot( tensor4 )")
         for ( size_t l=0; l<nd; ++l )
           B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
 
-  cm::tensor2<double> C = A.ddot( B );
-  cm::tensor2<double> D = cm::ddot( A , B );
+  T2 C = A.ddot( B );
+  T2 D = cm::ddot( A , B );
 
   // check the result
 
@@ -656,7 +656,7 @@ SECTION("tensor2.ddot( tensor2 )")
 
   // compute using cppmat
 
-  cm::tensor2<double> A(nd), B(nd);
+  T2 A(nd), B(nd);
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -997,8 +997,8 @@ SECTION("tensor2.dot( vector )")
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cm::vector <double> C = A.dot( B );
-  cm::vector <double> D = cm::dot( A, B );
+  V C = A.dot( B );
+  V D = cm::dot( A, B );
 
   // check the result
 
@@ -1914,8 +1914,8 @@ SECTION("tensor2s.dot( vector )")
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cm::vector <double> C = A.dot( B );
-  cm::vector <double> D = cm::dot( A , B );
+  V C = A.dot( B );
+  V D = cm::dot( A , B );
 
   // check the result
 
@@ -2871,8 +2871,8 @@ SECTION("tensor2d.dot( vector )")
   for ( size_t i=0; i<nd; ++i )
     B(i) = b(i);
 
-  cm::vector <double> C = A.dot( B );
-  cm::vector <double> D = cm::dot( A , B );
+  V C = A.dot( B );
+  V D = cm::dot( A , B );
 
   // check the result
 
@@ -3656,8 +3656,8 @@ SECTION("vector.cross( vector )")
   for ( size_t i=0; i<3; ++i )
     B(i) = b(i);
 
-  cm::vector <double> C = A.cross( B );
-  cm::vector <double> D = cm::cross( A , B );
+  V C = A.cross( B );
+  V D = cm::cross( A , B );
 
   // check the result
 
@@ -3868,7 +3868,7 @@ SECTION("tensor2 * tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A * B;
+  T2 C = A * B;
 
   A *= B;
 
@@ -3912,7 +3912,7 @@ SECTION("tensor2 / tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A / B;
+  T2 C = A / B;
 
   A /= B;
 
@@ -3956,7 +3956,7 @@ SECTION("tensor2 + tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A + B;
+  T2 C = A + B;
 
   A += B;
 
@@ -4000,7 +4000,7 @@ SECTION("tensor2 - tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A - B;
+  T2 C = A - B;
 
   A -= B;
 
@@ -4050,7 +4050,7 @@ SECTION("tensor2 * tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A * B;
+  T2 C = A * B;
 
   A *= B;
 
@@ -4100,7 +4100,7 @@ SECTION("tensor2 / tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A / B;
+  T2 C = A / B;
 
   A /= B;
 
@@ -4150,7 +4150,7 @@ SECTION("tensor2 + tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A + B;
+  T2 C = A + B;
 
   A += B;
 
@@ -4200,7 +4200,7 @@ SECTION("tensor2 - tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A - B;
+  T2 C = A - B;
 
   A -= B;
 
@@ -4296,7 +4296,7 @@ SECTION("tensor2 + tensor2d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2<double> C = A + B;
+  T2 C = A + B;
 
   A += B;
 
@@ -4344,7 +4344,7 @@ SECTION("tensor2 - tensor2d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2<double> C = A - B;
+  T2 C = A - B;
 
   A -= B;
 
@@ -4392,7 +4392,7 @@ SECTION("tensor2s * tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A * B;
+  T2 C = A * B;
 
   n = 0.0;
 
@@ -4430,7 +4430,7 @@ SECTION("tensor2s / tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A / B;
+  T2 C = A / B;
 
   n = 0.0;
 
@@ -4468,7 +4468,7 @@ SECTION("tensor2s + tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A + B;
+  T2 C = A + B;
 
   n = 0.0;
 
@@ -4506,7 +4506,7 @@ SECTION("tensor2s - tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A - B;
+  T2 C = A - B;
 
   n = 0.0;
 
@@ -5012,7 +5012,7 @@ SECTION("tensor2d + tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A + B;
+  T2 C = A + B;
 
   n = 0.0;
 
@@ -5050,7 +5050,7 @@ SECTION("tensor2d - tensor2")
     for ( size_t j=0; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2<double> C = A - B;
+  T2 C = A - B;
 
   n = 0.0;
 
@@ -5094,7 +5094,7 @@ SECTION("tensor2d * tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2d<double> C = A * B;
+  T2d C = A * B;
 
   A *= B;
 
@@ -5246,7 +5246,7 @@ SECTION("tensor2d - tensor2s")
     for ( size_t j=i; j<nd; ++j )
       B(i,j) = b(i,j);
 
-  cm::tensor2s<double> C = A - B;
+  T2s C = A - B;
 
   n = 0.0;
 
@@ -5259,7 +5259,7 @@ SECTION("tensor2d - tensor2s")
 
 // =================================================================================================
 
-SECTION("tensor2d + tensor2d", "cppmat::cartesian3d")
+SECTION("tensor2d + tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5288,7 +5288,7 @@ SECTION("tensor2d + tensor2d", "cppmat::cartesian3d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2d<double> C = A + B;
+  T2d C = A + B;
 
   A += B;
 
@@ -5311,7 +5311,7 @@ SECTION("tensor2d + tensor2d", "cppmat::cartesian3d")
 
 // =================================================================================================
 
-SECTION("tensor2d - tensor2d", "cppmat::cartesian3d")
+SECTION("tensor2d - tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
@@ -5340,7 +5340,7 @@ SECTION("tensor2d - tensor2d", "cppmat::cartesian3d")
   for ( size_t i=0; i<nd; ++i )
     B(i,i) = b(i,i);
 
-  cm::tensor2d<double> C = A - B;
+  T2d C = A - B;
 
   A -= B;
 
@@ -5363,7 +5363,7 @@ SECTION("tensor2d - tensor2d", "cppmat::cartesian3d")
 
 // =================================================================================================
 
-SECTION("tensor2d * tensor2d", "cppmat::cartesian3d")
+SECTION("tensor2d * tensor2d")
 {
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);

@@ -33,4 +33,13 @@ pkg_check_modules(EIGEN3 REQUIRED eigen3)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
 # create executable
-add_executable(${PROJECT_NAME} matrix.cpp matrix2.cpp tensor.cpp tensor2.cpp tensor3.cpp tiny_matrix2.cpp tiny_vector.cpp vector.cpp)
+add_executable(${PROJECT_NAME}
+  matrix.cpp
+  matrix2.cpp
+  vector.cpp
+  tensor.cpp
+  tensor2.cpp
+  tensor3.cpp
+  tiny_matrix2.cpp
+  tiny_vector.cpp
+)
