@@ -7,7 +7,11 @@
 #ifndef CPPMAT_PERIODIC_VECTOR_CPP
 #define CPPMAT_PERIODIC_VECTOR_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "periodic_vector.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace periodic {
@@ -73,8 +77,19 @@ inline void vector<X>::resize(size_t n)
 // get dimensions
 // =================================================================================================
 
-template<class X> inline size_t vector<X>::size() const { return m_size; }
-template<class X> inline size_t vector<X>::ndim() const { return 1;      }
+template<class X>
+inline size_t vector<X>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::ndim() const
+{
+  return 1;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -118,8 +133,19 @@ inline std::vector<size_t> vector<X>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X> inline X&       vector<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& vector<X>::operator[](size_t i) const { return m_data[i]; }
+template<class X>
+inline X& vector<X>::operator[](size_t i)
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& vector<X>::operator[](size_t i) const
+{
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -142,19 +168,68 @@ inline const X& vector<X>::operator()(int a) const
 }
 
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X> inline X*       vector<X>::data()        { return m_data.data();  }
-template<class X> inline const X* vector<X>::data() const  { return m_data.data();  }
-template<class X> inline auto     vector<X>::begin()       { return m_data.begin(); }
-template<class X> inline auto     vector<X>::begin() const { return m_data.begin(); }
-template<class X> inline auto     vector<X>::end()         { return m_data.end();   }
-template<class X> inline auto     vector<X>::end() const   { return m_data.end();   }
+template<class X>
+inline X* vector<X>::data()
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X* vector<X>::data() const
+{
+  return m_data.data();
+}
+
+// =================================================================================================
+// iterators
+// =================================================================================================
+
+template<class X>
+inline auto vector<X>::begin()
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto vector<X>::begin() const
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto vector<X>::end()
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto vector<X>::end() const
+{
+  return m_data.end();
+}
 
 // =================================================================================================
 // basic initialization
 // =================================================================================================
+
+template<class X>
+inline void vector<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline void vector<X>::setConstant(X D)

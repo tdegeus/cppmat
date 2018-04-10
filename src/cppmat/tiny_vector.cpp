@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TINY_VECTOR_CPP
 #define CPPMAT_TINY_VECTOR_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "tiny_vector.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace tiny {
@@ -17,22 +21,10 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t n>
-inline vector<X,n>::vector()
-{
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t n>
 inline vector<X,n>::vector(X D)
 {
-  // copy input
-  for ( size_t i = 0; i < m_size ; ++i ) m_container[i] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
+  // set all entries constant
+  for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -50,71 +42,28 @@ inline vector<X,n>::vector(Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_container[i] = *it; ++i;
+    m_data[i] = *it; ++i;
   }
 
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t n>
-inline vector<X,n>::vector(const vector<X,n> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// assignment operator
-// =================================================================================================
-
-template<class X, size_t n>
-inline vector<X,n>& vector<X,n>::operator= (const vector<X,n> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_container[i] = D[i];
-  // point to local data container
-  m_data = &m_container[0];
-  // return pointer to current instance
-  return *this;
-}
-
-// =================================================================================================
-// map external pointer
-// =================================================================================================
-
-template<class X, size_t n>
-inline void vector<X,n>::map(X *D)
-{
-  m_data = D;
-}
-
-// =================================================================================================
-// copy from external pointer
-// =================================================================================================
-
-template<class X, size_t n>
-inline void vector<X,n>::copy(const X *D)
-{
-  std::copy(D, D+m_size, &m_container[0]);
-
-  m_data = &m_container[0];
 }
 
 // =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t n> inline size_t vector<X,n>::size() const { return m_size; }
-template<class X, size_t n> inline size_t vector<X,n>::ndim() const { return 1;      }
+template<class X, size_t n>
+inline size_t vector<X,n>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline size_t vector<X,n>::ndim() const
+{
+  return 1;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -158,8 +107,19 @@ inline std::vector<size_t> vector<X,n>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X, size_t n> inline X&       vector<X,n>::operator[](size_t i)       { return m_data[i]; }
-template<class X, size_t n> inline const X& vector<X,n>::operator[](size_t i) const { return m_data[i]; }
+template<class X, size_t n>
+inline X& vector<X,n>::operator[](size_t i)
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline const X& vector<X,n>::operator[](size_t i) const
+{
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -178,15 +138,56 @@ inline const X& vector<X,n>::operator()(size_t a) const
 }
 
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X, size_t n> inline X*       vector<X,n>::data()        { return &m_data[0];          }
-template<class X, size_t n> inline const X* vector<X,n>::data() const  { return &m_data[0];          }
-template<class X, size_t n> inline auto     vector<X,n>::begin()       { return &m_data[0];          }
-template<class X, size_t n> inline auto     vector<X,n>::begin() const { return &m_data[0];          }
-template<class X, size_t n> inline auto     vector<X,n>::end()         { return &m_data[0] + m_size; }
-template<class X, size_t n> inline auto     vector<X,n>::end() const   { return &m_data[0] + m_size; }
+template<class X, size_t n>
+inline X* vector<X,n>::data()
+{
+  return &m_data[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline const X* vector<X,n>::data() const
+{
+  return &m_data[0];
+}
+
+// =================================================================================================
+// iterators
+// =================================================================================================
+
+template<class X, size_t n>
+inline auto vector<X,n>::begin()
+{
+  return &m_data[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline auto vector<X,n>::begin() const
+{
+  return &m_data[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline auto vector<X,n>::end()
+{
+  return &m_data[0] + m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline auto vector<X,n>::end() const
+{
+  return &m_data[0] + m_size;
+}
 
 // =================================================================================================
 // basic initialization
@@ -560,6 +561,8 @@ inline std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

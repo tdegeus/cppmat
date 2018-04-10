@@ -7,7 +7,11 @@
 #ifndef CPPMAT_MATRIX_CPP
 #define CPPMAT_MATRIX_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "matrix.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 
@@ -53,7 +57,7 @@ inline matrix<X>::matrix(const std::vector<size_t> &shape, Iterator first, Itera
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -121,8 +125,19 @@ inline void matrix<X>::reshape(const std::vector<size_t> &shape)
 // get dimensions
 // =================================================================================================
 
-template<class X> inline size_t matrix<X>::size() const { return m_size; }
-template<class X> inline size_t matrix<X>::ndim() const { return m_ndim; }
+template<class X>
+inline size_t matrix<X>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::ndim() const
+{
+  return m_ndim;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -167,8 +182,19 @@ inline std::vector<size_t> matrix<X>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X> inline X&       matrix<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& matrix<X>::operator[](size_t i) const { return m_data[i]; }
+template<class X>
+inline X& matrix<X>::operator[](size_t i)
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix<X>::operator[](size_t i) const
+{
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -266,20 +292,199 @@ inline const X& matrix<X>::operator()(size_t a, size_t b, size_t c, size_t d, si
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline X& matrix<X>::at(Iterator first, Iterator last)
+{
+  assert( last-first <= this->ndim() );
+
+  size_t *stride = &m_strides[0];
+  size_t  idx    = 0;
+
+  for ( auto it = first ; it != last ; ++it )
+  {
+   idx += (*it) * (*stride);
+   ++stride;
+  }
+
+  return m_data[idx];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline const X& matrix<X>::at(Iterator first, Iterator last) const
+{
+  assert( last-first <= this->ndim() );
+
+  size_t *stride = &m_strides[0];
+  size_t  idx    = 0;
+
+  for ( auto it = first ; it != last ; ++it )
+  {
+    idx += (*it) * (*stride);
+    ++stride;
+  }
+
+  return m_data[idx];
+}
+
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X> inline X*       matrix<X>::data()        { return m_data.data();  }
-template<class X> inline const X* matrix<X>::data() const  { return m_data.data();  }
-template<class X> inline auto     matrix<X>::begin()       { return m_data.begin(); }
-template<class X> inline auto     matrix<X>::begin() const { return m_data.begin(); }
-template<class X> inline auto     matrix<X>::end()         { return m_data.end();   }
-template<class X> inline auto     matrix<X>::end() const   { return m_data.end();   }
+template<class X>
+inline X* matrix<X>::data()
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X* matrix<X>::data() const
+{
+  return m_data.data();
+}
+
+// =================================================================================================
+// iterators
+// =================================================================================================
+
+template<class X>
+inline auto matrix<X>::begin()
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::begin() const
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::end()
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::end() const
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a)
+{
+  return m_data.begin() + a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a) const
+{
+  return m_data.begin() + a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b)
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b) const
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b, size_t c)
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b, size_t c) const
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b, size_t c, size_t d)
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(size_t a, size_t b, size_t c, size_t d) const
+{
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  size_t a, size_t b, size_t c, size_t d, size_t e)
+{
+  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  size_t a, size_t b, size_t c, size_t d, size_t e) const
+{
+  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+{
+  return m_data.begin() +
+    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+{
+  return m_data.begin() +
+    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
 
 // =================================================================================================
 // basic initialization
 // =================================================================================================
+
+template<class X>
+inline void matrix<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline void matrix<X>::setConstant(X D)

@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TENSOR_CPP
 #define CPPMAT_TENSOR_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "tensor.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian {
@@ -31,7 +35,7 @@ inline tensor4<X>::tensor4(size_t nd, X D)
   // change size of internal storage
   resize(nd);
 
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
@@ -53,7 +57,7 @@ inline tensor4<X>::tensor4(size_t nd, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -74,7 +78,7 @@ inline tensor2<X>::tensor2(size_t nd, X D)
   // change size of internal storage
   resize(nd);
 
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
@@ -96,7 +100,7 @@ inline tensor2<X>::tensor2(size_t nd, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -117,7 +121,7 @@ inline tensor2s<X>::tensor2s(size_t nd, X D)
   // change size of internal storage
   resize(nd);
 
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
@@ -139,7 +143,7 @@ inline tensor2s<X>::tensor2s(size_t nd, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -175,7 +179,7 @@ inline tensor2d<X>::tensor2d(size_t nd, X D)
   // set dummy parameter
   m_zero[0] = static_cast<X>(0);
 
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
@@ -197,7 +201,7 @@ inline tensor2d<X>::tensor2d(size_t nd, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -218,7 +222,7 @@ inline vector<X>::vector(size_t nd, X D)
   // change size of internal storage
   resize(nd);
 
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
@@ -240,7 +244,7 @@ inline vector<X>::vector(size_t nd, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -480,7 +484,7 @@ inline std::vector<size_t> tensor2<X>::shape() const
   return out;
 }
 
-// -------------------------------------------------------------------------------------------------`
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline std::vector<size_t> vector<X>::shape() const
@@ -676,6 +680,14 @@ template<class X> inline auto     vector  <X>::end()   const { return m_data.end
 // =================================================================================================
 
 template<class X>
+inline void tensor4<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor4<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
@@ -711,6 +723,14 @@ template<class X>
 inline void tensor4<X>::ones()
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void tensor2<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -756,6 +776,14 @@ inline void tensor2<X>::ones()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline void tensor2s<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2s<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
@@ -796,6 +824,14 @@ inline void tensor2s<X>::ones()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline void tensor2d<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2d<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
@@ -831,6 +867,14 @@ template<class X>
 inline void tensor2d<X>::ones()
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void vector<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------

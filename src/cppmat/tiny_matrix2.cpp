@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TINY_MATRIX_CPP
 #define CPPMAT_TINY_MATRIX_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "tiny_matrix2.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace tiny {
@@ -17,22 +21,10 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2()
-{
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>::matrix2(X D)
 {
-  // copy input
-  for ( size_t i = 0; i < m_size ; ++i ) m_container[i] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
+  // set all entries constant
+  for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -50,72 +42,28 @@ inline matrix2<X,m,n>::matrix2(Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_container[i] = *it; ++i;
+    m_data[i] = *it; ++i;
   }
 
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2(const matrix2<X,m,n> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// assignment operator
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_container[i] = D[i];
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
-  return *this;
-}
-
-// =================================================================================================
-// map external pointer
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::map(X *D)
-{
-  m_data = D;
-}
-
-// =================================================================================================
-// copy from external pointer
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::copy(const X *D)
-{
-  std::copy(D, D+m_size, &m_container[0]);
-
-  m_data = &m_container[0];
 }
 
 // =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline size_t matrix2<X,m,n>::size() const { return m_size; }
-template<class X, size_t m, size_t n> inline size_t matrix2<X,m,n>::ndim() const { return 2;      }
+template<class X, size_t m, size_t n>
+inline size_t matrix2<X,m,n>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline size_t matrix2<X,m,n>::ndim() const
+{
+  return 2;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -163,14 +111,16 @@ inline std::vector<size_t> matrix2<X,m,n>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline X&       matrix2<X,m,n>::operator[](size_t i)
+template<class X, size_t m, size_t n> 
+inline X& matrix2<X,m,n>::operator[](size_t i)
 {
   return m_data[i];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m, size_t n> inline const X& matrix2<X,m,n>::operator[](size_t i) const
+template<class X, size_t m, size_t n> 
+inline const X& matrix2<X,m,n>::operator[](size_t i) const
 {
   return m_data[i];
 }
@@ -207,47 +157,54 @@ inline const X& matrix2<X,m,n>::operator()(size_t a, size_t b) const
   return m_data[a*n+b];
 }
 
+// =================================================================================================
+// pointer to data
+// =================================================================================================
+
+template<class X, size_t m, size_t n> 
+inline X* matrix2<X,m,n>::data()
+{
+  return &m_data[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n> 
+inline const X* matrix2<X,m,n>::data() const
+{
+  return &m_data[0];
+}
 
 // =================================================================================================
-// pointers / iterators
+// iterators
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline X* matrix2<X,m,n>::data()
+template<class X, size_t m, size_t n> 
+inline auto matrix2<X,m,n>::begin()
 {
   return &m_data[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m, size_t n> inline const X* matrix2<X,m,n>::data() const
+template<class X, size_t m, size_t n> 
+inline auto matrix2<X,m,n>::begin() const
 {
   return &m_data[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::begin()
-{
-  return &m_data[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::begin() const
-{
-  return &m_data[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::end()
+template<class X, size_t m, size_t n> 
+inline auto matrix2<X,m,n>::end()
 {
   return &m_data[0] + m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::end() const
+template<class X, size_t m, size_t n> 
+inline auto matrix2<X,m,n>::end() const
 {
   return &m_data[0] + m_size;
 }
@@ -630,6 +587,8 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

@@ -7,7 +7,11 @@
 #ifndef CPPMAT_PERIODIC_MATRIX_CPP
 #define CPPMAT_PERIODIC_MATRIX_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "periodic_matrix.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace periodic {
@@ -54,7 +58,7 @@ inline matrix<X>::matrix(const std::vector<size_t> &shape, Iterator first, Itera
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    m_data[i] = (*it); ++i;
   }
 }
 
@@ -125,8 +129,19 @@ inline void matrix<X>::reshape(const std::vector<size_t> &shape)
 // get dimensions
 // =================================================================================================
 
-template<class X> inline size_t matrix<X>::size() const { return m_size; }
-template<class X> inline size_t matrix<X>::ndim() const { return m_ndim; }
+template<class X>
+inline size_t matrix<X>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::ndim() const
+{
+  return m_ndim;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -171,10 +186,22 @@ inline std::vector<size_t> matrix<X>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X> inline X&       matrix<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& matrix<X>::operator[](size_t i) const { return m_data[i]; }
+template<class X>
+inline X& matrix<X>::operator[](size_t i)
+{
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix<X>::operator[](size_t i) const
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
 
 template<class X>
 inline X& matrix<X>::operator()(int a)
@@ -324,20 +351,269 @@ inline const X& matrix<X>::operator()(int a, int b, int c, int d, int e, int f) 
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline X& matrix<X>::at(Iterator first, Iterator last)
+{
+  assert( last-first <= this->ndim() );
+
+  int    *shape   = &m_shape  [0];
+  size_t *stride  = &m_strides[0];
+  size_t  idx     = 0;
+
+  for ( auto it = first ; it != last ; ++it )
+  {
+    // - current index
+    int i = (*it);
+    // - correct for periodicity
+    i = ( i < 0 ) ? i + (*shape) : ( i >= (*shape) ) ? i - (*shape) : i ;
+    // - update the index
+    idx += i * (*stride);
+    // - move iterators forward
+    ++stride;
+    ++shape;
+  }
+
+  return m_data[idx];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline const X& matrix<X>::at(Iterator first, Iterator last) const
+{
+  assert( last-first <= this->ndim() );
+
+  int    *shape   = &m_shape  [0];
+  size_t *stride  = &m_strides[0];
+  size_t  idx     = 0;
+
+  for ( auto it = first ; it != last ; ++it )
+  {
+    // - current index
+    int i = (*it);
+    // - correct for periodicity
+    i = ( i < 0 ) ? i + (*shape) : ( i >= (*shape) ) ? i - (*shape) : i ;
+    // - update the index
+    idx += i * (*stride);
+    // - move iterators forward
+    ++stride;
+    ++shape;
+  }
+
+  return m_data[idx];
+}
+
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X> inline X*       matrix<X>::data()        { return m_data.data();  }
-template<class X> inline const X* matrix<X>::data() const  { return m_data.data();  }
-template<class X> inline auto     matrix<X>::begin()       { return m_data.begin(); }
-template<class X> inline auto     matrix<X>::begin() const { return m_data.begin(); }
-template<class X> inline auto     matrix<X>::end()         { return m_data.end();   }
-template<class X> inline auto     matrix<X>::end() const   { return m_data.end();   }
+template<class X>
+inline X* matrix<X>::data()
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X* matrix<X>::data() const
+{
+  return m_data.data();
+}
+
+// =================================================================================================
+// iterators
+// =================================================================================================
+
+template<class X>
+inline auto matrix<X>::begin()
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::begin() const
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::end()
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix<X>::end() const
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+
+  return m_data.begin() + a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+
+  return m_data.begin() + a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b, int c)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b, int c) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b, int c, int d)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(int a, int b, int c, int d) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+
+  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  int a, int b, int c, int d, int e)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+
+  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  int a, int b, int c, int d, int e) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+
+  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  int a, int b, int c, int d, int e, int f)
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+  f = ( f < 0 ) ? f + m_shape_i[5] : ( f >= m_shape_i[5] ) ? f - m_shape_i[5] : f ;
+
+  return m_data.begin() +
+    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::item(
+  int a, int b, int c, int d, int e, int f) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+  f = ( f < 0 ) ? f + m_shape_i[5] : ( f >= m_shape_i[5] ) ? f - m_shape_i[5] : f ;
+
+  return m_data.begin() +
+    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
 
 // =================================================================================================
 // basic initialization
 // =================================================================================================
+
+template<class X>
+inline void matrix<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline void matrix<X>::setConstant(X D)

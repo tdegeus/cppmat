@@ -7,9 +7,13 @@
 #ifndef CPPMAT_TENSOR_H
 #define CPPMAT_TENSOR_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
 #include "tensor2.h"
 #include "tensor3.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian {
@@ -39,11 +43,12 @@ private:
 
 public:
 
-  // constructors
-  tensor4(){};
-  tensor4(size_t nd);
-  tensor4(size_t nd, X D);
+  // constructor
+  tensor4(){};              // empty
+  tensor4(size_t nd);       // allocate, don't initialize
+  tensor4(size_t nd, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor4(size_t nd, Iterator first, Iterator last);
 
@@ -64,15 +69,18 @@ public:
   X&       operator()(size_t i, size_t j, size_t k, size_t l);
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -124,11 +132,12 @@ private:
 
 public:
 
-  // constructors
-  tensor2(){};
-  tensor2(size_t nd);
-  tensor2(size_t nd, X D);
+  // constructor
+  tensor2(){};              // empty
+  tensor2(size_t nd);       // allocate, don't initialize
+  tensor2(size_t nd, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2(size_t nd, Iterator first, Iterator last);
 
@@ -152,15 +161,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -233,11 +245,12 @@ private:
 
 public:
 
-  // constructors
-  tensor2s(){};
-  tensor2s(size_t nd);
-  tensor2s(size_t nd, X D);
+  // constructor
+  tensor2s(){};              // empty
+  tensor2s(size_t nd);       // allocate, don't initialize
+  tensor2s(size_t nd, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2s(size_t nd, Iterator first, Iterator last);
 
@@ -264,15 +277,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -326,7 +342,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian::tensor2d (symmetric storage of "cppmat::cartesian::tensor")
+// cppmat::cartesian::tensor2d (diagonal storage of "cppmat::cartesian::tensor")
 // =================================================================================================
 
 template<class X>
@@ -341,11 +357,12 @@ private:
 
 public:
 
-  // constructors
-  tensor2d();
-  tensor2d(size_t nd);
-  tensor2d(size_t nd, X D);
+  // constructor
+  tensor2d();                // empty
+  tensor2d(size_t nd);       // allocate, don't initialize
+  tensor2d(size_t nd, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2d(size_t nd, Iterator first, Iterator last);
 
@@ -373,15 +390,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -446,11 +466,12 @@ private:
 
 public:
 
-  // constructors
-  vector(){};
-  vector(size_t nd);
-  vector(size_t nd, X D);
+  // constructor
+  vector(){};               // empty
+  vector(size_t nd);        // allocate, don't initialize
+  vector(size_t nd, X D);   // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   vector(size_t nd, Iterator first, Iterator last);
 
@@ -471,15 +492,18 @@ public:
   X&       operator()(size_t i);
   const X& operator()(size_t i) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();

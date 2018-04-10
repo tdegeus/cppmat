@@ -7,7 +7,7 @@ cppmat::cartesian3d
 
 [:download:`tensor3.h <../src/cppmat/tensor3.h>`, :download:`tensor3.cpp <../src/cppmat/tensor3.cpp>`]
 
-Identical to :ref:`cartesian2`, but for 3 dimensions.
+Identical to :ref:`cartesian2d`, but for 3 dimensions.
 
 Classes
 =======
@@ -17,7 +17,7 @@ Classes
 cppmat::cartesian3d::tensor4
 ----------------------------
 
-4th-order tensor (rank 4 tensor) of arbitrary dimension.
+4th-order tensor (rank 4 tensor).
 
 .. code-block:: cpp
 
@@ -30,7 +30,7 @@ cppmat::cartesian3d::tensor4
 cppmat::cartesian3d::tensor2
 ----------------------------
 
-2nd-order tensor (rank 2 tensor) of arbitrary dimension.
+2nd-order tensor (rank 2 tensor).
 
 .. code-block:: cpp
 
@@ -89,7 +89,7 @@ The following components are stored:
 cppmat::cartesian3d::vector
 ---------------------------
 
-Vector (rank 1 tensor) of arbitrary dimension. For example:
+Vector (rank 1 tensor). For example:
 
 .. code-block:: cpp
 

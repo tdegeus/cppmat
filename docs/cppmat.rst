@@ -44,6 +44,22 @@ Methods
 
     Returns the ``i``-th entry in the matrix viewed as a list.
 
+*   ``A.at(first, last)``
+
+    Returns the entry ``{i,j,k}``, which are stored in a list. The function takes an iterator to the first and the last index of this list. See :ref:`matrix-index-advanced`.
+
+*   ``A.item(i,j,k)``
+
+    Return an iterator to the entry at ``(i,j,k)``.
+
+*   ``A.begin()``
+
+    Return an iterator to the first entry of the matrix.
+
+*   ``A.end()``
+
+    Return an iterator to the last entry of the matrix.
+
 *   ``size_t n = A.shape(i)``
 
     Returns the shape along dimension ``i``.
@@ -51,6 +67,10 @@ Methods
 *   ``std::vector<size_t> shape = A.shape()``
 
     Returns the shape along all dimensions.
+
+*   ``A.resize({...})``
+
+    Resize the matrix.
 
 *   ``A.reshape({...})``
 
@@ -68,6 +88,10 @@ Methods
 
     Has the result that ``A.shape() == {10,10,1}``.
 
+*   ``A.setConstant(...)``, ``A.setZero(...)``, ``A.setOnes(...)``, ``A.zeros(...)``, ``A.ones(...)``
+
+    Set all entries to a constant, zero, or one.
+
 .. _matrix-index:
 
 Indexing
@@ -81,9 +105,44 @@ In principle the number of indices should match the dimensions of the matrix (i.
 
   A(5,5,0) = ...
 
-is perfectly acceptable. Note that higher-dimensions can only be trailing ones, using for example ``A(0,5,5)`` is not acceptable, nor is of course ``A(5,5,1)``.
+is perfectly acceptable. Note that higher-dimensions can only be trailing ones, using for example ``A(0,5,5)`` is not acceptable, nor is, of course, ``A(5,5,1)``.
 
 Similarly to refer to the beginning of a block (e.g. a row) one can omit the zero arguments. For example, to the beginning of the second row of the above matrix one can use ``&A(1)``.
+
+.. _matrix-index-advanced:
+
+Advanced indexing
+-----------------
+
+To allow an arbitrary number of indices at runtime (i.e. the case in which the number of indices is not known at compile time), ``cppmat::matrix`` can also be supplied with the indices stored in a list, using the ``.at(first,last)``. One the just supplied iterators to the beginning and the end of this list. When the indices are also stored in a ``cppmat::matrix`` these iterators can be easily obtained using ``.item(i,j)``. Consider this example:
+
+.. code-block:: cpp
+
+  #include <cppmat/cppmat.h>
+
+  int main()
+  {
+    // example matrix
+    // --------------
+
+    cppmat::matrix<size_t> A({2,4});
+
+    A(0,0) =  0; A(0,1) =  1; A(0,2) =  2; A(0,3) =  3;
+    A(1,0) = 10; A(1,1) = 11; A(1,2) = 12; A(1,3) = 13;
+
+    // view, based on list of indices
+    // ------------------------------
+
+    cppmat::matrix<size_t> index({2,2});
+
+    index(0,0) = 0; index(0,1) = 1;
+    index(1,0) = 1; index(1,1) = 2;
+
+    for ( size_t i = 0 ; i < index.shape(0) ; ++i )
+      std::cout << A.at(index.item(i), index.item(i)+index.shape(1)) << std::endl;
+
+    return 0;
+  }
 
 View
 ----

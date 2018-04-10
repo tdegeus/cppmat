@@ -7,6 +7,8 @@
 #ifndef CPPMAT_VIEW_TENSOR2_CPP
 #define CPPMAT_VIEW_TENSOR2_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "view_tensor2.h"
 
 // -------------------------------------------------------------------------------------------------
@@ -15,11 +17,6 @@ namespace cppmat {
 namespace view {
 namespace cartesian2d {
 
-// -------------------------------------------------------------------------------------------------
-
-// alias
-namespace normal = cppmat::cartesian2d;
-
 // =================================================================================================
 // constructors
 // =================================================================================================
@@ -27,6 +24,7 @@ namespace normal = cppmat::cartesian2d;
 template<class X>
 inline tensor4<X>::tensor4()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -42,6 +40,7 @@ inline tensor4<X>::tensor4(const X *D)
 template<class X>
 inline tensor2<X>::tensor2()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -57,6 +56,7 @@ inline tensor2<X>::tensor2(const X *D)
 template<class X>
 inline tensor2s<X>::tensor2s()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -72,6 +72,8 @@ inline tensor2s<X>::tensor2s(const X *D)
 template<class X>
 inline tensor2d<X>::tensor2d()
 {
+  m_data = nullptr;
+
   m_zero[0] = static_cast<X>(0);
 }
 
@@ -90,6 +92,7 @@ inline tensor2d<X>::tensor2d(const X *D)
 template<class X>
 inline vector<X>::vector()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -98,58 +101,6 @@ template<class X>
 inline vector<X>::vector(const X *D)
 {
   m_data = D;
-}
-
-// =================================================================================================
-// assignment operators
-// =================================================================================================
-
-template<class X>
-inline tensor4<X>& tensor4<X>::operator= (const tensor4<X> &D)
-{
-  m_data = &D[0];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator= (const tensor2<X> &D)
-{
-  m_data = &D[0];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator= (const tensor2s<X> &D)
-{
-  m_data = &D[0];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator= (const tensor2d<X> &D)
-{
-  m_data = &D[0];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator= (const vector<X> &D)
-{
-  m_data = &D[0];
-
-  return *this;
 }
 
 // =================================================================================================
@@ -168,9 +119,9 @@ template<class X> inline void vector  <X>::map(const X *D) { m_data = D; }
 
 template<>
 template<>
-inline normal::tensor2s<double> tensor2<double>::cast<normal::tensor2s<double>>() const
+inline reg::tensor2s<double> tensor2<double>::cast<reg::tensor2s<double>>() const
 {
-  normal::tensor2s<double> out;
+  reg::tensor2s<double> out;
 
   out[0] =   m_data[0];
   out[1] = ( m_data[1] + m_data[2] ) / 2.;
@@ -183,9 +134,9 @@ inline normal::tensor2s<double> tensor2<double>::cast<normal::tensor2s<double>>(
 
 template<>
 template<>
-inline normal::tensor2d<double> tensor2<double>::cast<normal::tensor2d<double>>() const
+inline reg::tensor2d<double> tensor2<double>::cast<reg::tensor2d<double>>() const
 {
-  normal::tensor2d<double> out;
+  reg::tensor2d<double> out;
 
   out[0] = m_data[0];
   out[1] = m_data[3];
@@ -197,9 +148,9 @@ inline normal::tensor2d<double> tensor2<double>::cast<normal::tensor2d<double>>(
 
 template<>
 template<>
-inline normal::tensor2<double> tensor2s<double>::cast<normal::tensor2<double>>() const
+inline reg::tensor2<double> tensor2s<double>::cast<reg::tensor2<double>>() const
 {
-  normal::tensor2<double> out;
+  reg::tensor2<double> out;
 
   out[0]          = m_data[0];
   out[1] = out[2] = m_data[1];
@@ -212,9 +163,9 @@ inline normal::tensor2<double> tensor2s<double>::cast<normal::tensor2<double>>()
 
 template<>
 template<>
-inline normal::tensor2d<double> tensor2s<double>::cast<normal::tensor2d<double>>() const
+inline reg::tensor2d<double> tensor2s<double>::cast<reg::tensor2d<double>>() const
 {
-  normal::tensor2d<double> out;
+  reg::tensor2d<double> out;
 
   out[0] = m_data[0];
   out[1] = m_data[2];
@@ -226,9 +177,9 @@ inline normal::tensor2d<double> tensor2s<double>::cast<normal::tensor2d<double>>
 
 template<>
 template<>
-inline normal::tensor2<double> tensor2d<double>::cast<normal::tensor2<double>>() const
+inline reg::tensor2<double> tensor2d<double>::cast<reg::tensor2<double>>() const
 {
-  normal::tensor2<double> out;
+  reg::tensor2<double> out;
 
   out[0] = m_data[0];
   out[3] = m_data[1];
@@ -242,9 +193,9 @@ inline normal::tensor2<double> tensor2d<double>::cast<normal::tensor2<double>>()
 
 template<>
 template<>
-inline normal::tensor2s<double> tensor2d<double>::cast<normal::tensor2s<double>>() const
+inline reg::tensor2s<double> tensor2d<double>::cast<reg::tensor2s<double>>() const
 {
-  normal::tensor2s<double> out;
+  reg::tensor2s<double> out;
 
   out[0] = m_data[0];
   out[2] = m_data[1];
@@ -429,9 +380,9 @@ template<class X> inline auto     vector  <X>::end()   const { return &m_data[0]
 // =================================================================================================
 
 template<class X>
-inline normal::tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -447,9 +398,9 @@ inline normal::tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -465,9 +416,9 @@ inline normal::tensor4<X> operator/ (const tensor4<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -483,9 +434,9 @@ inline normal::tensor4<X> operator+ (const tensor4<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -501,9 +452,9 @@ inline normal::tensor4<X> operator- (const tensor4<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator* (const tensor4<X> &A, const X &B)
+inline reg::tensor4<X> operator* (const tensor4<X> &A, const X &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -519,9 +470,9 @@ inline normal::tensor4<X> operator* (const tensor4<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator/ (const tensor4<X> &A, const X &B)
+inline reg::tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -537,9 +488,9 @@ inline normal::tensor4<X> operator/ (const tensor4<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator+ (const tensor4<X> &A, const X &B)
+inline reg::tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -555,9 +506,9 @@ inline normal::tensor4<X> operator+ (const tensor4<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator- (const tensor4<X> &A, const X &B)
+inline reg::tensor4<X> operator- (const tensor4<X> &A, const X &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -573,9 +524,9 @@ inline normal::tensor4<X> operator- (const tensor4<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator* (const X &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator* (const X &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -591,9 +542,9 @@ inline normal::tensor4<X> operator* (const X &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator/ (const X &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator/ (const X &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -609,9 +560,9 @@ inline normal::tensor4<X> operator/ (const X &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator+ (const X &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator+ (const X &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -627,9 +578,9 @@ inline normal::tensor4<X> operator+ (const X &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> operator- (const X &A, const tensor4<X> &B)
+inline reg::tensor4<X> operator- (const X &A, const tensor4<X> &B)
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 16 ; i += 4 )
   {
@@ -645,9 +596,9 @@ inline normal::tensor4<X> operator- (const X &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -660,9 +611,9 @@ inline normal::tensor2<X> operator* (const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1];
@@ -675,9 +626,9 @@ inline normal::tensor2<X> operator/ (const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -690,9 +641,9 @@ inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -705,9 +656,9 @@ inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1]; C[2] = A[2] * B[1];
@@ -719,9 +670,9 @@ inline normal::tensor2<X> operator* (const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1]; C[2] = A[2] / B[1];
@@ -733,9 +684,9 @@ inline normal::tensor2<X> operator/ (const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1]; C[2] = A[2] + B[1];
@@ -747,9 +698,9 @@ inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2 <X> C;
+  reg::tensor2 <X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
@@ -761,9 +712,9 @@ inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
+inline reg::tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1];
@@ -776,9 +727,9 @@ inline normal::tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
+inline reg::tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2 <X> C;
+  reg::tensor2 <X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -791,9 +742,9 @@ inline normal::tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator* (const tensor2<X> &A, const X &B)
+inline reg::tensor2<X> operator* (const tensor2<X> &A, const X &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -806,9 +757,9 @@ inline normal::tensor2<X> operator* (const tensor2<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator/ (const tensor2<X> &A, const X &B)
+inline reg::tensor2<X> operator/ (const tensor2<X> &A, const X &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -821,9 +772,9 @@ inline normal::tensor2<X> operator/ (const tensor2<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2<X> &A, const X &B)
+inline reg::tensor2<X> operator+ (const tensor2<X> &A, const X &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B;
   C[1] = A[1] + B;
@@ -836,9 +787,9 @@ inline normal::tensor2<X> operator+ (const tensor2<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2<X> &A, const X &B)
+inline reg::tensor2<X> operator- (const tensor2<X> &A, const X &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] - B;
   C[1] = A[1] - B;
@@ -851,9 +802,9 @@ inline normal::tensor2<X> operator- (const tensor2<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1]; C[2] = A[1] * B[2];
@@ -865,9 +816,9 @@ inline normal::tensor2<X> operator* (const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1]; C[2] = A[1] / B[2];
@@ -879,9 +830,9 @@ inline normal::tensor2<X> operator/ (const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1]; C[2] = A[1] + B[2];
@@ -893,9 +844,9 @@ inline normal::tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2 <X> C;
+  reg::tensor2 <X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
@@ -907,9 +858,9 @@ inline normal::tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] + B[0];
   C[1] =        B[1];
@@ -922,9 +873,9 @@ inline normal::tensor2<X> operator+ (const tensor2d<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] =      - B[1];
@@ -937,9 +888,9 @@ inline normal::tensor2<X> operator- (const tensor2d<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator* (const X &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator* (const X &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -952,9 +903,9 @@ inline normal::tensor2<X> operator* (const X &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator/ (const X &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator/ (const X &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A / B[0];
   C[1] = A / B[1];
@@ -967,9 +918,9 @@ inline normal::tensor2<X> operator/ (const X &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator+ (const X &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator+ (const X &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A + B[0];
   C[1] = A + B[1];
@@ -982,9 +933,9 @@ inline normal::tensor2<X> operator+ (const X &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> operator- (const X &A, const tensor2<X> &B)
+inline reg::tensor2<X> operator- (const X &A, const tensor2<X> &B)
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = A - B[0];
   C[1] = A - B[1];
@@ -997,9 +948,9 @@ inline normal::tensor2<X> operator- (const X &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -1011,9 +962,9 @@ inline normal::tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1];
@@ -1025,9 +976,9 @@ inline normal::tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -1039,9 +990,9 @@ inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -1053,9 +1004,9 @@ inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B)
+inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1];
@@ -1067,9 +1018,9 @@ inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B)
+inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -1081,9 +1032,9 @@ inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
+inline reg::tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -1095,9 +1046,9 @@ inline normal::tensor2s<X> operator* (const tensor2s<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
+inline reg::tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -1109,9 +1060,9 @@ inline normal::tensor2s<X> operator/ (const tensor2s<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
+inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] + B;
   C[1] = A[1] + B;
@@ -1123,9 +1074,9 @@ inline normal::tensor2s<X> operator+ (const tensor2s<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
+inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] - B;
   C[1] = A[1] - B;
@@ -1137,9 +1088,9 @@ inline normal::tensor2s<X> operator- (const tensor2s<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
+inline reg::tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] + B;
   C[1] =        B;
@@ -1151,9 +1102,9 @@ inline normal::tensor2s<X> operator+ (const tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
+inline reg::tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] - B;
   C[1] =      - B;
@@ -1165,9 +1116,9 @@ inline normal::tensor2s<X> operator- (const tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] + B[0];
   C[1] =        B[1];
@@ -1179,9 +1130,9 @@ inline normal::tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A[0] - B[0];
   C[1] =      - B[1];
@@ -1193,9 +1144,9 @@ inline normal::tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -1207,9 +1158,9 @@ inline normal::tensor2s<X> operator* (const X &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A / B[0];
   C[1] = A / B[1];
@@ -1221,9 +1172,9 @@ inline normal::tensor2s<X> operator/ (const X &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A + B[0];
   C[1] = A + B[1];
@@ -1235,9 +1186,9 @@ inline normal::tensor2s<X> operator+ (const X &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
+inline reg::tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A - B[0];
   C[1] = A - B[1];
@@ -1249,9 +1200,9 @@ inline normal::tensor2s<X> operator- (const X &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
+inline reg::tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A + B[0];
   C[1] = A;
@@ -1263,9 +1214,9 @@ inline normal::tensor2s<X> operator+ (const X &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
+inline reg::tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = A - B[0];
   C[1] = A;
@@ -1277,9 +1228,9 @@ inline normal::tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -1290,9 +1241,9 @@ inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -1303,9 +1254,9 @@ inline normal::tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -1316,9 +1267,9 @@ inline normal::tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
+inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[3];
@@ -1329,9 +1280,9 @@ inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
+inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[3];
@@ -1342,9 +1293,9 @@ inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[2];
@@ -1355,9 +1306,9 @@ inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[2];
@@ -1368,9 +1319,9 @@ inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
+inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -1381,9 +1332,9 @@ inline normal::tensor2d<X> operator* (const tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
+inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -1394,9 +1345,9 @@ inline normal::tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[3] * B[1];
@@ -1407,9 +1358,9 @@ inline normal::tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[2] * B[1];
@@ -1420,9 +1371,9 @@ inline normal::tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -1433,9 +1384,9 @@ inline normal::tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator* (const vector<X> &A, const vector<X> &B)
+inline reg::vector<X> operator* (const vector<X> &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] * B[0];
   C[1] = A[1] * B[1];
@@ -1446,9 +1397,9 @@ inline normal::vector<X> operator* (const vector<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator/ (const vector<X> &A, const vector<X> &B)
+inline reg::vector<X> operator/ (const vector<X> &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] / B[0];
   C[1] = A[1] / B[1];
@@ -1459,9 +1410,9 @@ inline normal::vector<X> operator/ (const vector<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator+ (const vector<X> &A, const vector<X> &B)
+inline reg::vector<X> operator+ (const vector<X> &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] + B[0];
   C[1] = A[1] + B[1];
@@ -1472,9 +1423,9 @@ inline normal::vector<X> operator+ (const vector<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator- (const vector<X> &A, const vector<X> &B)
+inline reg::vector<X> operator- (const vector<X> &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1];
@@ -1485,9 +1436,9 @@ inline normal::vector<X> operator- (const vector<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator* (const vector<X> &A, const X &B)
+inline reg::vector<X> operator* (const vector<X> &A, const X &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] * B;
   C[1] = A[1] * B;
@@ -1498,9 +1449,9 @@ inline normal::vector<X> operator* (const vector<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator/ (const vector<X> &A, const X &B)
+inline reg::vector<X> operator/ (const vector<X> &A, const X &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] / B;
   C[1] = A[1] / B;
@@ -1511,9 +1462,9 @@ inline normal::vector<X> operator/ (const vector<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator+ (const vector<X> &A, const X &B)
+inline reg::vector<X> operator+ (const vector<X> &A, const X &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] + B;
   C[1] = A[1] + B;
@@ -1524,9 +1475,9 @@ inline normal::vector<X> operator+ (const vector<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator- (const vector<X> &A, const X &B)
+inline reg::vector<X> operator- (const vector<X> &A, const X &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A[0] - B;
   C[1] = A[1] - B;
@@ -1537,9 +1488,9 @@ inline normal::vector<X> operator- (const vector<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator* (const X &A, const vector<X> &B)
+inline reg::vector<X> operator* (const X &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A * B[0];
   C[1] = A * B[1];
@@ -1550,9 +1501,9 @@ inline normal::vector<X> operator* (const X &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator/ (const X &A, const vector<X> &B)
+inline reg::vector<X> operator/ (const X &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A / B[0];
   C[1] = A / B[1];
@@ -1563,9 +1514,9 @@ inline normal::vector<X> operator/ (const X &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator+ (const X &A, const vector<X> &B)
+inline reg::vector<X> operator+ (const X &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A + B[0];
   C[1] = A + B[1];
@@ -1576,9 +1527,9 @@ inline normal::vector<X> operator+ (const X &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> operator- (const X &A, const vector<X> &B)
+inline reg::vector<X> operator- (const X &A, const vector<X> &B)
 {
-  normal::vector<X> C;
+  reg::vector<X> C;
 
   C[0] = A - B[0];
   C[1] = A - B[1];
@@ -1591,9 +1542,9 @@ inline normal::vector<X> operator- (const X &A, const vector<X> &B)
 // =================================================================================================
 
 template<class X>
-inline normal::tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
+inline reg::tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1609,9 +1560,9 @@ inline normal::tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
+inline reg::tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1625,9 +1576,9 @@ inline normal::tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
+inline reg::tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1641,9 +1592,9 @@ inline normal::tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
+inline reg::tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1656,9 +1607,9 @@ inline normal::tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::ddot(const tensor4<X> &B) const
+inline reg::tensor2<X> tensor2<X>::ddot(const tensor4<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1708,9 +1659,9 @@ inline X tensor2<X>::ddot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2s<X>::ddot(const tensor4<X> &B) const
+inline reg::tensor2<X> tensor2s<X>::ddot(const tensor4<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1760,9 +1711,9 @@ inline X tensor2s<X>::ddot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2d<X>::ddot(const tensor4<X> &B) const
+inline reg::tensor2<X> tensor2d<X>::ddot(const tensor4<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -1800,9 +1751,9 @@ inline X tensor2d<X>::ddot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::dot(const tensor2<X> &B) const
+inline reg::tensor2<X> tensor2<X>::dot(const tensor2<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1815,9 +1766,9 @@ inline normal::tensor2<X> tensor2<X>::dot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::dot(const tensor2s<X> &B) const
+inline reg::tensor2<X> tensor2<X>::dot(const tensor2s<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1830,9 +1781,9 @@ inline normal::tensor2<X> tensor2<X>::dot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::dot(const tensor2d<X> &B) const
+inline reg::tensor2<X> tensor2<X>::dot(const tensor2d<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1844,9 +1795,9 @@ inline normal::tensor2<X> tensor2<X>::dot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> tensor2<X>::dot(const vector<X> &B) const
+inline reg::vector<X> tensor2<X>::dot(const vector<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1858,9 +1809,9 @@ inline normal::vector<X> tensor2<X>::dot(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2s<X>::dot(const tensor2<X> &B) const
+inline reg::tensor2<X> tensor2s<X>::dot(const tensor2<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1873,9 +1824,9 @@ inline normal::tensor2<X> tensor2s<X>::dot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2s<X>::dot(const tensor2s<X> &B) const
+inline reg::tensor2<X> tensor2s<X>::dot(const tensor2s<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1888,9 +1839,9 @@ inline normal::tensor2<X> tensor2s<X>::dot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2s<X>::dot(const tensor2d<X> &B) const
+inline reg::tensor2<X> tensor2s<X>::dot(const tensor2d<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1902,9 +1853,9 @@ inline normal::tensor2<X> tensor2s<X>::dot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> tensor2s<X>::dot(const vector<X> &B) const
+inline reg::vector<X> tensor2s<X>::dot(const vector<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1916,9 +1867,9 @@ inline normal::vector<X> tensor2s<X>::dot(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2d<X>::dot(const tensor2<X> &B) const
+inline reg::tensor2<X> tensor2d<X>::dot(const tensor2<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -1930,9 +1881,9 @@ inline normal::tensor2<X> tensor2d<X>::dot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2d<X>::dot(const tensor2s<X> &B) const
+inline reg::tensor2<X> tensor2d<X>::dot(const tensor2s<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -1944,9 +1895,9 @@ inline normal::tensor2<X> tensor2d<X>::dot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> tensor2d<X>::dot(const tensor2d<X> &B) const
+inline reg::tensor2d<X> tensor2d<X>::dot(const tensor2d<X> &B) const
 {
-  normal::tensor2d<X> C(static_cast<X>(0));
+  reg::tensor2d<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     C(i,i) += (*this)(i,i) * B(i,i);
@@ -1957,9 +1908,9 @@ inline normal::tensor2d<X> tensor2d<X>::dot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> tensor2d<X>::dot(const vector<X> &B) const
+inline reg::vector<X> tensor2d<X>::dot(const vector<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     C(i) += (*this)(i,i) * B(i);
@@ -1970,9 +1921,9 @@ inline normal::vector<X> tensor2d<X>::dot(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> vector<X>::dot(const tensor2<X> &B) const
+inline reg::vector<X> vector<X>::dot(const tensor2<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1984,9 +1935,9 @@ inline normal::vector<X> vector<X>::dot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> vector<X>::dot(const tensor2s<X> &B) const
+inline reg::vector<X> vector<X>::dot(const tensor2s<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -1998,9 +1949,9 @@ inline normal::vector<X> vector<X>::dot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> vector<X>::dot(const tensor2d<X> &B) const
+inline reg::vector<X> vector<X>::dot(const tensor2d<X> &B) const
 {
-  normal::vector<X> C(static_cast<X>(0));
+  reg::vector<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     C(i) += (*this)(i) * B(i,i);
@@ -2024,9 +1975,9 @@ inline X vector<X>::dot(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2<X> &B) const
+inline reg::tensor4<X> tensor2<X>::dyadic(const tensor2<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2040,9 +1991,9 @@ inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2s<X> &B) const
+inline reg::tensor4<X> tensor2<X>::dyadic(const tensor2s<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2056,9 +2007,9 @@ inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2d<X> &B) const
+inline reg::tensor4<X> tensor2<X>::dyadic(const tensor2d<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2071,9 +2022,9 @@ inline normal::tensor4<X> tensor2<X>::dyadic(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2<X> &B) const
+inline reg::tensor4<X> tensor2s<X>::dyadic(const tensor2<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2087,9 +2038,9 @@ inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2s<X> &B) const
+inline reg::tensor4<X> tensor2s<X>::dyadic(const tensor2s<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2103,9 +2054,9 @@ inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2d<X> &B) const
+inline reg::tensor4<X> tensor2s<X>::dyadic(const tensor2d<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2118,9 +2069,9 @@ inline normal::tensor4<X> tensor2s<X>::dyadic(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2<X> &B) const
+inline reg::tensor4<X> tensor2d<X>::dyadic(const tensor2<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -2133,9 +2084,9 @@ inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2s<X> &B) const
+inline reg::tensor4<X> tensor2d<X>::dyadic(const tensor2s<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -2148,9 +2099,9 @@ inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2d<X> &B) const
+inline reg::tensor4<X> tensor2d<X>::dyadic(const tensor2d<X> &B) const
 {
-  normal::tensor4<X> C(static_cast<X>(0));
+  reg::tensor4<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t k = 0 ; k < 2 ; ++k )
@@ -2162,9 +2113,9 @@ inline normal::tensor4<X> tensor2d<X>::dyadic(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> vector<X>::dyadic(const vector<X> &B) const
+inline reg::tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 {
-  normal::tensor2<X> C(static_cast<X>(0));
+  reg::tensor2<X> C(static_cast<X>(0));
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2176,7 +2127,7 @@ inline normal::tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> ddot(const tensor4<X> &A, const tensor4<X> &B)
+inline reg::tensor4<X> ddot(const tensor4<X> &A, const tensor4<X> &B)
 {
   return A.ddot(B);
 }
@@ -2184,7 +2135,7 @@ inline normal::tensor4<X> ddot(const tensor4<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> ddot(const tensor4<X> &A, const tensor2<X> &B)
 {
   return A.ddot(B);
 }
@@ -2192,7 +2143,7 @@ inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> ddot(const tensor4<X> &A, const tensor2s<X> &B)
 {
   return A.ddot(B);
 }
@@ -2200,7 +2151,7 @@ inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2d<X> &B)
+inline reg::tensor2<X> ddot(const tensor4<X> &A, const tensor2d<X> &B)
 {
   return A.ddot(B);
 }
@@ -2208,7 +2159,7 @@ inline normal::tensor2<X> ddot(const tensor4<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor2<X> &A, const tensor4<X> &B)
+inline reg::tensor2<X> ddot(const tensor2<X> &A, const tensor4<X> &B)
 {
   return A.ddot(B);
 }
@@ -2216,7 +2167,7 @@ inline normal::tensor2<X> ddot(const tensor2<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor2s<X> &A, const tensor4<X> &B)
+inline reg::tensor2<X> ddot(const tensor2s<X> &A, const tensor4<X> &B)
 {
   return A.ddot(B);
 }
@@ -2224,7 +2175,7 @@ inline normal::tensor2<X> ddot(const tensor2s<X> &A, const tensor4<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> ddot(const tensor2d<X> &A, const tensor4<X> &B)
+inline reg::tensor2<X> ddot(const tensor2d<X> &A, const tensor4<X> &B)
 {
   return A.ddot(B);
 }
@@ -2304,7 +2255,7 @@ inline X ddot(const tensor2d<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> dot(const tensor2<X> &A, const tensor2<X> &B)
 {
   return A.dot(B);
 }
@@ -2312,7 +2263,7 @@ inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> dot(const tensor2<X> &A, const tensor2s<X> &B)
 {
   return A.dot(B);
 }
@@ -2320,7 +2271,7 @@ inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2d<X> &B)
+inline reg::tensor2<X> dot(const tensor2<X> &A, const tensor2d<X> &B)
 {
   return A.dot(B);
 }
@@ -2328,7 +2279,7 @@ inline normal::tensor2<X> dot(const tensor2<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> dot(const tensor2s<X> &A, const tensor2<X> &B)
 {
   return A.dot(B);
 }
@@ -2336,7 +2287,7 @@ inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> dot(const tensor2s<X> &A, const tensor2s<X> &B)
 {
   return A.dot(B);
 }
@@ -2344,7 +2295,7 @@ inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2d<X> &B)
+inline reg::tensor2<X> dot(const tensor2s<X> &A, const tensor2d<X> &B)
 {
   return A.dot(B);
 }
@@ -2352,7 +2303,7 @@ inline normal::tensor2<X> dot(const tensor2s<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2d<X> &A, const tensor2<X> &B)
+inline reg::tensor2<X> dot(const tensor2d<X> &A, const tensor2<X> &B)
 {
   return A.dot(B);
 }
@@ -2360,7 +2311,7 @@ inline normal::tensor2<X> dot(const tensor2d<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dot(const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor2<X> dot(const tensor2d<X> &A, const tensor2s<X> &B)
 {
   return A.dot(B);
 }
@@ -2368,7 +2319,7 @@ inline normal::tensor2<X> dot(const tensor2d<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> dot(const tensor2d<X> &A, const tensor2d<X> &B)
+inline reg::tensor2d<X> dot(const tensor2d<X> &A, const tensor2d<X> &B)
 {
   return A.dot(B);
 }
@@ -2376,7 +2327,7 @@ inline normal::tensor2d<X> dot(const tensor2d<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const tensor2<X> &A, const vector<X> &B)
+inline reg::vector<X> dot(const tensor2<X> &A, const vector<X> &B)
 {
   return A.dot(B);
 }
@@ -2384,7 +2335,7 @@ inline normal::vector<X> dot(const tensor2<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const tensor2s<X> &A, const vector<X> &B)
+inline reg::vector<X> dot(const tensor2s<X> &A, const vector<X> &B)
 {
   return A.dot(B);
 }
@@ -2392,7 +2343,7 @@ inline normal::vector<X> dot(const tensor2s<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const tensor2d<X> &A, const vector<X> &B)
+inline reg::vector<X> dot(const tensor2d<X> &A, const vector<X> &B)
 {
   return A.dot(B);
 }
@@ -2400,7 +2351,7 @@ inline normal::vector<X> dot(const tensor2d<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const vector<X> &A, const tensor2<X> &B)
+inline reg::vector<X> dot(const vector<X> &A, const tensor2<X> &B)
 {
   return A.dot(B);
 }
@@ -2408,7 +2359,7 @@ inline normal::vector<X> dot(const vector<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const vector<X> &A, const tensor2s<X> &B)
+inline reg::vector<X> dot(const vector<X> &A, const tensor2s<X> &B)
 {
   return A.dot(B);
 }
@@ -2416,7 +2367,7 @@ inline normal::vector<X> dot(const vector<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::vector<X> dot(const vector<X> &A, const tensor2d<X> &B)
+inline reg::vector<X> dot(const vector<X> &A, const tensor2d<X> &B)
 {
   return A.dot(B);
 }
@@ -2432,7 +2383,7 @@ inline X dot(const vector<X> &A, const vector<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2<X> &A, const tensor2<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2440,7 +2391,7 @@ inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2s<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2<X> &A, const tensor2s<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2448,7 +2399,7 @@ inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2d<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2<X> &A, const tensor2d<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2456,7 +2407,7 @@ inline normal::tensor4<X> dyadic(const tensor2<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2464,7 +2415,7 @@ inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2s<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2s<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2472,7 +2423,7 @@ inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2d<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2d<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2480,7 +2431,7 @@ inline normal::tensor4<X> dyadic(const tensor2s<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2488,7 +2439,7 @@ inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2s<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2s<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2496,7 +2447,7 @@ inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2d<X> &B)
+inline reg::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2d<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2504,7 +2455,7 @@ inline normal::tensor4<X> dyadic(const tensor2d<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> dyadic(const vector<X> &A, const vector<X> &B)
+inline reg::tensor2<X> dyadic(const vector<X> &A, const vector<X> &B)
 {
   return A.dyadic(B);
 }
@@ -2514,9 +2465,9 @@ inline normal::tensor2<X> dyadic(const vector<X> &A, const vector<X> &B)
 // =================================================================================================
 
 template<class X>
-inline normal::tensor4<X> tensor4<X>::T() const
+inline reg::tensor4<X> tensor4<X>::T() const
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2530,9 +2481,9 @@ inline normal::tensor4<X> tensor4<X>::T() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor4<X>::RT() const
+inline reg::tensor4<X> tensor4<X>::RT() const
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2546,9 +2497,9 @@ inline normal::tensor4<X> tensor4<X>::RT() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> tensor4<X>::LT() const
+inline reg::tensor4<X> tensor4<X>::LT() const
 {
-  normal::tensor4<X> C;
+  reg::tensor4<X> C;
 
   for ( size_t i = 0 ; i < 2 ; ++i )
     for ( size_t j = 0 ; j < 2 ; ++j )
@@ -2562,9 +2513,9 @@ inline normal::tensor4<X> tensor4<X>::LT() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::T() const
+inline reg::tensor2<X> tensor2<X>::T() const
 {
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] = m_data[0];
   C[2] = m_data[1];
@@ -2577,9 +2528,9 @@ inline normal::tensor2<X> tensor2<X>::T() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> tensor2s<X>::T() const
+inline reg::tensor2s<X> tensor2s<X>::T() const
 {
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] = m_data[0];
   C[1] = m_data[1];
@@ -2591,9 +2542,9 @@ inline normal::tensor2s<X> tensor2s<X>::T() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> tensor2d<X>::T() const
+inline reg::tensor2d<X> tensor2d<X>::T() const
 {
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = m_data[0];
   C[1] = m_data[1];
@@ -2604,7 +2555,7 @@ inline normal::tensor2d<X> tensor2d<X>::T() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> transpose(const tensor2<X> &A)
+inline reg::tensor2<X> transpose(const tensor2<X> &A)
 {
   return A.T();
 }
@@ -2612,7 +2563,7 @@ inline normal::tensor2<X> transpose(const tensor2<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> transpose(const tensor2s<X> &A)
+inline reg::tensor2s<X> transpose(const tensor2s<X> &A)
 {
   return A.T();
 }
@@ -2620,7 +2571,7 @@ inline normal::tensor2s<X> transpose(const tensor2s<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> transpose(const tensor2d<X> &A)
+inline reg::tensor2d<X> transpose(const tensor2d<X> &A)
 {
   return A.T();
 }
@@ -2628,7 +2579,7 @@ inline normal::tensor2d<X> transpose(const tensor2d<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> transpose(const tensor4<X> &A)
+inline reg::tensor4<X> transpose(const tensor4<X> &A)
 {
   return A.T();
 }
@@ -2636,7 +2587,7 @@ inline normal::tensor4<X> transpose(const tensor4<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> transposeR(const tensor4<X> &A)
+inline reg::tensor4<X> transposeR(const tensor4<X> &A)
 {
   return A.RT();
 }
@@ -2644,7 +2595,7 @@ inline normal::tensor4<X> transposeR(const tensor4<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor4<X> transposeL(const tensor4<X> &A)
+inline reg::tensor4<X> transposeL(const tensor4<X> &A)
 {
   return A.LT();
 }
@@ -2702,13 +2653,13 @@ inline X tensor2d<X>::det() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> tensor2<X>::inv() const
+inline reg::tensor2<X> tensor2<X>::inv() const
 {
   // compute determinant
   X D = det();
 
   // allocate result
-  normal::tensor2<X> C;
+  reg::tensor2<X> C;
 
   C[0] =                      m_data[3] / D;
   C[1] = static_cast<X>(-1) * m_data[1] / D;
@@ -2721,13 +2672,13 @@ inline normal::tensor2<X> tensor2<X>::inv() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> tensor2s<X>::inv() const
+inline reg::tensor2s<X> tensor2s<X>::inv() const
 {
   // compute determinant
   X D = det();
 
   // allocate result
-  normal::tensor2s<X> C;
+  reg::tensor2s<X> C;
 
   C[0] =                      m_data[2] / D;
   C[1] = static_cast<X>(-1) * m_data[1] / D;
@@ -2739,10 +2690,10 @@ inline normal::tensor2s<X> tensor2s<X>::inv() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> tensor2d<X>::inv() const
+inline reg::tensor2d<X> tensor2d<X>::inv() const
 {
   // allocate result
-  normal::tensor2d<X> C;
+  reg::tensor2d<X> C;
 
   C[0] = static_cast<X>(1) / m_data[0];
   C[1] = static_cast<X>(1) / m_data[1];
@@ -2753,7 +2704,7 @@ inline normal::tensor2d<X> tensor2d<X>::inv() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2<X> inv(const tensor2<X> &A)
+inline reg::tensor2<X> inv(const tensor2<X> &A)
 {
   return A.inv();
 }
@@ -2761,7 +2712,7 @@ inline normal::tensor2<X> inv(const tensor2<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2s<X> inv(const tensor2s<X> &A)
+inline reg::tensor2s<X> inv(const tensor2s<X> &A)
 {
   return A.inv();
 }
@@ -2769,7 +2720,7 @@ inline normal::tensor2s<X> inv(const tensor2s<X> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline normal::tensor2d<X> inv(const tensor2d<X> &A)
+inline reg::tensor2d<X> inv(const tensor2d<X> &A)
 {
   return A.inv();
 }

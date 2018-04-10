@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TENSOR2_H
 #define CPPMAT_TENSOR2_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian2d {
@@ -31,31 +35,18 @@ class tensor4
 {
 private:
 
-  // data container
-  X m_container[16];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[16]; // data container
 
 public:
 
-  // constructors
-  tensor4();
-  tensor4(X D);
+  // constructor
+  tensor4(){};   // allocate, don't initialize
+  tensor4(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor4(Iterator first, Iterator last);
 
-  // copy constructor
-  tensor4(const tensor4<X> &D);
-
-  // assignment operator
-  tensor4<X>& operator= (const tensor4<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // get dimensions
   size_t size() const;
@@ -71,15 +62,18 @@ public:
   X&       operator()(size_t i, size_t j, size_t k, size_t l);
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -97,7 +91,6 @@ public:
   tensor4<X>& operator-= (const         X  &B); // A_ijkl -= B
 
   // tensor products / operations
-  // TODO accept other tensor formats
   tensor4<X> inline ddot(const tensor4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
   tensor2<X> inline ddot(const tensor2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
   tensor2<X> inline ddot(const tensor2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
@@ -107,7 +100,6 @@ public:
   tensor4<X> inline LT  (                    ) const; // transposition   : C_jikl = A_ijkl
 
   // equality operators
-  // TODO accept other tensor formats
   bool operator== (const tensor4<X> &B) const; // A_ijkl == B_ijkl
 
   // basic algebra
@@ -127,31 +119,17 @@ class tensor2
 {
 private:
 
-  // data container
-  typename std::remove_const<X>::type m_container[4];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[4];  // data container
 
 public:
 
-  // constructors
-  tensor2();
-  tensor2(X D);
+  // constructor
+  tensor2(){};   // allocate, don't initialize
+  tensor2(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2(const tensor2<X> &D);
-
-  // assignment operator
-  tensor2<X>& operator= (const tensor2<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -170,15 +148,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -203,7 +184,6 @@ public:
   tensor2<X>& operator-= (const          X  &B); // A_ij -= B
 
   // tensor products / operations
-  // TODO accept other tensor formats
   tensor2<X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2<X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -221,7 +201,6 @@ public:
   tensor2<X> inline inv   (                    ) const; // inverse
 
   // equality operators
-  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -247,31 +226,17 @@ class tensor2s
 {
 private:
 
-  // data container
-  typename std::remove_const<X>::type m_container[3];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[3];  // data container
 
 public:
 
-  // constructors
-  tensor2s();
-  tensor2s(X D);
+  // constructor
+  tensor2s(){};   // allocate, don't initialize
+  tensor2s(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2s(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2s(const tensor2s<X> &D);
-
-  // assignment operator
-  tensor2s<X>& operator= (const tensor2s<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -293,15 +258,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -322,7 +290,6 @@ public:
   tensor2s<X>& operator-= (const          X  &B); // A_ij -= B
 
   // tensor products / operations
-  // TODO accept other tensor formats
   tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -340,7 +307,6 @@ public:
   tensor2s<X> inline inv   (                    ) const; // inverse
 
   // equality operators
-  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -357,7 +323,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian2d::tensor2d (symmetric storage of "cppmat::cartesian2::tensor")
+// cppmat::cartesian2d::tensor2d (diagonal storage of "cppmat::cartesian2::tensor")
 // =================================================================================================
 
 template<class X>
@@ -365,33 +331,18 @@ class tensor2d
 {
 private:
 
-  // data container
-  typename std::remove_const<X>::type m_container[2];
-  // pointer to container (may point outside)
-  X *m_data;
-  // dummy parameter, used to return "0" for any off-diagonal entry
-  X m_zero[1];
+  X m_data[2];  // data container
+  X m_zero[1];  // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
-  // constructors
-  tensor2d();
-  tensor2d(X D);
+  // constructor
+  tensor2d();     // allocate, don't initialize
+  tensor2d(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2d(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2d(const tensor2d<X> &D);
-
-  // assignment operator
-  tensor2d<X>& operator= (const tensor2d<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -414,15 +365,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -443,7 +397,6 @@ public:
   tensor2d<X>& operator-= (const          X  &B); // A_ii - B
 
   // tensor products / operations
-  // TODO accept other tensor formats
   tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
   tensor2d<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
@@ -461,7 +414,6 @@ public:
   tensor2d<X> inline inv   (                    ) const; // inverse
 
   // equality operators
-  // TODO accept other tensor formats
   bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
   bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
@@ -483,31 +435,17 @@ class vector
 {
 private:
 
-  // data container
-  typename std::remove_const<X>::type m_container[2];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[2];  // data container
 
 public:
 
-  // constructors
-  vector();
-  vector(X D);
+  // constructor
+  vector(){};   // allocate, don't initialize
+  vector(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   vector(Iterator first, Iterator last);
-
-  // copy constructor
-  vector(const vector<X> &D);
-
-  // assignment operator
-  vector<X>& operator= (const vector<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // get dimensions
   size_t size() const;
@@ -523,15 +461,18 @@ public:
   X&       operator()(size_t i);
   const X& operator()(size_t i) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -556,7 +497,6 @@ public:
   tensor2<X> inline dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
 
   // equality operators
-  // TODO accept other tensor formats
   bool operator== (const vector<X> &B) const; // A_i == B_i
 
   // basic algebra
@@ -735,6 +675,8 @@ template<class X> inline tensor2d<X> identity2  ();
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

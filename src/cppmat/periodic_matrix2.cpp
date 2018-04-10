@@ -7,7 +7,11 @@
 #ifndef CPPMAT_PERIODIC_MATRIX2_CPP
 #define CPPMAT_PERIODIC_MATRIX2_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "periodic_matrix2.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace periodic {
@@ -88,8 +92,19 @@ inline void matrix2<X>::reshape(size_t m, size_t n)
 // get dimensions
 // =================================================================================================
 
-template<class X> inline size_t matrix2<X>::size() const { return m_size; }
-template<class X> inline size_t matrix2<X>::ndim() const { return 2;      }
+template<class X>
+inline size_t matrix2<X>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix2<X>::ndim() const
+{
+  return 2;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -137,10 +152,22 @@ inline std::vector<size_t> matrix2<X>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X> inline X&       matrix2<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& matrix2<X>::operator[](size_t i) const { return m_data[i]; }
+template<class X>
+inline X& matrix2<X>::operator[](size_t i)
+{
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& matrix2<X>::operator[](size_t i) const
+{
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
 
 template<class X>
 inline X& matrix2<X>::operator()(int a)
@@ -183,19 +210,68 @@ inline const X& matrix2<X>::operator()(int a, int b) const
 }
 
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X> inline X*       matrix2<X>::data()        { return m_data.data();  }
-template<class X> inline const X* matrix2<X>::data() const  { return m_data.data();  }
-template<class X> inline auto     matrix2<X>::begin()       { return m_data.begin(); }
-template<class X> inline auto     matrix2<X>::begin() const { return m_data.begin(); }
-template<class X> inline auto     matrix2<X>::end()         { return m_data.end();   }
-template<class X> inline auto     matrix2<X>::end() const   { return m_data.end();   }
+template<class X>
+inline X* matrix2<X>::data()
+{
+  return m_data.data();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X* matrix2<X>::data() const
+{
+  return m_data.data();
+}
+
+// =================================================================================================
+// iterators
+// =================================================================================================
+
+template<class X>
+inline auto matrix2<X>::begin()
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::begin() const
+{
+  return m_data.begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::end()
+{
+  return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::end() const
+{
+  return m_data.end();
+}
 
 // =================================================================================================
 // basic initialization
 // =================================================================================================
+
+template<class X>
+inline void matrix2<X>::arange()
+{
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline void matrix2<X>::setConstant(X D)

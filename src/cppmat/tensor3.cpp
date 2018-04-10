@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TENSOR3_CPP
 #define CPPMAT_TENSOR3_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "tensor3.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian3d {
@@ -17,27 +21,15 @@ namespace cartesian3d {
 // =================================================================================================
 
 template<class X>
-inline tensor4<X>::tensor4()
-{
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline tensor4<X>::tensor4(X D)
 {
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < 81 ; i += 3 )
   {
-    m_container[i  ] = D;
-    m_container[i+1] = D;
-    m_container[i+2] = D;
+    m_data[i  ] = D;
+    m_data[i+1] = D;
+    m_data[i+2] = D;
   }
-
-  // point to local data container
-  m_data = &m_container[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -55,22 +47,10 @@ inline tensor4<X>::tensor4(Iterator first, Iterator last)
   // copy input
   for ( size_t i = 0 ; i < 81 ; i += 3 )
   {
-    m_container[i  ] = first[i  ];
-    m_container[i+1] = first[i+1];
-    m_container[i+2] = first[i+2];
+    m_data[i  ] = first[i  ];
+    m_data[i+1] = first[i+1];
+    m_data[i+2] = first[i+2];
   }
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>::tensor2()
-{
-  // point to local data container
-  m_data = &m_container[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -78,16 +58,13 @@ inline tensor2<X>::tensor2()
 template<class X>
 inline tensor2<X>::tensor2(X D)
 {
-  // copy input
+  // set all entries constant
   for ( size_t i = 0 ; i < 9 ; i += 3 )
   {
-    m_container[i  ] = D;
-    m_container[i+1] = D;
-    m_container[i+2] = D;
+    m_data[i  ] = D;
+    m_data[i+1] = D;
+    m_data[i+2] = D;
   }
-
-  // point to local data container
-  m_data = &m_container[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -105,22 +82,10 @@ inline tensor2<X>::tensor2(Iterator first, Iterator last)
   // copy input
   for ( size_t i = 0 ; i < 9 ; i += 3 )
   {
-    m_container[i  ] = first[i  ];
-    m_container[i+1] = first[i+1];
-    m_container[i+2] = first[i+2];
+    m_data[i  ] = first[i  ];
+    m_data[i+1] = first[i+1];
+    m_data[i+2] = first[i+2];
   }
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>::tensor2s()
-{
-  // point to local data container
-  m_data = &m_container[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -128,16 +93,13 @@ inline tensor2s<X>::tensor2s()
 template<class X>
 inline tensor2s<X>::tensor2s(X D)
 {
-  // copy input
-  m_container[0] = D;
-  m_container[1] = D;
-  m_container[2] = D;
-  m_container[3] = D;
-  m_container[4] = D;
-  m_container[5] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
+  // set all entries constant
+  m_data[0] = D;
+  m_data[1] = D;
+  m_data[2] = D;
+  m_data[3] = D;
+  m_data[4] = D;
+  m_data[5] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -153,15 +115,12 @@ inline tensor2s<X>::tensor2s(Iterator first, Iterator last)
   assert( 6 == last - first );
 
   // copy input
-  m_container[0] = first[0];
-  m_container[1] = first[1];
-  m_container[2] = first[2];
-  m_container[3] = first[3];
-  m_container[4] = first[4];
-  m_container[5] = first[5];
-
-  // point to local data container
-  m_data = &m_container[0];
+  m_data[0] = first[0];
+  m_data[1] = first[1];
+  m_data[2] = first[2];
+  m_data[3] = first[3];
+  m_data[4] = first[4];
+  m_data[5] = first[5];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -169,9 +128,6 @@ inline tensor2s<X>::tensor2s(Iterator first, Iterator last)
 template<class X>
 inline tensor2d<X>::tensor2d()
 {
-  // point to local data container
-  m_data = &m_container[0];
-
   // set dummy parameter
   m_zero[0] = static_cast<X>(0);
 }
@@ -181,11 +137,8 @@ inline tensor2d<X>::tensor2d()
 template<class X>
 inline tensor2d<X>::tensor2d(X D)
 {
-  // copy input
-  m_container[0] = m_container[1] = m_container[2] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
+  // set all entries constant
+  m_data[0] = m_data[1] = m_data[2] = D;
 
   // set dummy parameter
   m_zero[0] = static_cast<X>(0);
@@ -204,21 +157,9 @@ inline tensor2d<X>::tensor2d(Iterator first, Iterator last)
   assert( 3 == last - first );
 
   // copy input
-  m_container[0] = first[0];
-  m_container[1] = first[1];
-  m_container[2] = first[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>::vector()
-{
-  // point to local data container
-  m_data = &m_container[0];
+  m_data[0] = first[0];
+  m_data[1] = first[1];
+  m_data[2] = first[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -226,11 +167,8 @@ inline vector<X>::vector()
 template<class X>
 inline vector<X>::vector(X D)
 {
-  // copy input
-  m_container[0] = m_container[1] = m_container[2] = D;
-
-  // point to local data container
-  m_data = &m_container[0];
+  // set all entries constant
+  m_data[0] = m_data[1] = m_data[2] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -246,257 +184,9 @@ inline vector<X>::vector(Iterator first, Iterator last)
   assert( 3 == last - first );
 
   // copy input
-  m_container[0] = first[0];
-  m_container[1] = first[1];
-  m_container[2] = first[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// copy constructors
-// =================================================================================================
-
-template<class X>
-inline tensor4<X>::tensor4(const tensor4<X> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < 81 ; i += 3 )
-  {
-    m_container[i  ] = D[i  ];
-    m_container[i+1] = D[i+1];
-    m_container[i+2] = D[i+2];
-  }
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>::tensor2(const tensor2<X> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < 9 ; i += 3 )
-  {
-    m_container[i  ] = D[i  ];
-    m_container[i+1] = D[i+1];
-    m_container[i+2] = D[i+2];
-  }
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>::tensor2s(const tensor2s<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-  m_container[3] = D[3];
-  m_container[4] = D[4];
-  m_container[5] = D[5];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>::tensor2d(const tensor2d<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // set dummy parameter
-  m_zero[0] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>::vector(const vector<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-}
-
-// =================================================================================================
-// assignment operators
-// =================================================================================================
-
-template<class X>
-inline tensor4<X>& tensor4<X>::operator= (const tensor4<X> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < 81 ; i += 3 )
-  {
-    m_container[i  ] = D[i  ];
-    m_container[i+1] = D[i+1];
-    m_container[i+2] = D[i+2];
-  }
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator= (const tensor2<X> &D)
-{
-  // copy input
-  for ( size_t i = 0 ; i < 9 ; i += 3 )
-  {
-    m_container[i  ] = D[i  ];
-    m_container[i+1] = D[i+1];
-    m_container[i+2] = D[i+2];
-  }
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator= (const tensor2s<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-  m_container[3] = D[3];
-  m_container[4] = D[4];
-  m_container[5] = D[5];
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator= (const tensor2d<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // set dummy parameter
-  m_zero[0] = static_cast<X>(0);
-
-  // return pointer to current instance
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator= (const vector<X> &D)
-{
-  // copy input
-  m_container[0] = D[0];
-  m_container[1] = D[1];
-  m_container[2] = D[2];
-
-  // point to local data container
-  m_data = &m_container[0];
-
-  // return pointer to current instance
-  return *this;
-}
-
-// =================================================================================================
-// map external pointer
-// =================================================================================================
-
-template<class X> inline void tensor4 <X>::map(X *D) { m_data = D; }
-template<class X> inline void tensor2 <X>::map(X *D) { m_data = D; }
-template<class X> inline void tensor2s<X>::map(X *D) { m_data = D; }
-template<class X> inline void tensor2d<X>::map(X *D) { m_data = D; }
-template<class X> inline void vector  <X>::map(X *D) { m_data = D; }
-
-// =================================================================================================
-// copy from external pointer
-// =================================================================================================
-
-template<class X>
-inline void tensor4 <X>::copy(const X *D)
-{
-  std::copy(D, D+81, &m_container[0]);
-
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void tensor2 <X>::copy(const X *D)
-{
-  std::copy(D, D+9, &m_container[0]);
-
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void tensor2s<X>::copy(const X *D)
-{
-  std::copy(D, D+6, &m_container[0]);
-
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void tensor2d<X>::copy(const X *D)
-{
-  std::copy(D, D+3, &m_container[0]);
-
-  m_data = &m_container[0];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void vector  <X>::copy(const X *D)
-{
-  std::copy(D, D+3, &m_container[0]);
-
-  m_data = &m_container[0];
+  m_data[0] = first[0];
+  m_data[1] = first[1];
+  m_data[2] = first[2];
 }
 
 // =================================================================================================
@@ -913,6 +603,14 @@ template<class X> inline auto     vector  <X>::end()   const { return &m_data[0]
 // =================================================================================================
 
 template<class X>
+inline void tensor4<X>::arange()
+{
+  for ( size_t i = 0 ; i < 81 ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor4<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < 81 ; ++i ) m_data[i] = D;
@@ -948,6 +646,14 @@ template<class X>
 inline void tensor4<X>::ones()
 {
   for ( size_t i = 0 ; i < 81 ; ++i ) m_data[i] = static_cast<X>(1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void tensor2<X>::arange()
+{
+  for ( size_t i = 0 ; i < 9 ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -993,6 +699,14 @@ inline void tensor2<X>::ones()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline void tensor2s<X>::arange()
+{
+  for ( size_t i = 0 ; i < 6 ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2s<X>::setConstant(X D)
 {
   m_data[0] = m_data[1] = m_data[2] = m_data[3] = m_data[4] = m_data[5] = D;
@@ -1033,6 +747,14 @@ inline void tensor2s<X>::ones()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline void tensor2d<X>::arange()
+{
+  for ( size_t i = 0 ; i < 3 ; ++i ) m_data[i] = static_cast<X>(i);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2d<X>::setConstant(X D)
 {
   m_data[0] = m_data[1] = m_data[2] = D;
@@ -1068,6 +790,14 @@ template<class X>
 inline void tensor2d<X>::ones()
 {
   m_data[0] = m_data[1] = m_data[2] = static_cast<X>(1);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void vector<X>::arange()
+{
+  for ( size_t i = 0 ; i < 3 ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------

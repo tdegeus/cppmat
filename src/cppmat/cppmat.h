@@ -21,8 +21,8 @@
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
-#define CPPMAT_MAJOR_VERSION 3
-#define CPPMAT_MINOR_VERSION 11
+#define CPPMAT_MAJOR_VERSION 4
+#define CPPMAT_MINOR_VERSION 1
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \

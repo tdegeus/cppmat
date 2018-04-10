@@ -7,7 +7,11 @@
 #ifndef CPPMAT_TENSOR3_H
 #define CPPMAT_TENSOR3_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian3d {
@@ -31,31 +35,18 @@ class tensor4
 {
 private:
 
-  // data container
-  X m_container[81];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[81]; // data container
 
 public:
 
-  // constructors
-  tensor4();
-  tensor4(X D);
+  // constructor
+  tensor4(){};   // allocate, don't initialize
+  tensor4(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor4(Iterator first, Iterator last);
 
-  // copy constructor
-  tensor4(const tensor4<X> &D);
-
-  // assignment operator
-  tensor4<X>& operator= (const tensor4<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // get dimensions
   size_t size() const;
@@ -71,15 +62,18 @@ public:
   X&       operator()(size_t i, size_t j, size_t k, size_t l);
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -125,31 +119,17 @@ class tensor2
 {
 private:
 
-  // data container
-  X m_container[9];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[9];  // data container
 
 public:
 
-  // constructors
-  tensor2();
-  tensor2(X D);
+  // constructor
+  tensor2(){};   // allocate, don't initialize
+  tensor2(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2(const tensor2<X> &D);
-
-  // assignment operator
-  tensor2<X>& operator= (const tensor2<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -168,15 +148,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -243,31 +226,17 @@ class tensor2s
 {
 private:
 
-  // data container
-  X m_container[6];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[6];  // data container
 
 public:
 
-  // constructors
-  tensor2s();
-  tensor2s(X D);
+  // constructor
+  tensor2s(){};   // allocate, don't initialize
+  tensor2s(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2s(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2s(const tensor2s<X> &D);
-
-  // assignment operator
-  tensor2s<X>& operator= (const tensor2s<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -289,15 +258,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -351,7 +323,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian3d::tensor2d (symmetric storage of "cppmat::cartesian3d::tensor")
+// cppmat::cartesian3d::tensor2d (diagonal storage of "cppmat::cartesian3d::tensor")
 // =================================================================================================
 
 template<class X>
@@ -359,33 +331,18 @@ class tensor2d
 {
 private:
 
-  // data container
-  X m_container[3];
-  // pointer to container (may point outside)
-  X *m_data;
-  // dummy parameter, used to return "0" for any off-diagonal entry
-  X m_zero[1];
+  X m_data[3];  // data container
+  X m_zero[1];  // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
-  // constructors
-  tensor2d();
-  tensor2d(X D);
+  // constructor
+  tensor2d();     // allocate, don't initialize
+  tensor2d(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   tensor2d(Iterator first, Iterator last);
-
-  // copy constructor
-  tensor2d(const tensor2d<X> &D);
-
-  // assignment operator
-  tensor2d<X>& operator= (const tensor2d<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -408,15 +365,18 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -475,31 +435,17 @@ class vector
 {
 private:
 
-  // data container
-  X m_container[3];
-  // pointer to container (may point outside)
-  X *m_data;
+  X m_data[3];  // data container
 
 public:
 
-  // constructors
-  vector();
-  vector(X D);
+  // constructor
+  vector(){};   // allocate, don't initialize
+  vector(X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   vector(Iterator first, Iterator last);
-
-  // copy constructor
-  vector(const vector<X> &D);
-
-  // assignment operator
-  vector<X>& operator= (const vector<X> &D);
-
-  // map external pointer
-  void map(X *D);
-
-  // copy from external point
-  void copy(const X *D);
 
   // get dimensions
   size_t size() const;
@@ -515,15 +461,18 @@ public:
   X&       operator()(size_t i);
   const X& operator()(size_t i) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterators
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();

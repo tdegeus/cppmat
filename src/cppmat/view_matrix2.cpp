@@ -7,7 +7,11 @@
 #ifndef CPPMAT_VIEW_MATRIX_CPP
 #define CPPMAT_VIEW_MATRIX_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "view_matrix2.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace view {
@@ -19,6 +23,7 @@ namespace view {
 template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>::matrix2()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -27,18 +32,6 @@ template<class X, size_t m, size_t n>
 inline matrix2<X,m,n>::matrix2(const X *D)
 {
   m_data = D;
-}
-
-// =================================================================================================
-// assignment operator
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>& matrix2<X,m,n>::operator= (const matrix2<X,m,n> &D)
-{
-  m_data = &D[0];
-
-  return *this;
 }
 
 // =================================================================================================
@@ -55,8 +48,19 @@ inline void matrix2<X,m,n>::map(const X *D)
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t m, size_t n> inline size_t matrix2<X,m,n>::size() const { return m_size; }
-template<class X, size_t m, size_t n> inline size_t matrix2<X,m,n>::ndim() const { return 2;      }
+template<class X, size_t m, size_t n>
+inline size_t matrix2<X,m,n>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline size_t matrix2<X,m,n>::ndim() const
+{
+  return 2;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -126,7 +130,7 @@ inline const X& matrix2<X,m,n>::operator()(size_t a, size_t b) const
 }
 
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
 template<class X, size_t m, size_t n> inline const X* matrix2<X,m,n>::data() const
@@ -134,7 +138,9 @@ template<class X, size_t m, size_t n> inline const X* matrix2<X,m,n>::data() con
   return &m_data[0];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// iterators
+// =================================================================================================
 
 template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::begin() const
 {
@@ -153,9 +159,9 @@ template<class X, size_t m, size_t n> inline auto matrix2<X,m,n>::end() const
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -166,9 +172,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const ma
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -179,9 +185,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const ma
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -192,9 +198,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const ma
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -205,9 +211,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const ma
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
+inline reg::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -218,9 +224,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const X 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
+inline reg::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -231,9 +237,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const X 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
+inline reg::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -244,9 +250,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const X 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
+inline reg::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -257,9 +263,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const X 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -270,9 +276,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator* (const X &A, const matrix2<X,m,n> 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -283,9 +289,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator/ (const X &A, const matrix2<X,m,n> 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -296,9 +302,9 @@ inline cppmat::tiny::matrix2<X,m,n> operator+ (const X &A, const matrix2<X,m,n> 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline cppmat::tiny::matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
+inline reg::matrix2<X,m,n> operator- (const X &A, const matrix2<X,m,n> &B)
 {
-  cppmat::tiny::matrix2<X,m,n> C;
+  reg::matrix2<X,m,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -396,6 +402,8 @@ inline std::ostream& operator<<(std::ostream& out, matrix2<X,m,n>& src)
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

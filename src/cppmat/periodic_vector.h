@@ -7,7 +7,11 @@
 #ifndef CPPMAT_PERIODIC_VECTOR_H
 #define CPPMAT_PERIODIC_VECTOR_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace periodic {
@@ -28,11 +32,12 @@ private:
 
 public:
 
-  // constructors
-  vector(){};
-  vector(size_t n);
-  vector(size_t n, X D);
+  // constructor
+  vector(){};             // empty
+  vector(size_t n);       // allocate, don't initialize
+  vector(size_t n, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   vector(Iterator first, Iterator last);
 
@@ -54,15 +59,18 @@ public:
   X&       operator()(int a);
   const X& operator()(int a) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterator to first and last entry
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -108,6 +116,8 @@ template<class X> inline vector<X> operator- (const        X  &A, const vector<X
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

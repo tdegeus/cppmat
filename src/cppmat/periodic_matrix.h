@@ -7,12 +7,14 @@
 #ifndef CPPMAT_PERIODIC_MATRIX_H
 #define CPPMAT_PERIODIC_MATRIX_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace periodic {
-
-#define MAX_DIM 6
 
 // =================================================================================================
 // cppmat::matrix
@@ -23,6 +25,7 @@ class matrix
 {
 private:
 
+  static const size_t MAX_DIM=6;     // maximum number of dimensions
   std::vector<X> m_data;             // data container
   size_t         m_ndim=0;           // actual number of dimensions
   size_t         m_size=0;           // total number of entries == data.size() == prod(shape)
@@ -32,11 +35,12 @@ private:
 
 public:
 
-  // constructors
-  matrix(){};
-  matrix(const std::vector<size_t> &shape);
-  matrix(const std::vector<size_t> &shape, X D);
+  // constructor
+  matrix(){};                                     // empty
+  matrix(const std::vector<size_t> &shape);       // allocate, don't initialize
+  matrix(const std::vector<size_t> &shape, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   matrix(const std::vector<size_t> &shape, Iterator first, Iterator last);
 
@@ -70,15 +74,37 @@ public:
   X&       operator()(int a, int b, int c, int d, int e, int f);
   const X& operator()(int a, int b, int c, int d, int e, int f) const;
 
-  // pointer / iterators
+  // index operators: access using iterator
+  // N.B. the iterator points to a list of indices (a,b,...)
+  template<class Iterator> X&       at(Iterator first, Iterator last);
+  template<class Iterator> const X& at(Iterator first, Iterator last) const;
+
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterator to first and last entry
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
+
+  // iterator to specific entry
+  auto item(int a);
+  auto item(int a) const;
+  auto item(int a, int b);
+  auto item(int a, int b) const;
+  auto item(int a, int b, int c);
+  auto item(int a, int b, int c) const;
+  auto item(int a, int b, int c, int d);
+  auto item(int a, int b, int c, int d) const;
+  auto item(int a, int b, int c, int d, int e);
+  auto item(int a, int b, int c, int d, int e) const;
+  auto item(int a, int b, int c, int d, int e, int f);
+  auto item(int a, int b, int c, int d, int e, int f) const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -124,6 +150,8 @@ template<class X> inline matrix<X> operator- (const        X  &A, const matrix<X
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

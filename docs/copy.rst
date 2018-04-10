@@ -26,9 +26,8 @@ Example 1: std::copy
     std::cout << "A = " << A << std::endl;
   }
 
-Example 2: Input iterator
-=========================
-
+Example 2: construct + copy from iterator
+=========================================
 
 .. code-block:: cpp
 

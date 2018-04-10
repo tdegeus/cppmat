@@ -7,10 +7,20 @@
 #ifndef CPPMAT_VIEW_VECTOR_H
 #define CPPMAT_VIEW_VECTOR_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace view {
+
+// =================================================================================================
+// alias name-space with "normal" class
+// =================================================================================================
+
+namespace reg = cppmat::tiny;
 
 // =================================================================================================
 // cppmat::view::vector
@@ -21,19 +31,14 @@ class vector
 {
 private:
 
-  // pointer to data (points outside)
-  const X *m_data;
-  // total number of entries
-  size_t m_size=n;
+  const X *m_data;  // pointer to data (points outside)
+  size_t m_size=n;  // total number of entries
 
 public:
 
-  // constructors
-  vector();
-  vector(const X *D);
-
-  // assignment operator
-  vector<X,n>& operator= (const vector<X,n> &D);
+  // constructor
+  vector();           // allocate, null-pointer
+  vector(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -51,10 +56,12 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t a) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterator to first and last entry
+  auto begin() const;
+  auto end() const;
 
   // basic algebra
   X      min() const;
@@ -69,23 +76,47 @@ public:
 };
 
 // arithmetic operators
-// TODO for tiny as well
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const        X    &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const        X    &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const        X    &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const        X    &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator* (const        X    &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator/ (const        X    &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator+ (const        X    &A, const vector<X,n> &B);
-template<class X, size_t n> inline cppmat::tiny::vector<X,n> operator- (const        X    &A, const vector<X,n> &B);
+template<class X, size_t n>
+inline reg::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator* (const vector<X,n> &A, const        X    &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator/ (const vector<X,n> &A, const        X    &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator+ (const vector<X,n> &A, const        X    &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator- (const vector<X,n> &A, const        X    &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator* (const        X    &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator/ (const        X    &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator+ (const        X    &A, const vector<X,n> &B);
+
+template<class X, size_t n>
+inline reg::vector<X,n> operator- (const        X    &A, const vector<X,n> &B);
 
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

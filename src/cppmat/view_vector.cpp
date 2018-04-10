@@ -7,7 +7,11 @@
 #ifndef CPPMAT_VIEW_VECTOR_CPP
 #define CPPMAT_VIEW_VECTOR_CPP
 
+// -------------------------------------------------------------------------------------------------
+
 #include "view_vector.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace view {
@@ -19,6 +23,7 @@ namespace view {
 template<class X, size_t n>
 inline vector<X,n>::vector()
 {
+  m_data = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -30,33 +35,22 @@ inline vector<X,n>::vector(const X *D)
 }
 
 // =================================================================================================
-// assignment operator
-// =================================================================================================
-
-template<class X, size_t n>
-inline vector<X,n>& vector<X,n>::operator= (const vector<X,n> &D)
-{
-  m_data = &D[0];
-
-  return *this;
-}
-
-// =================================================================================================
-// map external pointer
-// =================================================================================================
-
-template<class X, size_t n>
-inline void vector<X,n>::map(const X *D)
-{
-  m_data = D;
-}
-
-// =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t n> inline size_t vector<X,n>::size() const { return m_size; }
-template<class X, size_t n> inline size_t vector<X,n>::ndim() const { return 1;      }
+template<class X, size_t n>
+inline size_t vector<X,n>::size() const
+{
+  return m_size;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline size_t vector<X,n>::ndim() const
+{
+  return 1;
+}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -141,9 +135,9 @@ template<class X, size_t n> inline auto vector<X,n>::end() const
 // =================================================================================================
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -154,9 +148,9 @@ inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const vector<X
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -167,9 +161,9 @@ inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const vector<X
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -180,9 +174,9 @@ inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const vector<X
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -193,9 +187,9 @@ inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const vector<X
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const X &B)
+inline reg::vector<X,n> operator* (const vector<X,n> &A, const X &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -206,9 +200,9 @@ inline cppmat::tiny::vector<X,n> operator* (const vector<X,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const X &B)
+inline reg::vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -219,9 +213,9 @@ inline cppmat::tiny::vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const X &B)
+inline reg::vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -232,9 +226,9 @@ inline cppmat::tiny::vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const X &B)
+inline reg::vector<X,n> operator- (const vector<X,n> &A, const X &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -245,9 +239,9 @@ inline cppmat::tiny::vector<X,n> operator- (const vector<X,n> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator* (const X &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator* (const X &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -258,9 +252,9 @@ inline cppmat::tiny::vector<X,n> operator* (const X &A, const vector<X,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator/ (const X &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -271,9 +265,9 @@ inline cppmat::tiny::vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator+ (const X &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -284,9 +278,9 @@ inline cppmat::tiny::vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline cppmat::tiny::vector<X,n> operator- (const X &A, const vector<X,n> &B)
+inline reg::vector<X,n> operator- (const X &A, const vector<X,n> &B)
 {
-  cppmat::tiny::vector<X,n> C;
+  reg::vector<X,n> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -378,6 +372,8 @@ inline std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

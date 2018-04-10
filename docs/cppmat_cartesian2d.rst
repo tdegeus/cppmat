@@ -23,7 +23,7 @@ Classes
 cppmat::cartesian2d::tensor4
 ----------------------------
 
-4th-order tensor (rank 4 tensor) of arbitrary dimension.
+4th-order tensor (rank 4 tensor).
 
 .. code-block:: cpp
 
@@ -36,7 +36,7 @@ cppmat::cartesian2d::tensor4
 cppmat::cartesian2d::tensor2
 ----------------------------
 
-2nd-order tensor (rank 2 tensor) of arbitrary dimension.
+2nd-order tensor (rank 2 tensor).
 
 .. code-block:: cpp
 
@@ -71,7 +71,7 @@ The following components are stored:
 cppmat::cartesian2d::tensor2d
 -----------------------------
 
-diagonal 2nd-order tensor.
+Diagonal 2nd-order tensor.
 
 .. code-block:: cpp
 
@@ -93,65 +93,10 @@ The following components are stored:
 cppmat::cartesian2d::vector
 ---------------------------
 
-Vector (rank 1 tensor) of arbitrary dimension. For example:
+Vector (rank 1 tensor). For example:
 
 .. code-block:: cpp
 
   cppmat::cartesian::vector<double> A;
 
   A(0) = ...
-
-Map external pointer
-====================
-
-Like in :ref:`tiny`, the classes under :ref:`cartesian2` can be used to 'view' an external pointer. For example, for a matrix of 2-d symmetric tensors:
-
-.. code-block:: cpp
-
-  #include <cppmat/cppmat.h>
-
-  int main()
-  {
-      cppmat::matrix2<double> container({50,50,3});
-
-      cppmat::cartesian2d::tensor2s view;
-
-      for ( size_t i = 0 ; i < container.shape(0) ; ++i )
-      {
-          for ( size_t j = 0 ; j < container.shape(1) ; ++j )
-          {
-              view.map(&container(i,j));
-
-              view(0,0) = ... // directly stored in "container"
-          }
-      }
-  }
-
-.. note::
-
-  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
-
-.. note::
-
-  To map a ``const``-pointer (read-only):
-
-  .. code-block:: cpp
-
-    #include <cppmat/cppmat.h>
-
-    int main()
-    {
-        cppmat::matrix2<double> container({50,50,3});
-
-        cppmat::view::cartesian2d::tensor2s view;
-
-        for ( size_t i = 0 ; i < container.shape(0) ; ++i )
-        {
-            for ( size_t j = 0 ; j < container.shape(1) ; ++j )
-            {
-                view.map(&container(i,j));
-
-                std::cout << view << std::endl;
-            }
-        }
-    }

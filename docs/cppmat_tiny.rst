@@ -37,54 +37,9 @@ Compared to :ref:`matrix2`:
 
 The rest of the interface is the same.
 
-Map external pointer
---------------------
-
-This class can be used to 'view' and external pointer. This can be useful to refer to a part of a bigger matrix. For example:
-
-.. code-block:: cpp
-
-  #include <cppmat/cppmat.h>
-
-  int main()
-  {
-      cppmat::matrix2<double> container({100,4,2});
-
-      cppmat::tiny::matrix2<double,4,2> view;
-
-      for ( size_t i = 0 ; i < container.shape(0) ; ++i )
-      {
-          view.map(&container(i));
-
-          view(0,0) = ... // directly stored in "container"
-      }
-  }
-
 .. note::
 
-  If you wish to copy from a pointer, rather than to point to an external object, the `.copy(...)` function is available with an identical syntax to `.map(...)`.
-
-.. note::
-
-  To map a ``const``-pointer (read-only):
-
-  .. code-block:: cpp
-
-    #include <cppmat/cppmat.h>
-
-    int main()
-    {
-        cppmat::matrix2<double> container({100,4,2});
-
-        cppmat::view::matrix2<double,4,2> view;
-
-        for ( size_t i = 0 ; i < container.shape(0) ; ++i )
-        {
-            view.map(&container(i));
-
-            std::cout << view << std::endl;
-        }
-    }
+  To 'view' a pointer as a matrix, use :ref:`view_matrix2`.
 
 .. _tiny_vector:
 
@@ -117,3 +72,8 @@ Compared to :ref:`vector`:
 *   This class can be used to 'view' and external pointer.
 
 The rest of the interface is the same.
+
+.. note::
+
+  To 'view' a pointer as a vector, use :ref:`view_vector`.
+

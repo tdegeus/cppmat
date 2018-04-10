@@ -7,7 +7,11 @@
 #ifndef CPPMAT_MATRIX2_H
 #define CPPMAT_MATRIX2_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 
@@ -27,11 +31,12 @@ private:
 
 public:
 
-  // constructors
-  matrix2(){};
-  matrix2(size_t m, size_t n);
-  matrix2(size_t m, size_t n, X D);
+  // constructor
+  matrix2(){};                       // empty
+  matrix2(size_t m, size_t n);       // allocate, don't initialize
+  matrix2(size_t m, size_t n, X D);  // allocate, initialize to constant
 
+  // constructor: copy entries from iterator
   template<typename Iterator>
   matrix2(size_t m, size_t n, Iterator first, Iterator last);
 
@@ -56,15 +61,18 @@ public:
   X&       operator()(size_t a, size_t b);
   const X& operator()(size_t a, size_t b) const;
 
-  // pointer / iterators
+  // pointer to data
   X*       data();
   const X* data() const;
-  auto     begin();
-  auto     begin() const;
-  auto     end();
-  auto     end() const;
+
+  // iterator to first and last entry
+  auto begin();
+  auto begin() const;
+  auto end();
+  auto end() const;
 
   // basic initialization
+  void arange();
   void setConstant(X D);
   void setZero();
   void setOnes();
@@ -110,6 +118,8 @@ template<class X> inline matrix2<X> operator- (const         X  &A, const matrix
 // =================================================================================================
 
 } // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

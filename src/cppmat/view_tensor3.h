@@ -7,6 +7,8 @@
 #ifndef CPPMAT_VIEW_TENSOR3_H
 #define CPPMAT_VIEW_TENSOR3_H
 
+// -------------------------------------------------------------------------------------------------
+
 #include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
@@ -26,7 +28,13 @@ template<class X> class tensor2d;
 template<class X> class vector;
 
 // =================================================================================================
-// cppmat::cartesian3d::tensor4
+// alias name-space with "normal" class
+// =================================================================================================
+
+namespace reg = cppmat::cartesian3d;
+
+// =================================================================================================
+// cppmat::view::cartesian3d::tensor4
 // =================================================================================================
 
 template<class X>
@@ -34,17 +42,13 @@ class tensor4
 {
 private:
 
-// pointer to data (points outside)
-  const X *m_data;
+  const X *m_data; // pointer to data (points outside)
 
 public:
 
-  // constructors
-  tensor4();
-  tensor4(const X *D);
-
-  // assignment operator
-  tensor4<X>& operator= (const tensor4<X> &D);
+  // constructor
+  tensor4();           // allocate, null-pointer
+  tensor4(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -61,25 +65,27 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterators
+  auto begin() const;
+  auto end() const;
 
   // tensor products / operations
-  cppmat::cartesian3d::tensor4<X> inline ddot(const tensor4 <X> &B) const; // double contract.: C_ijmn = A_ijkl * B_lkmn
-  cppmat::cartesian3d::tensor2<X> inline ddot(const tensor2 <X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  cppmat::cartesian3d::tensor2<X> inline ddot(const tensor2s<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  cppmat::cartesian3d::tensor2<X> inline ddot(const tensor2d<X> &B) const; // double contract.: C_ij   = A_ijkl * B_lk
-  cppmat::cartesian3d::tensor4<X> inline T   (                    ) const; // transposition   : C_lkji = A_ijkl
-  cppmat::cartesian3d::tensor4<X> inline RT  (                    ) const; // transposition   : C_ijlk = A_ijkl
-  cppmat::cartesian3d::tensor4<X> inline LT  (                    ) const; // transposition   : C_jikl = A_ijkl
+  reg::tensor4<X> inline ddot(const tensor4 <X> &B) const;
+  reg::tensor2<X> inline ddot(const tensor2 <X> &B) const;
+  reg::tensor2<X> inline ddot(const tensor2s<X> &B) const;
+  reg::tensor2<X> inline ddot(const tensor2d<X> &B) const;
+  reg::tensor4<X> inline T   (                    ) const;
+  reg::tensor4<X> inline RT  (                    ) const;
+  reg::tensor4<X> inline LT  (                    ) const;
 
   // equality operators
-  bool operator== (const tensor4<X> &B) const; // A_ijkl == B_ijkl
+  bool operator== (const tensor4<X> &B) const;
 
   // basic algebra
-  X norm() const; // sum(| A_ijkl |)
+  X norm() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -87,7 +93,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian3d::tensor2
+// cppmat::view::cartesian3d::tensor2
 // =================================================================================================
 
 template<class X>
@@ -95,17 +101,13 @@ class tensor2
 {
 private:
 
-  // pointer to data (points outside)
-  const X *m_data;
+  const X *m_data; // pointer to data (points outside)
 
 public:
 
-  // constructors
-  tensor2();
-  tensor2(const X *D);
-
-  // assignment operator
-  tensor2<X>& operator= (const tensor2<X> &D);
+  // constructor
+  tensor2();           // allocate, null-pointer
+  tensor2(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -125,39 +127,41 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterators
+  auto begin() const;
+  auto end() const;
 
   // tensor products / operations
-  cppmat::cartesian3d::tensor2<X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2<X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::vector <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  cppmat::cartesian3d::tensor2<X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X                               inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                               inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                               inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  cppmat::cartesian3d::tensor4<X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4<X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4<X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor2<X> inline T     (                    ) const; // transpose       : C_ij   = A_ji
-  X                               inline trace (                    ) const; // trace           : A_ii
-  X                               inline det   (                    ) const; // determinant
-  cppmat::cartesian3d::tensor2<X> inline inv   (                    ) const; // inverse
+  reg::tensor2<X> inline dot   (const tensor2 <X> &B) const;
+  reg::tensor2<X> inline dot   (const tensor2s<X> &B) const;
+  reg::tensor2<X> inline dot   (const tensor2d<X> &B) const;
+  reg::vector <X> inline dot   (const vector  <X> &B) const;
+  reg::tensor2<X> inline ddot  (const tensor4 <X> &B) const;
+  X               inline ddot  (const tensor2 <X> &B) const;
+  X               inline ddot  (const tensor2s<X> &B) const;
+  X               inline ddot  (const tensor2d<X> &B) const;
+  reg::tensor4<X> inline dyadic(const tensor2 <X> &B) const;
+  reg::tensor4<X> inline dyadic(const tensor2s<X> &B) const;
+  reg::tensor4<X> inline dyadic(const tensor2d<X> &B) const;
+  reg::tensor2<X> inline T     (                    ) const;
+  X               inline trace (                    ) const;
+  X               inline det   (                    ) const;
+  reg::tensor2<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
-  bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
-  bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
+  bool operator== (const tensor2 <X> &B) const;
+  bool operator== (const tensor2s<X> &B) const;
+  bool operator== (const tensor2d<X> &B) const;
 
   // structure check
-  bool issymmetric() const; // A_ij == A_ji
-  bool isdiagonal() const;  // A_ij == 0, i != j
+  bool issymmetric() const;
+  bool isdiagonal() const;
 
   // basic algebra
-  X norm() const; // sum(| A_ij |)
+  X norm() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -165,7 +169,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian3d::tensor2s (symmetric storage of "cppmat::cartesian3d::tensor")
+// cppmat::view::cartesian3d::tensor2s
 // =================================================================================================
 
 template<class X>
@@ -173,17 +177,13 @@ class tensor2s
 {
 private:
 
-  // pointer to data (points outside)
-  const X *m_data;
+  const X *m_data; // pointer to data (points outside)
 
 public:
 
-  // constructors
-  tensor2s();
-  tensor2s(const X *D);
-
-  // assignment operator
-  tensor2s<X>& operator= (const tensor2s<X> &D);
+  // constructor
+  tensor2s();           // allocate, null-pointer
+  tensor2s(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -201,38 +201,40 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterators
+  auto begin() const;
+  auto end() const;
 
   // tensor products / operations
-  cppmat::cartesian3d::tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2 <X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  cppmat::cartesian3d::tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X                                inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                                inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                                inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product  : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor2s<X> inline T     (                    ) const; // transpose       : C_ij   = A_ji
-  X                                inline trace (                    ) const; // trace           : A_ii
-  X                                inline det   (                    ) const; // determinant
-  cppmat::cartesian3d::tensor2s<X> inline inv   (                    ) const; // inverse
+  reg::tensor2 <X> inline dot   (const tensor2 <X> &B) const;
+  reg::tensor2 <X> inline dot   (const tensor2s<X> &B) const;
+  reg::tensor2 <X> inline dot   (const tensor2d<X> &B) const;
+  reg::vector  <X> inline dot   (const vector  <X> &B) const;
+  reg::tensor2 <X> inline ddot  (const tensor4 <X> &B) const;
+  X                inline ddot  (const tensor2 <X> &B) const;
+  X                inline ddot  (const tensor2s<X> &B) const;
+  X                inline ddot  (const tensor2d<X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2 <X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2s<X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2d<X> &B) const;
+  reg::tensor2s<X> inline T     (                    ) const;
+  X                inline trace (                    ) const;
+  X                inline det   (                    ) const;
+  reg::tensor2s<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const; // A_ij == A_ij
-  bool operator== (const tensor2s<X> &B) const; // A_ij == B_ij
-  bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
+  bool operator== (const tensor2 <X> &B) const;
+  bool operator== (const tensor2s<X> &B) const;
+  bool operator== (const tensor2d<X> &B) const;
 
   // structure check
-  bool isdiagonal() const; // A_ij == 0, i != j
+  bool isdiagonal() const;
 
   // basic algebra
-  X norm() const; // sum(| A_ij |)
+  X norm() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -240,7 +242,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian3d::tensor2d (symmetric storage of "cppmat::cartesian3d::tensor")
+// cppmat::view::cartesian3d::tensor2d
 // =================================================================================================
 
 template<class X>
@@ -248,19 +250,14 @@ class tensor2d
 {
 private:
 
-  // pointer to data (points outside)
-  const X *m_data;
-  // dummy parameter, used to return "0" for any off-diagonal entry
-  X m_zero[1];
+  const X *m_data; // pointer to data (points outside)
+  X m_zero[1];     // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
-  // constructors
-  tensor2d();
-  tensor2d(const X *D);
-
-  // assignment operator
-  tensor2d<X>& operator= (const tensor2d<X> &D);
+  // constructor
+  tensor2d();           // allocate, null-pointer
+  tensor2d(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -278,35 +275,37 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterators
+  auto begin() const;
+  auto end() const;
 
   // tensor products / operations
-  cppmat::cartesian3d::tensor2 <X> inline dot   (const tensor2 <X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2 <X> inline dot   (const tensor2s<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::tensor2d<X> inline dot   (const tensor2d<X> &B) const; // single contract.: C_ik   = A_ij * B_jk
-  cppmat::cartesian3d::vector  <X> inline dot   (const vector  <X> &B) const; // single contract.: C_i    = A_ij * B_j
-  cppmat::cartesian3d::tensor2 <X> inline ddot  (const tensor4 <X> &B) const; // double contract.: C_kl   = A_ij * B_jikl
-  X                                inline ddot  (const tensor2 <X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                                inline ddot  (const tensor2s<X> &B) const; // double contract.: C      = A_ij * B_ji
-  X                                inline ddot  (const tensor2d<X> &B) const; // double contract.: C      = A_ij * B_ji
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2 <X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2s<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor4 <X> inline dyadic(const tensor2d<X> &B) const; // dyadic product : C_ijkl = A_ij * B_kl
-  cppmat::cartesian3d::tensor2d<X> inline T     (                    ) const; // transpose      : C_ij   = A_ji
-  X                                inline trace (                    ) const; // trace          : A_ii
-  X                                inline det   (                    ) const; // determinant
-  cppmat::cartesian3d::tensor2d<X> inline inv   (                    ) const; // inverse
+  reg::tensor2 <X> inline dot   (const tensor2 <X> &B) const;
+  reg::tensor2 <X> inline dot   (const tensor2s<X> &B) const;
+  reg::tensor2d<X> inline dot   (const tensor2d<X> &B) const;
+  reg::vector  <X> inline dot   (const vector  <X> &B) const;
+  reg::tensor2 <X> inline ddot  (const tensor4 <X> &B) const;
+  X                inline ddot  (const tensor2 <X> &B) const;
+  X                inline ddot  (const tensor2s<X> &B) const;
+  X                inline ddot  (const tensor2d<X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2 <X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2s<X> &B) const;
+  reg::tensor4 <X> inline dyadic(const tensor2d<X> &B) const;
+  reg::tensor2d<X> inline T     (                    ) const;
+  X                inline trace (                    ) const;
+  X                inline det   (                    ) const;
+  reg::tensor2d<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const; // A_ij == B_ij
-  bool operator== (const tensor2s<X> &B) const; // A_ij == A_ij
-  bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
+  bool operator== (const tensor2 <X> &B) const;
+  bool operator== (const tensor2s<X> &B) const;
+  bool operator== (const tensor2d<X> &B) const;
 
   // basic algebra
-  X norm() const; // sum(| A_ii |)
+  X norm() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -314,7 +313,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian3d::vector
+// cppmat::view::cartesian3d::vector
 // =================================================================================================
 
 template<class X>
@@ -322,17 +321,13 @@ class vector
 {
 private:
 
-  // pointer to data (points outside)
-  const X *m_data;
+  const X *m_data; // pointer to data (points outside)
 
 public:
 
-  // constructors
-  vector();
-  vector(const X *D);
-
-  // assignment operator
-  vector<X>& operator= (const vector<X> &D);
+  // constructor
+  vector();           // allocate, null-pointer
+  vector(const X *D); // allocate, set external pointer
 
   // map external pointer
   void map(const X *D);
@@ -349,25 +344,27 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i) const;
 
-  // pointer / iterators
+  // pointer to data
   const X* data() const;
-  auto     begin() const;
-  auto     end() const;
+
+  // iterators
+  auto begin() const;
+  auto end() const;
 
   // tensor products / operations
-  X                               inline dot   (const vector  <X> &B) const; // dot    product: C   = A_i*B_i
-  cppmat::cartesian3d::vector <X> inline dot   (const tensor2 <X> &B) const; // dot    product: C_j = A_i*B_ij
-  cppmat::cartesian3d::vector <X> inline dot   (const tensor2s<X> &B) const; // dot    product: C_j = A_i*B_ij
-  cppmat::cartesian3d::vector <X> inline dot   (const tensor2d<X> &B) const; // dot    product: C_j = A_i*B_ij
-  cppmat::cartesian3d::tensor2<X> inline dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
-  cppmat::cartesian3d::vector <X> inline cross (const vector  <X> &B) const; // cross  product
+  X               inline dot   (const vector  <X> &B) const;
+  reg::vector <X> inline dot   (const tensor2 <X> &B) const;
+  reg::vector <X> inline dot   (const tensor2s<X> &B) const;
+  reg::vector <X> inline dot   (const tensor2d<X> &B) const;
+  reg::tensor2<X> inline dyadic(const vector  <X> &B) const;
+  reg::vector <X> inline cross (const vector  <X> &B) const;
 
   // equality operators
-  bool operator== (const vector<X> &B) const; // A_i == B_i
+  bool operator== (const vector<X> &B) const;
 
   // basic algebra
-  X norm() const;       // sum(| A_i |)
-  X length() const;     // sqrt(sum(pow(A_i,2.)))
+  X norm() const;
+  X length() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -378,158 +375,160 @@ public:
 // arithmetic operators
 // =================================================================================================
 
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator* (const tensor4 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator/ (const tensor4 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator+ (const tensor4 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator- (const tensor4 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator* (const tensor4 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator/ (const tensor4 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator+ (const tensor4 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator- (const tensor4 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator* (const          X  &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator/ (const          X  &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator+ (const          X  &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> operator- (const          X  &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator* (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator/ (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator* (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator/ (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator* (const tensor2 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator/ (const tensor2 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2 <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator* (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator/ (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator* (const          X  &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator/ (const          X  &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator+ (const          X  &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> operator- (const          X  &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator* (const tensor2s<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator/ (const tensor2s<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const tensor2s<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const tensor2s<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const tensor2d<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const tensor2d<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator* (const          X  &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator/ (const          X  &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const          X  &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const          X  &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator+ (const          X  &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> operator- (const          X  &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2d<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator/ (const tensor2d<X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> operator* (const          X  &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator* (const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator/ (const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator+ (const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator- (const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator* (const vector  <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator/ (const vector  <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator+ (const vector  <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator- (const vector  <X> &A, const          X  &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator* (const          X  &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator/ (const          X  &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator+ (const          X  &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> operator- (const          X  &A, const vector  <X> &B);
+template<class X> inline reg::tensor4 <X> operator* (const tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator/ (const tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator+ (const tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator- (const tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator* (const tensor4 <X> &A, const          X  &B);
+template<class X> inline reg::tensor4 <X> operator/ (const tensor4 <X> &A, const          X  &B);
+template<class X> inline reg::tensor4 <X> operator+ (const tensor4 <X> &A, const          X  &B);
+template<class X> inline reg::tensor4 <X> operator- (const tensor4 <X> &A, const          X  &B);
+template<class X> inline reg::tensor4 <X> operator* (const          X  &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator/ (const          X  &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator+ (const          X  &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor4 <X> operator- (const          X  &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor2 <X> operator* (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator/ (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator* (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> operator/ (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> operator* (const tensor2 <X> &A, const          X  &B);
+template<class X> inline reg::tensor2 <X> operator/ (const tensor2 <X> &A, const          X  &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2 <X> &A, const          X  &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2 <X> &A, const          X  &B);
+template<class X> inline reg::tensor2 <X> operator* (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator/ (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator* (const          X  &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator/ (const          X  &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator+ (const          X  &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> operator- (const          X  &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator/ (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2s<X> operator* (const tensor2s<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator/ (const tensor2s<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator+ (const tensor2s<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator- (const tensor2s<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator+ (const tensor2d<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator- (const tensor2d<X> &A, const          X  &B);
+template<class X> inline reg::tensor2s<X> operator+ (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator- (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator* (const          X  &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator/ (const          X  &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator+ (const          X  &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator- (const          X  &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2s<X> operator+ (const          X  &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2s<X> operator- (const          X  &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator+ (const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2d<X> &A, const          X  &B);
+template<class X> inline reg::tensor2d<X> operator/ (const tensor2d<X> &A, const          X  &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2d<X> operator* (const          X  &A, const tensor2d<X> &B);
+template<class X> inline reg::vector  <X> operator* (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator/ (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator+ (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator- (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator* (const vector  <X> &A, const          X  &B);
+template<class X> inline reg::vector  <X> operator/ (const vector  <X> &A, const          X  &B);
+template<class X> inline reg::vector  <X> operator+ (const vector  <X> &A, const          X  &B);
+template<class X> inline reg::vector  <X> operator- (const vector  <X> &A, const          X  &B);
+template<class X> inline reg::vector  <X> operator* (const          X  &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator/ (const          X  &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator+ (const          X  &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> operator- (const          X  &A, const vector  <X> &B);
 
 // =================================================================================================
 // tensor products / operations
 // =================================================================================================
 
-template<class X> inline cppmat::cartesian3d::tensor4 <X> ddot  (const tensor4 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor2 <X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor2s<X> &A, const tensor4 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> ddot  (const tensor2d<X> &A, const tensor4 <X> &B);
-template<class X> inline                               X  ddot  (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline                               X  ddot  (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline                               X  ddot  (const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline                               X  ddot  (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline                               X  ddot  (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline                               X  ddot  (const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline                               X  ddot  (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline                               X  ddot  (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline                               X  ddot  (const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dot   (const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> dot   (const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const tensor2 <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const tensor2s<X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const tensor2d<X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const vector  <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const vector  <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> dot   (const vector  <X> &A, const tensor2d<X> &B);
-template<class X> inline                               X  dot   (const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2 <X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2s<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2d<X> &B);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> dyadic(const vector  <X> &A, const vector  <X> &B);
-template<class X> inline cppmat::cartesian3d::vector  <X> cross (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::tensor4 <X> ddot  (const tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor4 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor2 <X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor2s<X> &A, const tensor4 <X> &B);
+template<class X> inline reg::tensor2 <X> ddot  (const tensor2d<X> &A, const tensor4 <X> &B);
+template<class X> inline               X  ddot  (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline               X  ddot  (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline               X  ddot  (const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline               X  ddot  (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline               X  ddot  (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline               X  ddot  (const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline               X  ddot  (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline               X  ddot  (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline               X  ddot  (const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor2 <X> dot   (const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor2d<X> dot   (const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::vector  <X> dot   (const tensor2 <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> dot   (const tensor2s<X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> dot   (const tensor2d<X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> dot   (const vector  <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::vector  <X> dot   (const vector  <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::vector  <X> dot   (const vector  <X> &A, const tensor2d<X> &B);
+template<class X> inline               X  dot   (const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline reg::tensor4 <X> dyadic(const tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline reg::tensor2 <X> dyadic(const vector  <X> &A, const vector  <X> &B);
+template<class X> inline reg::vector  <X> cross (const vector  <X> &A, const vector  <X> &B);
 
 // =================================================================================================
 // miscellaneous tensor operations
 // =================================================================================================
 
-template<class X> inline cppmat::cartesian3d::tensor2 <X> transpose (const tensor2 <X> &A);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> transpose (const tensor2s<X> &A);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> transpose (const tensor2d<X> &A);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> transpose (const tensor4 <X> &A);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> transposeR(const tensor4 <X> &A);
-template<class X> inline cppmat::cartesian3d::tensor4 <X> transposeL(const tensor4 <X> &A);
-template<class X> inline cppmat::cartesian3d::tensor2 <X> inv       (const tensor2 <X> &A);
-template<class X> inline cppmat::cartesian3d::tensor2s<X> inv       (const tensor2s<X> &A);
-template<class X> inline cppmat::cartesian3d::tensor2d<X> inv       (const tensor2d<X> &A);
-template<class X> inline                               X  det       (const tensor2 <X> &A);
-template<class X> inline                               X  det       (const tensor2s<X> &A);
-template<class X> inline                               X  det       (const tensor2d<X> &A);
-template<class X> inline                               X  trace     (const tensor2 <X> &A);
-template<class X> inline                               X  trace     (const tensor2s<X> &A);
-template<class X> inline                               X  trace     (const tensor2d<X> &A);
+template<class X> inline reg::tensor2 <X> transpose (const tensor2 <X> &A);
+template<class X> inline reg::tensor2s<X> transpose (const tensor2s<X> &A);
+template<class X> inline reg::tensor2d<X> transpose (const tensor2d<X> &A);
+template<class X> inline reg::tensor4 <X> transpose (const tensor4 <X> &A);
+template<class X> inline reg::tensor4 <X> transposeR(const tensor4 <X> &A);
+template<class X> inline reg::tensor4 <X> transposeL(const tensor4 <X> &A);
+template<class X> inline reg::tensor2 <X> inv       (const tensor2 <X> &A);
+template<class X> inline reg::tensor2s<X> inv       (const tensor2s<X> &A);
+template<class X> inline reg::tensor2d<X> inv       (const tensor2d<X> &A);
+template<class X> inline               X  det       (const tensor2 <X> &A);
+template<class X> inline               X  det       (const tensor2s<X> &A);
+template<class X> inline               X  det       (const tensor2d<X> &A);
+template<class X> inline               X  trace     (const tensor2 <X> &A);
+template<class X> inline               X  trace     (const tensor2s<X> &A);
+template<class X> inline               X  trace     (const tensor2d<X> &A);
 
 // =================================================================================================
 
 }}} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 
