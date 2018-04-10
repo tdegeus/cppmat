@@ -66,6 +66,20 @@ inline size_t vector<X,n>::shape(size_t i) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
+inline size_t vector<X,n>::shape(int i) const
+{
+  i = ( i < 0 ) ? i + 1 : ( i >= 1 ) ? i - 1 : i ;
+
+  if ( i == 0 ) return n;
+
+  assert( false );
+  return 0;
+}
+
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
 inline std::vector<size_t> vector<X,n>::shape() const
 {
   std::vector<size_t> ret(1);

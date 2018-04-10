@@ -106,6 +106,20 @@ inline size_t matrix2<X>::ndim() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline size_t matrix2<X>::shape(int i) const
+{
+  i = ( i < 0 ) ? i + 2 : ( i >= 2 ) ? i - 2 : i ;
+
+  if ( i == 0 ) return m_m;
+  if ( i == 1 ) return m_n;
+
+  assert( false );
+  return 0;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline size_t matrix2<X>::shape(size_t i) const
 {
   if ( i == 0 ) return m_m;

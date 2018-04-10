@@ -142,6 +142,20 @@ inline size_t matrix<X>::ndim() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline size_t matrix<X>::shape(int i) const
+{
+  int nd = static_cast<int>(m_ndim);
+
+  i = ( i < 0 ) ? i + nd : ( i >= nd ) ? i - nd : i ;
+
+  assert( i < MAX_DIM );
+
+  return m_shape[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline size_t matrix<X>::shape(size_t i) const
 {
   assert( i < MAX_DIM );
@@ -382,6 +396,20 @@ template<class X>
 inline auto matrix<X>::end() const
 {
   return m_data.end();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::index(size_t i)
+{
+  return m_data.begin() + i;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix<X>::index(size_t i) const
+{
+  return m_data.begin() + i;
 }
 
 // -------------------------------------------------------------------------------------------------

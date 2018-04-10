@@ -47,7 +47,6 @@ public:
   template<typename Iterator>
   tensor4(Iterator first, Iterator last);
 
-
   // get dimensions
   size_t size() const;
   size_t ndim() const;

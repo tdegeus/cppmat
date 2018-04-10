@@ -50,6 +50,7 @@ public:
   // get dimensions
   size_t size() const;
   size_t ndim() const;
+  size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
   std::vector<size_t> strides(bool bytes=false) const;
@@ -87,7 +88,11 @@ public:
   auto end();
   auto end() const;
 
-  // iterator to specific entry
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using matrix indices
   auto item(size_t a);
   auto item(size_t a) const;
   auto item(size_t a, size_t b);

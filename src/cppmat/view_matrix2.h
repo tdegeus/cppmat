@@ -46,6 +46,7 @@ public:
   // get dimensions
   size_t size() const;
   size_t ndim() const;
+  size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
   std::vector<size_t> strides(bool bytes=false) const;

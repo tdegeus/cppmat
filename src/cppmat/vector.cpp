@@ -92,6 +92,19 @@ inline size_t vector<X>::ndim() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline size_t vector<X>::shape(int i) const
+{
+  i = ( i < 0 ) ? i + 1 : ( i >= 1 ) ? i - 1 : i ;
+
+  if ( i == 0 ) return m_n;
+
+  assert( false );
+  return 0;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline size_t vector<X>::shape(size_t i) const
 {
   if ( i == 0 ) return m_n;
