@@ -1,7 +1,7 @@
 
 # cppmat
 
-[![](https://img.shields.io/badge/website-cppmat.geus.me-blue.svg)](http://cppmat.geus.me) 
+[![](https://img.shields.io/badge/documentation-cppmat.geus.me-blue.svg)](http://cppmat.geus.me) 
 
 [![Documentation Status](https://readthedocs.org/projects/cppmat/badge/?version=latest)](http://cppmat.geus.me/en/latest/?badge=latest)
 
