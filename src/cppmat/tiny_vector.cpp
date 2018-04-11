@@ -558,7 +558,7 @@ inline void vector<X,n>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline std::ostream& operator<<(std::ostream& out, vector<X,n>& src)
+inline std::ostream& operator<<(std::ostream& out, const vector<X,n>& src)
 {
   auto w = out.width();
   auto p = out.precision();

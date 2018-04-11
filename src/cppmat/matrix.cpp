@@ -918,7 +918,7 @@ inline void matrix<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, matrix<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const matrix<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();

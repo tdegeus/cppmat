@@ -4173,7 +4173,7 @@ inline void vector<X>::printf(std::string fmt) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const tensor4<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -4196,7 +4196,7 @@ inline std::ostream& operator<<(std::ostream& out, tensor4<X>& src)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const tensor2<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -4213,7 +4213,7 @@ inline std::ostream& operator<<(std::ostream& out, tensor2<X>& src)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const tensor2s<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -4230,7 +4230,7 @@ inline std::ostream& operator<<(std::ostream& out, tensor2s<X>& src)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const tensor2d<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -4247,7 +4247,7 @@ inline std::ostream& operator<<(std::ostream& out, tensor2d<X>& src)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::ostream& operator<<(std::ostream& out, vector<X>& src)
+inline std::ostream& operator<<(std::ostream& out, const vector<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
