@@ -17,14 +17,10 @@ namespace cppmat {
 namespace cartesian3d {
 
 // =================================================================================================
-// forward declaration
+// alias name-space with "view" class
 // =================================================================================================
 
-template<class X> class tensor4;
-template<class X> class tensor2;
-template<class X> class tensor2s;
-template<class X> class tensor2d;
-template<class X> class vector;
+namespace map = cppmat::view::cartesian3d;
 
 // =================================================================================================
 // cppmat::cartesian3d::tensor4
@@ -593,6 +589,137 @@ template<class X> inline vector  <X> operator* (const          X  &A, const vect
 template<class X> inline vector  <X> operator/ (const          X  &A, const vector  <X> &B);
 template<class X> inline vector  <X> operator+ (const          X  &A, const vector  <X> &B);
 template<class X> inline vector  <X> operator- (const          X  &A, const vector  <X> &B);
+
+// =================================================================================================
+// arithmetic operators - mixed class - view ? normal
+// =================================================================================================
+
+template<class X> inline tensor4 <X> operator* (const map::tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator/ (const map::tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator+ (const map::tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator- (const map::tensor4 <X> &A, const tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator* (const map::tensor4 <X> &A, const          X  &B);
+template<class X> inline tensor4 <X> operator/ (const map::tensor4 <X> &A, const          X  &B);
+template<class X> inline tensor4 <X> operator+ (const map::tensor4 <X> &A, const          X  &B);
+template<class X> inline tensor4 <X> operator- (const map::tensor4 <X> &A, const          X  &B);
+template<class X> inline tensor2 <X> operator* (const map::tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator/ (const map::tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2 <X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator* (const map::tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator/ (const map::tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2 <X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2 <X> operator* (const map::tensor2 <X> &A, const          X  &B);
+template<class X> inline tensor2 <X> operator/ (const map::tensor2 <X> &A, const          X  &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2 <X> &A, const          X  &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2 <X> &A, const          X  &B);
+template<class X> inline tensor2 <X> operator* (const map::tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator/ (const map::tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2s<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const map::tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const map::tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2s<X> operator* (const map::tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator/ (const map::tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator- (const map::tensor2s<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2s<X> operator- (const map::tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2s<X> operator* (const map::tensor2s<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator/ (const map::tensor2s<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator- (const map::tensor2s<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator+ (const map::tensor2d<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator- (const map::tensor2d<X> &A, const          X  &B);
+template<class X> inline tensor2s<X> operator+ (const map::tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator- (const map::tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator+ (const map::tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator- (const map::tensor2d<X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2 <X> &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2s<X> &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2d<X> &A, const          X  &B);
+template<class X> inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const          X  &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2 <X> &A, const tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const map::tensor2s<X> &A, const tensor2d<X> &B);
+template<class X> inline vector  <X> operator* (const map::vector  <X> &A, const vector  <X> &B);
+template<class X> inline vector  <X> operator/ (const map::vector  <X> &A, const vector  <X> &B);
+template<class X> inline vector  <X> operator+ (const map::vector  <X> &A, const vector  <X> &B);
+template<class X> inline vector  <X> operator- (const map::vector  <X> &A, const vector  <X> &B);
+template<class X> inline vector  <X> operator* (const map::vector  <X> &A, const          X  &B);
+template<class X> inline vector  <X> operator/ (const map::vector  <X> &A, const          X  &B);
+template<class X> inline vector  <X> operator+ (const map::vector  <X> &A, const          X  &B);
+template<class X> inline vector  <X> operator- (const map::vector  <X> &A, const          X  &B);
+
+// =================================================================================================
+// arithmetic operators - mixed class - normal ? view
+// =================================================================================================
+
+template<class X> inline tensor4 <X> operator* (const tensor4 <X> &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator/ (const tensor4 <X> &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator+ (const tensor4 <X> &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator- (const tensor4 <X> &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator* (const          X  &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator/ (const          X  &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator+ (const          X  &A, const map::tensor4 <X> &B);
+template<class X> inline tensor4 <X> operator- (const          X  &A, const map::tensor4 <X> &B);
+template<class X> inline tensor2 <X> operator* (const tensor2 <X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator/ (const tensor2 <X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const tensor2 <X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const tensor2 <X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator* (const tensor2 <X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator/ (const tensor2 <X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator+ (const tensor2 <X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator- (const tensor2 <X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2 <X> operator+ (const tensor2 <X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2 <X> operator- (const tensor2 <X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2 <X> operator* (const tensor2s<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator/ (const tensor2s<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const tensor2s<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const tensor2s<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const tensor2d<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const tensor2d<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator* (const          X  &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator/ (const          X  &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator+ (const          X  &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2 <X> operator- (const          X  &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2s<X> operator* (const tensor2s<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator/ (const tensor2s<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const tensor2s<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator- (const tensor2s<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const tensor2s<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2s<X> operator- (const tensor2s<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2s<X> operator+ (const tensor2d<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator- (const tensor2d<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator* (const          X  &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator/ (const          X  &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const          X  &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator- (const          X  &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2s<X> operator+ (const          X  &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2s<X> operator- (const          X  &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator+ (const tensor2d<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator- (const tensor2d<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2 <X> &B);
+template<class X> inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2s<X> &B);
+template<class X> inline tensor2d<X> operator* (const tensor2 <X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const tensor2s<X> &A, const map::tensor2d<X> &B);
+template<class X> inline tensor2d<X> operator* (const          X  &A, const map::tensor2d<X> &B);
+template<class X> inline vector  <X> operator* (const vector  <X> &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator/ (const vector  <X> &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator+ (const vector  <X> &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator- (const vector  <X> &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator* (const          X  &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator/ (const          X  &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator+ (const          X  &A, const map::vector  <X> &B);
+template<class X> inline vector  <X> operator- (const          X  &A, const map::vector  <X> &B);
 
 // =================================================================================================
 // tensor products / operations

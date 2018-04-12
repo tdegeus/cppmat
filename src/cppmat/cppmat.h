@@ -39,9 +39,62 @@
 // dummy operation that can be use to suppress the "unused parameter" warnings
 #define UNUSED(p) ( (void)(p) )
 
+// ====================================== forward declaration ======================================
+
+namespace cppmat {
+namespace cartesian2d {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace cartesian2d {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace cartesian3d {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace cartesian3d {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}}
+
 // =================================================================================================
 
-#include "cppmat.h"
 #include "matrix.h"
 #include "matrix2.h"
 #include "vector.h"

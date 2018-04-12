@@ -18,16 +18,6 @@ namespace view {
 namespace cartesian3d {
 
 // =================================================================================================
-// forward declaration
-// =================================================================================================
-
-template<class X> class tensor4;
-template<class X> class tensor2;
-template<class X> class tensor2s;
-template<class X> class tensor2d;
-template<class X> class vector;
-
-// =================================================================================================
 // alias name-space with "normal" class
 // =================================================================================================
 

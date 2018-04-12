@@ -21,6 +21,15 @@ namespace cartesian2d {
 // =================================================================================================
 
 template<class X>
+inline tensor2d<X>::tensor2d()
+{
+  // set dummy parameter
+  m_zero[0] = static_cast<X>(0);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline tensor4<X>::tensor4(X D)
 {
   // set all entries constant
@@ -31,6 +40,45 @@ inline tensor4<X>::tensor4(X D)
     m_data[i+2] = D;
     m_data[i+3] = D;
   }
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>::tensor2(X D)
+{
+  // set all entries constant
+  m_data[0] = m_data[1] = m_data[2] = m_data[3] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>::tensor2s(X D)
+{
+  // set all entries constant
+  m_data[0] = m_data[1] = m_data[2] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>::tensor2d(X D)
+{
+  // set all entries constant
+  m_data[0] = m_data[1] = D;
+
+  // set dummy parameter
+  m_zero[0] = static_cast<X>(0);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>::vector(X D)
+{
+  // set all entries constant
+  m_data[0] = m_data[1] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -58,15 +106,6 @@ inline tensor4<X>::tensor4(Iterator first, Iterator last)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2<X>::tensor2(X D)
-{
-  // set all entries constant
-  m_data[0] = m_data[1] = m_data[2] = m_data[3] = D;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 template<typename Iterator>
 inline tensor2<X>::tensor2(Iterator first, Iterator last)
 {
@@ -81,15 +120,6 @@ inline tensor2<X>::tensor2(Iterator first, Iterator last)
   m_data[1] = first[1];
   m_data[2] = first[2];
   m_data[3] = first[3];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>::tensor2s(X D)
-{
-  // set all entries constant
-  m_data[0] = m_data[1] = m_data[2] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -113,27 +143,6 @@ inline tensor2s<X>::tensor2s(Iterator first, Iterator last)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X>::tensor2d()
-{
-  // set dummy parameter
-  m_zero[0] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>::tensor2d(X D)
-{
-  // set all entries constant
-  m_data[0] = m_data[1] = D;
-
-  // set dummy parameter
-  m_zero[0] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 template<typename Iterator>
 inline tensor2d<X>::tensor2d(Iterator first, Iterator last)
 {
@@ -146,15 +155,6 @@ inline tensor2d<X>::tensor2d(Iterator first, Iterator last)
   // copy input
   m_data[0] = first[0];
   m_data[1] = first[1];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>::vector(X D)
-{
-  // set all entries constant
-  m_data[0] = m_data[1] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -797,7 +797,7 @@ inline void vector<X>::ones()
 }
 
 // =================================================================================================
-// arithmetic operators
+// arithmetic operators - tensor4
 // =================================================================================================
 
 template<class X>
@@ -926,7 +926,542 @@ inline tensor4<X>& tensor4<X>::operator-= (const X &B)
   return *this;
 }
 
+// =================================================================================================
+// arithmetic operators - tensor2
+// =================================================================================================
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator*= (const tensor2<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[1];
+  m_data[2] *= B[2];
+  m_data[3] *= B[3];
+
+  return *this;
+}
+
 // -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator/= (const tensor2<X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[1];
+  m_data[2] /= B[2];
+  m_data[3] /= B[3];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator+= (const tensor2<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[1] += B[1];
+  m_data[2] += B[2];
+  m_data[3] += B[3];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator-= (const tensor2<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[1] -= B[1];
+  m_data[2] -= B[2];
+  m_data[3] -= B[3];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator*= (const tensor2s<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[1]; m_data[2] *= B[1];
+  m_data[3] *= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator/= (const tensor2s<X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[1]; m_data[2] /= B[1];
+  m_data[3] /= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator+= (const tensor2s<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[1] += B[1]; m_data[2] += B[1];
+  m_data[3] += B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator-= (const tensor2s<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[1] -= B[1]; m_data[2] -= B[1];
+  m_data[3] -= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator*= (const tensor2d<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[3] *= B[1];
+  m_data[1] = m_data[2] = static_cast<X>(0);
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator+= (const tensor2d<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[3] += B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator-= (const tensor2d<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[3] -= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator*= (const X &B)
+{
+  m_data[0] *= B;
+  m_data[1] *= B;
+  m_data[2] *= B;
+  m_data[3] *= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator/= (const X &B)
+{
+  m_data[0] /= B;
+  m_data[1] /= B;
+  m_data[2] /= B;
+  m_data[3] /= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator+= (const X &B)
+{
+  m_data[0] += B;
+  m_data[1] += B;
+  m_data[2] += B;
+  m_data[3] += B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X>& tensor2<X>::operator-= (const X &B)
+{
+  m_data[0] -= B;
+  m_data[1] -= B;
+  m_data[2] -= B;
+  m_data[3] -= B;
+
+  return *this;
+}
+
+// =================================================================================================
+// arithmetic operators - tensor2s
+// =================================================================================================
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator*= (const tensor2s<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[1];
+  m_data[2] *= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator/= (const tensor2s<X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[1];
+  m_data[2] /= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator+= (const tensor2s<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[1] += B[1];
+  m_data[2] += B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator-= (const tensor2s<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[1] -= B[1];
+  m_data[2] -= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator*= (const tensor2d<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[2] *= B[1];
+  m_data[1]  = static_cast<X>(0);
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator+= (const tensor2d<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[2] += B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator-= (const tensor2d<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[2] -= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator*= (const X &B)
+{
+  m_data[0] *= B;
+  m_data[1] *= B;
+  m_data[2] *= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator/= (const X &B)
+{
+  m_data[0] /= B;
+  m_data[1] /= B;
+  m_data[2] /= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator+= (const X &B)
+{
+  m_data[0] += B;
+  m_data[1] += B;
+  m_data[2] += B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X>& tensor2s<X>::operator-= (const X &B)
+{
+  m_data[0] -= B;
+  m_data[1] -= B;
+  m_data[2] -= B;
+
+  return *this;
+}
+
+// =================================================================================================
+// arithmetic operators - tensor2d
+// =================================================================================================
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2d<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator+= (const tensor2d<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[1] += B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator-= (const tensor2d<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[1] -= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2 <X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[3];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2 <X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[3];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2s<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2s<X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[2];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator*= (const X &B)
+{
+  m_data[0] *= B;
+  m_data[1] *= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator/= (const X &B)
+{
+  m_data[0] /= B;
+  m_data[1] /= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator+= (const X &B)
+{
+  m_data[0] += B;
+  m_data[1] += B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X>& tensor2d<X>::operator-= (const X &B)
+{
+  m_data[0] -= B;
+  m_data[1] -= B;
+
+  return *this;
+}
+
+// =================================================================================================
+// arithmetic operators - vector
+// =================================================================================================
+
+template<class X>
+inline vector<X>& vector<X>::operator*= (const vector<X> &B)
+{
+  m_data[0] *= B[0];
+  m_data[1] *= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator/= (const vector<X> &B)
+{
+  m_data[0] /= B[0];
+  m_data[1] /= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator+= (const vector<X> &B)
+{
+  m_data[0] += B[0];
+  m_data[1] += B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator-= (const vector<X> &B)
+{
+  m_data[0] -= B[0];
+  m_data[1] -= B[1];
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator*= (const X &B)
+{
+  m_data[0] *= B;
+  m_data[1] *= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator/= (const X &B)
+{
+  m_data[0] /= B;
+  m_data[1] /= B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator+= (const X &B)
+{
+  m_data[0] += B;
+  m_data[1] += B;
+
+  return *this;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X>& vector<X>::operator-= (const X &B)
+{
+  m_data[0] -= B;
+  m_data[1] -= B;
+
+  return *this;
+}
+
+// =================================================================================================
+// arithmetic operators - mixed class
+// =================================================================================================
 
 template<class X>
 inline tensor4<X> operator* (const tensor4<X> &A, const tensor4<X> &B)
@@ -1140,192 +1675,6 @@ inline tensor4<X> operator- (const X &A, const tensor4<X> &B)
   }
 
   return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator*= (const tensor2<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[1];
-  m_data[2] *= B[2];
-  m_data[3] *= B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator/= (const tensor2<X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[1];
-  m_data[2] /= B[2];
-  m_data[3] /= B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator+= (const tensor2<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[1] += B[1];
-  m_data[2] += B[2];
-  m_data[3] += B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator-= (const tensor2<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[1] -= B[1];
-  m_data[2] -= B[2];
-  m_data[3] -= B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator*= (const tensor2s<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[1]; m_data[2] *= B[1];
-  m_data[3] *= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator/= (const tensor2s<X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[1]; m_data[2] /= B[1];
-  m_data[3] /= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator+= (const tensor2s<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[1] += B[1]; m_data[2] += B[1];
-  m_data[3] += B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator-= (const tensor2s<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[1] -= B[1]; m_data[2] -= B[1];
-  m_data[3] -= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator*= (const tensor2d<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[3] *= B[1];
-  m_data[1] = m_data[2] = static_cast<X>(0);
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator+= (const tensor2d<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[3] += B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator-= (const tensor2d<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[3] -= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator*= (const X &B)
-{
-  m_data[0] *= B;
-  m_data[1] *= B;
-  m_data[2] *= B;
-  m_data[3] *= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator/= (const X &B)
-{
-  m_data[0] /= B;
-  m_data[1] /= B;
-  m_data[2] /= B;
-  m_data[3] /= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator+= (const X &B)
-{
-  m_data[0] += B;
-  m_data[1] += B;
-  m_data[2] += B;
-  m_data[3] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2<X>& tensor2<X>::operator-= (const X &B)
-{
-  m_data[0] -= B;
-  m_data[1] -= B;
-  m_data[2] -= B;
-  m_data[3] -= B;
-
-  return *this;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1683,136 +2032,6 @@ inline tensor2<X> operator- (const X &A, const tensor2<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2s<X>& tensor2s<X>::operator*= (const tensor2s<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[1];
-  m_data[2] *= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator/= (const tensor2s<X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[1];
-  m_data[2] /= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator+= (const tensor2s<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[1] += B[1];
-  m_data[2] += B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator-= (const tensor2s<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[1] -= B[1];
-  m_data[2] -= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator*= (const tensor2d<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[2] *= B[1];
-  m_data[1]  = static_cast<X>(0);
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator+= (const tensor2d<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[2] += B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator-= (const tensor2d<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[2] -= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator*= (const X &B)
-{
-  m_data[0] *= B;
-  m_data[1] *= B;
-  m_data[2] *= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator/= (const X &B)
-{
-  m_data[0] /= B;
-  m_data[1] /= B;
-  m_data[2] /= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator+= (const X &B)
-{
-  m_data[0] += B;
-  m_data[1] += B;
-  m_data[2] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2s<X>& tensor2s<X>::operator-= (const X &B)
-{
-  m_data[0] -= B;
-  m_data[1] -= B;
-  m_data[2] -= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline tensor2s<X> operator* (const tensor2s<X> &A, const tensor2s<X> &B)
 {
   tensor2s<X> C;
@@ -2093,127 +2312,6 @@ inline tensor2s<X> operator- (const X &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2d<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator+= (const tensor2d<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[1] += B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator-= (const tensor2d<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[1] -= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2 <X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2 <X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[3];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2s<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2s<X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[2];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator*= (const X &B)
-{
-  m_data[0] *= B;
-  m_data[1] *= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator/= (const X &B)
-{
-  m_data[0] /= B;
-  m_data[1] /= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator+= (const X &B)
-{
-  m_data[0] += B;
-  m_data[1] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline tensor2d<X>& tensor2d<X>::operator-= (const X &B)
-{
-  m_data[0] -= B;
-  m_data[1] -= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2d<X> &B)
 {
   tensor2d<X> C;
@@ -2370,94 +2468,6 @@ inline tensor2d<X> operator* (const X &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline vector<X>& vector<X>::operator*= (const vector<X> &B)
-{
-  m_data[0] *= B[0];
-  m_data[1] *= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator/= (const vector<X> &B)
-{
-  m_data[0] /= B[0];
-  m_data[1] /= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator+= (const vector<X> &B)
-{
-  m_data[0] += B[0];
-  m_data[1] += B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator-= (const vector<X> &B)
-{
-  m_data[0] -= B[0];
-  m_data[1] -= B[1];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator*= (const X &B)
-{
-  m_data[0] *= B;
-  m_data[1] *= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator/= (const X &B)
-{
-  m_data[0] /= B;
-  m_data[1] /= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator+= (const X &B)
-{
-  m_data[0] += B;
-  m_data[1] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline vector<X>& vector<X>::operator-= (const X &B)
-{
-  m_data[0] -= B;
-  m_data[1] -= B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline vector<X> operator* (const vector<X> &A, const vector<X> &B)
 {
   vector<X> C;
@@ -2602,6 +2612,1769 @@ inline vector<X> operator+ (const X &A, const vector<X> &B)
 
 template<class X>
 inline vector<X> operator- (const X &A, const vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A - B[0];
+  C[1] = A - B[1];
+
+  return C;
+}
+
+// =================================================================================================
+// arithmetic operators - mixed class - view ? normal
+// =================================================================================================
+
+template<class X>
+inline tensor4<X> operator* (const map::tensor4<X> &A, const tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] * B[i  ];
+    C[i+1] = A[i+1] * B[i+1];
+    C[i+2] = A[i+2] * B[i+2];
+    C[i+3] = A[i+3] * B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator/ (const map::tensor4<X> &A, const tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] / B[i  ];
+    C[i+1] = A[i+1] / B[i+1];
+    C[i+2] = A[i+2] / B[i+2];
+    C[i+3] = A[i+3] / B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator+ (const map::tensor4<X> &A, const tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] + B[i  ];
+    C[i+1] = A[i+1] + B[i+1];
+    C[i+2] = A[i+2] + B[i+2];
+    C[i+3] = A[i+3] + B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator- (const map::tensor4<X> &A, const tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] - B[i  ];
+    C[i+1] = A[i+1] - B[i+1];
+    C[i+2] = A[i+2] - B[i+2];
+    C[i+3] = A[i+3] - B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator* (const map::tensor4<X> &A, const X &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] * B;
+    C[i+1] = A[i+1] * B;
+    C[i+2] = A[i+2] * B;
+    C[i+3] = A[i+3] * B;
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator/ (const map::tensor4<X> &A, const X &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] / B;
+    C[i+1] = A[i+1] / B;
+    C[i+2] = A[i+2] / B;
+    C[i+3] = A[i+3] / B;
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator+ (const map::tensor4<X> &A, const X &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] + B;
+    C[i+1] = A[i+1] + B;
+    C[i+2] = A[i+2] + B;
+    C[i+3] = A[i+3] + B;
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator- (const map::tensor4<X> &A, const X &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] - B;
+    C[i+1] = A[i+1] - B;
+    C[i+2] = A[i+2] - B;
+    C[i+3] = A[i+3] - B;
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const map::tensor2<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
+  C[3] = A[3] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const map::tensor2<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
+  C[3] = A[3] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
+  C[3] = A[3] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
+  C[3] = A[3] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const map::tensor2<X> &A, const tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[2] = A[2] * B[1];
+  C[3] = A[3] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const map::tensor2<X> &A, const tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[2] = A[2] / B[1];
+  C[3] = A[3] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2<X> &A, const tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[2] = A[2] + B[1];
+  C[3] = A[3] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2<X> &A, const tensor2s<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
+  C[3] = A[3] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2<X> &A, const tensor2d<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2<X> &A, const tensor2d<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const map::tensor2<X> &A, const X &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+  C[2] = A[2] * B;
+  C[3] = A[3] * B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const map::tensor2<X> &A, const X &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+  C[2] = A[2] / B;
+  C[3] = A[3] / B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2<X> &A, const X &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B;
+  C[1] = A[1] + B;
+  C[2] = A[2] + B;
+  C[3] = A[3] + B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2<X> &A, const X &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] - B;
+  C[1] = A[1] - B;
+  C[2] = A[2] - B;
+  C[3] = A[3] - B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const map::tensor2s<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[2] = A[1] * B[2];
+  C[3] = A[2] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const map::tensor2s<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[2] = A[1] / B[2];
+  C[3] = A[2] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2s<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[2] = A[1] + B[2];
+  C[3] = A[2] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2s<X> &A, const tensor2<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
+  C[3] = A[2] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const map::tensor2d<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] =        B[2];
+  C[3] = A[1] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const map::tensor2d<X> &A, const tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] =      - B[2];
+  C[3] = A[1] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator* (const map::tensor2s<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator/ (const map::tensor2s<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const map::tensor2s<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1];
+  C[2] = A[2] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const map::tensor2s<X> &A, const tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1];
+  C[2] = A[2] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator* (const map::tensor2s<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+  C[2] = A[2] * B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator/ (const map::tensor2s<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+  C[2] = A[2] / B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const map::tensor2s<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B;
+  C[1] = A[1] + B;
+  C[2] = A[2] + B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const map::tensor2s<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B;
+  C[1] = A[1] - B;
+  C[2] = A[2] - B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const map::tensor2d<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B;
+  C[1] =        B;
+  C[2] = A[1] + B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const map::tensor2d<X> &A, const X &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B;
+  C[1] =      - B;
+  C[2] = A[1] - B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const map::tensor2d<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] = A[1] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const map::tensor2d<X> &A, const tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] = A[1] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator+ (const map::tensor2d<X> &A, const tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator- (const map::tensor2d<X> &A, const tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2 <X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2 <X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2s<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2s<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2d<X> &A, const X &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const X &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2 <X> &A, const tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[3] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const map::tensor2s<X> &A, const tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[2] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator* (const map::vector<X> &A, const vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator/ (const map::vector<X> &A, const vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator+ (const map::vector<X> &A, const vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator- (const map::vector<X> &A, const vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator* (const map::vector<X> &A, const X &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] * B;
+  C[1] = A[1] * B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator/ (const map::vector<X> &A, const X &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] / B;
+  C[1] = A[1] / B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator+ (const map::vector<X> &A, const X &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] + B;
+  C[1] = A[1] + B;
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator- (const map::vector<X> &A, const X &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] - B;
+  C[1] = A[1] - B;
+
+  return C;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =================================================================================================
+// arithmetic operators - mixed class - normal ? view
+// =================================================================================================
+
+template<class X>
+inline tensor4<X> operator* (const tensor4<X> &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] * B[i  ];
+    C[i+1] = A[i+1] * B[i+1];
+    C[i+2] = A[i+2] * B[i+2];
+    C[i+3] = A[i+3] * B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator/ (const tensor4<X> &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] / B[i  ];
+    C[i+1] = A[i+1] / B[i+1];
+    C[i+2] = A[i+2] / B[i+2];
+    C[i+3] = A[i+3] / B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator+ (const tensor4<X> &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] + B[i  ];
+    C[i+1] = A[i+1] + B[i+1];
+    C[i+2] = A[i+2] + B[i+2];
+    C[i+3] = A[i+3] + B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator- (const tensor4<X> &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A[i  ] - B[i  ];
+    C[i+1] = A[i+1] - B[i+1];
+    C[i+2] = A[i+2] - B[i+2];
+    C[i+3] = A[i+3] - B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator* (const X &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A * B[i  ];
+    C[i+1] = A * B[i+1];
+    C[i+2] = A * B[i+2];
+    C[i+3] = A * B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator/ (const X &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A / B[i  ];
+    C[i+1] = A / B[i+1];
+    C[i+2] = A / B[i+2];
+    C[i+3] = A / B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator+ (const X &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A + B[i  ];
+    C[i+1] = A + B[i+1];
+    C[i+2] = A + B[i+2];
+    C[i+3] = A + B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor4<X> operator- (const X &A, const map::tensor4<X> &B)
+{
+  tensor4<X> C;
+
+  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  {
+    C[i  ] = A - B[i  ];
+    C[i+1] = A - B[i+1];
+    C[i+2] = A - B[i+2];
+    C[i+3] = A - B[i+3];
+  }
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const tensor2<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
+  C[3] = A[3] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const tensor2<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
+  C[3] = A[3] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const tensor2<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
+  C[3] = A[3] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const tensor2<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
+  C[3] = A[3] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const tensor2<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[2] = A[2] * B[1];
+  C[3] = A[3] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const tensor2<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[2] = A[2] / B[1];
+  C[3] = A[3] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const tensor2<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[2] = A[2] + B[1];
+  C[3] = A[3] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const tensor2<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
+  C[3] = A[3] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const tensor2<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const tensor2<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1];
+  C[2] = A[2];
+  C[3] = A[3] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const tensor2s<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1]; C[2] = A[1] * B[2];
+  C[3] = A[2] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const tensor2s<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1]; C[2] = A[1] / B[2];
+  C[3] = A[2] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const tensor2s<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1]; C[2] = A[1] + B[2];
+  C[3] = A[2] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const tensor2s<X> &A, const map::tensor2<X> &B)
+{
+  tensor2 <X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
+  C[3] = A[2] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const tensor2d<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] =        B[2];
+  C[3] = A[1] + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const tensor2d<X> &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] =      - B[2];
+  C[3] = A[1] - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator* (const X &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+  C[2] = A * B[2];
+  C[3] = A * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator/ (const X &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A / B[0];
+  C[1] = A / B[1];
+  C[2] = A / B[2];
+  C[3] = A / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator+ (const X &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A + B[0];
+  C[1] = A + B[1];
+  C[2] = A + B[2];
+  C[3] = A + B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2<X> operator- (const X &A, const map::tensor2<X> &B)
+{
+  tensor2<X> C;
+
+  C[0] = A - B[0];
+  C[1] = A - B[1];
+  C[2] = A - B[2];
+  C[3] = A - B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator* (const tensor2s<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+  C[2] = A[2] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator/ (const tensor2s<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+  C[2] = A[2] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const tensor2s<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+  C[2] = A[2] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const tensor2s<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+  C[2] = A[2] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const tensor2s<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1];
+  C[2] = A[2] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const tensor2s<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1];
+  C[2] = A[2] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const tensor2d<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] =        B[1];
+  C[2] = A[1] + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const tensor2d<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] =      - B[1];
+  C[2] = A[1] - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator* (const X &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+  C[2] = A * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator/ (const X &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A / B[0];
+  C[1] = A / B[1];
+  C[2] = A / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const X &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A + B[0];
+  C[1] = A + B[1];
+  C[2] = A + B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const X &A, const map::tensor2s<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A - B[0];
+  C[1] = A - B[1];
+  C[2] = A - B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator+ (const X &A, const map::tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A + B[0];
+  C[1] = A;
+  C[2] = A + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2s<X> operator- (const X &A, const map::tensor2d<X> &B)
+{
+  tensor2s<X> C;
+
+  C[0] = A - B[0];
+  C[1] = A;
+  C[2] = A - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator+ (const tensor2d<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator- (const tensor2d<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2 <X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2 <X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[3];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2s<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[2];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const tensor2 <X> &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[3] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const tensor2s<X> &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[2] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline tensor2d<X> operator* (const X &A, const map::tensor2d<X> &B)
+{
+  tensor2d<X> C;
+
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator* (const vector<X> &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] * B[0];
+  C[1] = A[1] * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator/ (const vector<X> &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] / B[0];
+  C[1] = A[1] / B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator+ (const vector<X> &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] + B[0];
+  C[1] = A[1] + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator- (const vector<X> &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A[0] - B[0];
+  C[1] = A[1] - B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator* (const X &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A * B[0];
+  C[1] = A * B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator/ (const X &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A / B[0];
+  C[1] = A / B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator+ (const X &A, const map::vector<X> &B)
+{
+  vector<X> C;
+
+  C[0] = A + B[0];
+  C[1] = A + B[1];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline vector<X> operator- (const X &A, const map::vector<X> &B)
 {
   vector<X> C;
 
