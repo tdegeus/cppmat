@@ -22,7 +22,7 @@
 
 #define CPPMAT_WORLD_VERSION 0
 #define CPPMAT_MAJOR_VERSION 4
-#define CPPMAT_MINOR_VERSION 1
+#define CPPMAT_MINOR_VERSION 3
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -95,6 +95,7 @@ namespace cartesian3d {
 
 // =================================================================================================
 
+#include "stl.h"
 #include "matrix.h"
 #include "matrix2.h"
 #include "vector.h"
@@ -111,6 +112,7 @@ namespace cartesian3d {
 #include "view_tensor2.h"
 #include "view_tensor3.h"
 
+#include "stl.cpp"
 #include "matrix.cpp"
 #include "matrix2.cpp"
 #include "vector.cpp"

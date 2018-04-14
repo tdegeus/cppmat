@@ -23,6 +23,46 @@ TEST_CASE("cppmat::matrix", "matrix.h")
 
 // =================================================================================================
 
+SECTION( "average" )
+{
+  Eigen::VectorXd a = Eigen::VectorXd::Random(6*11*16*3);
+  Eigen::VectorXd b = Eigen::VectorXd::Random(6*11*16*3);
+
+  cppmat::matrix<double> A({6,11,16,3});
+  cppmat::matrix<double> B({6,11,16,3});
+
+  std::copy(a.data(), a.data()+a.size(), A.data());
+  std::copy(b.data(), b.data()+b.size(), B.data());
+
+  cppmat::matrix<double> C = A.average(B,-2);
+
+  cppmat::matrix<double> c({6,11,3});
+  cppmat::matrix<double> d({6,11,3});
+
+  c.setZero();
+  d.setZero();
+
+  for ( size_t i = 0 ; i < A.shape(0) ; i++ ) {
+    for ( size_t j = 0 ; j < A.shape(1) ; j++ ) {
+      for ( size_t l = 0 ; l < A.shape(3) ; l++ ) {
+        for ( size_t k = 0 ; k < A.shape(2) ; k++ ) {
+          c(i,j,l) += B(i,j,k,l) * A(i,j,k,l);
+          d(i,j,l) += B(i,j,k,l);
+        }
+      }
+    }
+  }
+
+  c /= d;
+
+  REQUIRE( C.size() == c.size() );
+
+  for ( size_t i = 0 ; i < c.size() ; ++i )
+    REQUIRE( std::abs( c[i] - C[i] ) < 1.e-12 );
+}
+
+// =================================================================================================
+
 SECTION( "matrix + matrix" )
 {
   // compute using Eigen

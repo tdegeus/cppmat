@@ -78,6 +78,17 @@ public:
   template<class Iterator> X&       at(Iterator first, Iterator last);
   template<class Iterator> const X& at(Iterator first, Iterator last) const;
 
+  // index operators: plain storage -> matrix indices (i -> a,b,c,...)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: matrix indices -> plain storage (a,b,c,... -> i)
+  size_t compress(size_t a) const;
+  size_t compress(size_t a, size_t b) const;
+  size_t compress(size_t a, size_t b, size_t c) const;
+  size_t compress(size_t a, size_t b, size_t c, size_t d) const;
+  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e) const;
+  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
+
   // pointer to data
   X*       data();
   const X* data() const;
@@ -130,6 +141,7 @@ public:
   X      sum() const;
   double mean() const;
   double average(const matrix<X> &weights) const;
+  template<class T> matrix<X> average(const matrix<X> &weights, T axis) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

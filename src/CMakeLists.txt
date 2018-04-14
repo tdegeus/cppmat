@@ -1,55 +1,23 @@
 
+
 # required to specify the c++ standard
 cmake_minimum_required(VERSION 3.0)
-
-# define project information
-project(cppmat)
-
-# automatically parse the version number
-file(READ "${CMAKE_CURRENT_SOURCE_DIR}/cppmat/cppmat.h" _cppmat_version_header)
-string(REGEX MATCH "define[ \t]+CPPMAT_WORLD_VERSION[ \t]+([0-9]+)" _cppmat_world_version_match "${_cppmat_version_header}")
-set(CPPMAT_WORLD_VERSION "${CMAKE_MATCH_1}")
-string(REGEX MATCH "define[ \t]+CPPMAT_MAJOR_VERSION[ \t]+([0-9]+)" _cppmat_major_version_match "${_cppmat_version_header}")
-set(CPPMAT_MAJOR_VERSION "${CMAKE_MATCH_1}")
-string(REGEX MATCH "define[ \t]+CPPMAT_MINOR_VERSION[ \t]+([0-9]+)" _cppmat_minor_version_match "${_cppmat_version_header}")
-set(CPPMAT_MINOR_VERSION "${CMAKE_MATCH_1}")
-set(CPPMAT_VERSION_NUMBER ${CPPMAT_WORLD_VERSION}.${CPPMAT_MAJOR_VERSION}.${CPPMAT_MINOR_VERSION})
 
 # required for install
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-# set c++ standard -> c++14
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-if(NOT CMAKE_CXX_STANDARD OR CMAKE_CXX_STANDARD LESS 14)
-  set(CMAKE_CXX_STANDARD 14)
-endif()
+# project settings
+# ----------------
 
-# set paths where 'cppmat' will be installed
-# - root
-set(CPPMAT_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
-# - headers
-set(CPPMAT_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/${INCLUDE_INSTALL_DIR}")
-# - headers
-set(INCLUDE_INSTALL_DIR
-  "${CMAKE_INSTALL_INCLUDEDIR}/cppmat"
-  CACHE PATH "Path, relative to CMAKE_PREFIX_PATH, where the cppmat header files are installed"
-)
-# - CMake configuration
-set(CMAKEPACKAGE_INSTALL_DIR
-  "${CMAKE_INSTALL_DATADIR}/cppmat"
-  CACHE PATH "Path where cppmatConfig.cmake is installed"
-)
-# - pkg-config
-set(PKGCONFIG_INSTALL_DIR
-  "${CMAKE_INSTALL_DATADIR}/pkgconfig"
-  CACHE PATH "Path where cppmat.pc is installed"
-)
+# define project information
+project(cppmat)
 
-# list all header files
-set(CPPMAT_HEADERS
+# list of header files
+set(headers
   cppmat/cppmat.h
+  cppmat/stl.h
+  cppmat/stl.cpp
   cppmat/vector.h
   cppmat/vector.cpp
   cppmat/matrix.h
@@ -94,47 +62,94 @@ set(CPPMAT_HEADERS
   cppmat/pybind11_tensor3.h
 )
 
-# Disable pkg-config for native Windows builds
-if(NOT WIN32 OR NOT CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
-  option(CPPMAT_BUILD_PKGCONFIG "Build pkg-config .pc file for cppmat" ON)
+# options
+# -------
+
+# set options
+option(PKGCONFIG "Build pkg-config ${PROJECT_NAME}.pc file" ON)
+
+# disable pkg-config for native Windows builds
+if(WIN32 OR CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
+  option(PKGCONFIG "Build pkg-config ${PROJECT_NAME}.pc file" OFF)
 endif()
 
-# build pkg-config file -> fill in relevant values
-if(CPPMAT_BUILD_PKGCONFIG)
-  configure_file(cppmat.pc.in cppmat.pc @ONLY)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/cppmat.pc DESTINATION ${PKGCONFIG_INSTALL_DIR})
+# paths
+# -----
+
+set(CPPMAT_ROOT_DIR          "${CMAKE_INSTALL_PREFIX}")
+set(CPPMAT_INCLUDE_DIR       "${CMAKE_INSTALL_PREFIX}/${INCLUDE_INSTALL_DIR}")
+set(INCLUDE_INSTALL_DIR      "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+set(CMAKEPACKAGE_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+set(PKGCONFIG_INSTALL_DIR    "${CMAKE_INSTALL_DATADIR}/pkgconfig")
+
+# version
+# -------
+
+# automatically parse the version number
+file(READ "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/${PROJECT_NAME}.h" version)
+string(REGEX MATCH "define[ \t]+CPPMAT_WORLD_VERSION[ \t]+([0-9]+)" _ "${version}")
+set(world_version "${CMAKE_MATCH_1}")
+string(REGEX MATCH "define[ \t]+CPPMAT_MAJOR_VERSION[ \t]+([0-9]+)" _ "${version}")
+set(major_version "${CMAKE_MATCH_1}")
+string(REGEX MATCH "define[ \t]+CPPMAT_MINOR_VERSION[ \t]+([0-9]+)" _ "${version}")
+set(minor_version "${CMAKE_MATCH_1}")
+set(CPPMAT_VERSION_NUMBER ${world_version}.${major_version}.${minor_version})
+
+# C++ standard
+# ------------
+
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+if(NOT CMAKE_CXX_STANDARD OR CMAKE_CXX_STANDARD LESS 14)
+  set(CMAKE_CXX_STANDARD 14)
 endif()
 
-# configure CMake file
+# configure CMake
+# ---------------
+
 configure_package_config_file(
-  ${CMAKE_CURRENT_SOURCE_DIR}/cppmatConfig.cmake.in
-  ${CMAKE_CURRENT_BINARY_DIR}/cppmatConfig.cmake
+  ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   PATH_VARS CPPMAT_INCLUDE_DIR CPPMAT_ROOT_DIR
   INSTALL_DESTINATION ${CMAKEPACKAGE_INSTALL_DIR}
   NO_CHECK_REQUIRED_COMPONENTS_MACRO
 )
 
 # install
-# - CMake-file
+# -------
+
+# pkg-config
+if(PKGCONFIG)
+  configure_file(${PROJECT_NAME}.pc.in ${PROJECT_NAME}.pc @ONLY)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.pc DESTINATION ${PKGCONFIG_INSTALL_DIR})
+endif()
+
+# CMake
 install(FILES
-  ${CMAKE_CURRENT_BINARY_DIR}/cppmatConfig.cmake
+  ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
   DESTINATION
   ${CMAKEPACKAGE_INSTALL_DIR}
 )
-# - headers
+
+# headers
 install(FILES
-  ${CMAKE_CURRENT_SOURCE_DIR}/${CPPMAT_HEADERS}
+  ${CMAKE_CURRENT_SOURCE_DIR}/${headers}
   DESTINATION
-  ${INCLUDE_INSTALL_DIR}/cppmat
+  ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME}
 )
 
 # print information to screen
+# ---------------------------
+
 message(STATUS "")
 message(STATUS "+---------------------------------------------------------------------------------")
 message(STATUS "|")
-message(STATUS "| Use 'make install' to install in '${CMAKE_INSTALL_PREFIX}'")
+message(STATUS "| Use 'make install' to install in")
+message(STATUS "|   ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "|")
 message(STATUS "| To specify a custom directory call")
-message(STATUS "|   cmake . -DCMAKE_INSTALL_PREFIX=yourprefix")
+message(STATUS "|   cmake /path/to/${PROJECT_NAME} -DCMAKE_INSTALL_PREFIX=yourprefix")
+message(STATUS "|")
 message(STATUS "| For custom paths, add the following line to your '~/.bashrc'")
 message(STATUS "|   export PKG_CONFIG_PATH=${CMAKE_INSTALL_PREFIX}/share/pkgconfig:$PKG_CONFIG_PATH")
 message(STATUS "|")

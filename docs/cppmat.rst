@@ -52,21 +52,25 @@ Methods
 
     Return an iterator to the entry at ``(i,j,k)``.
 
-*   ``A.begin()``
+*   ``A.data()``, ``A.begin()``, ``A.end()``
 
-    Return an iterator to the first entry of the matrix.
+    Return an iterator to the data, the first, or the last entry of the matrix.
 
-*   ``A.end()``
+*   ``A.ndim()``
 
-    Return an iterator to the last entry of the matrix.
+    Returns the number of dimensions of the matrix.
 
-*   ``size_t n = A.shape(i)``
+*   ``A.size()``
+
+    Returns the total number of entries in the matrix.
+
+*   ``A.shape(i)``
 
     Returns the shape along dimension ``i``.
 
-*   ``std::vector<size_t> shape = A.shape()``
+*   ``A.shape()``
 
-    Returns the shape along all dimensions.
+    Returns the shape along all dimensions (vector).
 
 *   ``A.resize({...})``
 
@@ -91,6 +95,18 @@ Methods
 *   ``A.setConstant(...)``, ``A.setZero(...)``, ``A.setOnes(...)``, ``A.zeros(...)``, ``A.ones(...)``
 
     Set all entries to a constant, zero, or one.
+
+*   ``A.min()``, ``A.max()``
+
+    Return the minimum or the maximum entry.
+
+*   ``A.sum()``, ``A.mean()``
+
+    Return the sum of all entries, or their mean.
+
+*   ``A.average(weights[, axis])``
+
+    Compute the weighted average of all entries, or along a single axis. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_
 
 .. _matrix-index:
 
@@ -148,6 +164,52 @@ View
 ----
 
 To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
+
+Storage
+-------
+
+The matrix is stored `row-major <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_. For a 2-d matrix of size (3,4) this implies the following storage
+
+.. code-block:: python
+
+  [[0, 1, 2, 3],
+   [4, 5, 6, 7]]
+
+The ``strides`` indicate per axis how many entries one needs to skip to proceed to the following entry along that axis. For this example
+
+.. code-block:: python
+
+  strides = [4, 1]
+
+.. note::
+
+  One can switch back-and-forth between matrix indices and the plain storage using the ``compress`` and ``decompress`` functions. For example:
+
+  .. code-block:: cpp
+
+    #include <cppmat/cppmat.h>
+
+    int main()
+    {
+      cppmat::matrix<size_t> A({2,4});
+
+      std::cout << A.compress(1,2) << std::endl;
+
+      std::vector<size_t> idx = A.decompress(6);
+
+      for ( auto &i : idx )
+        std::cout << i << ", ";
+      std::cout << std::endl;
+
+      return 0;
+    }
+
+  Prints
+
+  .. code-block:: python
+
+    6
+    1, 2,
 
 .. _matrix2:
 

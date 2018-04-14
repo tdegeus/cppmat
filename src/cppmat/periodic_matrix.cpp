@@ -152,7 +152,7 @@ inline size_t matrix<X>::shape(int i) const
 
   i = ( i < 0 ) ? i + nd : ( i >= nd ) ? i - nd : i ;
 
-  assert( i < MAX_DIM );
+  assert( i < static_cast<int>(MAX_DIM) );
 
   return m_shape[i];
 }
@@ -419,6 +419,98 @@ inline const X& matrix<X>::at(Iterator first, Iterator last) const
   }
 
   return m_data[idx];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+
+  return a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a, int b) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+
+  return a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a, int b, int c) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a, int b, int c, int d) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a, int b, int c, int d, int e) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(int a, int b, int c, int d, int e, int f) const
+{
+  a = ( a < 0 ) ? a + m_shape_i[0] : ( a >= m_shape_i[0] ) ? a - m_shape_i[0] : a ;
+  b = ( b < 0 ) ? b + m_shape_i[1] : ( b >= m_shape_i[1] ) ? b - m_shape_i[1] : b ;
+  c = ( c < 0 ) ? c + m_shape_i[2] : ( c >= m_shape_i[2] ) ? c - m_shape_i[2] : c ;
+  d = ( d < 0 ) ? d + m_shape_i[3] : ( d >= m_shape_i[3] ) ? d - m_shape_i[3] : d ;
+  e = ( e < 0 ) ? e + m_shape_i[4] : ( e >= m_shape_i[4] ) ? e - m_shape_i[4] : e ;
+  f = ( f < 0 ) ? f + m_shape_i[5] : ( f >= m_shape_i[5] ) ? f - m_shape_i[5] : f ;
+
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline std::vector<size_t> matrix<X>::decompress(size_t i) const
+{
+  assert( i < m_size );
+
+  std::vector<size_t> idx(m_ndim);
+
+  for ( size_t j = 0 ; j < m_ndim ; ++j ) {
+    idx[j] = (i - i%m_strides[j]) / m_strides[j];
+    i -= idx[j] * m_strides[j];
+  }
+
+  return idx;
 }
 
 // =================================================================================================
@@ -1004,6 +1096,39 @@ inline double matrix<X>::average(const matrix<X> &weights) const
     out += m_data[i] * weights[i];
 
   return static_cast<double>(out)/static_cast<double>(weights.sum());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class T>
+inline matrix<X> matrix<X>::average(const matrix<X> &weights, T axis) const
+{
+  assert( size() == weights.size() );
+  assert( ndim() == weights.ndim() );
+  assert( axis < static_cast<T>(m_ndim) );
+
+  // output and normalization
+  // - allocate
+  matrix<X> out(del(shape(),axis));
+  matrix<X> nor(del(shape(),axis));
+  // - zero-initialize
+  out.setZero();
+
+  // compute average
+  for ( size_t i = 0 ; i < m_size ; ++i )
+  {
+    // - convert "i" to "a,b,c,..."
+    std::vector<size_t> idx = this->decompress(i);
+    // - remove 'axis' from indices
+    idx = del(idx, axis);
+    // - add to output and normalization
+    out.at(idx.begin(), idx.end()) += weights[i] * m_data[i];
+    nor.at(idx.begin(), idx.end()) += weights[i];
+  }
+
+  // normalize output
+  return out / nor;
 }
 
 // =================================================================================================

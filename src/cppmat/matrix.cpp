@@ -148,7 +148,7 @@ inline size_t matrix<X>::shape(int i) const
 
   i = ( i < 0 ) ? i + nd : ( i >= nd ) ? i - nd : i ;
 
-  assert( i < MAX_DIM );
+  assert( i < static_cast<int>(MAX_DIM) );
 
   return m_shape[i];
 }
@@ -312,7 +312,7 @@ template<class X>
 template<class Iterator>
 inline X& matrix<X>::at(Iterator first, Iterator last)
 {
-  assert( last-first <= this->ndim() );
+  assert( static_cast<size_t>(last-first) <= m_ndim );
 
   size_t *stride = &m_strides[0];
   size_t  idx    = 0;
@@ -332,7 +332,7 @@ template<class X>
 template<class Iterator>
 inline const X& matrix<X>::at(Iterator first, Iterator last) const
 {
-  assert( last-first <= this->ndim() );
+  assert( static_cast<size_t>(last-first) <= m_ndim );
 
   size_t *stride = &m_strides[0];
   size_t  idx    = 0;
@@ -344,6 +344,71 @@ inline const X& matrix<X>::at(Iterator first, Iterator last) const
   }
 
   return m_data[idx];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a) const
+{
+  return a*m_strides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a, size_t b) const
+{
+  return a*m_strides[0]+b*m_strides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a, size_t b, size_t c) const
+{
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a, size_t b, size_t c, size_t d) const
+{
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
+{
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+{
+  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline std::vector<size_t> matrix<X>::decompress(size_t i) const
+{
+  assert( i < m_size );
+
+  std::vector<size_t> idx(m_ndim);
+
+  for ( size_t j = 0 ; j < m_ndim ; ++j ) {
+    idx[j] = (i - i%m_strides[j]) / m_strides[j];
+    i -= idx[j] * m_strides[j];
+  }
+
+  return idx;
 }
 
 // =================================================================================================
@@ -875,6 +940,39 @@ inline double matrix<X>::average(const matrix<X> &weights) const
     out += m_data[i] * weights[i];
 
   return static_cast<double>(out)/static_cast<double>(weights.sum());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class T>
+inline matrix<X> matrix<X>::average(const matrix<X> &weights, T axis) const
+{
+  assert( size() == weights.size() );
+  assert( ndim() == weights.ndim() );
+  assert( axis < static_cast<T>(m_ndim) );
+
+  // output and normalization
+  // - allocate
+  matrix<X> out(del(shape(),axis));
+  matrix<X> nor(del(shape(),axis));
+  // - zero-initialize
+  out.setZero();
+
+  // compute average
+  for ( size_t i = 0 ; i < m_size ; ++i )
+  {
+    // - convert "i" to "a,b,c,..."
+    std::vector<size_t> idx = this->decompress(i);
+    // - remove 'axis' from indices
+    idx = del(idx, axis);
+    // - add to output and normalization
+    out.at(idx.begin(), idx.end()) += weights[i] * m_data[i];
+    nor.at(idx.begin(), idx.end()) += weights[i];
+  }
+
+  // normalize output
+  return out / nor;
 }
 
 // =================================================================================================
