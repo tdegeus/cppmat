@@ -23,13 +23,34 @@ def cpp_flag(compiler):
 
 # --------------------------------------------------------------------------------------------------
 
-def get_include(*args,**kwargs):
+def get_include(user=False):
+
+  from distutils.dist import Distribution
   import os
-  try:
-    from pip import locations
-    return os.path.dirname(locations.distutils_scheme('cppmat',*args,**kwargs)['headers'])
-  except ImportError:
-    return 'include'
+  import sys
+
+  # Are we running in a virtual environment?
+  # - check
+  virtualenv = hasattr(sys, 'real_prefix') or sys.prefix != getattr(sys, "base_prefix", sys.prefix)
+  # - return path
+  if virtualenv:
+    return os.path.join(sys.prefix, 'include', 'site', 'python' + sys.version[:3])
+
+  # Search
+  dist = Distribution({'name': 'cppmat'})
+  dist.parse_config_files()
+  dist_cobj = dist.get_command_obj('install', create=True)
+
+  # Search for packages in user's home directory?
+  if user:
+    dist_cobj.user = user
+    dist_cobj.prefix = ""
+
+  # Search
+  dist_cobj.finalize_options()
+
+  return os.path.dirname(dist_cobj.install_headers)
+
 
 # --------------------------------------------------------------------------------------------------
 

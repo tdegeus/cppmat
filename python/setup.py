@@ -60,6 +60,8 @@ setup(
       '../src/cppmat/view_tensor2.cpp',
       '../src/cppmat/view_tensor3.h',
       '../src/cppmat/view_tensor3.cpp',
+      '../src/cppmat/stl.h',
+      '../src/cppmat/stl.cpp',
       '../src/cppmat/pybind11.h',
       '../src/cppmat/pybind11_matrix.h',
       '../src/cppmat/pybind11_matrix2.h',
