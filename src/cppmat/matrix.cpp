@@ -936,394 +936,34 @@ inline matrix<X> matrix<X>::sum(int axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X> matrix<X>::sum(int axis0, int axis1) const
-{
-  int n = static_cast<int>(m_ndim);
-
-  axis0 = ( axis0 < 0 ) ? axis0 + n : ( axis0 >= n ) ? axis0 - n : axis0;
-  axis1 = ( axis1 < 0 ) ? axis1 + n : ( axis1 >= n ) ? axis1 - n : axis1;
-
-  assert( axis0 <  n );
-  assert( axis1 <  n );
-  assert( axis0 >= 0 );
-  assert( axis1 >= 0 );
-
-  return this->sum(static_cast<size_t>(axis0), static_cast<size_t>(axis1));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline matrix<X> matrix<X>::sum(size_t axis) const
 {
+  // output
+  // - allocate to the same shape as the input, with one axis removed
   matrix<X> out(del(this->shape(),axis));
-
+  // - zero-initialize
   out.setZero();
 
-  switch ( axis )
+  // extended strides
+  // - copy strides
+  std::vector<size_t> estrides = this->strides();
+  // - insert total size at the beginning
+  estrides.insert(estrides.begin(), m_size);
+
+  // extract sizes
+  size_t n = estrides[axis  ];
+  size_t m = estrides[axis+1];
+
+  // perform reduction
+  for ( size_t i = 0 ; i < m_size ; ++i )
   {
-    case 0:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(b,c,d,e,f) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    case 1:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(a,c,d,e,f) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    case 2:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(a,b,d,e,f) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    case 3:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(a,b,c,e,f) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    case 4:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(a,b,c,d,f) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    case 5:
-
-      for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-        for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-          for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-            for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-              for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                  out(a,b,c,d,e) += m_data[\
-                    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                    d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-      return out;
-
-    default:
-
-      throw std::runtime_error("Illegal axis");
+    // - get the new index
+    size_t ni = i/n*m + i%m;
+    // - store
+    out[ni] += m_data[i];
   }
-}
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline matrix<X> matrix<X>::sum(size_t axis0, size_t axis1) const
-{
-  if ( axis0 > axis1 ) std::swap(axis0, axis1);
-
-  matrix<X> out(del(del(this->shape(),axis1),axis0));
-
-  out.setZero();
-
-  switch ( axis0 )
-  {
-    case 0:
-
-      switch ( axis1 )
-      {
-        case 1:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(c,d,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 2:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(b,d,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 3:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(b,c,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 4:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(b,c,d,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 5:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(b,c,d,e) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        default:
-
-          throw std::runtime_error("Illegal axis");
-      }
-
-    case 1:
-
-      switch ( axis1 )
-      {
-        case 2:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,d,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 3:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,c,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 4:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,c,d,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 5:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,c,d,e) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        default:
-
-          throw std::runtime_error("Illegal axis");
-      }
-
-    case 2:
-
-      switch ( axis1 )
-      {
-        case 3:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,e,f) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 4:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,d,f)  += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 5:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,d,e) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        default:
-
-          throw std::runtime_error("Illegal axis");
-      }
-
-    case 3:
-
-      switch ( axis1 )
-      {
-        case 4:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,c,f)  += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        case 5:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,c,e) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        default:
-
-          throw std::runtime_error("Illegal axis");
-      }
-
-    case 4:
-
-      switch ( axis1 )
-      {
-        case 5:
-
-          for ( size_t a = 0 ; a < m_shape[0] ; a++ )
-            for ( size_t b = 0 ; b < m_shape[1] ; b++ )
-              for ( size_t c = 0 ; c < m_shape[2] ; c++ )
-                for ( size_t d = 0 ; d < m_shape[3] ; d++ )
-                  for ( size_t e = 0 ; e < m_shape[4] ; e++ )
-                    for ( size_t f = 0 ; f < m_shape[5] ; f++ )
-                      out(a,b,c,d) += m_data[\
-                        a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+\
-                        d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
-
-          return out;
-
-        default:
-
-          throw std::runtime_error("Illegal axis");
-      }
-
-    default:
-
-      throw std::runtime_error("Illegal axis");
-  }
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1333,76 +973,33 @@ inline matrix<X> matrix<X>::sum(const std::vector<int> &axes) const
 {
   assert( axes.size() < m_ndim );
 
-  // limited number of axes -> nested loops
-  // --------------------------------------
-
-  if ( axes.size() == 1 ) return (*this).sum(axes[0]);
-  if ( axes.size() == 2 ) return (*this).sum(axes[0], axes[1]);
-
-  // only the last axis remains
-  // --------------------------
-
-  if ( axes.size() == m_ndim-1 and (*axes.end()) != m_ndim-1 )
-  {
-    bool cont = true;
-
-    for ( auto &axis : axes )
-      if ( axis == static_cast<int>(m_ndim-1) )
-        cont = false;
-
-    if ( cont )
-    {
-      matrix<X> out({this->shape(-1)});
-
-      out.setZero();
-
-      for ( size_t i = 0 ; i < m_size ; ++i )
-        out[i%out.size()] += m_data[i];
-
-      return out;
-    }
-  }
-
-  // arbitrary number of axes
-  // ------------------------
-
+  // allocate copy of 'axis'
   std::vector<size_t> ax(axes.size());
 
+  // loop to copy and correct negative numbers
   for ( size_t i = 0 ; i < axes.size() ; ++i )
   {
-    int n = static_cast<size_t>(m_shape[i]);
-
+    // - get size along the current axis
+    int n = static_cast<int>(m_ndim);
+    // - correct axis
     int j = ( axes[i] < 0 ) ? axes[i] + n : ( axes[i] >= n ) ? axes[i] - n : axes[i];
-
+    // - check
     assert( j >= 0 );
     assert( j <  n );
-
+    // - store
     ax[i] = j;
   }
 
+  // sort and reverse order
   std::sort   (ax.begin(), ax.end());
   std::reverse(ax.begin(), ax.end());
 
-  std::vector<size_t> shape = this->shape();
+  // copy matrix
+  matrix<X> out = (*this);
 
+  // loop to compute
   for ( auto &axis : ax )
-    shape = del(shape, axis);
-
-  matrix<X> out(shape);
-
-  out.setZero();
-
-  // compute average
-  for ( size_t i = 0 ; i < m_size ; ++i )
-  {
-    // - convert "i" to "a,b,c,..."
-    std::vector<size_t> idx = this->decompress(i);
-    // - remove 'axes' from indices
-    for ( auto &axis : ax )
-      idx = del(idx, axis);
-    // - add to output and normalization
-    out.at(idx.begin(), idx.end()) += m_data[i];
-  }
+    out = out.sum(axis);
 
   return out;
 }

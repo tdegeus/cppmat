@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(cppmatTest)
+
+project(test)
 
 # set C++ standard
 # - compiler: ... -std=c++14

@@ -148,10 +148,6 @@ public:
   matrix<X> average(const matrix<X> &weights, size_t axis) const;
   matrix<X> average(const matrix<X> &weights, const std::vector<int> &axes) const;
 
-  // core implementation: needs generalization (as does "sum")
-  matrix<X> sum(int    axis0, int    axis1) const;
-  matrix<X> sum(size_t axis0, size_t axis1) const;
-
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
 

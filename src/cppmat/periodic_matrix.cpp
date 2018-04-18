@@ -1077,6 +1077,92 @@ inline X matrix<X>::sum() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline matrix<X> matrix<X>::sum(int axis) const
+{
+  int n = static_cast<int>(m_ndim);
+
+  axis = ( axis < 0 ) ? axis + n : ( axis >= n ) ? axis - n : axis;
+
+  assert( axis <  n );
+  assert( axis >= 0 );
+
+  return this->sum(static_cast<size_t>(axis));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::sum(size_t axis) const
+{
+  // output
+  // - allocate to the same shape as the input, with one axis removed
+  matrix<X> out(del(this->shape(),axis));
+  // - zero-initialize
+  out.setZero();
+
+  // extended strides
+  // - copy strides
+  std::vector<size_t> estrides = this->strides();
+  // - insert total size at the beginning
+  estrides.insert(estrides.begin(), m_size);
+
+  // extract sizes
+  size_t n = estrides[axis  ];
+  size_t m = estrides[axis+1];
+
+  // perform reduction
+  for ( size_t i = 0 ; i < m_size ; ++i )
+  {
+    // - get the new index
+    size_t ni = i/n*m + i%m;
+    // - store
+    out[ni] += m_data[i];
+  }
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::sum(const std::vector<int> &axes) const
+{
+  assert( axes.size() < m_ndim );
+
+  // allocate copy of 'axis'
+  std::vector<size_t> ax(axes.size());
+
+  // loop to copy and correct negative numbers
+  for ( size_t i = 0 ; i < axes.size() ; ++i )
+  {
+    // - get size along the current axis
+    int n = static_cast<int>(m_ndim);
+    // - correct axis
+    int j = ( axes[i] < 0 ) ? axes[i] + n : ( axes[i] >= n ) ? axes[i] - n : axes[i];
+    // - check
+    assert( j >= 0 );
+    assert( j <  n );
+    // - store
+    ax[i] = j;
+  }
+
+  // sort and reverse order
+  std::sort   (ax.begin(), ax.end());
+  std::reverse(ax.begin(), ax.end());
+
+  // copy matrix
+  matrix<X> out = (*this);
+
+  // loop to compute
+  for ( auto &axis : ax )
+    out = out.sum(axis);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline double matrix<X>::mean() const
 {
   return static_cast<double>(this->sum())/static_cast<double>(m_size);
@@ -1101,34 +1187,25 @@ inline double matrix<X>::average(const matrix<X> &weights) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-template<class T>
-inline matrix<X> matrix<X>::average(const matrix<X> &weights, T axis) const
+inline matrix<X> matrix<X>::average(const matrix<X> &weights, int axis) const
 {
-  assert( size() == weights.size() );
-  assert( ndim() == weights.ndim() );
-  assert( axis < static_cast<T>(m_ndim) );
+  return (weights*(*this)).sum(axis) / weights.sum(axis);
+}
 
-  // output and normalization
-  // - allocate
-  matrix<X> out(del(shape(),axis));
-  matrix<X> nor(del(shape(),axis));
-  // - zero-initialize
-  out.setZero();
+// -------------------------------------------------------------------------------------------------
 
-  // compute average
-  for ( size_t i = 0 ; i < m_size ; ++i )
-  {
-    // - convert "i" to "a,b,c,..."
-    std::vector<size_t> idx = this->decompress(i);
-    // - remove 'axis' from indices
-    idx = del(idx, axis);
-    // - add to output and normalization
-    out.at(idx.begin(), idx.end()) += weights[i] * m_data[i];
-    nor.at(idx.begin(), idx.end()) += weights[i];
-  }
+template<class X>
+inline matrix<X> matrix<X>::average(const matrix<X> &weights, size_t axis) const
+{
+  return (weights*(*this)).sum(axis) / weights.sum(axis);
+}
 
-  // normalize output
-  return out / nor;
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::average(const matrix<X> &weights, const std::vector<int> &axes) const
+{
+  return (weights*(*this)).sum(axes) / weights.sum(axes);
 }
 
 // =================================================================================================

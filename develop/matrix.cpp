@@ -114,7 +114,7 @@ SECTION( "average - 3" )
   std::copy(a.data(), a.data()+a.size(), A.data());
   std::copy(b.data(), b.data()+b.size(), B.data());
 
-  cppmat::matrix<double> C = A.average(B,{1,2,3});
+  cppmat::matrix<double> C = A.average(B,{-1,-2,-3});
 
   cppmat::matrix<double> c({6});
   cppmat::matrix<double> d({6});
@@ -138,7 +138,7 @@ SECTION( "average - 3" )
   REQUIRE( C.size() == c.size() );
 
   for ( size_t i = 0 ; i < c.size() ; ++i )
-    REQUIRE( std::abs( c[i] - C[i] ) < 1.e-12 );
+    REQUIRE( std::pow( c[i] - C[i] , 2.0 ) < 1.e-12 );
 }
 
 // =================================================================================================
