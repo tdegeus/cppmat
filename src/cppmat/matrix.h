@@ -136,12 +136,21 @@ public:
   matrix<X>& operator-= (const        X  &B);
 
   // basic algebra
-  X      min() const;
-  X      max() const;
-  X      sum() const;
-  double mean() const;
-  double average(const matrix<X> &weights) const;
-  template<class T> matrix<X> average(const matrix<X> &weights, T axis) const;
+  X         min() const;
+  X         max() const;
+  X         sum() const;
+  matrix<X> sum(int    axis) const;
+  matrix<X> sum(size_t axis) const;
+  matrix<X> sum(const std::vector<int> &axes) const;
+  double    mean() const;
+  double    average(const matrix<X> &weights) const;
+  matrix<X> average(const matrix<X> &weights, int    axis) const;
+  matrix<X> average(const matrix<X> &weights, size_t axis) const;
+  matrix<X> average(const matrix<X> &weights, const std::vector<int> &axes) const;
+
+  // core implementation: needs generalization (as does "sum")
+  matrix<X> sum(int    axis0, int    axis1) const;
+  matrix<X> sum(size_t axis0, size_t axis1) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

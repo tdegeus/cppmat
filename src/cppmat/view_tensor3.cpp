@@ -2998,6 +2998,18 @@ inline bool tensor4<X>::operator== (const tensor4<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline bool tensor4<X>::operator== (const reg::tensor4<X> &B) const
+{
+  for ( size_t i = 0 ; i < 81 ; ++i )
+    if ( m_data[i] != B[i] )
+      return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline bool tensor2<X>::operator== (const tensor2<X> &B) const
 {
   for ( size_t i = 0 ; i < 9 ; ++i )
@@ -3024,6 +3036,44 @@ inline bool tensor2<X>::operator== (const tensor2s<X> &B) const
 
 template<class X>
 inline bool tensor2<X>::operator== (const tensor2d<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i )
+    for ( size_t j = 0 ; j < 3 ; ++j )
+      if ( m_data[i*3+j] != B(i,j) )
+        return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2<X>::operator== (const reg::tensor2<X> &B) const
+{
+  for ( size_t i = 0 ; i < 9 ; ++i )
+    if ( m_data[i] != B[i] )
+      return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2<X>::operator== (const reg::tensor2s<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i )
+    for ( size_t j = 0 ; j < 3 ; ++j )
+      if ( m_data[i*3+j] != B(i,j) )
+        return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2<X>::operator== (const reg::tensor2d<X> &B) const
 {
   for ( size_t i = 0 ; i < 3 ; ++i )
     for ( size_t j = 0 ; j < 3 ; ++j )
@@ -3078,6 +3128,48 @@ inline bool tensor2s<X>::operator== (const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline bool tensor2s<X>::operator== (const reg::tensor2s<X> &B) const
+{
+  if ( m_data[0] != B[0] ) return false;
+  if ( m_data[1] != B[1] ) return false;
+  if ( m_data[2] != B[2] ) return false;
+  if ( m_data[3] != B[3] ) return false;
+  if ( m_data[4] != B[4] ) return false;
+  if ( m_data[5] != B[5] ) return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2s<X>::operator== (const reg::tensor2<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i ) {
+    for ( size_t j = i ; j < 3 ; ++j ) {
+      if ( m_data[i*3-(i-1)*i/2+j-i] != B(i,j) ) return false;
+      if ( m_data[i*3-(i-1)*i/2+j-i] != B(j,i) ) return false;
+    }
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2s<X>::operator== (const reg::tensor2d<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i )
+    for ( size_t j = i ; j < 3 ; ++j )
+      if ( m_data[i*3-(i-1)*i/2+j-i] != B(i,j) ) return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline bool tensor2d<X>::operator== (const tensor2d<X> &B) const
 {
   if ( m_data[0] != B[0] ) return false;
@@ -3120,7 +3212,60 @@ inline bool tensor2d<X>::operator== (const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline bool tensor2d<X>::operator== (const reg::tensor2d<X> &B) const
+{
+  if ( m_data[0] != B[0] ) return false;
+  if ( m_data[1] != B[1] ) return false;
+  if ( m_data[2] != B[2] ) return false;
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2d<X>::operator== (const reg::tensor2<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i ) {
+    for ( size_t j = 0 ; j < 3 ; ++j ) {
+      if ( i == j ) { if ( m_data[i] != B(i,i) ) return false; }
+      else          { if (              B(i,j) ) return false; }
+    }
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool tensor2d<X>::operator== (const reg::tensor2s<X> &B) const
+{
+  for ( size_t i = 0 ; i < 3 ; ++i ) {
+    for ( size_t j = i ; j < 3 ; ++j ) {
+      if ( i == j ) { if ( m_data[i] != B(i,i) ) return false; }
+      else          { if (              B(i,j) ) return false; }
+    }
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline bool vector<X>::operator== (const vector<X> &B) const
+{
+  if ( m_data[0] != B[0] ) return false;
+  if ( m_data[1] != B[1] ) return false;
+  if ( m_data[2] != B[2] ) return false;
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline bool vector<X>::operator== (const reg::vector<X> &B) const
 {
   if ( m_data[0] != B[0] ) return false;
   if ( m_data[1] != B[1] ) return false;

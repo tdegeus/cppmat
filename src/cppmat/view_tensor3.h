@@ -72,7 +72,8 @@ public:
   reg::tensor4<X> inline LT  (                    ) const;
 
   // equality operators
-  bool operator== (const tensor4<X> &B) const;
+  bool operator== (const      tensor4<X> &B) const;
+  bool operator== (const reg::tensor4<X> &B) const;
 
   // basic algebra
   X norm() const;
@@ -142,9 +143,12 @@ public:
   reg::tensor2<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const;
-  bool operator== (const tensor2s<X> &B) const;
-  bool operator== (const tensor2d<X> &B) const;
+  bool operator== (const      tensor2 <X> &B) const;
+  bool operator== (const      tensor2s<X> &B) const;
+  bool operator== (const      tensor2d<X> &B) const;
+  bool operator== (const reg::tensor2 <X> &B) const;
+  bool operator== (const reg::tensor2s<X> &B) const;
+  bool operator== (const reg::tensor2d<X> &B) const;
 
   // structure check
   bool issymmetric() const;
@@ -216,9 +220,12 @@ public:
   reg::tensor2s<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const;
-  bool operator== (const tensor2s<X> &B) const;
-  bool operator== (const tensor2d<X> &B) const;
+  bool operator== (const      tensor2 <X> &B) const;
+  bool operator== (const      tensor2s<X> &B) const;
+  bool operator== (const      tensor2d<X> &B) const;
+  bool operator== (const reg::tensor2 <X> &B) const;
+  bool operator== (const reg::tensor2s<X> &B) const;
+  bool operator== (const reg::tensor2d<X> &B) const;
 
   // structure check
   bool isdiagonal() const;
@@ -290,9 +297,12 @@ public:
   reg::tensor2d<X> inline inv   (                    ) const;
 
   // equality operators
-  bool operator== (const tensor2 <X> &B) const;
-  bool operator== (const tensor2s<X> &B) const;
-  bool operator== (const tensor2d<X> &B) const;
+  bool operator== (const      tensor2 <X> &B) const;
+  bool operator== (const      tensor2s<X> &B) const;
+  bool operator== (const      tensor2d<X> &B) const;
+  bool operator== (const reg::tensor2 <X> &B) const;
+  bool operator== (const reg::tensor2s<X> &B) const;
+  bool operator== (const reg::tensor2d<X> &B) const;
 
   // basic algebra
   X norm() const;
@@ -350,7 +360,8 @@ public:
   reg::vector <X> inline cross (const vector  <X> &B) const;
 
   // equality operators
-  bool operator== (const vector<X> &B) const;
+  bool operator== (const      vector<X> &B) const;
+  bool operator== (const reg::vector<X> &B) const;
 
   // basic algebra
   X norm() const;

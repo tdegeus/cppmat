@@ -17,13 +17,13 @@
 #include <iomanip>
 #include <string>
 #include <vector>
-#include <iso646.h>
+#include <iso646.h> // to fix a Microsoft Visual Studio error on "and" and "or"
 
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
 #define CPPMAT_MAJOR_VERSION 4
-#define CPPMAT_MINOR_VERSION 4
+#define CPPMAT_MINOR_VERSION 6
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
