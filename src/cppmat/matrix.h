@@ -136,13 +136,20 @@ public:
   matrix<X>& operator-= (const        X  &B);
 
   // basic algebra
+  // - minimum/maximum
   X         min() const;
   X         max() const;
+  // - sum
   X         sum() const;
   matrix<X> sum(int    axis) const;
   matrix<X> sum(size_t axis) const;
   matrix<X> sum(const std::vector<int> &axes) const;
+  // - mean
   double    mean() const;
+  matrix<X> mean(int    axis) const;
+  matrix<X> mean(size_t axis) const;
+  matrix<X> mean(const std::vector<int> &axes) const;
+  // - weighted average
   double    average(const matrix<X> &weights) const;
   matrix<X> average(const matrix<X> &weights, int    axis) const;
   matrix<X> average(const matrix<X> &weights, size_t axis) const;

@@ -29,13 +29,11 @@ Class for fixed size, small, 2-d matrices. For example:
       return 0;
   }
 
-Compared to :ref:`matrix2`:
+Compared to :ref:`matrix2` the size of the matrix cannot be dynamically changed. Consequently there is not dynamic memory allocation, often resulting in faster behavior.
 
-*   The size of the matrix cannot be dynamically changed.
+.. note::
 
-*   This class can be used to 'view' and external pointer.
-
-The rest of the interface is the same.
+  The methods are the same as for :ref:`matrix2`.
 
 .. note::
 
@@ -65,15 +63,10 @@ Class for fixed size, small, 2-d matrices. For example:
       return 0;
   }
 
-Compared to :ref:`vector`:
+.. note::
 
-*   The size of the matrix cannot be dynamically changed.
-
-*   This class can be used to 'view' and external pointer.
-
-The rest of the interface is the same.
+  The methods are the same as for :ref:`vector`.
 
 .. note::
 
-  To 'view' a pointer as a vector, use :ref:`view_vector`.
-
+  To 'view' a pointer as a matrix, use :ref:`view_vector`.

@@ -74,4 +74,4 @@ cppmat::view::vector
 
 [:download:`view_vector.h <../src/cppmat/view_vector.h>`, :download:`view_vector.cpp <../src/cppmat/view_vector.cpp>`]
 
-See :ref:`view_matrix2`.
+See :ref:`view_matrix2` and :ref:`tiny_vector`.

@@ -1171,6 +1171,42 @@ inline double matrix<X>::mean() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline matrix<X> matrix<X>::mean(int axis) const
+{
+  matrix<X> weights(this->shape());
+
+  weights.setOnes();
+
+  return (weights*(*this)).sum(axis) / weights.sum(axis);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::mean(size_t axis) const
+{
+  matrix<X> weights(this->shape());
+
+  weights.setOnes();
+
+  return (weights*(*this)).sum(axis) / weights.sum(axis);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::mean(const std::vector<int> &axes) const
+{
+  matrix<X> weights(this->shape());
+
+  weights.setOnes();
+
+  return (weights*(*this)).sum(axes) / weights.sum(axes);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline double matrix<X>::average(const matrix<X> &weights) const
 {
   assert( size() == weights.size() );

@@ -92,7 +92,7 @@ Methods
 
     Has the result that ``A.shape() == {10,10,1}``.
 
-*   ``A.setConstant(...)``, ``A.setZero(...)``, ``A.setOnes(...)``, ``A.zeros(...)``, ``A.ones(...)``
+*   ``A.setConstant(...)``, ``A.setZero()``, ``A.setOnes()``, ``A.zeros()``, ``A.ones()``
 
     Set all entries to a constant, zero, or one.
 
@@ -100,37 +100,79 @@ Methods
 
     Return the minimum or the maximum entry.
 
-*   ``A.sum()``, ``A.mean()``
+*   ``A.sum([axis])``
 
-    Return the sum of all entries, or their mean.
+    Return the sum of all entries, or along one or more axes.
+
+*   ``A.mean([axis])``
+
+    Return the mean of all entries, or along one or more axes.
 
 *   ``A.average(weights[, axis])``
 
-    Compute the weighted average of all entries, or along a single axis. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_
+    Compute the weighted average of all entries, or along one or more axes. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_
 
 .. _matrix-index:
 
 Indexing
 --------
 
-In principle the number of indices should match the dimensions of the matrix (i.e. ``A.ndim()`` and ``A.shape().size()``), though it is no problem to reference to a matrix certain index using a higher-dimensional equivalent. For example:
+In principle the number of indices should match the dimensions of the matrix (i.e. ``A.ndim()``). Though one can:
 
-.. code-block:: cpp
+*   Reference to a certain index using a higher-dimensional equivalent. For example:
 
-  cppmat::matrix<double> A({10,10});
+    .. code-block:: cpp
 
-  A(5,5,0) = ...
+      cppmat::matrix<double> A({10,10});
 
-is perfectly acceptable. Note that higher-dimensions can only be trailing ones, using for example ``A(0,5,5)`` is not acceptable, nor is, of course, ``A(5,5,1)``.
+      A(5,5,0) = ...
 
-Similarly to refer to the beginning of a block (e.g. a row) one can omit the zero arguments. For example, to the beginning of the second row of the above matrix one can use ``&A(1)``.
+    is perfectly acceptable. Note that higher-dimensions can only be trailing ones, using for example ``A(0,5,5)`` is not acceptable, nor is, of course, ``A(5,5,1)``.
+
+*   Refer to the beginning of a block (e.g. a row) by omitting the trailing zero indices. For example, a pointer to the beginning of the second row of the above matrix is obtained by ``&A(1)`` (which is fully equivalent to ``&A(1,0)``).
+
+.. _matrix-iterators:
+
+Iterators
+---------
+
+One can obtain iterators to:
+
+*   The beginning of the matrix:
+
+    .. code-block:: cpp
+
+      A.begin()
+
+*   The end of the matrix:
+
+    .. code-block:: cpp
+
+      A.end()
+
+*   A specific point in the matrix
+
+    .. code-block:: cpp
+
+      A.item(i,j,k)
+
+*   The data:
+
+    .. code-block:: cpp
+
+      A.data()
+
+View
+----
+
+To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
 
 .. _matrix-index-advanced:
 
 Advanced indexing
 -----------------
 
-To allow an arbitrary number of indices at runtime (i.e. the case in which the number of indices is not known at compile time), ``cppmat::matrix`` can also be supplied with the indices stored in a list, using the ``.at(first,last)``. One the just supplied iterators to the beginning and the end of this list. When the indices are also stored in a ``cppmat::matrix`` these iterators can be easily obtained using ``.item(i,j)``. Consider this example:
+To allow an arbitrary number of indices at runtime (i.e. the case in which the number of indices is not known at compile time), ``cppmat::matrix`` can also be supplied with the indices stored in a list, using the ``.at(first,last)``, where ``first`` and ``last`` are iterators to the beginning and the end of this list of indices. When the indices are also stored in a ``cppmat::matrix`` these iterators can be easily obtained using ``.item(i,j)``. Consider this example:
 
 .. code-block:: cpp
 
@@ -160,11 +202,6 @@ To allow an arbitrary number of indices at runtime (i.e. the case in which the n
     return 0;
   }
 
-View
-----
-
-To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
-
 Storage
 -------
 
@@ -180,6 +217,11 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
 .. code-block:: python
 
   strides = [4, 1]
+
+.. note:: References
+
+  *   `Row- and column-major order (Wikipedia) <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_
+  *   `Reduction (sum) along arbitrary axes of a multidimensional array (StackOverflow) <https://stackoverflow.com/a/49905058/2646505>`_
 
 .. note::
 
@@ -269,5 +311,5 @@ Class for 1-d matrices (a.k.a. vectors). For example:
 
 .. note::
 
-  Compared to ``std::vector`` this class is not so much different, with the exception that it provides indexing also with round brackets, and automated printing of entries.
+  Compared to ``std::vector`` this class is not much difference. The only exception that it provides indexing also with round brackets, and automated printing of entries.
 
