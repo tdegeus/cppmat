@@ -96,7 +96,6 @@ namespace cartesian3d {
 
 // =================================================================================================
 
-#include "stl.h"
 #include "matrix.h"
 #include "matrix2.h"
 #include "vector.h"
@@ -112,8 +111,8 @@ namespace cartesian3d {
 #include "tensor3.h"
 #include "view_tensor2.h"
 #include "view_tensor3.h"
+#include "stl.h"
 
-#include "stl.cpp"
 #include "matrix.cpp"
 #include "matrix2.cpp"
 #include "vector.cpp"
@@ -129,6 +128,7 @@ namespace cartesian3d {
 #include "tensor3.cpp"
 #include "view_tensor2.cpp"
 #include "view_tensor3.cpp"
+#include "stl.cpp"
 
 // =================================================================================================
 

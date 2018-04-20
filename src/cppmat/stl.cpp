@@ -50,6 +50,53 @@ inline std::vector<X> del(const std::vector<X> &A, size_t idx)
 
 // =================================================================================================
 
+template<class X>
+inline X abs(X A)
+{
+  return std::abs(A);
+}
+
+// =================================================================================================
+
+template<class X>
+inline matrix<X> abs(const matrix<X> &A)
+{
+  matrix<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline cartesian2d::tensor2<X> abs(const cartesian2d::tensor2<X> &A)
+{
+  cartesian2d::tensor2<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline cartesian2d::tensor2s<X> abs(const cartesian2d::tensor2s<X> &A)
+{
+  cartesian2d::tensor2s<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
 } // namespace ...
 
 #endif
