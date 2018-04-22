@@ -31,12 +31,17 @@ private:
 public:
 
   // constructor
-  matrix2(){};  // allocate, don't initialize
-  matrix2(X D); // allocate, initialize to constant
+  matrix2(){};
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static matrix2<X,m,n> Arange();
+  static matrix2<X,m,n> Zero();
+  static matrix2<X,m,n> Ones();
+  static matrix2<X,m,n> Constant(X D);
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  matrix2(Iterator first, Iterator last);
+  static matrix2<X,m,n> Copy(Iterator first, Iterator last);
 
   // get dimensions
   size_t size() const;
@@ -67,12 +72,10 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
 
   // arithmetic operators
   matrix2<X,m,n>& operator*= (const matrix2<X,m,n> &B);

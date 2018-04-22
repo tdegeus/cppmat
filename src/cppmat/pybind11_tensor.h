@@ -51,7 +51,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor4<T>(nd, buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian::tensor4<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -109,7 +109,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2<T>(nd, buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian::tensor2<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -167,19 +167,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2s<T>(nd);
-
-    // - check for symmetry
-    #ifndef NDEBUG
-    for ( size_t i = 0 ; i < nd ; ++i )
-      for ( size_t j = i+1 ; j < nd ; ++j )
-        assert( buf.data()[i*nd+j] == buf.data()[j*nd+i] );
-    #endif
-
-    // - copy from input (ignores lower diagonal terms)
-    for ( size_t i = 0 ; i < nd ; ++i )
-      for ( size_t j = i ; j < nd ; ++j )
-        value[i*nd-(i-1)*i/2+j-i] = buf.data()[i*nd+j];
+    value = cppmat::cartesian::tensor2s<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -240,19 +228,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::tensor2d<T>(nd);
-
-    // - check the input to be diagonal
-    #ifndef NDEBUG
-    for ( size_t i = 0 ; i < nd ; ++i )
-      for ( size_t j = 0 ; j < nd ; ++j )
-        if ( i !=j )
-          assert( !buf.data()[i*nd+j] );
-    #endif
-
-    // - copy from input (ignores off-diagonal terms)
-    for ( size_t i = 0 ; i < nd ; ++i )
-      value[i] = buf.data()[i*nd+i];
+    value = cppmat::cartesian::tensor2d<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -313,7 +289,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian::vector<T>(nd, buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian::vector<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

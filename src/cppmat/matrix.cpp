@@ -29,36 +29,81 @@ inline matrix<X>::matrix(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X>::matrix(const std::vector<size_t> &shape, X D)
+inline matrix<X> matrix<X>::Arange(const std::vector<size_t> &shape)
 {
-  // store shape, and other size parameters, allocate "m_data"
-  resize(shape);
+  // allocate matrix
+  matrix<X> out(shape);
 
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] = D;
+  // initialize
+  out.setArange();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::Constant(const std::vector<size_t> &shape, X D)
+{
+  // allocate matrix
+  matrix<X> out(shape);
+
+  // initialize
+  out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::Zero(const std::vector<size_t> &shape)
+{
+  // allocate matrix
+  matrix<X> out(shape);
+
+  // initialize
+  out.setZero();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::Ones(const std::vector<size_t> &shape)
+{
+  // allocate matrix
+  matrix<X> out(shape);
+
+  // initialize
+  out.setOnes();
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 template<typename Iterator>
-inline matrix<X>::matrix(const std::vector<size_t> &shape, Iterator first, Iterator last)
+inline matrix<X> matrix<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
 {
-  // store shape, and other size parameters, allocate "m_data"
-  resize(shape);
+  // allocate matrix
+  matrix<X> out(shape);
 
   // check size
-  assert( m_size == last - first );
+  assert( out.size() == last - first );
 
   // initialize counter
   size_t i = 0;
 
   // copy input
-  for (auto it = first; it != last; ++it)
+  for ( auto it = first ; it != last ; ++it )
   {
-    m_data[i] = (*it); ++i;
+    out[i] = (*it); ++i;
   }
+
+  return out;
 }
 
 // =================================================================================================
@@ -572,17 +617,9 @@ template<class X> inline auto matrix<X>::item(
 // =================================================================================================
 
 template<class X>
-inline void matrix<X>::arange()
+inline void matrix<X>::setArange()
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void matrix<X>::setConstant(X D)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -604,17 +641,9 @@ inline void matrix<X>::setOnes()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void matrix<X>::zeros()
+inline void matrix<X>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void matrix<X>::ones()
-{
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // =================================================================================================

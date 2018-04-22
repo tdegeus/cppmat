@@ -31,13 +31,18 @@ private:
 public:
 
   // constructor
-  vector(){};             // empty
-  vector(size_t n);       // allocate, don't initialize
-  vector(size_t n, X D);  // allocate, initialize to constant
+  vector(){};
+  vector(size_t n);
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static vector<X> Arange  (size_t n);
+  static vector<X> Zero    (size_t n);
+  static vector<X> Ones    (size_t n);
+  static vector<X> Constant(size_t n, X D);
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  vector(Iterator first, Iterator last);
+  static vector<X> Copy(Iterator first, Iterator last);
 
   // resize
   void resize(size_t n);
@@ -69,12 +74,10 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
 
   // arithmetic operators
   vector<X>& operator*= (const vector<X> &B);

@@ -22,8 +22,8 @@
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
-#define CPPMAT_MAJOR_VERSION 4
-#define CPPMAT_MINOR_VERSION 6
+#define CPPMAT_MAJOR_VERSION 5
+#define CPPMAT_MINOR_VERSION 0
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -41,6 +41,19 @@
 #define UNUSED(p) ( (void)(p) )
 
 // ====================================== forward declaration ======================================
+
+namespace cppmat {
+namespace cartesian {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
 namespace cartesian2d {

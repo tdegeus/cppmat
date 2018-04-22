@@ -30,9 +30,15 @@ inline tensor4<X>::tensor4()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor4<X>::tensor4(const X *D)
+inline tensor4<X> tensor4<X>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  tensor4<X> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -46,9 +52,15 @@ inline tensor2<X>::tensor2()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2<X>::tensor2(const X *D)
+inline tensor2<X> tensor2<X>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  tensor2<X> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -62,9 +74,15 @@ inline tensor2s<X>::tensor2s()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2s<X>::tensor2s(const X *D)
+inline tensor2s<X> tensor2s<X>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  tensor2s<X> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -80,11 +98,15 @@ inline tensor2d<X>::tensor2d()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X>::tensor2d(const X *D)
+inline tensor2d<X> tensor2d<X>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  tensor2d<X> out;
 
-  m_zero[0] = static_cast<X>(0);
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -98,20 +120,26 @@ inline vector<X>::vector()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline vector<X>::vector(const X *D)
+inline vector<X> vector<X>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  vector<X> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // =================================================================================================
 // map external pointer
 // =================================================================================================
 
-template<class X> inline void tensor4 <X>::map(const X *D) { m_data = D; }
-template<class X> inline void tensor2 <X>::map(const X *D) { m_data = D; }
-template<class X> inline void tensor2s<X>::map(const X *D) { m_data = D; }
-template<class X> inline void tensor2d<X>::map(const X *D) { m_data = D; }
-template<class X> inline void vector  <X>::map(const X *D) { m_data = D; }
+template<class X> inline void tensor4 <X>::setMap(const X *D) { m_data = D; }
+template<class X> inline void tensor2 <X>::setMap(const X *D) { m_data = D; }
+template<class X> inline void tensor2s<X>::setMap(const X *D) { m_data = D; }
+template<class X> inline void tensor2d<X>::setMap(const X *D) { m_data = D; }
+template<class X> inline void vector  <X>::setMap(const X *D) { m_data = D; }
 
 // =================================================================================================
 // cast to different class / type

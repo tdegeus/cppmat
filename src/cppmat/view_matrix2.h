@@ -37,11 +37,13 @@ private:
 public:
 
   // constructor
-  matrix2();           // allocate, null-pointer
-  matrix2(const X *D); // allocate, set external pointer
+  matrix2();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static matrix2<X,m,n> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // get dimensions
   size_t size() const;

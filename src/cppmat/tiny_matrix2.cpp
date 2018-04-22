@@ -21,20 +21,70 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2(X D)
+inline matrix2<X,m,n> matrix2<X,m,n>::Arange()
 {
-  // set all entries constant
-  for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D;
+  // allocate matrix
+  matrix2<X,m,n> out;
+
+  // initialize
+  out.setArange();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline matrix2<X,m,n> matrix2<X,m,n>::Zero()
+{
+  // allocate matrix
+  matrix2<X,m,n> out;
+
+  // initialize
+  out.setZero();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline matrix2<X,m,n> matrix2<X,m,n>::Ones()
+{
+  // allocate matrix
+  matrix2<X,m,n> out;
+
+  // initialize
+  out.setOnes();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline matrix2<X,m,n> matrix2<X,m,n>::Constant(X D)
+{
+  // allocate matrix
+  matrix2<X,m,n> out;
+
+  // initialize
+  out.setConstant(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
 template<typename Iterator>
-inline matrix2<X,m,n>::matrix2(Iterator first, Iterator last)
+inline matrix2<X,m,n> matrix2<X,m,n>::Copy(Iterator first, Iterator last)
 {
+  // allocate matrix
+  matrix2<X,m,n> out;
+
   // check size
-  assert( m_size == last - first );
+  assert( out.size() == last - first );
 
   // initialize counter
   size_t i = 0;
@@ -42,9 +92,10 @@ inline matrix2<X,m,n>::matrix2(Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    out[i] = *it; ++i;
   }
 
+  return out;
 }
 
 // =================================================================================================
@@ -228,9 +279,9 @@ inline auto matrix2<X,m,n>::end() const
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::setConstant(X D)
+inline void matrix2<X,m,n>::setArange()
 {
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = D;
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -238,7 +289,7 @@ inline void matrix2<X,m,n>::setConstant(X D)
 template<class X, size_t m, size_t n>
 inline void matrix2<X,m,n>::setZero()
 {
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -246,23 +297,15 @@ inline void matrix2<X,m,n>::setZero()
 template<class X, size_t m, size_t n>
 inline void matrix2<X,m,n>::setOnes()
 {
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::zeros()
+inline void matrix2<X,m,n>::setConstant(X D)
 {
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::ones()
-{
-  for ( size_t i=0; i<m_size; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // =================================================================================================

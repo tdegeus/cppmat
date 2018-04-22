@@ -29,9 +29,15 @@ inline matrix2<X,m,n>::matrix2()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t m, size_t n>
-inline matrix2<X,m,n>::matrix2(const X *D)
+inline matrix2<X,m,n> matrix2<X,m,n>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  matrix2<X,m,n> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // =================================================================================================
@@ -39,7 +45,7 @@ inline matrix2<X,m,n>::matrix2(const X *D)
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-inline void matrix2<X,m,n>::map(const X *D)
+inline void matrix2<X,m,n>::setMap(const X *D)
 {
   m_data = D;
 }

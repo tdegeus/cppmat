@@ -21,20 +21,70 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t n>
-inline vector<X,n>::vector(X D)
+inline vector<X,n> vector<X,n>::Arange()
 {
-  // set all entries constant
-  for ( size_t i = 0; i < m_size ; ++i ) m_data[i] = D;
+  // allocate matrix
+  vector<X,n> out;
+
+  // initialize
+  out.setArange();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline vector<X,n> vector<X,n>::Zero()
+{
+  // allocate matrix
+  vector<X,n> out;
+
+  // initialize
+  out.setZero();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline vector<X,n> vector<X,n>::Ones()
+{
+  // allocate matrix
+  vector<X,n> out;
+
+  // initialize
+  out.setOnes();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline vector<X,n> vector<X,n>::Constant(X D)
+{
+  // allocate matrix
+  vector<X,n> out;
+
+  // initialize
+  out.setConstant(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
 template<typename Iterator>
-inline vector<X,n>::vector(Iterator first, Iterator last)
+inline vector<X,n> vector<X,n>::Copy(Iterator first, Iterator last)
 {
+  // allocate matrix
+  vector<X,n> out;
+
   // check size
-  assert( m_size == last - first );
+  assert( out.size() == last - first );
 
   // initialize counter
   size_t i = 0;
@@ -42,9 +92,10 @@ inline vector<X,n>::vector(Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    out[i] = *it; ++i;
   }
 
+  return out;
 }
 
 // =================================================================================================
@@ -207,9 +258,9 @@ inline auto vector<X,n>::end() const
 // =================================================================================================
 
 template<class X, size_t n>
-inline void vector<X,n>::setConstant(X D)
+inline void vector<X,n>::setArange()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -231,17 +282,9 @@ inline void vector<X,n>::setOnes()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline void vector<X,n>::zeros()
+inline void vector<X,n>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t n>
-inline void vector<X,n>::ones()
-{
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // =================================================================================================
@@ -531,8 +574,8 @@ inline double vector<X,n>::mean() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t m>
-inline double vector<X,m>::average(const vector<X,m> &weights) const
+template<class X, size_t n>
+inline double vector<X,n>::average(const vector<X,n> &weights) const
 {
   X out = static_cast<X>(0);
 

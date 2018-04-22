@@ -42,7 +42,7 @@ public:
     // - check
     if ( rank != 4 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 2
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -53,7 +53,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor4<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian2d::tensor4<T>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -102,7 +102,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 2
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -113,7 +113,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian2d::tensor2<T>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -162,7 +162,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 2
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -173,15 +173,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2s<T>();
-
-    // - check for symmetry
-    assert( buf.data()[1] == buf.data()[2] );
-
-    // - copy from input (ignores lower diagonal terms)
-    value[0] = buf.data()[0];
-    value[1] = buf.data()[1];
-    value[2] = buf.data()[3];
+    value = cppmat::cartesian2d::tensor2s<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -233,7 +225,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 2
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -244,15 +236,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor2d<T>();
-
-    // - check the input to be diagonal
-    assert( ! buf.data()[1] );
-    assert( ! buf.data()[2] );
-
-    // - copy from input (ignores off-diagonal terms)
-    value[0] = buf.data()[0];
-    value[1] = buf.data()[3];
+    value = cppmat::cartesian2d::tensor2d<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -304,7 +288,7 @@ public:
     // - check
     if ( rank != 1 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 2
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 2 ) return false;
@@ -315,7 +299,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::vector<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian2d::vector<T>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

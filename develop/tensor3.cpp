@@ -45,7 +45,7 @@ SECTION("tensor4 arithmetic")
 
   // compute using cppmat
 
-  T4 A(nd),B(nd),C(nd),D(nd),E(nd),F(nd);
+  T4 A,B,C,D,E,F;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -77,7 +77,7 @@ SECTION("tensor4 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 10.;
   F += A;
@@ -129,7 +129,7 @@ SECTION("tensor4.ddot( tensor4 )")
 
   // compute using cppmat
 
-  T4 A(nd),B(nd);
+  T4 A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -198,7 +198,7 @@ SECTION("tensor4.ddot( tensor4.T() )")
 
   // compute using cppmat
 
-  T4 A(nd),B(nd);
+  T4 A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -267,7 +267,7 @@ SECTION("tensor4.ddot( tensor4.LT() )")
 
   // compute using cppmat
 
-  T4 A(nd),B(nd);
+  T4 A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -336,7 +336,7 @@ SECTION("tensor4.ddot( tensor4.RT() )")
 
   // compute using cppmat
 
-  T4 A(nd),B(nd);
+  T4 A,B;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -397,8 +397,8 @@ SECTION("tensor4.ddot( tensor2 )")
 
   // compute using cppmat
 
-  T4 A(nd);
-  T2 B(nd);
+  T4 A;
+  T2 B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -466,8 +466,8 @@ SECTION("tensor4.ddot( tensor2s )")
 
   // compute using cppmat
 
-  T4 A(nd);
-  T2s B(nd);
+  T4 A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -534,8 +534,8 @@ SECTION("tensor4.ddot( tensor2d )")
 
   // compute using cppmat
 
-  T4 A(nd);
-  T2d B(nd);
+  T4 A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -597,8 +597,8 @@ SECTION("tensor2.ddot( tensor4 )")
 
   // compute using cppmat
 
-  T2 A(nd);
-  T4 B(nd);
+  T2 A;
+  T4 B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -656,7 +656,7 @@ SECTION("tensor2.ddot( tensor2 )")
 
   // compute using cppmat
 
-  T2 A(nd), B(nd);
+  T2 A, B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -704,8 +704,8 @@ SECTION("tensor2.ddot( tensor2s )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -752,8 +752,8 @@ SECTION("tensor2.ddot( tensor2d )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -797,8 +797,8 @@ SECTION("tensor2.dot( tensor2 )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -863,8 +863,8 @@ SECTION("tensor2.dot( tensor2s )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -928,8 +928,8 @@ SECTION("tensor2.dot( tensor2d )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -987,8 +987,8 @@ SECTION("tensor2.dot( vector )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  V B(nd);
+  T2  A;
+  V B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1039,8 +1039,8 @@ SECTION("tensor2.dyadic( tensor2 )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1104,8 +1104,8 @@ SECTION("tensor2.dyadic( tensor2s )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1168,8 +1168,8 @@ SECTION("tensor2.dyadic( tensor2d )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1225,11 +1225,11 @@ SECTION("tensor2 arithmetic")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2  B(nd);
-  T2  C(nd);
-  T2  D(nd);
-  T2  E(nd);
+  T2  A;
+  T2  B;
+  T2  C;
+  T2  D;
+  T2  E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -1255,7 +1255,7 @@ SECTION("tensor2 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -1307,8 +1307,8 @@ SECTION("tensor2.dot( tensor2.T() )")
 
   // compute using cppmat
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1359,7 +1359,7 @@ SECTION("tensor2.trace()")
 
   // compute using cppmat
 
-  T2  A(nd);
+  T2  A;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -1392,7 +1392,7 @@ SECTION("tensor2.det() -- 3D")
 
   // compute using cppmat
 
-  T2  A(3);
+  T2  A;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -1425,7 +1425,7 @@ SECTION("tensor2.inv() -- 3D")
 
   // compute using cppmat
 
-  T2  A(3);
+  T2  A;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=0; j<3; ++j )
@@ -1485,8 +1485,8 @@ SECTION("tensor2s.ddot( tensor4 )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T4 B(nd);
+  T2s A;
+  T4 B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1548,8 +1548,8 @@ SECTION("tensor2s.ddot( tensor2 )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1601,8 +1601,8 @@ SECTION("tensor2s.ddot( tensor2s )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1653,8 +1653,8 @@ SECTION("tensor2s.ddot( tensor2d )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1702,8 +1702,8 @@ SECTION("tensor2s.dot( tensor2 )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1772,8 +1772,8 @@ SECTION("tensor2s.dot( tensor2s )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1841,8 +1841,8 @@ SECTION("tensor2s.dot( tensor2d )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1904,8 +1904,8 @@ SECTION("tensor2s.dot( vector )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  V B(nd);
+  T2s A;
+  V B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -1960,8 +1960,8 @@ SECTION("tensor2s.dyadic( tensor2 )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2029,8 +2029,8 @@ SECTION("tensor2s.dyadic( tensor2s )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2097,8 +2097,8 @@ SECTION("tensor2s.dyadic( tensor2d )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2164,11 +2164,11 @@ SECTION("tensor2s arithmetic")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2s B(nd);
-  T2s C(nd);
-  T2s D(nd);
-  T2s E(nd);
+  T2s A;
+  T2s B;
+  T2s C;
+  T2s D;
+  T2s E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=i; j<nd; ++j ) {
@@ -2194,7 +2194,7 @@ SECTION("tensor2s arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -2256,8 +2256,8 @@ SECTION("tensor2s.dot( tensor2s.T() )")
 
   // compute using cppmat
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2312,7 +2312,7 @@ SECTION("tensor2s.trace()")
 
   // compute using cppmat
 
-  T2s A(nd);
+  T2s A;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -2350,7 +2350,7 @@ SECTION("tensor2s.det() -- 3D")
 
   // compute using cppmat
 
-  T2s A(3);
+  T2s A;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=i; j<3; ++j )
@@ -2389,7 +2389,7 @@ SECTION("tensor2s.inv() -- 3D")
 
   // compute using cppmat
 
-  T2s A(3);
+  T2s A;
 
   for ( size_t i=0; i<3; ++i )
     for ( size_t j=i; j<3; ++j )
@@ -2449,8 +2449,8 @@ SECTION("tensor2d.ddot( tensor4 )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T4 B(nd);
+  T2d A;
+  T4 B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2512,8 +2512,8 @@ SECTION("tensor2d.ddot( tensor2 )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2565,8 +2565,8 @@ SECTION("tensor2d.ddot( tensor2s )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2617,8 +2617,8 @@ SECTION("tensor2d.ddot( tensor2d )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2666,8 +2666,8 @@ SECTION("tensor2d.dot( tensor2 )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2736,8 +2736,8 @@ SECTION("tensor2d.dot( tensor2s )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2805,8 +2805,8 @@ SECTION("tensor2d.dot( tensor2d )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2862,8 +2862,8 @@ SECTION("tensor2d.dot( vector )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  V B(nd);
+  T2d A;
+  V B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2918,8 +2918,8 @@ SECTION("tensor2d.dyadic( tensor2 )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -2987,8 +2987,8 @@ SECTION("tensor2d.dyadic( tensor2s )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3055,8 +3055,8 @@ SECTION("tensor2d.dyadic( tensor2d )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3123,11 +3123,11 @@ SECTION("tensor2d arithmetic")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2d B(nd);
-  T2d C(nd);
-  T2d D(nd);
-  T2d E(nd);
+  T2d A;
+  T2d B;
+  T2d C;
+  T2d D;
+  T2d E;
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i,i) = a(i,i);
@@ -3151,7 +3151,7 @@ SECTION("tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3212,8 +3212,8 @@ SECTION("tensor2d.dot( tensor2s.T() )")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3268,7 +3268,7 @@ SECTION("tensor2d.trace()")
 
   // compute using cppmat
 
-  T2d A(nd);
+  T2d A;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -3306,7 +3306,7 @@ SECTION("tensor2d.det() -- 3D")
 
   // compute using cppmat
 
-  T2d A(3);
+  T2d A;
 
   for ( size_t i=0; i<3; ++i )
     A(i,i) = a(i,i);
@@ -3344,7 +3344,7 @@ SECTION("tensor2d.inv() -- 3D")
 
   // compute using cppmat
 
-  T2d A(3);
+  T2d A;
 
   for ( size_t i=0; i<3; ++i )
     A(i,i) = a(i,i);
@@ -3388,8 +3388,8 @@ SECTION("vector.dot( vector )")
 
   // compute using cppmat
 
-  V A(nd);
-  V B(nd);
+  V A;
+  V B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3431,8 +3431,8 @@ SECTION("vector.dot( tensor2 )")
 
   // compute using cppmat
 
-  V A(nd);
-  T2  B(nd);
+  V A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3487,8 +3487,8 @@ SECTION("vector.dot( tensor2s )")
 
   // compute using cppmat
 
-  V A(nd);
-  T2s B(nd);
+  V A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3542,8 +3542,8 @@ SECTION("vector.dot( tensor2d )")
 
   // compute using cppmat
 
-  V A(nd);
-  T2d B(nd);
+  V A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3592,8 +3592,8 @@ SECTION("vector.dyadic( vector )")
 
   // compute using cppmat
 
-  V A(nd);
-  V B(nd);
+  V A;
+  V B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i) = a(i);
@@ -3647,8 +3647,8 @@ SECTION("vector.cross( vector )")
 
   // compute using cppmat
 
-  V A(3);
-  V B(3);
+  V A;
+  V B;
 
   for ( size_t i=0; i<3; ++i )
     A(i) = a(i);
@@ -3696,11 +3696,11 @@ SECTION("vector arithmetic")
 
   // compute using cppmat
 
-  cm::vector<double> A(nd);
-  cm::vector<double> B(nd);
-  cm::vector<double> C(nd);
-  cm::vector<double> D(nd);
-  cm::vector<double> E(nd);
+  V A;
+  V B;
+  V C;
+  V D;
+  V E;
 
   for ( size_t i=0; i<nd; ++i ) {
     A(i) = a(i);
@@ -3723,7 +3723,7 @@ SECTION("vector arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3787,11 +3787,11 @@ SECTION("tensor2/tensor2d/tensor2d arithmetic")
 
   // compute using cppmat
 
-  T2d A(nd);
-  T2  B(nd);
-  T2s C(nd);
-  T2s D(nd);
-  T2d E(nd);
+  T2d A;
+  T2  B;
+  T2s C;
+  T2s D;
+  T2d E;
 
   for ( size_t i=0; i<nd; ++i ) {
     for ( size_t j=0; j<nd; ++j ) {
@@ -3817,7 +3817,7 @@ SECTION("tensor2/tensor2d/tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3857,8 +3857,8 @@ SECTION("tensor2 * tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -3901,8 +3901,8 @@ SECTION("tensor2 / tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -3945,8 +3945,8 @@ SECTION("tensor2 + tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -3989,8 +3989,8 @@ SECTION("tensor2 - tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2  A(nd);
-  T2  B(nd);
+  T2  A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4039,8 +4039,8 @@ SECTION("tensor2 * tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4089,8 +4089,8 @@ SECTION("tensor2 / tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4139,8 +4139,8 @@ SECTION("tensor2 + tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4189,8 +4189,8 @@ SECTION("tensor2 - tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2  A(nd);
-  T2s B(nd);
+  T2  A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4238,8 +4238,8 @@ SECTION("tensor2 * tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4286,8 +4286,8 @@ SECTION("tensor2 + tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4334,8 +4334,8 @@ SECTION("tensor2 - tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2  A(nd);
-  T2d B(nd);
+  T2  A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=0; j<nd; ++j )
@@ -4381,8 +4381,8 @@ SECTION("tensor2s * tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4419,8 +4419,8 @@ SECTION("tensor2s / tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4457,8 +4457,8 @@ SECTION("tensor2s + tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4495,8 +4495,8 @@ SECTION("tensor2s - tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2s A(nd);
-  T2  B(nd);
+  T2s A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4539,8 +4539,8 @@ SECTION("tensor2s * tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4593,8 +4593,8 @@ SECTION("tensor2s / tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4647,8 +4647,8 @@ SECTION("tensor2s + tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4701,8 +4701,8 @@ SECTION("tensor2s - tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2s A(nd);
-  T2s B(nd);
+  T2s A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4754,8 +4754,8 @@ SECTION("tensor2s * tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4806,8 +4806,8 @@ SECTION("tensor2s + tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4858,8 +4858,8 @@ SECTION("tensor2s - tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2s A(nd);
-  T2d B(nd);
+  T2s A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     for ( size_t j=i; j<nd; ++j )
@@ -4906,8 +4906,8 @@ SECTION("tensor2d * tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -4954,8 +4954,8 @@ SECTION("tensor2d / tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5002,8 +5002,8 @@ SECTION("tensor2d + tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5040,8 +5040,8 @@ SECTION("tensor2d - tensor2")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2d A(nd);
-  T2  B(nd);
+  T2d A;
+  T2  B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5084,8 +5084,8 @@ SECTION("tensor2d * tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5138,8 +5138,8 @@ SECTION("tensor2d / tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5192,8 +5192,8 @@ SECTION("tensor2d + tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5236,8 +5236,8 @@ SECTION("tensor2d - tensor2s")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2d A(nd);
-  T2s B(nd);
+  T2d A;
+  T2s B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5279,8 +5279,8 @@ SECTION("tensor2d + tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5331,8 +5331,8 @@ SECTION("tensor2d - tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);
@@ -5383,8 +5383,8 @@ SECTION("tensor2d * tensor2d")
     for ( size_t j=0; j<nd; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  T2d A(nd);
-  T2d B(nd);
+  T2d A;
+  T2d B;
 
   for ( size_t i=0; i<nd; ++i )
     A(i,i) = a(i,i);

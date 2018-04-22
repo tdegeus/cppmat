@@ -36,12 +36,22 @@ private:
 public:
 
   // constructor
-  tensor4(){};   // allocate, don't initialize
-  tensor4(X D);  // allocate, initialize to constant
+  tensor4(){};
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static tensor4<X> Arange();
+  static tensor4<X> Zero();
+  static tensor4<X> Ones();
+  static tensor4<X> Constant(X D);
+  static tensor4<X> I();
+  static tensor4<X> Irt();
+  static tensor4<X> Is();
+  static tensor4<X> Id();
+  static tensor4<X> II();
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  tensor4(Iterator first, Iterator last);
+  static tensor4<X> Copy(Iterator first, Iterator last);
 
   // get dimensions
   size_t size() const;
@@ -68,12 +78,15 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
+  void setI();
+  void setIrt();
+  void setIs();
+  void setId();
+  void setII();
 
   // arithmetic operators
   tensor4<X>& operator*= (const tensor4<X> &B); // A_ijkl *= B_ijkl
@@ -119,12 +132,18 @@ private:
 public:
 
   // constructor
-  tensor2(){};   // allocate, don't initialize
-  tensor2(X D);  // allocate, initialize to constant
+  tensor2(){};
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static tensor2<X> Arange();
+  static tensor2<X> Zero();
+  static tensor2<X> Ones();
+  static tensor2<X> Constant(X D);
+  static tensor2<X> I();
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  tensor2(Iterator first, Iterator last);
+  static tensor2<X> Copy(Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -154,12 +173,11 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
+  void setI();
 
   // arithmetic operators
   tensor2<X>& operator*= (const tensor2 <X> &B); // A_ij *= B_ij
@@ -213,7 +231,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian2d::tensor2s (symmetric storage of "cppmat::cartesian2::tensor")
+// cppmat::cartesian2d::tensor2s (symmetric storage of "cppmat::cartesian2d::tensor")
 // =================================================================================================
 
 template<class X>
@@ -226,12 +244,22 @@ private:
 public:
 
   // constructor
-  tensor2s(){};   // allocate, don't initialize
-  tensor2s(X D);  // allocate, initialize to constant
+  tensor2s(){};
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static tensor2s<X> Arange();
+  static tensor2s<X> Zero();
+  static tensor2s<X> Ones();
+  static tensor2s<X> Constant(X D);
+  static tensor2s<X> I();
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  tensor2s(Iterator first, Iterator last);
+  static tensor2s<X> Copy(Iterator first, Iterator last);
+
+  // constructor: initialize by copying from external object, stored as "tensor2"
+  template<typename Iterator>
+  static tensor2s<X> CopyDense(Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -264,12 +292,11 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
+  void setI();
 
   // arithmetic operators
   tensor2s<X>& operator*= (const tensor2s<X> &B); // A_ij *= B_ij
@@ -318,7 +345,7 @@ public:
 };
 
 // =================================================================================================
-// cppmat::cartesian2d::tensor2d (diagonal storage of "cppmat::cartesian2::tensor")
+// cppmat::cartesian2d::tensor2d (diagonal storage of "cppmat::cartesian2d::tensor")
 // =================================================================================================
 
 template<class X>
@@ -332,12 +359,22 @@ private:
 public:
 
   // constructor
-  tensor2d();     // allocate, don't initialize
-  tensor2d(X D);  // allocate, initialize to constant
+  tensor2d();
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static tensor2d<X> Arange();
+  static tensor2d<X> Zero();
+  static tensor2d<X> Ones();
+  static tensor2d<X> Constant(X D);
+  static tensor2d<X> I();
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  tensor2d(Iterator first, Iterator last);
+  static tensor2d<X> Copy(Iterator first, Iterator last);
+
+  // constructor: initialize by copying from external object, stored as "tensor2"
+  template<typename Iterator>
+  static tensor2d<X> CopyDense(Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -371,12 +408,11 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
+  void setI();
 
   // arithmetic operators
   tensor2d<X>& operator*= (const tensor2d<X> &B); // A_ii * B_ii
@@ -435,12 +471,17 @@ private:
 public:
 
   // constructor
-  vector(){};   // allocate, don't initialize
-  vector(X D);  // allocate, initialize to constant
+  vector(){};
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static vector<X> Arange();
+  static vector<X> Zero();
+  static vector<X> Ones();
+  static vector<X> Constant(X D);
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  vector(Iterator first, Iterator last);
+  static vector<X> Copy(Iterator first, Iterator last);
 
   // get dimensions
   size_t size() const;
@@ -467,12 +508,10 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
 
   // arithmetic operators
   vector<X>& operator*= (const vector<X> &B); // A_i * B_i
@@ -786,17 +825,6 @@ template<class X> inline          X  det       (const tensor2d<X> &A);
 template<class X> inline          X  trace     (const tensor2 <X> &A);
 template<class X> inline          X  trace     (const tensor2s<X> &A);
 template<class X> inline          X  trace     (const tensor2d<X> &A);
-
-// =================================================================================================
-// identity tensors
-// =================================================================================================
-
-template<class X> inline tensor4 <X> identity4  ();
-template<class X> inline tensor4 <X> identity4rt();
-template<class X> inline tensor4 <X> identity4II();
-template<class X> inline tensor4 <X> identity4s ();
-template<class X> inline tensor4 <X> identity4d ();
-template<class X> inline tensor2d<X> identity2  ();
 
 // =================================================================================================
 

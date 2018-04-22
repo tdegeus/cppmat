@@ -77,7 +77,7 @@ SECTION("tensor4 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 10.;
   F += A;
@@ -1255,7 +1255,7 @@ SECTION("tensor2 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -2274,7 +2274,7 @@ SECTION("tensor2s arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3321,7 +3321,7 @@ SECTION("tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3979,7 +3979,7 @@ SECTION("vector arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -4073,7 +4073,7 @@ SECTION("tensor2/tensor2d/tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;

@@ -30,27 +30,70 @@ inline matrix2<X>::matrix2(size_t m, size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix2<X>::matrix2(size_t m, size_t n, X D)
+inline matrix2<X> matrix2<X>::Arange(size_t m, size_t n)
 {
-  // store shape, and other size parameters, allocate "m_data"
-  resize(m,n);
+  // allocate matrix
+  matrix2<X> out(m,n);
 
-  // copy input
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] = D;
+  // initialize
+  out.setArange();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> matrix2<X>::Zero(size_t m, size_t n)
+{
+  // allocate matrix
+  matrix2<X> out(m,n);
+
+  // initialize
+  out.setZero();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> matrix2<X>::Ones(size_t m, size_t n)
+{
+  // allocate matrix
+  matrix2<X> out(m,n);
+
+  // initialize
+  out.setOnes();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix2<X> matrix2<X>::Constant(size_t m, size_t n, X D)
+{
+  // allocate matrix
+  matrix2<X> out(m,n);
+
+  // initialize
+  out.setConstant(D);
+
+  return out;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 template<typename Iterator>
-inline matrix2<X>::matrix2(size_t m, size_t n, Iterator first, Iterator last)
+inline matrix2<X> matrix2<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 {
-  // store shape, and other size parameters, allocate "m_data"
-  resize(m,n);
+  // allocate matrix
+  matrix2<X> out(m,n);
 
   // check size
-  assert( m_size == last - first );
+  assert( out.size() == last - first );
 
   // initialize counter
   size_t i = 0;
@@ -58,8 +101,10 @@ inline matrix2<X>::matrix2(size_t m, size_t n, Iterator first, Iterator last)
   // copy input
   for (auto it = first; it != last; ++it)
   {
-    m_data[i] = *it; ++i;
+    out[i] = *it; ++i;
   }
+
+  return out;
 }
 
 // =================================================================================================
@@ -280,17 +325,9 @@ inline auto matrix2<X>::end() const
 // =================================================================================================
 
 template<class X>
-inline void matrix2<X>::arange()
+inline void matrix2<X>::setArange()
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void matrix2<X>::setConstant(X D)
-{
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -312,17 +349,9 @@ inline void matrix2<X>::setOnes()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void matrix2<X>::zeros()
+inline void matrix2<X>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline void matrix2<X>::ones()
-{
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // =================================================================================================

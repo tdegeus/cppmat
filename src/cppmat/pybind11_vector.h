@@ -43,7 +43,7 @@ public:
     if ( rank != 1 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::vector<T>(buf.shape()[0], buf.data(), buf.data()+buf.size());
+    value = cppmat::vector<T>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

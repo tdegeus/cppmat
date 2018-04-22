@@ -35,13 +35,18 @@ private:
 public:
 
   // constructor
-  matrix2(){};                       // empty
-  matrix2(size_t m, size_t n);       // allocate, don't initialize
-  matrix2(size_t m, size_t n, X D);  // allocate, initialize to constant
+  matrix2(){};
+  matrix2(size_t m, size_t n);
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static matrix2<X> Arange  (size_t m, size_t n);
+  static matrix2<X> Zero    (size_t m, size_t n);
+  static matrix2<X> Ones    (size_t m, size_t n);
+  static matrix2<X> Constant(size_t m, size_t n, X D);
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  matrix2(size_t m, size_t n, Iterator first, Iterator last);
+  static matrix2<X> Copy(size_t m, size_t n, Iterator first, Iterator last);
 
   // resize
   void resize (size_t m, size_t n);
@@ -54,8 +59,6 @@ public:
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
   std::vector<size_t> strides(bool bytes=false) const;
-
-
 
   // index operators: access plain storage
   X&       operator[](size_t i);
@@ -78,12 +81,10 @@ public:
   auto end() const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
 
   // arithmetic operators
   matrix2<X>& operator*= (const matrix2<X> &B);

@@ -29,9 +29,15 @@ inline vector<X,n>::vector()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline vector<X,n>::vector(const X *D)
+inline vector<X,n> vector<X,n>::Map(const X *D)
 {
-  m_data = D;
+  // allocate matrix
+  vector<X,n> out;
+
+  // initialize
+  out.setMap(D);
+
+  return out;
 }
 
 // =================================================================================================
@@ -39,7 +45,7 @@ inline vector<X,n>::vector(const X *D)
 // =================================================================================================
 
 template<class X, size_t n>
-inline void vector<X,n>::map(const X *D)
+inline void vector<X,n>::setMap(const X *D)
 {
   m_data = D;
 }

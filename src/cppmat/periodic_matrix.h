@@ -36,13 +36,18 @@ private:
 public:
 
   // constructor
-  matrix(){};                                     // empty
-  matrix(const std::vector<size_t> &shape);       // allocate, don't initialize
-  matrix(const std::vector<size_t> &shape, X D);  // allocate, initialize to constant
+  matrix(){};
+  matrix(const std::vector<size_t> &shape);
 
-  // constructor: copy entries from iterator
+  // constructor: initialize
+  static matrix<X> Arange  (const std::vector<size_t> &shape);
+  static matrix<X> Zero    (const std::vector<size_t> &shape);
+  static matrix<X> Ones    (const std::vector<size_t> &shape);
+  static matrix<X> Constant(const std::vector<size_t> &shape, X D);
+
+  // constructor: initialize by copying from external object
   template<typename Iterator>
-  matrix(const std::vector<size_t> &shape, Iterator first, Iterator last);
+  static matrix<X> Copy(const std::vector<size_t> &shape, Iterator first, Iterator last);
 
   // resize
   void resize (const std::vector<size_t> &shape);
@@ -120,12 +125,10 @@ public:
   auto item(int a, int b, int c, int d, int e, int f) const;
 
   // basic initialization
-  void arange();
-  void setConstant(X D);
+  void setArange();
   void setZero();
   void setOnes();
-  void zeros();
-  void ones();
+  void setConstant(X D);
 
   // arithmetic operators
   matrix<X>& operator*= (const matrix<X> &B);

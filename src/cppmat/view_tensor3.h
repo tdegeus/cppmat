@@ -37,11 +37,13 @@ private:
 public:
 
   // constructor
-  tensor4();           // allocate, null-pointer
-  tensor4(const X *D); // allocate, set external pointer
+  tensor4();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static tensor4<X> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // get dimensions
   size_t size() const;
@@ -97,11 +99,13 @@ private:
 public:
 
   // constructor
-  tensor2();           // allocate, null-pointer
-  tensor2(const X *D); // allocate, set external pointer
+  tensor2();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static tensor2<X> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -176,11 +180,13 @@ private:
 public:
 
   // constructor
-  tensor2s();           // allocate, null-pointer
-  tensor2s(const X *D); // allocate, set external pointer
+  tensor2s();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static tensor2s<X> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -253,11 +259,13 @@ private:
 public:
 
   // constructor
-  tensor2d();           // allocate, null-pointer
-  tensor2d(const X *D); // allocate, set external pointer
+  tensor2d();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static tensor2d<X> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // cast into another object
   template<class U> U cast() const;
@@ -326,11 +334,13 @@ private:
 public:
 
   // constructor
-  vector();           // allocate, null-pointer
-  vector(const X *D); // allocate, set external pointer
+  vector();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static vector<X> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // get dimensions
   size_t size() const;

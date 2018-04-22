@@ -42,7 +42,7 @@ public:
     // - check
     if ( rank != 4 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 3
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 3 ) return false;
@@ -53,7 +53,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian2d::tensor4<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian3d::tensor4<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -102,7 +102,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 3
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 3 ) return false;
@@ -113,7 +113,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian3d::tensor2<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -162,7 +162,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 3
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 3 ) return false;
@@ -173,20 +173,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2s<T>();
-
-    // - check for symmetry
-    assert( buf[1] == buf.data()[3] );
-    assert( buf[2] == buf.data()[6] );
-    assert( buf[5] == buf.data()[7] );
-
-    // - copy from input (ignores lower diagonal terms)
-    value[0] = buf.data()[0];
-    value[1] = buf.data()[1];
-    value[2] = buf.data()[2];
-    value[3] = buf.data()[4];
-    value[4] = buf.data()[5];
-    value[5] = buf.data()[8];
+    value = cppmat::cartesian3d::tensor2s<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -238,7 +225,7 @@ public:
     // - check
     if ( rank != 2 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 3
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 3 ) return false;
@@ -249,20 +236,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2d<T>();
-
-    // - check the input to be diagonal
-    assert( ! buf.data()[1] );
-    assert( ! buf.data()[2] );
-    assert( ! buf.data()[3] );
-    assert( ! buf.data()[5] );
-    assert( ! buf.data()[6] );
-    assert( ! buf.data()[7] );
-
-    // - copy from input (ignores off-diagonal terms)
-    value[0] = buf.data()[0];
-    value[1] = buf.data()[4];
-    value[2] = buf.data()[8];
+    value = cppmat::cartesian3d::tensor2d<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -314,7 +288,7 @@ public:
     // - check
     if ( rank != 1 ) return false;
 
-    // - read number of dimensions (shape in each direction) : should be exactly 3
+    // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
     // - check
     if ( nd != 3 ) return false;
@@ -325,7 +299,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::vector<T>(buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian3d::vector<T>::Copy(nd, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

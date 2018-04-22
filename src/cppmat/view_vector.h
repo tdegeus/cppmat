@@ -37,11 +37,13 @@ private:
 public:
 
   // constructor
-  vector();           // allocate, null-pointer
-  vector(const X *D); // allocate, set external pointer
+  vector();
 
-  // map external pointer
-  void map(const X *D);
+  // constructor: map external pointer
+  static vector<X,n> Map(const X *D);
+
+  // reset external pointer
+  void setMap(const X *D);
 
   // get dimensions
   size_t size() const;

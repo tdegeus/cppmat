@@ -77,7 +77,7 @@ SECTION("tensor4 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 10.;
   F += A;
@@ -1249,7 +1249,7 @@ SECTION("tensor2 arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -1385,7 +1385,7 @@ SECTION("tensor2.det() -- 2D")
 
   // compute using cppmat
 
-  T2  A(2);
+  T2  A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -1418,7 +1418,7 @@ SECTION("tensor2.inv() -- 2D")
 
   // compute using cppmat
 
-  T2  A(2);
+  T2  A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -2180,7 +2180,7 @@ SECTION("tensor2s arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -2335,7 +2335,7 @@ SECTION("tensor2s.det() -- 2D")
 
   // compute using cppmat
 
-  T2  A(2);
+  T2  A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -2374,7 +2374,7 @@ SECTION("tensor2s.inv() -- 2D")
 
   // compute using cppmat
 
-  T2s A(2);
+  T2s A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -3130,7 +3130,7 @@ SECTION("tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3285,7 +3285,7 @@ SECTION("tensor2d.det() -- 2D")
 
   // compute using cppmat
 
-  T2  A(2);
+  T2  A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -3324,7 +3324,7 @@ SECTION("tensor2d.inv() -- 2D")
 
   // compute using cppmat
 
-  T2d A(2);
+  T2d A;
 
   for ( size_t i=0; i<2; ++i )
     for ( size_t j=0; j<2; ++j )
@@ -3653,7 +3653,7 @@ SECTION("vector arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;
@@ -3747,7 +3747,7 @@ SECTION("tensor2/tensor2d/tensor2d arithmetic")
 
   // compute using cppmat
 
-  F.zeros();
+  F.setZero();
 
   A *= 7.;
   F += A;

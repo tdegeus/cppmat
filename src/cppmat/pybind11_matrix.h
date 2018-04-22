@@ -48,7 +48,7 @@ public:
     for ( ssize_t i = 0 ; i < rank ; i++ ) shape[i] = buf.shape()[i];
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix<T>(shape, buf.data(), buf.data()+buf.size());
+    value = cppmat::matrix<T>::Copy(shape, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;

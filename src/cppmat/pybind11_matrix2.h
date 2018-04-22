@@ -37,13 +37,17 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 2 ) return false;
 
+    // - shape of the input array
+    size_t m = buf.shape()[0];
+    size_t n = buf.shape()[1];
+
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix2<T>(buf.shape()[0], buf.shape()[1], buf.data(), buf.data()+buf.size());
+    value = cppmat::matrix2<T>::Copy(m, n, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
