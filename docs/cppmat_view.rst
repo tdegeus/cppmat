@@ -20,13 +20,11 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
   int main()
   {
-      cppmat::matrix<double> container({100,4,2});
-
-      container.arange();
+      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({100,4,2});
 
       cppmat::view::matrix2<double,4,2> view;
 
-      view.map(&container(10)); // equivalent to "view.map(&container(10,0,0));"
+      view.setMap(&container(10)); // equivalent to "view.setMap(&container(10,0,0));"
 
       std::cout << view << std::endl;
   }
@@ -40,6 +38,20 @@ This prints:
   84, 85;
   86, 87;
 
+.. warning::
+
+  Since C++ performs garbage collection you should use ``cppmat::view`` with care. You are responsible that pointers do not go out of scope.
+
+.. note::
+
+  One can also use the ``Map`` constructor instead of the ``setMap`` method:
+
+  .. code-block:: cpp
+
+    using Mat = cppmat::view::matrix2<double,4,2>;
+
+    Mat view = Mat::Map(&container(10));
+
 .. note::
 
   This function cannot make any modification to the view. Its usage is thus somewhat limited. To get a wider functionality use :ref:`tiny_matrix2`. For example:
@@ -50,22 +62,28 @@ This prints:
 
     int main()
     {
-        cppmat::matrix<double> container({100,4,2});
+        cppmat::matrix<double> container = cppmat::matrix<double>::Arange({100,4,2});
 
-        container.arange();
+        cppmat::tiny::matrix2<double,4,2> copy;
 
-        cppmat::tiny::matrix2<double,4,2> view;
+        copy.setCopy(container.item(10), container.item(10)+copy.size());
 
-        std::copy(container.item(10), container.item(10)+view.size(), view.data());
-
-        std::cout << view << std::endl;
+        std::cout << copy << std::endl;
     }
 
-  Note that ``view`` is now a copy. I.e. any modification to ``view`` will not result in a modification in ``container``.
+  Note that ``copy`` is now a copy. I.e. any modification to ``copy`` will not result in a modification in ``container``. Also note that one could have used
 
-.. warning::
+  .. code-block:: cpp
 
-  Since C++ performs garbage collection you should use ``cppmat::view`` with care. You are responsible that pointers do not go out of scope.
+    using Mat = cppmat::tiny::matrix2<double,4,2>;
+
+    Mat copy = Mat::Copy(container.item(10), container.item(10)+8);
+
+  or
+
+  .. code-block:: cpp
+
+    std::copy(container.item(10), container.item(10)+copy.size(), copy.data());
 
 .. _view_vector:
 

@@ -84,6 +84,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
   void setI();
   void setIrt();
   void setIs();
@@ -185,6 +186,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
   void setI();
 
   // arithmetic operators
@@ -310,6 +312,8 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
   // arithmetic operators
@@ -432,6 +436,8 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
   // arithmetic operators
@@ -538,6 +544,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators
   vector<X>& operator*= (const vector<X> &B); // A_i * B_i
@@ -726,6 +733,8 @@ template<class X> inline          X  trace     (const tensor2d<X> &A);
 // =================================================================================================
 
 }} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

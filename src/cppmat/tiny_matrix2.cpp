@@ -83,17 +83,8 @@ inline matrix2<X,m,n> matrix2<X,m,n>::Copy(Iterator first, Iterator last)
   // allocate matrix
   matrix2<X,m,n> out;
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for (auto it = first; it != last; ++it)
-  {
-    out[i] = *it; ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -229,7 +220,7 @@ inline const X& matrix2<X,m,n>::operator()(size_t a, size_t b) const
 template<class X, size_t m, size_t n>
 inline X* matrix2<X,m,n>::data()
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -237,7 +228,7 @@ inline X* matrix2<X,m,n>::data()
 template<class X, size_t m, size_t n>
 inline const X* matrix2<X,m,n>::data() const
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // =================================================================================================
@@ -247,7 +238,7 @@ inline const X* matrix2<X,m,n>::data() const
 template<class X, size_t m, size_t n>
 inline auto matrix2<X,m,n>::begin()
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -255,7 +246,7 @@ inline auto matrix2<X,m,n>::begin()
 template<class X, size_t m, size_t n>
 inline auto matrix2<X,m,n>::begin() const
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -263,7 +254,7 @@ inline auto matrix2<X,m,n>::begin() const
 template<class X, size_t m, size_t n>
 inline auto matrix2<X,m,n>::end()
 {
-  return &m_data[0] + m_size;
+  return std::begin(m_data) + m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -271,7 +262,7 @@ inline auto matrix2<X,m,n>::end()
 template<class X, size_t m, size_t n>
 inline auto matrix2<X,m,n>::end() const
 {
-  return &m_data[0] + m_size;
+  return std::begin(m_data) + m_size;
 }
 
 // =================================================================================================
@@ -306,6 +297,19 @@ template<class X, size_t m, size_t n>
 inline void matrix2<X,m,n>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+template<class Iterator>
+inline void matrix2<X,m,n>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m * n == last - first );
+
+  // copy
+  std::copy(first, last, std::begin(m_data));
 }
 
 // =================================================================================================

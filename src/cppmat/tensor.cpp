@@ -162,17 +162,8 @@ inline tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first, Iterator last)
   // allocate tensor
   tensor4<X> out(nd);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -265,17 +256,8 @@ inline tensor2<X> tensor2<X>::Copy(size_t nd, Iterator first, Iterator last)
   // allocate tensor
   tensor2<X> out(nd);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -368,17 +350,8 @@ inline tensor2s<X> tensor2s<X>::Copy(size_t nd, Iterator first, Iterator last)
   // allocate tensor
   tensor2s<X> out(nd);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -392,23 +365,8 @@ inline tensor2s<X> tensor2s<X>::CopyDense(size_t nd, Iterator first, Iterator la
   // allocate tensor
   tensor2s<X> out(nd);
 
-  // avoid compiler warning
-  UNUSED(last);
-
-  // check size
-  assert( nd * nd == last - first );
-
-  // check for symmetry
-  #ifndef NDEBUG
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = i+1 ; j < nd ; ++j )
-      assert( first[i*nd+j] == first[j*nd+i] );
-  #endif
-
-  // copy from input (ignores lower diagonal terms)
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = i ; j < nd ; ++j )
-      out[i*nd-(i-1)*i/2+j-i] = first[i*nd+j];
+  // initialize
+  out.setCopyDense(first,last);
 
   return out;
 }
@@ -513,17 +471,8 @@ inline tensor2d<X> tensor2d<X>::Copy(size_t nd, Iterator first, Iterator last)
   // allocate tensor
   tensor2d<X> out(nd);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -537,23 +486,8 @@ inline tensor2d<X> tensor2d<X>::CopyDense(size_t nd, Iterator first, Iterator la
   // allocate tensor
   tensor2d<X> out(nd);
 
-  // avoid compiler warning
-  UNUSED(last);
-
-  // check size
-  assert( nd * nd == last - first );
-
-  // check the input to be diagonal
-  #ifndef NDEBUG
-  for ( size_t i = 0 ; i < nd ; ++i )
-    for ( size_t j = 0 ; j < nd ; ++j )
-      if ( i !=j )
-        assert( !first[i*nd+j] );
-  #endif
-
-  // copy from input (ignores off-diagonal terms)
-  for ( size_t i = 0 ; i < nd ; ++i )
-    out[i] = first[i*nd+i];
+  // initialize
+  out.setCopyDense(first,last);
 
   return out;
 }
@@ -632,17 +566,8 @@ inline vector<X> vector<X>::Copy(size_t nd, Iterator first, Iterator last)
   // allocate tensor
   vector<X> out(nd);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -1111,6 +1036,19 @@ inline void tensor4<X>::setConstant(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<class Iterator>
+inline void tensor4<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor4<X>::setI()
 {
   this->setZero();
@@ -1143,7 +1081,7 @@ inline void tensor4<X>::setIrt()
 template<class X>
 inline void tensor4<X>::setIs()
 {
-  return ( tensor4<X>::I(m_nd) + tensor4<X>::Irt(m_nd) ) / 2.;
+  return ( tensor4<X>::I(m_nd) + tensor4<X>::Irt(m_nd) ) / static_cast<X>(2);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1204,6 +1142,19 @@ inline void tensor2<X>::setConstant(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<class Iterator>
+inline void tensor2<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2<X>::setI()
 {
   this->setZero();
@@ -1242,6 +1193,44 @@ template<class X>
 inline void tensor2s<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void tensor2s<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void tensor2s<X>::setCopyDense(Iterator first, Iterator last)
+{
+  // avoid compiler warning
+  UNUSED(last);
+
+  // check size
+  assert( m_nd * m_nd == last - first );
+
+  // check for symmetry
+  #ifndef NDEBUG
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = i+1 ; j < m_nd ; ++j )
+      assert( first[i*m_nd+j] == first[j*m_nd+i] );
+  #endif
+
+  // copy from input (ignores lower diagonal terms)
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = i ; j < m_nd ; ++j )
+      m_data[i*m_nd-(i-1)*i/2+j-i] = first[i*m_nd+j];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1290,6 +1279,44 @@ inline void tensor2d<X>::setConstant(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<class Iterator>
+inline void tensor2d<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void tensor2d<X>::setCopyDense(Iterator first, Iterator last)
+{
+  // avoid compiler warning
+  UNUSED(last);
+
+  // check size
+  assert( m_nd * m_nd == last - first );
+
+  // check the input to be diagonal
+  #ifndef NDEBUG
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = 0 ; j < m_nd ; ++j )
+      if ( i !=j )
+        assert( !first[i*m_nd+j] );
+  #endif
+
+  // copy from input (ignores off-diagonal terms)
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    m_data[i] = first[i*m_nd+i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline void tensor2d<X>::setI()
 {
   this->setZero();
@@ -1328,6 +1355,19 @@ template<class X>
 inline void vector<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void vector<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
 }
 
 // =================================================================================================

@@ -15,13 +15,11 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
   int main()
   {
-      cppmat::matrix<double> container({50,50,3});
-
-      container.arange();
+      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({50,50,3});
 
       cppmat::view::cartesian2d::tensor2s<double> view;
 
-      view.map(&container(10,0)); // equivalent to "view.map(&container(10,0,0));"
+      view.setMap(&container(10,0)); // equivalent to "view.map(&container(10,0,0));"
 
       std::cout << view << std::endl;
   }
@@ -33,6 +31,20 @@ This prints:
   1500, 1501;
   1501, 1502;
 
+.. warning::
+
+  Since C++ performs garbage collection you should use ``cppmat::view`` with care. You are responsible that pointers do not go out of scope.
+
+.. note::
+
+  One can also use the ``Map`` constructor instead of the ``setMap`` method:
+
+  .. code-block:: cpp
+
+    using T2s = cppmat::view::cartesian2d::tensor2s<double>;
+
+    T2s view = T2s::Map(&container(10,0));
+
 .. note::
 
   This function cannot make any modification to the view. Its usage is thus somewhat limited. To get a wider functionality use :ref:`cartesian2d`. For example:
@@ -43,22 +55,16 @@ This prints:
 
     int main()
     {
-        cppmat::matrix<double> container({50,50,3});
+      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({50,50,3});
 
-        container.arange();
+      cppmat::cartesian2d::tensor2s<double> copy;
 
-        cppmat::cartesian2d::tensor2s<double> view;
+      copy.setCopy(container.item(10,10), container.item(10,10)+copy.size());
 
-        std::copy(container.item(10,10), container.item(10,10)+view.size(), view.data());
-
-        std::cout << view << std::endl;
+      std::cout << copy << std::endl;
     }
 
-  Note that ``view`` is now a copy. I.e. any modification to ``view`` will not result in a modification in ``container``.
-
-.. warning::
-
-  Since C++ performs garbage collection you should use ``cppmat::view`` with care. You are responsible that pointers do not go out of scope.
+  Note that ``copy`` is now a copy. I.e. any modification to ``copy`` will not result in a modification in ``container``.
 
 Classes
 =======

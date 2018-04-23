@@ -92,9 +92,9 @@ Methods
 
     Has the result that ``A.shape() == {10,10,1}``.
 
-*   ``A.setConstant(...)``, ``A.setZero()``, ``A.setOnes()``, ``A.zeros()``, ``A.ones()``
+*   ``A.setZero()``, ``A.setOnes()``, ``A.setConstant(...)``, ``A.setArange()``
 
-    Set all entries to a constant, zero, or one.
+    Set all entries to zero or one, a constant, or the index in the flat storage.
 
 *   ``A.min()``, ``A.max()``
 
@@ -111,6 +111,33 @@ Methods
 *   ``A.average(weights[, axis])``
 
     Compute the weighted average of all entries, or along one or more axes. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_
+
+(Named) constructors
+--------------------
+
+*   ``cppmat::matrix<double>(shape)``
+
+    Allocate to a certain shape, nothing is initialized.
+
+*   ``cppmat::matrix<double>::Arange(shape)``
+
+    Allocate to a certain shape, set entries to its index in the flat storage.
+
+*   ``cppmat::matrix<double>::Zero(shape)``
+
+    Allocate to a certain shape, set all entries to zero.
+
+*   ``cppmat::matrix<double>::Ones(shape)``
+*
+    Allocate to a certain shape, set all entries to one.
+
+*   ``cppmat::matrix<double>::Constant(shape, constant)``
+*
+    Allocate to a certain shape, set all entries to a certain constant.
+
+*   ``cppmat::matrix<double>::Copy(shape, first, last)``
+*
+    Allocate to a certain shape, copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
 
 .. _matrix-index:
 

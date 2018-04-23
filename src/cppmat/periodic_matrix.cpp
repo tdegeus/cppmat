@@ -92,17 +92,8 @@ inline matrix<X> matrix<X>::Copy(const std::vector<size_t> &shape, Iterator firs
   // allocate matrix
   matrix<X> out(shape);
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for ( auto it = first ; it != last ; ++it )
-  {
-    out[i] = (*it); ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -800,6 +791,19 @@ template<class X>
 inline void matrix<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void matrix<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
 }
 
 // =================================================================================================

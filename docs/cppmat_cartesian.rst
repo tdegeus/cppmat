@@ -15,7 +15,7 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 
   int main()
   {
-    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4<double>(3);
+    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::tensor4<double>::I(3);
 
     ...
 
@@ -38,12 +38,11 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 
     #include <cppmat/cppmat.h>
 
-    using     T4 = cppmat::cartesian::tensor4<double>;
-    namespace cm = cppmat::cartesian;
+    using T4 = cppmat::cartesian::tensor4<double>;
 
     int main()
     {
-      T4 A = cm::identity4<double>(3);
+      T4 A = T4::I(3);
 
       ...
 
@@ -144,21 +143,23 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor2d<double> I = cppmat::cartesian::identity2<double>(3);
+    using T2  = cppmat::cartesian::tensor2 <double>;
+    using T2d = cppmat::cartesian::tensor2d<double>;
 
-    cppmat::cartesian::tensor2 <double> A = I;
+    T2d I = T2d::I(3);
+    T2  A = I;
 
   or even
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor2 <double> I = cppmat::cartesian::identity2<double>(3);
+    T2 I = T2d::I(3);
 
   Also arithmetic works:
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor2d<double> A = 3.0 * I;
+    T2d A = 3.0 * I;
 
   Note that it is even possible to perform arithmetic between the three different 2nd-order tensor classes, whereby the output type depends on the type of operator.
 
@@ -170,15 +171,19 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor2<double> A(3);
+    using T2  = cppmat::cartesian::tensor2 <double>;
+    using T2s = cppmat::cartesian::tensor2s<double>;
+    using T2d = cppmat::cartesian::tensor2d<double>;
+
+    T2 A(3);
 
     A(0,0) = ...
 
     // take the symmetric part of "A": "C = (A+A.T())/2."
-    cppmat::cartesian::tensor2s<double> C = A.cast<cppmat::cartesian::tensor2s<double>>();
+    T2s C = A.cast<T2s>();
 
     // take the diagonal of "A"
-    cppmat::cartesian::tensor2d<double> C = A.cast<cppmat::cartesian::tensor2d<double>>();
+    T2d C = A.cast<T2d>();
 
 .. note::
 
@@ -189,7 +194,7 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 Methods
 =======
 
-For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``*``,``/=``, ``/``,``+=``, ``+``,``-=``, ``-``, and the comparison operator ``==`` are available. Also, one can use ``.zeros()`` or ``.ones()`` to initialize all components respectively to zeros or ones. Furthermore, the following methods are available.
+For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``*``,``/=``, ``/``,``+=``, ``+``,``-=``, ``-``, and the comparison operator ``==`` are available. Also, one can use ``.setZero()``, ``.setOnes()``, or ``.setConstant(...)`` to initialize all components to zero, one, or some constant. Furthermore, the following methods are available.
 
 .. note::
 
@@ -197,8 +202,8 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
   .. code-block:: cpp
 
-    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::identity4<double>(3);
-    cppmat::cartesian::tensor2<double> B = cppmat::cartesian::identity2<double>(3);
+    cppmat::cartesian::tensor4<double> A = cppmat::cartesian::tensor4<double>::I(3);
+    cppmat::cartesian::tensor2<double> B = cppmat::cartesian::tensor2<double>::I(3);
 
     cppmat::cartesian::tensor2<double> C = A.ddot(B);
 

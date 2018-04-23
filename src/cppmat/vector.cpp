@@ -89,16 +89,10 @@ template<typename Iterator>
 inline vector<X> vector<X>::Copy(Iterator first, Iterator last)
 {
   // allocate matrix
-  vector<X> out(last - first);
+  vector<X> out(last-first);
 
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for (auto it = first; it != last; ++it)
-  {
-    out[i] = *it; ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -303,6 +297,19 @@ template<class X>
 inline void vector<X>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline void vector<X>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( m_size == last - first );
+
+  // copy
+  std::copy(first, last, m_data.data());
 }
 
 // =================================================================================================

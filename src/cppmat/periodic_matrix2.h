@@ -85,6 +85,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators
   matrix2<X>& operator*= (const matrix2<X> &B);

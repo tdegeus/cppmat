@@ -83,17 +83,8 @@ inline vector<X,n> vector<X,n>::Copy(Iterator first, Iterator last)
   // allocate matrix
   vector<X,n> out;
 
-  // check size
-  assert( out.size() == last - first );
-
-  // initialize counter
-  size_t i = 0;
-
-  // copy input
-  for (auto it = first; it != last; ++it)
-  {
-    out[i] = *it; ++i;
-  }
+  // initialize
+  out.setCopy(first,last);
 
   return out;
 }
@@ -208,7 +199,7 @@ inline const X& vector<X,n>::operator()(size_t a) const
 template<class X, size_t n>
 inline X* vector<X,n>::data()
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -216,7 +207,7 @@ inline X* vector<X,n>::data()
 template<class X, size_t n>
 inline const X* vector<X,n>::data() const
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // =================================================================================================
@@ -226,7 +217,7 @@ inline const X* vector<X,n>::data() const
 template<class X, size_t n>
 inline auto vector<X,n>::begin()
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -234,7 +225,7 @@ inline auto vector<X,n>::begin()
 template<class X, size_t n>
 inline auto vector<X,n>::begin() const
 {
-  return &m_data[0];
+  return std::begin(m_data);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -242,7 +233,7 @@ inline auto vector<X,n>::begin() const
 template<class X, size_t n>
 inline auto vector<X,n>::end()
 {
-  return &m_data[0] + m_size;
+  return std::begin(m_data) + m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -250,7 +241,7 @@ inline auto vector<X,n>::end()
 template<class X, size_t n>
 inline auto vector<X,n>::end() const
 {
-  return &m_data[0] + m_size;
+  return std::begin(m_data) + m_size;
 }
 
 // =================================================================================================
@@ -285,6 +276,19 @@ template<class X, size_t n>
 inline void vector<X,n>::setConstant(X D)
 {
   for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+template<class Iterator>
+inline void vector<X,n>::setCopy(Iterator first, Iterator last)
+{
+  // check size
+  assert( n == last - first );
+
+  // copy
+  std::copy(first, last, std::begin(m_data));
 }
 
 // =================================================================================================
