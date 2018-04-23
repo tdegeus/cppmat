@@ -170,7 +170,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2s<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian3d::tensor2s<T>::CopyDense(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -232,7 +232,7 @@ public:
         return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::cartesian3d::tensor2d<T>::CopyDense(nd, buf.data(), buf.data()+buf.size());
+    value = cppmat::cartesian3d::tensor2d<T>::CopyDense(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
