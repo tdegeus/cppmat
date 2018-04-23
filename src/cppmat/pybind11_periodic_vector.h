@@ -37,7 +37,7 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 1 ) return false;

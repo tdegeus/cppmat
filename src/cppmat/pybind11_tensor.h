@@ -37,15 +37,14 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 4
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 4 ) return false;
 
     // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
-
-    // - the shape in each direction should be equal ( == nd )
+    // - check
     for ( ssize_t i = 0 ; i < rank ; ++i )
       if ( buf.shape()[i] != nd )
         return false;
@@ -95,15 +94,14 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
-
-    // - the shape in each direction should be equal ( == nd )
+    // - check
     for ( ssize_t i = 0 ; i < rank ; ++i )
       if ( buf.shape()[i] != nd )
         return false;
@@ -153,15 +151,14 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
-
-    // - the shape in each direction should be equal ( == nd )
+    // - check
     for ( ssize_t i = 0 ; i < rank ; ++i )
       if ( buf.shape()[i] != nd )
         return false;
@@ -214,15 +211,14 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 2 ) return false;
 
     // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
-
-    // - the shape in each direction should be equal ( == nd )
+    // - check
     for ( ssize_t i = 0 ; i < rank ; ++i )
       if ( buf.shape()[i] != nd )
         return false;
@@ -275,15 +271,14 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 1
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 1 ) return false;
 
     // - read number of dimensions (shape in each direction)
     ssize_t nd = buf.shape()[0];
-
-    // - the shape in each direction should be equal ( == nd )
+    // - check
     for ( ssize_t i = 0 ; i < rank ; ++i )
       if ( buf.shape()[i] != nd )
         return false;

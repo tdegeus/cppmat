@@ -39,12 +39,12 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 2 ) return false;
 
-    // - read shape in each direction : should be exactly (M,N)
+    // - shape of the input array: should be exactly (M,N)
     if ( buf.shape()[0] != static_cast<ssize_t>(M) ) return false;
     if ( buf.shape()[1] != static_cast<ssize_t>(N) ) return false;
 

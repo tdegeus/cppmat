@@ -39,12 +39,12 @@ public:
     // - check
     if ( !buf ) return false;
 
-    // - rank of the input array (number of indices) : should be exactly 2
+    // - rank of the input array (number of indices)
     auto rank = buf.ndim();
     // - check
     if ( rank != 1 ) return false;
 
-    // - shape : should be exactly N
+    // - shape: should be exactly N
     if ( buf.shape()[0] != static_cast<ssize_t>(N) ) return false;
 
     // - all checks passed : create the proper C++ variable
