@@ -96,7 +96,7 @@ Methods
 
     Set all entries to zero or one, a constant, or the index in the flat storage.
 
-*   ``A.min()``, ``A.max()``
+*   ``A.minCoeff()``, ``A.maxCoeff()``
 
     Return the minimum or the maximum entry.
 
@@ -108,9 +108,9 @@ Methods
 
     Return the mean of all entries, or along one or more axes.
 
-*   ``A.average(weights[, axis])``
+*   ``A.average(weights[, axis][, normalize])``
 
-    Compute the weighted average of all entries, or along one or more axes. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_
+    Compute the weighted average of all entries, or along one or more axes. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_. Optionally the result can be returned without normalization.
 
 (Named) constructors
 --------------------
