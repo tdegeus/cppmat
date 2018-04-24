@@ -585,7 +585,7 @@ inline vector<X> operator- (const X &A, const vector<X> &B)
 // =================================================================================================
 
 template<class X>
-inline X vector<X>::min() const
+inline X vector<X>::minCoeff() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
 }
@@ -593,7 +593,7 @@ inline X vector<X>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X vector<X>::max() const
+inline X vector<X>::maxCoeff() const
 {
   return *std::max_element(m_data.begin(),m_data.end());
 }

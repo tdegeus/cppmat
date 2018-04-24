@@ -98,8 +98,8 @@ public:
   matrix2<X>& operator-= (const         X  &B);
 
   // basic algebra
-  X      min() const;
-  X      max() const;
+  X      minCoeff() const;
+  X      maxCoeff() const;
   X      sum() const;
   double mean() const;
   double average(const matrix2<X> &weights) const;

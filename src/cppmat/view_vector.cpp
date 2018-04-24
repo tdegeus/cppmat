@@ -323,7 +323,7 @@ inline reg::vector<X,n> operator- (const X &A, const vector<X,n> &B)
 // =================================================================================================
 
 template<class X, size_t n>
-inline X vector<X,n>::min() const
+inline X vector<X,n>::minCoeff() const
 {
   return *std::min_element(begin(),end());
 }
@@ -331,7 +331,7 @@ inline X vector<X,n>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t n>
-inline X vector<X,n>::max() const
+inline X vector<X,n>::maxCoeff() const
 {
   return *std::max_element(begin(),end());
 }

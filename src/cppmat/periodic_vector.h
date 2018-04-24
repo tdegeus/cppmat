@@ -93,8 +93,8 @@ public:
   vector<X>& operator-= (const        X  &B);
 
   // basic algebra
-  X      min() const;
-  X      max() const;
+  X      minCoeff() const;
+  X      maxCoeff() const;
   X      sum() const;
   double mean() const;
   double average(const vector<X> &weights) const;

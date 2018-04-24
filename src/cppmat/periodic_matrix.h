@@ -81,7 +81,7 @@ public:
   const X& operator()(int a, int b, int c, int d, int e, int f) const;
 
   // index operators: access using iterator
-  // N.B. the iterator points to a list of indices (a,b,...)
+  // N.B. the iterator points to a list of indices (a,b,c,...)
   template<class Iterator> X&       at(Iterator first, Iterator last);
   template<class Iterator> const X& at(Iterator first, Iterator last) const;
 
@@ -143,8 +143,8 @@ public:
 
   // basic algebra
   // - minimum/maximum
-  X         min() const;
-  X         max() const;
+  X         minCoeff() const;
+  X         maxCoeff() const;
   // - sum
   X         sum() const;
   matrix<X> sum(int    axis) const;
@@ -156,10 +156,10 @@ public:
   matrix<X> mean(size_t axis) const;
   matrix<X> mean(const std::vector<int> &axes) const;
   // - weighted average
-  double    average(const matrix<X> &weights) const;
-  matrix<X> average(const matrix<X> &weights, int    axis) const;
-  matrix<X> average(const matrix<X> &weights, size_t axis) const;
-  matrix<X> average(const matrix<X> &weights, const std::vector<int> &axes) const;
+  double    average(const matrix<X> &weights,                               bool norm=true) const;
+  matrix<X> average(const matrix<X> &weights, int    axis,                  bool norm=true) const;
+  matrix<X> average(const matrix<X> &weights, size_t axis,                  bool norm=true) const;
+  matrix<X> average(const matrix<X> &weights, const std::vector<int> &axes, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

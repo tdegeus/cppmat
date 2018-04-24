@@ -142,6 +142,22 @@ inline size_t matrix2<X>::ndim() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline size_t matrix2<X>::rows() const
+{
+  return m_m;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix2<X>::cols() const
+{
+  return m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline size_t matrix2<X>::shape(int i) const
 {
   i = ( i < 0 ) ? i + 2 : ( i >= 2 ) ? i - 2 : i ;
@@ -196,7 +212,7 @@ inline std::vector<size_t> matrix2<X>::strides(bool bytes) const
 }
 
 // =================================================================================================
-// index operators
+// index operators : operator[...]
 // =================================================================================================
 
 template<class X>
@@ -213,7 +229,9 @@ inline const X& matrix2<X>::operator[](size_t i) const
   return m_data[i];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// index operators : operator(...)
+// =================================================================================================
 
 template<class X>
 inline X& matrix2<X>::operator()(size_t a)
@@ -246,6 +264,69 @@ inline const X& matrix2<X>::operator()(size_t a, size_t b) const
 }
 
 // =================================================================================================
+// index operators : at(...)
+// =================================================================================================
+
+template<class X>
+template<class Iterator>
+inline X& matrix2<X>::at(Iterator first, Iterator last)
+{
+  assert( static_cast<size_t>(last-first) <= 2 );
+
+  UNUSED(last);
+
+  return m_data[ first[0]*m_n + first[1] ];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline const X& matrix2<X>::at(Iterator first, Iterator last) const
+{
+  assert( static_cast<size_t>(last-first) <= 2 );
+
+  UNUSED(last);
+
+  return m_data[ first[0]*m_n + first[1] ];
+}
+
+// =================================================================================================
+// index operators : compress(...)
+// =================================================================================================
+
+template<class X>
+inline size_t matrix2<X>::compress(size_t a) const
+{
+  return a*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t matrix2<X>::compress(size_t a, size_t b) const
+{
+  return a*m_n+b;
+}
+
+// =================================================================================================
+// index operators : decompress(...)
+// =================================================================================================
+
+template<class X>
+inline std::vector<size_t> matrix2<X>::decompress(size_t i) const
+{
+  assert( i < m_size );
+
+  std::vector<size_t> idx(2);
+
+  idx[1] = i % m_n;
+  idx[0] = ( i - idx[1] ) / m_n;
+
+  return idx;
+}
+
+// =================================================================================================
 // pointer to data
 // =================================================================================================
 
@@ -264,7 +345,7 @@ inline const X* matrix2<X>::data() const
 }
 
 // =================================================================================================
-// iterators
+// iterators : begin() and end()
 // =================================================================================================
 
 template<class X>
@@ -295,6 +376,86 @@ template<class X>
 inline auto matrix2<X>::end() const
 {
   return m_data.end();
+}
+
+// =================================================================================================
+// iterators : beginRow() and endRow()
+// =================================================================================================
+
+template<class X>
+inline auto matrix2<X>::beginRow(size_t a)
+{
+  return m_data.begin() + a*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::beginRow(size_t a) const
+{
+  return m_data.begin() + a*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::endRow(size_t a)
+{
+  return m_data.begin() + (a+1)*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline auto matrix2<X>::endRow(size_t a) const
+{
+  return m_data.begin() + (a+1)*m_n;
+}
+
+// =================================================================================================
+// iterators : index()
+// =================================================================================================
+
+template<class X> inline auto matrix2<X>::index(size_t i)
+{
+  return m_data.begin() + i;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix2<X>::index(size_t i) const
+{
+  return m_data.begin() + i;
+}
+
+// =================================================================================================
+// iterators : item()
+// =================================================================================================
+
+template<class X> inline auto matrix2<X>::item(size_t a)
+{
+  return m_data.begin() + a*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix2<X>::item(size_t a) const
+{
+  return m_data.begin() + a*m_n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix2<X>::item(size_t a, size_t b)
+{
+  return m_data.begin() + a*m_n+b;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X> inline auto matrix2<X>::item(size_t a, size_t b) const
+{
+  return m_data.begin() + a*m_n+b;
 }
 
 // =================================================================================================
@@ -619,7 +780,7 @@ inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
 // =================================================================================================
 
 template<class X>
-inline X matrix2<X>::min() const
+inline X matrix2<X>::minCoeff() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
 }
@@ -627,7 +788,7 @@ inline X matrix2<X>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X matrix2<X>::max() const
+inline X matrix2<X>::maxCoeff() const
 {
   return *std::max_element(m_data.begin(),m_data.end());
 }

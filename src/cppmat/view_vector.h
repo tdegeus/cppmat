@@ -67,8 +67,8 @@ public:
   auto end() const;
 
   // basic algebra
-  X      min() const;
-  X      max() const;
+  X      minCoeff() const;
+  X      maxCoeff() const;
   X      sum() const;
   double mean() const;
   double average(const vector<X,n> &weights) const;

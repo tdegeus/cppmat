@@ -633,7 +633,7 @@ inline matrix2<X> operator- (const X &A, const matrix2<X> &B)
 // =================================================================================================
 
 template<class X>
-inline X matrix2<X>::min() const
+inline X matrix2<X>::minCoeff() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
 }
@@ -641,7 +641,7 @@ inline X matrix2<X>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X matrix2<X>::max() const
+inline X matrix2<X>::maxCoeff() const
 {
   return *std::max_element(m_data.begin(),m_data.end());
 }

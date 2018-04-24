@@ -51,6 +51,21 @@ inline std::vector<X> del(const std::vector<X> &A, size_t idx)
 // =================================================================================================
 
 template<class X>
+inline std::string to_string(const std::vector<X> &A)
+{
+  std::string out = "(";
+
+  for ( size_t i = 0 ; i < A.size()-1 ; ++i )
+    out += std::to_string(A[i]) + ", ";
+
+  out += std::to_string(A[A.size()-1]) + ")";
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
 inline X abs(X A)
 {
   return std::abs(A);

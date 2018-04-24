@@ -52,6 +52,8 @@ public:
   // get dimensions
   size_t size() const;
   size_t ndim() const;
+  size_t rows() const;
+  size_t cols() const;
   size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
@@ -67,6 +69,18 @@ public:
   X&       operator()(size_t a, size_t b);
   const X& operator()(size_t a, size_t b) const;
 
+  // index operators: access using iterator
+  // N.B. the iterator points to a list of indices (a,b)
+  template<class Iterator> X&       at(Iterator first, Iterator last);
+  template<class Iterator> const X& at(Iterator first, Iterator last) const;
+
+  // index operators: plain storage -> matrix indices (i -> a,b)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: matrix indices -> plain storage (a,b -> i)
+  size_t compress(size_t a) const;
+  size_t compress(size_t a, size_t b) const;
+
   // pointer to data
   X*       data();
   const X* data() const;
@@ -76,6 +90,22 @@ public:
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to the first and last entry of a row
+  auto beginRow(size_t i);
+  auto beginRow(size_t i) const;
+  auto endRow(size_t i);
+  auto endRow(size_t i) const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using matrix indices
+  auto item(size_t a);
+  auto item(size_t a) const;
+  auto item(size_t a, size_t b);
+  auto item(size_t a, size_t b) const;
 
   // basic initialization
   void setArange();
@@ -95,8 +125,8 @@ public:
   matrix2<X>& operator-= (const         X  &B);
 
   // basic algebra
-  X      min() const;
-  X      max() const;
+  X      minCoeff() const;
+  X      maxCoeff() const;
   X      sum() const;
   double mean() const;
   double average(const matrix2<X> &weights) const;

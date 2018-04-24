@@ -233,7 +233,7 @@ inline std::vector<size_t> matrix<X>::strides(bool bytes) const
 }
 
 // =================================================================================================
-// index operators
+// index operators : operator[...]
 // =================================================================================================
 
 template<class X>
@@ -250,8 +250,9 @@ inline const X& matrix<X>::operator[](size_t i) const
   return m_data[i];
 }
 
-// -------------------------------------------------------------------------------------------------
-
+// =================================================================================================
+// index operators : operator(...)
+// =================================================================================================
 
 template<class X>
 inline X& matrix<X>::operator()(int a)
@@ -401,7 +402,9 @@ inline const X& matrix<X>::operator()(int a, int b, int c, int d, int e, int f) 
   return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// index operators : at(...)
+// =================================================================================================
 
 template<class X>
 template<class Iterator>
@@ -457,7 +460,9 @@ inline const X& matrix<X>::at(Iterator first, Iterator last) const
   return m_data[idx];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// index operators : compress(...)
+// =================================================================================================
 
 template<class X>
 inline size_t matrix<X>::compress(int a) const
@@ -532,7 +537,9 @@ inline size_t matrix<X>::compress(int a, int b, int c, int d, int e, int f) cons
   return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// index operators : decompress(...)
+// =================================================================================================
 
 template<class X>
 inline std::vector<size_t> matrix<X>::decompress(size_t i) const
@@ -568,7 +575,7 @@ inline const X* matrix<X>::data() const
 }
 
 // =================================================================================================
-// iterators
+// iterators : begin() and end()
 // =================================================================================================
 
 template<class X>
@@ -601,7 +608,9 @@ inline auto matrix<X>::end() const
   return m_data.end();
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// iterators : index()
+// =================================================================================================
 
 template<class X> inline auto matrix<X>::index(size_t i)
 {
@@ -615,7 +624,9 @@ template<class X> inline auto matrix<X>::index(size_t i) const
   return m_data.begin() + i;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// iterators : item()
+// =================================================================================================
 
 template<class X> inline auto matrix<X>::item(int a)
 {
@@ -1081,7 +1092,7 @@ inline matrix<X> operator- (const X &A, const matrix<X> &B)
 // =================================================================================================
 
 template<class X>
-inline X matrix<X>::min() const
+inline X matrix<X>::minCoeff() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
 }
@@ -1089,7 +1100,7 @@ inline X matrix<X>::min() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X matrix<X>::max() const
+inline X matrix<X>::maxCoeff() const
 {
   return *std::max_element(m_data.begin(),m_data.end());
 }
@@ -1240,7 +1251,7 @@ inline matrix<X> matrix<X>::mean(const std::vector<int> &axes) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline double matrix<X>::average(const matrix<X> &weights) const
+inline double matrix<X>::average(const matrix<X> &weights, bool norm) const
 {
   assert( size() == weights.size() );
   assert( ndim() == weights.ndim() );
@@ -1250,31 +1261,38 @@ inline double matrix<X>::average(const matrix<X> &weights) const
   for ( size_t i = 0 ; i < m_size ; ++i )
     out += m_data[i] * weights[i];
 
-  return static_cast<double>(out)/static_cast<double>(weights.sum());
+  if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
+  else        return static_cast<double>(out);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X> matrix<X>::average(const matrix<X> &weights, int axis) const
+inline matrix<X> matrix<X>::average(
+  const matrix<X> &weights, int axis, bool norm) const
 {
-  return (weights*(*this)).sum(axis) / weights.sum(axis);
+  if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
+  else        return (weights*(*this)).sum(axis);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X> matrix<X>::average(const matrix<X> &weights, size_t axis) const
+inline matrix<X> matrix<X>::average(
+  const matrix<X> &weights, size_t axis, bool norm) const
 {
-  return (weights*(*this)).sum(axis) / weights.sum(axis);
+  if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
+  else        return (weights*(*this)).sum(axis);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X> matrix<X>::average(const matrix<X> &weights, const std::vector<int> &axes) const
+inline matrix<X> matrix<X>::average(
+  const matrix<X> &weights, const std::vector<int> &axes, bool norm) const
 {
-  return (weights*(*this)).sum(axes) / weights.sum(axes);
+  if ( norm ) return (weights*(*this)).sum(axes) / weights.sum(axes);
+  else        return (weights*(*this)).sum(axes);
 }
 
 // =================================================================================================
