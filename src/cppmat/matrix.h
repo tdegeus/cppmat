@@ -140,9 +140,12 @@ public:
   matrix<X>& operator-= (const        X  &B);
 
   // basic algebra
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
   // - minimum/maximum
-  X         minCoeff() const;
-  X         maxCoeff() const;
+  X minCoeff() const;
+  X maxCoeff() const;
   // - sum
   X         sum() const;
   matrix<X> sum(int    axis) const;

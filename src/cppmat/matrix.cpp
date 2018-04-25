@@ -937,9 +937,25 @@ inline matrix<X> operator- (const X &A, const matrix<X> &B)
 // =================================================================================================
 
 template<class X>
+inline std::vector<size_t> matrix<X>::argmin() const
+{
+  return decompress( std::min_element(begin(),end()) - begin() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline std::vector<size_t> matrix<X>::argmax() const
+{
+  return decompress( std::max_element(begin(),end()) - begin() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline X matrix<X>::minCoeff() const
 {
-  return *std::min_element(m_data.begin(),m_data.end());
+  return *std::min_element(begin(),end());
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -947,7 +963,7 @@ inline X matrix<X>::minCoeff() const
 template<class X>
 inline X matrix<X>::maxCoeff() const
 {
-  return *std::max_element(m_data.begin(),m_data.end());
+  return *std::max_element(begin(),end());
 }
 
 // -------------------------------------------------------------------------------------------------
