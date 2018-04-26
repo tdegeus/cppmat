@@ -969,6 +969,67 @@ inline X matrix<X>::maxCoeff() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline matrix<X> matrix<X>::minCoeff(size_t axis) const
+{
+  // check input
+  assert( axis < m_ndim );
+
+  // initialize output to the same shape as the input, with one axis removed
+  matrix<X> out = matrix<X>::Constant(del(this->shape(),axis), this->maxCoeff());
+
+  // extended strides
+  // - copy strides
+  std::vector<size_t> estrides = this->strides();
+  // - insert total size at the beginning
+  estrides.insert(estrides.begin(), m_size);
+
+  // extract sizes
+  size_t n = estrides[axis  ];
+  size_t m = estrides[axis+1];
+
+  // perform reduction
+  for ( size_t i = 0 ; i < m_size ; ++i )
+  {
+    // - get the new index
+    size_t ni = i/n*m + i%m;
+    // - store
+    out[ni] = std::min(out[ni], m_data[i]);
+  }
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::minCoeff(int axis) const
+{
+  int n = static_cast<int>(m_ndim);
+
+  return this->minCoeff(static_cast<size_t>((n+(axis%n))%n));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::minCoeff(const std::vector<int> &axes_in) const
+{
+  // correct for 'periodicity', sort from high to low
+  std::vector<int> axes = sort_pmodulo(axes_in, static_cast<int>(m_ndim), true);
+
+  // copy matrix
+  matrix<X> out = (*this);
+
+  // loop to compute
+  for ( auto &axis : axes )
+    out = out.minCoeff(axis);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline X matrix<X>::sum() const
 {
   X out = static_cast<X>(0);
@@ -982,28 +1043,10 @@ inline X matrix<X>::sum() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline matrix<X> matrix<X>::sum(int axis) const
-{
-  int n = static_cast<int>(m_ndim);
-
-  axis = ( axis < 0 ) ? axis + n : ( axis >= n ) ? axis - n : axis;
-
-  assert( axis <  n );
-  assert( axis >= 0 );
-
-  return this->sum(static_cast<size_t>(axis));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline matrix<X> matrix<X>::sum(size_t axis) const
 {
-  // output
-  // - allocate to the same shape as the input, with one axis removed
-  matrix<X> out(del(this->shape(),axis));
-  // - zero-initialize
-  out.setZero();
+  // zero-initialize output to the same shape as the input, with one axis removed
+  matrix<X> out = matrix<X>::Zero(del(this->shape(),axis));
 
   // extended strides
   // - copy strides
@@ -1025,6 +1068,21 @@ inline matrix<X> matrix<X>::sum(size_t axis) const
   }
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline matrix<X> matrix<X>::sum(int axis) const
+{
+  int n = static_cast<int>(m_ndim);
+
+  axis = ( axis < 0 ) ? axis + n : ( axis >= n ) ? axis - n : axis;
+
+  assert( axis <  n );
+  assert( axis >= 0 );
+
+  return this->sum(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1114,8 +1172,7 @@ inline matrix<X> matrix<X>::mean(const std::vector<int> &axes) const
 template<class X>
 inline double matrix<X>::average(const matrix<X> &weights, bool norm) const
 {
-  assert( size() == weights.size() );
-  assert( ndim() == weights.ndim() );
+  assert( shape() == weights.shape() );
 
   X out = static_cast<X>(0);
 

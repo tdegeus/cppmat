@@ -22,6 +22,10 @@ template<class X> std::vector<X> del(const std::vector<X> &A, size_t idx);
 
 // -------------------------------------------------------------------------------------------------
 
+template<class X> std::vector<X> sort_pmodulo(const std::vector<X> &A, X n, bool reverse=true);
+
+// -------------------------------------------------------------------------------------------------
+
 template<class X> std::string to_string(const std::vector<X> &A);
 
 // -------------------------------------------------------------------------------------------------

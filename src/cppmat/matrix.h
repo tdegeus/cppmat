@@ -144,8 +144,14 @@ public:
   std::vector<size_t> argmin() const;
   std::vector<size_t> argmax() const;
   // - minimum/maximum
-  X minCoeff() const;
+  // X minCoeff() const;
   X maxCoeff() const;
+
+  X         minCoeff() const;
+  matrix<X> minCoeff(int    axis) const;
+  matrix<X> minCoeff(size_t axis) const;
+  matrix<X> minCoeff(const std::vector<int> &axes) const;
+
   // - sum
   X         sum() const;
   matrix<X> sum(int    axis) const;

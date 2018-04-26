@@ -50,8 +50,11 @@ public:
   static tensor4<X> II();
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor4<X> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static tensor4<X> Copy(Iterator first);
+  template<typename Iterator> static tensor4<X> Copy(Iterator first, Iterator last);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;
@@ -143,8 +146,11 @@ public:
   static tensor2<X> I();
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2<X> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static tensor2<X> Copy(Iterator first);
+  template<typename Iterator> static tensor2<X> Copy(Iterator first, Iterator last);
+
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -256,12 +262,12 @@ public:
   static tensor2s<X> I();
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2s<X> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static tensor2s<X> Copy     (Iterator first);
+  template<typename Iterator> static tensor2s<X> Copy     (Iterator first, Iterator last);
+  template<typename Iterator> static tensor2s<X> CopyDense(Iterator first, Iterator last);
 
-  // constructor: initialize by copying from external object, stored as "tensor2"
-  template<typename Iterator>
-  static tensor2s<X> CopyDense(Iterator first, Iterator last);
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -373,12 +379,12 @@ public:
   static tensor2d<X> I();
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2d<X> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static tensor2d<X> Copy     (Iterator first);
+  template<typename Iterator> static tensor2d<X> Copy     (Iterator first, Iterator last);
+  template<typename Iterator> static tensor2d<X> CopyDense(Iterator first, Iterator last);
 
-  // constructor: initialize by copying from external object, stored as "tensor2"
-  template<typename Iterator>
-  static tensor2d<X> CopyDense(Iterator first, Iterator last);
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -486,8 +492,11 @@ public:
   static vector<X> Constant(X D);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static vector<X> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static vector<X> Copy(Iterator first);
+  template<typename Iterator> static vector<X> Copy(Iterator first, Iterator last);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;

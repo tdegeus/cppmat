@@ -148,6 +148,21 @@ inline tensor4<X> tensor4<X>::II()
 
 template<class X>
 template<typename Iterator>
+inline tensor4<X> tensor4<X>::Copy(Iterator first)
+{
+  // allocate tensor
+  tensor4<X> out;
+
+  // initialize
+  out.setCopy(first,first+16);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
 inline tensor4<X> tensor4<X>::Copy(Iterator first, Iterator last)
 {
   // allocate tensor
@@ -157,6 +172,14 @@ inline tensor4<X> tensor4<X>::Copy(Iterator first, Iterator last)
   out.setCopy(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor4<X>::Size()
+{
+  return 16;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -233,6 +256,21 @@ inline tensor2<X> tensor2<X>::I()
 
 template<class X>
 template<typename Iterator>
+inline tensor2<X> tensor2<X>::Copy(Iterator first)
+{
+  // allocate tensor
+  tensor2<X> out;
+
+  // initialize
+  out.setCopy(first,first+4);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
 inline tensor2<X> tensor2<X>::Copy(Iterator first, Iterator last)
 {
   // allocate tensor
@@ -242,6 +280,14 @@ inline tensor2<X> tensor2<X>::Copy(Iterator first, Iterator last)
   out.setCopy(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2<X>::Size()
+{
+  return 4;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -318,6 +364,21 @@ inline tensor2s<X> tensor2s<X>::I()
 
 template<class X>
 template<typename Iterator>
+inline tensor2s<X> tensor2s<X>::Copy(Iterator first)
+{
+  // allocate tensor
+  tensor2s<X> out;
+
+  // initialize
+  out.setCopy(first,first+3);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
 inline tensor2s<X> tensor2s<X>::Copy(Iterator first, Iterator last)
 {
   // allocate tensor
@@ -342,6 +403,14 @@ inline tensor2s<X> tensor2s<X>::CopyDense(Iterator first, Iterator last)
   out.setCopyDense(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2s<X>::Size()
+{
+  return 3;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -427,6 +496,21 @@ inline tensor2d<X> tensor2d<X>::I()
 
 template<class X>
 template<typename Iterator>
+inline tensor2d<X> tensor2d<X>::Copy(Iterator first)
+{
+  // allocate tensor
+  tensor2d<X> out;
+
+  // initialize
+  out.setCopy(first,first+2);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
 inline tensor2d<X> tensor2d<X>::Copy(Iterator first, Iterator last)
 {
   // allocate tensor
@@ -451,6 +535,14 @@ inline tensor2d<X> tensor2d<X>::CopyDense(Iterator first, Iterator last)
   out.setCopyDense(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2d<X>::Size()
+{
+  return 2;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -513,6 +605,21 @@ inline vector<X> vector<X>::Constant(X D)
 
 template<class X>
 template<typename Iterator>
+inline vector<X> vector<X>::Copy(Iterator first)
+{
+  // allocate tensor
+  vector<X> out;
+
+  // initialize
+  out.setCopy(first,first+2);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
 inline vector<X> vector<X>::Copy(Iterator first, Iterator last)
 {
   // allocate tensor
@@ -523,6 +630,15 @@ inline vector<X> vector<X>::Copy(Iterator first, Iterator last)
 
   return out;
 }
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::Size()
+{
+  return 2;
+}
+
 
 // =================================================================================================
 // cast to different class / type

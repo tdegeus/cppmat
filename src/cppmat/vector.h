@@ -91,11 +91,18 @@ public:
   vector<X>& operator-= (const        X  &B);
 
   // basic algebra
+  // - location of the minimum/maximum
+  size_t argmin() const;
+  size_t argmax() const;
+  // - minimum/maximum
   X      minCoeff() const;
   X      maxCoeff() const;
   X      sum() const;
   double mean() const;
   double average(const vector<X> &weights) const;
+
+  // find all non-zero entries
+  vector<size_t> where() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

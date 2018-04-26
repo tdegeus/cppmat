@@ -579,6 +579,22 @@ inline vector<X> operator- (const X &A, const vector<X> &B)
 // =================================================================================================
 
 template<class X>
+inline size_t vector<X>::argmin() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::argmax() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline X vector<X>::minCoeff() const
 {
   return *std::min_element(m_data.begin(),m_data.end());
@@ -626,6 +642,33 @@ inline double vector<X>::average(const vector<X> &weights) const
     out += m_data[i] * weights[i];
 
   return static_cast<double>(out)/static_cast<double>(weights.sum());
+}
+
+// =================================================================================================
+// find all non-zero entries
+// =================================================================================================
+
+template<class X>
+inline vector<size_t> vector<X>::where() const
+{
+  size_t n = 0;
+
+  for ( auto &i : m_data )
+    if ( i )
+      ++n;
+
+  vector<size_t> out(n);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < m_size ; ++i ) {
+    if ( m_data[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
 }
 
 // =================================================================================================
