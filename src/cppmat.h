@@ -22,8 +22,8 @@
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
-#define CPPMAT_MAJOR_VERSION 5
-#define CPPMAT_MINOR_VERSION 3
+#define CPPMAT_MAJOR_VERSION 6
+#define CPPMAT_MINOR_VERSION 0
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -109,39 +109,39 @@ namespace cartesian3d {
 
 // =================================================================================================
 
-#include "matrix.h"
-#include "matrix2.h"
-#include "vector.h"
-#include "periodic_matrix.h"
-#include "periodic_matrix2.h"
-#include "periodic_vector.h"
-#include "tiny_matrix2.h"
-#include "tiny_vector.h"
-#include "view_matrix2.h"
-#include "view_vector.h"
-#include "tensor.h"
-#include "tensor2.h"
-#include "tensor3.h"
-#include "view_tensor2.h"
-#include "view_tensor3.h"
-#include "stl.h"
+#include "cppmat/matrix.h"
+#include "cppmat/matrix2.h"
+#include "cppmat/vector.h"
+#include "cppmat/periodic_matrix.h"
+#include "cppmat/periodic_matrix2.h"
+#include "cppmat/periodic_vector.h"
+#include "cppmat/tiny_matrix2.h"
+#include "cppmat/tiny_vector.h"
+#include "cppmat/view_matrix2.h"
+#include "cppmat/view_vector.h"
+#include "cppmat/tensor.h"
+#include "cppmat/tensor2.h"
+#include "cppmat/tensor3.h"
+#include "cppmat/view_tensor2.h"
+#include "cppmat/view_tensor3.h"
+#include "cppmat/stl.h"
 
-#include "matrix.cpp"
-#include "matrix2.cpp"
-#include "vector.cpp"
-#include "periodic_matrix.cpp"
-#include "periodic_matrix2.cpp"
-#include "periodic_vector.cpp"
-#include "tiny_matrix2.cpp"
-#include "tiny_vector.cpp"
-#include "view_matrix2.cpp"
-#include "view_vector.cpp"
-#include "tensor.cpp"
-#include "tensor2.cpp"
-#include "tensor3.cpp"
-#include "view_tensor2.cpp"
-#include "view_tensor3.cpp"
-#include "stl.cpp"
+#include "cppmat/matrix.cpp"
+#include "cppmat/matrix2.cpp"
+#include "cppmat/vector.cpp"
+#include "cppmat/periodic_matrix.cpp"
+#include "cppmat/periodic_matrix2.cpp"
+#include "cppmat/periodic_vector.cpp"
+#include "cppmat/tiny_matrix2.cpp"
+#include "cppmat/tiny_vector.cpp"
+#include "cppmat/view_matrix2.cpp"
+#include "cppmat/view_vector.cpp"
+#include "cppmat/tensor.cpp"
+#include "cppmat/tensor2.cpp"
+#include "cppmat/tensor3.cpp"
+#include "cppmat/view_tensor2.cpp"
+#include "cppmat/view_tensor3.cpp"
+#include "cppmat/stl.cpp"
 
 // =================================================================================================
 
