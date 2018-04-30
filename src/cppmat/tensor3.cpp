@@ -817,7 +817,7 @@ template<class X> inline size_t vector  <X>::ndim() const { return m_nd;   }
 template<class X>
 inline std::vector<size_t> tensor4<X>::shape() const
 {
-  std::vector<size_t> out(4, m_nd);
+  std::vector<size_t> out(4, 3);
 
   return out;
 }
@@ -827,7 +827,7 @@ inline std::vector<size_t> tensor4<X>::shape() const
 template<class X>
 inline std::vector<size_t> tensor2<X>::shape() const
 {
-  std::vector<size_t> out(2, m_nd);
+  std::vector<size_t> out(2, 3);
 
   return out;
 }
@@ -837,7 +837,7 @@ inline std::vector<size_t> tensor2<X>::shape() const
 template<class X>
 inline std::vector<size_t> vector<X>::shape() const
 {
-  std::vector<size_t> out(1, m_nd);
+  std::vector<size_t> out(1, 3);
 
   return out;
 }
