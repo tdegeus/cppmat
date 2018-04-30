@@ -12,61 +12,62 @@ include(GNUInstallDirs)
 # name
 project(cppmat)
 
-# main header file (which the user includes)
-set(main_header src/cppmat/cppmat.h)
+# file that contains the version information
+set(parse_version src/${PROJECT_NAME}/${PROJECT_NAME}.h)
 
-# all other header files
+# header files
 set(headers
-  src/cppmat/stl.h
-  src/cppmat/stl.cpp
-  src/cppmat/private.h
-  src/cppmat/private.cpp
-  src/cppmat/regular_array.h
-  src/cppmat/regular_array.cpp
-  src/cppmat/regular_matrix.h
-  src/cppmat/regular_matrix.cpp
-  src/cppmat/regular_vector.h
-  src/cppmat/regular_vector.cpp
-  src/cppmat/periodic_array.h
-  src/cppmat/periodic_array.cpp
-  src/cppmat/periodic_matrix.h
-  src/cppmat/periodic_matrix.cpp
-  src/cppmat/periodic_vector.h
-  src/cppmat/periodic_vector.cpp
-  src/cppmat/tiny_matrix.h
-  src/cppmat/tiny_matrix.cpp
-  src/cppmat/tiny_vector.h
-  src/cppmat/tiny_vector.cpp
-  src/cppmat/tensor.h
-  src/cppmat/tensor.cpp
-  src/cppmat/tensor2.h
-  src/cppmat/tensor2.cpp
-  src/cppmat/tensor3.h
-  src/cppmat/tensor3.cpp
-  src/cppmat/view_tiny_matrix.h
-  src/cppmat/view_tiny_matrix.cpp
-  src/cppmat/view_tiny_vector.h
-  src/cppmat/view_tiny_vector.cpp
-  src/cppmat/view_tensor2.h
-  src/cppmat/view_tensor2.cpp
-  src/cppmat/view_tensor3.h
-  src/cppmat/view_tensor3.cpp
-  src/cppmat/pybind11.h
-  src/cppmat/pybind11_regular_array.h
-  src/cppmat/pybind11_regular_matrix.h
-  src/cppmat/pybind11_regular_vector.h
-  src/cppmat/pybind11_periodic_array.h
-  src/cppmat/pybind11_periodic_matrix.h
-  src/cppmat/pybind11_periodic_vector.h
-  src/cppmat/pybind11_tiny_matrix.h
-  src/cppmat/pybind11_tiny_vector.h
-  src/cppmat/pybind11_tensor.h
-  src/cppmat/pybind11_tensor2.h
-  src/cppmat/pybind11_tensor3.h
+  src/${PROJECT_NAME}/cppmat.h
+  src/${PROJECT_NAME}/stl.h
+  src/${PROJECT_NAME}/stl.cpp
+  src/${PROJECT_NAME}/private.h
+  src/${PROJECT_NAME}/private.cpp
+  src/${PROJECT_NAME}/regular_array.h
+  src/${PROJECT_NAME}/regular_array.cpp
+  src/${PROJECT_NAME}/regular_matrix.h
+  src/${PROJECT_NAME}/regular_matrix.cpp
+  src/${PROJECT_NAME}/regular_vector.h
+  src/${PROJECT_NAME}/regular_vector.cpp
+  src/${PROJECT_NAME}/periodic_array.h
+  src/${PROJECT_NAME}/periodic_array.cpp
+  src/${PROJECT_NAME}/periodic_matrix.h
+  src/${PROJECT_NAME}/periodic_matrix.cpp
+  src/${PROJECT_NAME}/periodic_vector.h
+  src/${PROJECT_NAME}/periodic_vector.cpp
+  src/${PROJECT_NAME}/tiny_matrix.h
+  src/${PROJECT_NAME}/tiny_matrix.cpp
+  src/${PROJECT_NAME}/tiny_vector.h
+  src/${PROJECT_NAME}/tiny_vector.cpp
+  src/${PROJECT_NAME}/tensor.h
+  src/${PROJECT_NAME}/tensor.cpp
+  src/${PROJECT_NAME}/tensor2.h
+  src/${PROJECT_NAME}/tensor2.cpp
+  src/${PROJECT_NAME}/tensor3.h
+  src/${PROJECT_NAME}/tensor3.cpp
+  src/${PROJECT_NAME}/view_tiny_matrix.h
+  src/${PROJECT_NAME}/view_tiny_matrix.cpp
+  src/${PROJECT_NAME}/view_tiny_vector.h
+  src/${PROJECT_NAME}/view_tiny_vector.cpp
+  src/${PROJECT_NAME}/view_tensor2.h
+  src/${PROJECT_NAME}/view_tensor2.cpp
+  src/${PROJECT_NAME}/view_tensor3.h
+  src/${PROJECT_NAME}/view_tensor3.cpp
+  src/${PROJECT_NAME}/pybind11.h
+  src/${PROJECT_NAME}/pybind11_regular_array.h
+  src/${PROJECT_NAME}/pybind11_regular_matrix.h
+  src/${PROJECT_NAME}/pybind11_regular_vector.h
+  src/${PROJECT_NAME}/pybind11_periodic_array.h
+  src/${PROJECT_NAME}/pybind11_periodic_matrix.h
+  src/${PROJECT_NAME}/pybind11_periodic_vector.h
+  src/${PROJECT_NAME}/pybind11_tiny_matrix.h
+  src/${PROJECT_NAME}/pybind11_tiny_vector.h
+  src/${PROJECT_NAME}/pybind11_tensor.h
+  src/${PROJECT_NAME}/pybind11_tensor2.h
+  src/${PROJECT_NAME}/pybind11_tensor3.h
 )
 
 # automatically parse the version number
-file(READ "${main_header}" version)
+file(READ "${parse_version}" version)
 string(REGEX MATCH "define[ \t]+CPPMAT_WORLD_VERSION[ \t]+([0-9]+)" _ "${version}")
 set(world_version "${CMAKE_MATCH_1}")
 string(REGEX MATCH "define[ \t]+CPPMAT_MAJOR_VERSION[ \t]+([0-9]+)" _ "${version}")
@@ -80,7 +81,7 @@ set(CPPMAT_VERSION_NUMBER ${world_version}.${major_version}.${minor_version})
 
 set(CPPMAT_ROOT_DIR          "${CMAKE_INSTALL_PREFIX}")
 set(CPPMAT_INCLUDE_DIR       "${CMAKE_INSTALL_INCLUDEDIR}")
-set(INCLUDE_INSTALL_DIR      "${CMAKE_INSTALL_INCLUDEDIR}")
+set(INCLUDE_INSTALL_DIR      "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
 set(CMAKEPACKAGE_INSTALL_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
 set(PKGCONFIG_INSTALL_DIR    "${CMAKE_INSTALL_DATADIR}/pkgconfig")
 set(fcmake                   "${PROJECT_NAME}Config.cmake")
@@ -129,11 +130,8 @@ endif()
 # CMake
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${fcmake} DESTINATION ${CMAKEPACKAGE_INSTALL_DIR})
 
-# main header file (which the user includes)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${main_header} DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME})
-
-# all other header files
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${headers} DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME})
+# header files
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${headers} DESTINATION ${INCLUDE_INSTALL_DIR})
 
 # print information to screen
 # ---------------------------

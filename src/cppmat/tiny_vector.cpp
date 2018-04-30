@@ -78,6 +78,21 @@ inline vector<X,n> vector<X,n>::Constant(X D)
 
 template<class X, size_t n>
 template<typename Iterator>
+inline vector<X,n> vector<X,n>::Copy(Iterator first)
+{
+  // call basic constructor
+  vector<X,n> out;
+
+  // initialize
+  out.setCopy(first,first+m_size);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+template<typename Iterator>
 inline vector<X,n> vector<X,n>::Copy(Iterator first, Iterator last)
 {
   // call basic constructor
@@ -87,6 +102,14 @@ inline vector<X,n> vector<X,n>::Copy(Iterator first, Iterator last)
   out.setCopy(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline size_t vector<X,n>::Size()
+{
+  return m_size;
 }
 
 // =================================================================================================

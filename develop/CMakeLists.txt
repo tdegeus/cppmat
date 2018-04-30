@@ -33,6 +33,8 @@ include_directories(${CPPMAT_INCLUDE_DIRS})
 pkg_check_modules(EIGEN3 REQUIRED eigen3)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
+message(STATUS "| ${CPPMAT_INCLUDE_DIRS} |")
+
 # create executable
 add_executable(${PROJECT_NAME}
   main.cpp

@@ -25,9 +25,9 @@ class vector
 {
 private:
 
-  X      m_data[n]; // data container
-  size_t m_size=n;  // total size
-  size_t m_n=n;     // number of columns
+  static const size_t m_size=n;  // total size
+  static const size_t m_n=n;     // number of columns
+  X m_data[m_size];              // data container
 
 public:
 
@@ -41,8 +41,11 @@ public:
   static vector<X,n> Constant(X D);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static vector<X,n> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static vector<X,n> Copy(Iterator first);
+  template<typename Iterator> static vector<X,n> Copy(Iterator first, Iterator last);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;

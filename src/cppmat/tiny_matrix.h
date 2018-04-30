@@ -25,10 +25,10 @@ class matrix
 {
 private:
 
-  X      m_data[m*n]; // data container
-  size_t m_size=m*n;  // total number of entries
-  size_t m_m=m;       // number of rows
-  size_t m_n=n;       // number of columns
+  static const size_t m_size=m*n;  // total size
+  static const size_t m_m=m;       // number of rows
+  static const size_t m_n=n;       // number of columns
+  X m_data[m_size];                // data container
 
 public:
 
@@ -42,8 +42,11 @@ public:
   static matrix<X,m,n> Constant(X D);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static matrix<X,m,n> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static matrix<X,m,n> Copy(Iterator first);
+  template<typename Iterator> static matrix<X,m,n> Copy(Iterator first, Iterator last);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;

@@ -6,4 +6,4 @@ Description: Matrix/tensor library for C++
 Requires:
 Version: @CPPMAT_VERSION_NUMBER@
 Libs:
-Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@
+Cflags: -I${prefix}/@CPPMAT_INCLUDE_DIR@

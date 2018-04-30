@@ -13,14 +13,14 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
-#include "pybind11_vector.h"
-#include "pybind11_matrix.h"
-#include "pybind11_matrix2.h"
-#include "pybind11_periodic_vector.h"
+#include "pybind11_regular_array.h"
+#include "pybind11_regular_matrix.h"
+#include "pybind11_regular_vector.h"
+#include "pybind11_periodic_array.h"
 #include "pybind11_periodic_matrix.h"
-#include "pybind11_periodic_matrix2.h"
+#include "pybind11_periodic_vector.h"
+#include "pybind11_tiny_matrix.h"
 #include "pybind11_tiny_vector.h"
-#include "pybind11_tiny_matrix2.h"
 #include "pybind11_tensor.h"
 #include "pybind11_tensor2.h"
 #include "pybind11_tensor3.h"

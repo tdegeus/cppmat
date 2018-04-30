@@ -78,6 +78,21 @@ inline matrix<X,m,n> matrix<X,m,n>::Constant(X D)
 
 template<class X, size_t m, size_t n>
 template<typename Iterator>
+inline matrix<X,m,n> matrix<X,m,n>::Copy(Iterator first)
+{
+  // call basic constructor
+  matrix<X,m,n> out;
+
+  // initialize
+  out.setCopy(first,first+out.size());
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+template<typename Iterator>
 inline matrix<X,m,n> matrix<X,m,n>::Copy(Iterator first, Iterator last)
 {
   // call basic constructor
@@ -87,6 +102,14 @@ inline matrix<X,m,n> matrix<X,m,n>::Copy(Iterator first, Iterator last)
   out.setCopy(first,last);
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+inline size_t matrix<X,m,n>::Size()
+{
+  return m_size;
 }
 
 // =================================================================================================

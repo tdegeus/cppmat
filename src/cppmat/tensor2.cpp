@@ -154,7 +154,7 @@ inline tensor4<X> tensor4<X>::Copy(Iterator first)
   tensor4<X> out;
 
   // initialize
-  out.setCopy(first,first+16);
+  out.setCopy(first,first+m_size);
 
   return out;
 }
@@ -179,7 +179,7 @@ inline tensor4<X> tensor4<X>::Copy(Iterator first, Iterator last)
 template<class X>
 inline size_t tensor4<X>::Size()
 {
-  return 16;
+  return m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -262,7 +262,7 @@ inline tensor2<X> tensor2<X>::Copy(Iterator first)
   tensor2<X> out;
 
   // initialize
-  out.setCopy(first,first+4);
+  out.setCopy(first,first+m_size);
 
   return out;
 }
@@ -287,7 +287,7 @@ inline tensor2<X> tensor2<X>::Copy(Iterator first, Iterator last)
 template<class X>
 inline size_t tensor2<X>::Size()
 {
-  return 4;
+  return m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@ inline tensor2s<X> tensor2s<X>::Copy(Iterator first)
   tensor2s<X> out;
 
   // initialize
-  out.setCopy(first,first+3);
+  out.setCopy(first,first+m_size);
 
   return out;
 }
@@ -410,7 +410,7 @@ inline tensor2s<X> tensor2s<X>::CopyDense(Iterator first, Iterator last)
 template<class X>
 inline size_t tensor2s<X>::Size()
 {
-  return 3;
+  return m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -502,7 +502,7 @@ inline tensor2d<X> tensor2d<X>::Copy(Iterator first)
   tensor2d<X> out;
 
   // initialize
-  out.setCopy(first,first+2);
+  out.setCopy(first,first+m_size);
 
   return out;
 }
@@ -542,7 +542,7 @@ inline tensor2d<X> tensor2d<X>::CopyDense(Iterator first, Iterator last)
 template<class X>
 inline size_t tensor2d<X>::Size()
 {
-  return 2;
+  return m_size;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -611,7 +611,7 @@ inline vector<X> vector<X>::Copy(Iterator first)
   vector<X> out;
 
   // initialize
-  out.setCopy(first,first+2);
+  out.setCopy(first,first+m_size);
 
   return out;
 }
@@ -636,7 +636,7 @@ inline vector<X> vector<X>::Copy(Iterator first, Iterator last)
 template<class X>
 inline size_t vector<X>::Size()
 {
-  return 2;
+  return m_size;
 }
 
 
@@ -786,23 +786,23 @@ inline tensor2d<X>::operator tensor2s<X> () const
 // get dimensions
 // =================================================================================================
 
-template<class X> inline size_t tensor4 <X>::size() const { return 16; }
-template<class X> inline size_t tensor2 <X>::size() const { return 4;  }
-template<class X> inline size_t tensor2s<X>::size() const { return 3;  }
-template<class X> inline size_t tensor2d<X>::size() const { return 2;  }
-template<class X> inline size_t vector  <X>::size() const { return 2;  }
-template<class X> inline size_t tensor4 <X>::ndim() const { return 2;  }
-template<class X> inline size_t tensor2 <X>::ndim() const { return 2;  }
-template<class X> inline size_t tensor2s<X>::ndim() const { return 2;  }
-template<class X> inline size_t tensor2d<X>::ndim() const { return 2;  }
-template<class X> inline size_t vector  <X>::ndim() const { return 2;  }
+template<class X> inline size_t tensor4 <X>::size() const { return m_size; }
+template<class X> inline size_t tensor2 <X>::size() const { return m_size; }
+template<class X> inline size_t tensor2s<X>::size() const { return m_size; }
+template<class X> inline size_t tensor2d<X>::size() const { return m_size; }
+template<class X> inline size_t vector  <X>::size() const { return m_size; }
+template<class X> inline size_t tensor4 <X>::ndim() const { return m_nd;   }
+template<class X> inline size_t tensor2 <X>::ndim() const { return m_nd;   }
+template<class X> inline size_t tensor2s<X>::ndim() const { return m_nd;   }
+template<class X> inline size_t tensor2d<X>::ndim() const { return m_nd;   }
+template<class X> inline size_t vector  <X>::ndim() const { return m_nd;   }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline std::vector<size_t> tensor4<X>::shape() const
 {
-  std::vector<size_t> out(4,2);
+  std::vector<size_t> out(4, m_nd);
 
   return out;
 }
@@ -812,7 +812,7 @@ inline std::vector<size_t> tensor4<X>::shape() const
 template<class X>
 inline std::vector<size_t> tensor2<X>::shape() const
 {
-  std::vector<size_t> out(2,2);
+  std::vector<size_t> out(2, m_nd);
 
   return out;
 }
@@ -822,7 +822,7 @@ inline std::vector<size_t> tensor2<X>::shape() const
 template<class X>
 inline std::vector<size_t> vector<X>::shape() const
 {
-  std::vector<size_t> out(1,2);
+  std::vector<size_t> out(1, m_nd);
 
   return out;
 }
@@ -832,7 +832,7 @@ inline std::vector<size_t> vector<X>::shape() const
 template<class X>
 inline std::vector<size_t> tensor4<X>::strides(bool bytes) const
 {
-  std::vector<size_t> out = { 8, 4, 2, 1 };
+  std::vector<size_t> out = { m_nd*m_nd*m_nd*m_nd, m_nd*m_nd, m_nd, 1 };
 
   if ( bytes )
   {
@@ -850,7 +850,7 @@ inline std::vector<size_t> tensor4<X>::strides(bool bytes) const
 template<class X>
 inline std::vector<size_t> tensor2<X>::strides(bool bytes) const
 {
-  std::vector<size_t> out = { 2, 1 };
+  std::vector<size_t> out = { m_nd, 1 };
 
   if ( bytes )
   {
@@ -878,22 +878,114 @@ inline std::vector<size_t> vector<X>::strides(bool bytes) const
 // index operators
 // =================================================================================================
 
-template<class X> inline X&       tensor4 <X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& tensor4 <X>::operator[](size_t i) const { return m_data[i]; }
-template<class X> inline X&       tensor2 <X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& tensor2 <X>::operator[](size_t i) const { return m_data[i]; }
-template<class X> inline X&       tensor2s<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& tensor2s<X>::operator[](size_t i) const { return m_data[i]; }
-template<class X> inline X&       tensor2d<X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& tensor2d<X>::operator[](size_t i) const { return m_data[i]; }
-template<class X> inline X&       vector  <X>::operator[](size_t i)       { return m_data[i]; }
-template<class X> inline const X& vector  <X>::operator[](size_t i) const { return m_data[i]; }
+template<class X>
+inline X& tensor4<X>::operator[](size_t i)
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& tensor4<X>::operator[](size_t i) const
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& tensor2<X>::operator[](size_t i)
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& tensor2<X>::operator[](size_t i) const
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& tensor2s<X>::operator[](size_t i)
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& tensor2s<X>::operator[](size_t i) const
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& tensor2d<X>::operator[](size_t i)
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& tensor2d<X>::operator[](size_t i) const
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline X& vector<X>::operator[](size_t i)
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline const X& vector<X>::operator[](size_t i) const
+{
+  assert( i < m_size );
+
+  return m_data[i];
+}
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline X& tensor4<X>::operator()(size_t i, size_t j, size_t k, size_t l)
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+  assert( k < m_nd );
+  assert( l < m_nd );
+
   return m_data[i*8+j*4+k*2+l];
 }
 
@@ -902,6 +994,11 @@ inline X& tensor4<X>::operator()(size_t i, size_t j, size_t k, size_t l)
 template<class X>
 inline const X& tensor4<X>::operator()(size_t i, size_t j, size_t k, size_t l) const
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+  assert( k < m_nd );
+  assert( l < m_nd );
+
   return m_data[i*8+j*4+k*2+l];
 }
 
@@ -910,6 +1007,9 @@ inline const X& tensor4<X>::operator()(size_t i, size_t j, size_t k, size_t l) c
 template<class X>
 inline X& tensor2<X>::operator()(size_t i, size_t j)
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   return m_data[i*2+j];
 }
 
@@ -918,6 +1018,9 @@ inline X& tensor2<X>::operator()(size_t i, size_t j)
 template<class X>
 inline const X& tensor2<X>::operator()(size_t i, size_t j) const
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   return m_data[i*2+j];
 }
 
@@ -926,6 +1029,9 @@ inline const X& tensor2<X>::operator()(size_t i, size_t j) const
 template<class X>
 inline X& tensor2s<X>::operator()(size_t i, size_t j)
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   if ( i == 0 ) {
     if ( j == 0 ) return m_data[0];
     else          return m_data[1];
@@ -941,6 +1047,9 @@ inline X& tensor2s<X>::operator()(size_t i, size_t j)
 template<class X>
 inline const X& tensor2s<X>::operator()(size_t i, size_t j) const
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   if ( i == 0 ) {
     if ( j == 0 ) return m_data[0];
     else          return m_data[1];
@@ -956,6 +1065,9 @@ inline const X& tensor2s<X>::operator()(size_t i, size_t j) const
 template<class X>
 inline X& tensor2d<X>::operator()(size_t i, size_t j)
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   if (i == j) return m_data[i];
   else        return m_zero[0];
 }
@@ -965,6 +1077,9 @@ inline X& tensor2d<X>::operator()(size_t i, size_t j)
 template<class X>
 inline const X& tensor2d<X>::operator()(size_t i, size_t j) const
 {
+  assert( i < m_nd );
+  assert( j < m_nd );
+
   if (i == j) return m_data[i];
   else        return m_zero[0];
 }
@@ -974,6 +1089,8 @@ inline const X& tensor2d<X>::operator()(size_t i, size_t j) const
 template<class X>
 inline X& vector<X>::operator()(size_t i)
 {
+  assert( i < m_nd );
+
   return m_data[i];
 }
 
@@ -982,6 +1099,8 @@ inline X& vector<X>::operator()(size_t i)
 template<class X>
 inline const X& vector<X>::operator()(size_t i) const
 {
+  assert( i < m_nd );
+
   return m_data[i];
 }
 
@@ -989,36 +1108,36 @@ inline const X& vector<X>::operator()(size_t i) const
 // pointers / iterators
 // =================================================================================================
 
-template<class X> inline X*       tensor4 <X>::data()        { return std::begin(m_data);      }
-template<class X> inline const X* tensor4 <X>::data()  const { return std::begin(m_data);      }
-template<class X> inline auto     tensor4 <X>::begin()       { return std::begin(m_data);      }
-template<class X> inline auto     tensor4 <X>::begin() const { return std::begin(m_data);      }
-template<class X> inline auto     tensor4 <X>::end()         { return std::begin(m_data) + 16; }
-template<class X> inline auto     tensor4 <X>::end()   const { return std::begin(m_data) + 16; }
-template<class X> inline X*       tensor2 <X>::data()        { return std::begin(m_data);      }
-template<class X> inline const X* tensor2 <X>::data()  const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2 <X>::begin()       { return std::begin(m_data);      }
-template<class X> inline auto     tensor2 <X>::begin() const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2 <X>::end()         { return std::begin(m_data) + 4;  }
-template<class X> inline auto     tensor2 <X>::end()   const { return std::begin(m_data) + 4;  }
-template<class X> inline X*       tensor2s<X>::data()        { return std::begin(m_data);      }
-template<class X> inline const X* tensor2s<X>::data()  const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2s<X>::begin()       { return std::begin(m_data);      }
-template<class X> inline auto     tensor2s<X>::begin() const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2s<X>::end()         { return std::begin(m_data) + 3;  }
-template<class X> inline auto     tensor2s<X>::end()   const { return std::begin(m_data) + 3;  }
-template<class X> inline X*       tensor2d<X>::data()        { return std::begin(m_data);      }
-template<class X> inline const X* tensor2d<X>::data()  const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2d<X>::begin()       { return std::begin(m_data);      }
-template<class X> inline auto     tensor2d<X>::begin() const { return std::begin(m_data);      }
-template<class X> inline auto     tensor2d<X>::end()         { return std::begin(m_data) + 2;  }
-template<class X> inline auto     tensor2d<X>::end()   const { return std::begin(m_data) + 2;  }
-template<class X> inline X*       vector  <X>::data()        { return std::begin(m_data);      }
-template<class X> inline const X* vector  <X>::data()  const { return std::begin(m_data);      }
-template<class X> inline auto     vector  <X>::begin()       { return std::begin(m_data);      }
-template<class X> inline auto     vector  <X>::begin() const { return std::begin(m_data);      }
-template<class X> inline auto     vector  <X>::end()         { return std::begin(m_data) + 2;  }
-template<class X> inline auto     vector  <X>::end()   const { return std::begin(m_data) + 2;  }
+template<class X> inline X*       tensor4 <X>::data()        { return std::begin(m_data);          }
+template<class X> inline const X* tensor4 <X>::data()  const { return std::begin(m_data);          }
+template<class X> inline auto     tensor4 <X>::begin()       { return std::begin(m_data);          }
+template<class X> inline auto     tensor4 <X>::begin() const { return std::begin(m_data);          }
+template<class X> inline auto     tensor4 <X>::end()         { return std::begin(m_data) + m_size; }
+template<class X> inline auto     tensor4 <X>::end()   const { return std::begin(m_data) + m_size; }
+template<class X> inline X*       tensor2 <X>::data()        { return std::begin(m_data);          }
+template<class X> inline const X* tensor2 <X>::data()  const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2 <X>::begin()       { return std::begin(m_data);          }
+template<class X> inline auto     tensor2 <X>::begin() const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2 <X>::end()         { return std::begin(m_data) + m_size; }
+template<class X> inline auto     tensor2 <X>::end()   const { return std::begin(m_data) + m_size; }
+template<class X> inline X*       tensor2s<X>::data()        { return std::begin(m_data);          }
+template<class X> inline const X* tensor2s<X>::data()  const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2s<X>::begin()       { return std::begin(m_data);          }
+template<class X> inline auto     tensor2s<X>::begin() const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2s<X>::end()         { return std::begin(m_data) + m_size; }
+template<class X> inline auto     tensor2s<X>::end()   const { return std::begin(m_data) + m_size; }
+template<class X> inline X*       tensor2d<X>::data()        { return std::begin(m_data);          }
+template<class X> inline const X* tensor2d<X>::data()  const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2d<X>::begin()       { return std::begin(m_data);          }
+template<class X> inline auto     tensor2d<X>::begin() const { return std::begin(m_data);          }
+template<class X> inline auto     tensor2d<X>::end()         { return std::begin(m_data) + m_size; }
+template<class X> inline auto     tensor2d<X>::end()   const { return std::begin(m_data) + m_size; }
+template<class X> inline X*       vector  <X>::data()        { return std::begin(m_data);          }
+template<class X> inline const X* vector  <X>::data()  const { return std::begin(m_data);          }
+template<class X> inline auto     vector  <X>::begin()       { return std::begin(m_data);          }
+template<class X> inline auto     vector  <X>::begin() const { return std::begin(m_data);          }
+template<class X> inline auto     vector  <X>::end()         { return std::begin(m_data) + m_size; }
+template<class X> inline auto     vector  <X>::end()   const { return std::begin(m_data) + m_size; }
 
 // =================================================================================================
 // basic initialization
@@ -1027,7 +1146,7 @@ template<class X> inline auto     vector  <X>::end()   const { return std::begin
 template<class X>
 inline void tensor4<X>::setArange()
 {
-  for ( size_t i = 0 ; i < 16 ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1035,7 +1154,7 @@ inline void tensor4<X>::setArange()
 template<class X>
 inline void tensor4<X>::setZero()
 {
-  for ( size_t i = 0 ; i < 16 ; ++i ) m_data[i] = static_cast<X>(0);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1043,7 +1162,7 @@ inline void tensor4<X>::setZero()
 template<class X>
 inline void tensor4<X>::setOnes()
 {
-  for ( size_t i = 0 ; i < 16 ; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1051,7 +1170,7 @@ inline void tensor4<X>::setOnes()
 template<class X>
 inline void tensor4<X>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < 16 ; ++i ) m_data[i] = D;
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1064,10 +1183,10 @@ inline void tensor4<X>::setCopy(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 16 == last - first );
+  assert( m_size == last - first );
 
   // copy input
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] = first[i  ];
     m_data[i+1] = first[i+1];
@@ -1083,10 +1202,10 @@ inline void tensor4<X>::setI()
 {
   this->setZero();
 
-  for ( size_t i = 0 ; i < 2 ; ++i )
-    for ( size_t j = 0 ; j < 2 ; ++j )
-      for ( size_t k = 0 ; k < 2 ; ++k )
-        for ( size_t l = 0 ; l < 2 ; ++l )
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = 0 ; j < m_nd ; ++j )
+      for ( size_t k = 0 ; k < m_nd ; ++k )
+        for ( size_t l = 0 ; l < m_nd ; ++l )
           if ( i == l and j == k )
             (*this)(i,j,k,l) = static_cast<X>(1);
 }
@@ -1098,10 +1217,10 @@ inline void tensor4<X>::setIrt()
 {
   this->setZero();
 
-  for ( size_t i = 0 ; i < 2 ; ++i )
-    for ( size_t j = 0 ; j < 2 ; ++j )
-      for ( size_t k = 0 ; k < 2 ; ++k )
-        for ( size_t l = 0 ; l < 2 ; ++l )
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = 0 ; j < m_nd ; ++j )
+      for ( size_t k = 0 ; k < m_nd ; ++k )
+        for ( size_t l = 0 ; l < m_nd ; ++l )
           if ( i == k and j == l )
             (*this)(i,j,k,l) = static_cast<X>(1);
 }
@@ -1119,7 +1238,7 @@ inline void tensor4<X>::setIs()
 template<class X>
 inline void tensor4<X>::setId()
 {
-  return tensor4<X>::Is() - tensor4<X>::II()/static_cast<X>(2);
+  return tensor4<X>::Is() - tensor4<X>::II()/static_cast<X>(m_nd);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1129,10 +1248,10 @@ inline void tensor4<X>::setII()
 {
   this->setZero();
 
-  for ( size_t i = 0 ; i < 2 ; ++i )
-    for ( size_t j = 0 ; j < 2 ; ++j )
-      for ( size_t k = 0 ; k < 2 ; ++k )
-        for ( size_t l = 0 ; l < 2 ; ++l )
+  for ( size_t i = 0 ; i < m_nd ; ++i )
+    for ( size_t j = 0 ; j < m_nd ; ++j )
+      for ( size_t k = 0 ; k < m_nd ; ++k )
+        for ( size_t l = 0 ; l < m_nd ; ++l )
           if ( i == j and k == l )
             (*this)(i,j,k,l) = static_cast<X>(1);
 }
@@ -1142,7 +1261,7 @@ inline void tensor4<X>::setII()
 template<class X>
 inline void tensor2<X>::setArange()
 {
-  for ( size_t i = 0 ; i < 4 ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1179,7 +1298,7 @@ inline void tensor2<X>::setCopy(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 4 == last - first );
+  assert( m_size == last - first );
 
   // copy input
   m_data[0] = first[0];
@@ -1204,7 +1323,7 @@ inline void tensor2<X>::setI()
 template<class X>
 inline void tensor2s<X>::setArange()
 {
-  for ( size_t i = 0 ; i < 3 ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1241,7 +1360,7 @@ inline void tensor2s<X>::setCopy(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 3 == last - first );
+  assert( m_size == last - first );
 
   // copy input
   m_data[0] = first[0];
@@ -1259,7 +1378,7 @@ inline void tensor2s<X>::setCopyDense(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 4 == last - first );
+  assert( m_nd*m_nd == last - first );
 
   // check for symmetry
   assert( first[1] == first[2] );
@@ -1285,7 +1404,7 @@ inline void tensor2s<X>::setI()
 template<class X>
 inline void tensor2d<X>::setArange()
 {
-  for ( size_t i = 0 ; i < 2 ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1322,7 +1441,7 @@ inline void tensor2d<X>::setCopy(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 2 == last - first );
+  assert( m_size == last - first );
 
   // copy input
   m_data[0] = first[0];
@@ -1339,7 +1458,7 @@ inline void tensor2d<X>::setCopyDense(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 4 == last - first );
+  assert( m_nd*m_nd == last - first );
 
   // check the input to be diagonal
   assert( ! first[1] );
@@ -1363,7 +1482,7 @@ inline void tensor2d<X>::setI()
 template<class X>
 inline void vector<X>::setArange()
 {
-  for ( size_t i = 0 ; i < 2 ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1400,7 +1519,7 @@ inline void vector<X>::setCopy(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( 2 == last - first );
+  assert( m_size == last - first );
 
   // copy input
   m_data[0] = first[0];
@@ -1414,7 +1533,7 @@ inline void vector<X>::setCopy(Iterator first, Iterator last)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator*= (const tensor4<X> &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] *= B[i  ];
     m_data[i+1] *= B[i+1];
@@ -1430,7 +1549,7 @@ inline tensor4<X>& tensor4<X>::operator*= (const tensor4<X> &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator/= (const tensor4<X> &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] /= B[i  ];
     m_data[i+1] /= B[i+1];
@@ -1446,7 +1565,7 @@ inline tensor4<X>& tensor4<X>::operator/= (const tensor4<X> &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator+= (const tensor4<X> &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] += B[i  ];
     m_data[i+1] += B[i+1];
@@ -1462,7 +1581,7 @@ inline tensor4<X>& tensor4<X>::operator+= (const tensor4<X> &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator-= (const tensor4<X> &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] -= B[i  ];
     m_data[i+1] -= B[i+1];
@@ -1478,7 +1597,7 @@ inline tensor4<X>& tensor4<X>::operator-= (const tensor4<X> &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator*= (const X &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] *= B;
     m_data[i+1] *= B;
@@ -1494,7 +1613,7 @@ inline tensor4<X>& tensor4<X>::operator*= (const X &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator/= (const X &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] /= B;
     m_data[i+1] /= B;
@@ -1510,7 +1629,7 @@ inline tensor4<X>& tensor4<X>::operator/= (const X &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator+= (const X &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] += B;
     m_data[i+1] += B;
@@ -1526,7 +1645,7 @@ inline tensor4<X>& tensor4<X>::operator+= (const X &B)
 template<class X>
 inline tensor4<X>& tensor4<X>::operator-= (const X &B)
 {
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     m_data[i  ] -= B;
     m_data[i+1] -= B;
@@ -1895,7 +2014,7 @@ inline tensor2d<X>& tensor2d<X>::operator-= (const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2 <X> &B)
+inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2<X> &B)
 {
   m_data[0] *= B[0];
   m_data[1] *= B[3];
@@ -1906,7 +2025,7 @@ inline tensor2d<X>& tensor2d<X>::operator*= (const tensor2 <X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2 <X> &B)
+inline tensor2d<X>& tensor2d<X>::operator/= (const tensor2<X> &B)
 {
   m_data[0] /= B[0];
   m_data[1] /= B[3];
@@ -2395,7 +2514,7 @@ inline tensor2<X> operator+ (const tensor2<X> &A, const tensor2s<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
@@ -2424,7 +2543,7 @@ inline tensor2<X> operator+ (const tensor2<X> &A, const tensor2d<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2<X> &A, const tensor2d<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -2541,7 +2660,7 @@ inline tensor2<X> operator+ (const tensor2s<X> &A, const tensor2<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
@@ -2962,7 +3081,7 @@ inline tensor2d<X> operator- (const tensor2d<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
+inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -2975,7 +3094,7 @@ inline tensor2d<X> operator* (const tensor2d<X> &A, const tensor2 <X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2 <X> &B)
+inline tensor2d<X> operator/ (const tensor2d<X> &A, const tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -3040,7 +3159,7 @@ inline tensor2d<X> operator/ (const tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const tensor2 <X> &A, const tensor2d<X> &B)
+inline tensor2d<X> operator* (const tensor2<X> &A, const tensor2d<X> &B)
 {
   tensor2d<X> C;
 
@@ -3485,7 +3604,7 @@ inline tensor2<X> operator+ (const map::tensor2<X> &A, const tensor2s<X> &B)
 template<class X>
 inline tensor2<X> operator- (const map::tensor2<X> &A, const tensor2s<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
@@ -3514,7 +3633,7 @@ inline tensor2<X> operator+ (const map::tensor2<X> &A, const tensor2d<X> &B)
 template<class X>
 inline tensor2<X> operator- (const map::tensor2<X> &A, const tensor2d<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -3631,7 +3750,7 @@ inline tensor2<X> operator+ (const map::tensor2s<X> &A, const tensor2<X> &B)
 template<class X>
 inline tensor2<X> operator- (const map::tensor2s<X> &A, const tensor2<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
@@ -3908,7 +4027,7 @@ inline tensor2d<X> operator- (const map::tensor2d<X> &A, const tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2 <X> &B)
+inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -3921,7 +4040,7 @@ inline tensor2d<X> operator* (const map::tensor2d<X> &A, const tensor2 <X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2 <X> &B)
+inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -3986,7 +4105,7 @@ inline tensor2d<X> operator/ (const map::tensor2d<X> &A, const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const map::tensor2 <X> &A, const tensor2d<X> &B)
+inline tensor2d<X> operator* (const map::tensor2<X> &A, const tensor2d<X> &B)
 {
   tensor2d<X> C;
 
@@ -4112,20 +4231,6 @@ inline vector<X> operator- (const map::vector<X> &A, const X &B)
 
   return C;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // =================================================================================================
 // arithmetic operators - mixed class - normal ? view
@@ -4380,7 +4485,7 @@ inline tensor2<X> operator+ (const tensor2<X> &A, const map::tensor2s<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2<X> &A, const map::tensor2s<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[2] - B[1];
@@ -4409,7 +4514,7 @@ inline tensor2<X> operator+ (const tensor2<X> &A, const map::tensor2d<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2<X> &A, const map::tensor2d<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1];
@@ -4466,7 +4571,7 @@ inline tensor2<X> operator+ (const tensor2s<X> &A, const map::tensor2<X> &B)
 template<class X>
 inline tensor2<X> operator- (const tensor2s<X> &A, const map::tensor2<X> &B)
 {
-  tensor2 <X> C;
+  tensor2<X> C;
 
   C[0] = A[0] - B[0];
   C[1] = A[1] - B[1]; C[2] = A[1] - B[2];
@@ -4803,7 +4908,7 @@ inline tensor2d<X> operator- (const tensor2d<X> &A, const map::tensor2d<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2 <X> &B)
+inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -4816,7 +4921,7 @@ inline tensor2d<X> operator* (const tensor2d<X> &A, const map::tensor2 <X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2 <X> &B)
+inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2<X> &B)
 {
   tensor2d<X> C;
 
@@ -4855,7 +4960,7 @@ inline tensor2d<X> operator/ (const tensor2d<X> &A, const map::tensor2s<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline tensor2d<X> operator* (const tensor2 <X> &A, const map::tensor2d<X> &B)
+inline tensor2d<X> operator* (const tensor2<X> &A, const map::tensor2d<X> &B)
 {
   tensor2d<X> C;
 
@@ -6238,7 +6343,7 @@ inline X trace(const tensor2d<X> &A)
 template<class X>
 inline bool tensor4<X>::operator== (const tensor4<X> &B) const
 {
-  for ( size_t i = 0 ; i < 16 ; ++i )
+  for ( size_t i = 0 ; i < m_size ; ++i )
     if ( m_data[i] != B[i] )
       return false;
 
@@ -6410,7 +6515,7 @@ inline X tensor4<X>::norm() const
 {
   X C = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < 16 ; i += 4 )
+  for ( size_t i = 0 ; i < m_size ; i += 4 )
   {
     C += std::abs(m_data[i  ]);
     C += std::abs(m_data[i+1]);
