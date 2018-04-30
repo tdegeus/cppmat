@@ -13,7 +13,7 @@ include(GNUInstallDirs)
 project(cppmat)
 
 # main header file (which the user includes)
-set(main_header src/cppmat.h)
+set(main_header src/cppmat/cppmat.h)
 
 # all other header files
 set(headers
@@ -130,7 +130,7 @@ endif()
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${fcmake} DESTINATION ${CMAKEPACKAGE_INSTALL_DIR})
 
 # main header file (which the user includes)
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${main_header} DESTINATION ${INCLUDE_INSTALL_DIR})
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${main_header} DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME})
 
 # all other header files
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/${headers} DESTINATION ${INCLUDE_INSTALL_DIR}/${PROJECT_NAME})

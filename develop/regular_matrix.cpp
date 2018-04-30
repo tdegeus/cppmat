@@ -4,7 +4,7 @@
 #define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
 
 #define CPPMAT_NOCONVERT
-#include <cppmat.h>
+#include <cppmat/cppmat.h>
 
 #include <Eigen/Eigen>
 
