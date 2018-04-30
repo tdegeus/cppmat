@@ -1,21 +1,17 @@
-/* =================================================================================================
-
-Compile using:
-
-$ clang++ `pkg-config --cflags Eigen3 cppmat` -std=c++14 -pedantic -Wall -o test *.cpp
-================================================================================================= */
 
 #include <catch/catch.hpp>
 
+#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
+
 #define CPPMAT_NOCONVERT
-#include <cppmat/cppmat.h>
+#include <cppmat.h>
 
 #include <Eigen/Eigen>
 
-// =================================================================================================
+typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
+typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
-TEST_CASE("cppmat::cartesian", "tensor.h")
-{
+static size_t nd = 6;
 
 using     T4  = cppmat::cartesian::tensor4<double>;
 using     T2  = cppmat::cartesian::tensor2<double>;
@@ -24,7 +20,11 @@ using     T2s = cppmat::cartesian::tensor2s<double>;
 using     V   = cppmat::cartesian::vector<double>;
 namespace cm  = cppmat::cartesian;
 
-size_t nd = 6;
+// =================================================================================================
+
+TEST_CASE("cppmat::cartesian", "tensor.h")
+{
+
 double n;
 
 // =================================================================================================
@@ -33,49 +33,27 @@ SECTION("tensor4 arithmetic")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd c = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd d = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd e = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd f(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
+  ColD c = ColD::Random(nd*nd*nd*nd);
+  ColD d = ColD::Random(nd*nd*nd*nd);
+  ColD e = ColD::Random(nd*nd*nd*nd);
+  ColD f(nd*nd*nd*nd);
 
   for ( size_t i=0 ; i<nd*nd*nd*nd ; ++i )
     f(i) = ( ( 10.*a(i) ) * ( b(i)/3. ) ) / ( 0.5*c(i) ) - 5./d(i) + 2.*e(i);
 
-  // compute using cppmat
+  T4 A = T4::Copy(nd, a.data(), a.data()+a.size());
+  T4 B = T4::Copy(nd, b.data(), b.data()+b.size());
+  T4 C = T4::Copy(nd, c.data(), c.data()+c.size());
+  T4 D = T4::Copy(nd, d.data(), d.data()+d.size());
+  T4 E = T4::Copy(nd, e.data(), e.data()+e.size());
 
-  T4 A(nd),B(nd),C(nd),D(nd),E(nd),F(nd);
+  T4 F = ( ( A*10. ) * ( B/3. ) ) / ( 0.5*C ) - 5./D + 2.*E;
 
-  for ( size_t i=0; i<nd; ++i ) {
-    for ( size_t j=0; j<nd; ++j ) {
-      for ( size_t k=0; k<nd; ++k ) {
-        for ( size_t l=0; l<nd; ++l ) {
-          A(i,j,k,l) = a(i*nd*nd*nd+j*nd*nd+k*nd+l);
-          B(i,j,k,l) = b(i*nd*nd*nd+j*nd*nd+k*nd+l);
-          C(i,j,k,l) = c(i*nd*nd*nd+j*nd*nd+k*nd+l);
-          D(i,j,k,l) = d(i*nd*nd*nd+j*nd*nd+k*nd+l);
-          E(i,j,k,l) = e(i*nd*nd*nd+j*nd*nd+k*nd+l);
-        }
-      }
-    }
-  }
+  REQUIRE( f.size() == F.size() );
 
-  F = ( ( A*10. ) * ( B/3. ) ) / ( 0.5*C ) - 5./D + 2.*E;
-
-  // check the result
-
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      for ( size_t k=0; k<nd; ++k )
-        for ( size_t l=0; l<nd; ++l )
-          n += std::abs( f(i*nd*nd*nd+j*nd*nd+k*nd+l)-F(i,j,k,l) );
-
-  REQUIRE( n < 1.e-12 );
-
-  // compute using cppmat
+  for ( auto i = 0 ; i < f.size() ; ++i ) EQ( f[i], F[i] );
 
   F.setZero();
 
@@ -94,17 +72,9 @@ SECTION("tensor4 arithmetic")
   E *= 2.;
   F += E;
 
-  // check the result
+  REQUIRE( f.size() == F.size() );
 
-  n = 0.0;
-
-  for ( size_t i=0; i<nd; ++i )
-    for ( size_t j=0; j<nd; ++j )
-      for ( size_t k=0; k<nd; ++k )
-        for ( size_t l=0; l<nd; ++l )
-          n += std::abs( f(i*nd*nd*nd+j*nd*nd+k*nd+l)-F(i,j,k,l) );
-
-  REQUIRE( n < 1.e-12 );
+  for ( auto i = 0 ; i < f.size() ; ++i ) EQ( f[i], F[i] );
 }
 
 // =================================================================================================
@@ -113,9 +83,9 @@ SECTION("tensor4.ddot( tensor4 )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   c.setZero();
 
@@ -176,9 +146,9 @@ SECTION("tensor4.ddot( tensor4.T() )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd c(nd*nd*nd*nd),d(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd),d(nd*nd*nd*nd);
 
   c.setZero();
 
@@ -245,9 +215,9 @@ SECTION("tensor4.ddot( tensor4.LT() )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd c(nd*nd*nd*nd),d(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd),d(nd*nd*nd*nd);
 
   c.setZero();
 
@@ -314,9 +284,9 @@ SECTION("tensor4.ddot( tensor4.RT() )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
-  Eigen::VectorXd c(nd*nd*nd*nd),d(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd),d(nd*nd*nd*nd);
 
   c.setZero();
 
@@ -383,7 +353,7 @@ SECTION("tensor4.ddot( tensor2 )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd c(nd,nd);
 
@@ -446,7 +416,7 @@ SECTION("tensor4.ddot( tensor2s )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd c(nd,nd);
 
@@ -515,7 +485,7 @@ SECTION("tensor4.ddot( tensor2d )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD a = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd c(nd,nd);
 
@@ -584,7 +554,7 @@ SECTION("tensor2.ddot( tensor4 )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd c(nd,nd);
 
   c.setZero();
@@ -976,8 +946,8 @@ SECTION("tensor2.dot( vector )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd c(nd);
+  ColD b = ColD::Random(nd);
+  ColD c(nd);
 
   c.setZero();
 
@@ -1027,7 +997,7 @@ SECTION("tensor2.dyadic( tensor2 )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   c.setZero();
 
@@ -1086,7 +1056,7 @@ SECTION("tensor2.dyadic( tensor2s )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i ) {
     for ( size_t j = i+1 ; j < nd ; ++j ) {
@@ -1151,7 +1121,7 @@ SECTION("tensor2.dyadic( tensor2d )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -1548,7 +1518,7 @@ SECTION("tensor2s.ddot( tensor4 )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd c(nd,nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
@@ -1969,8 +1939,8 @@ SECTION("tensor2s.dot( vector )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd c(nd);
+  ColD b = ColD::Random(nd);
+  ColD c(nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = i+1 ; j < nd ; ++j )
@@ -2024,7 +1994,7 @@ SECTION("tensor2s.dyadic( tensor2 )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = i+1 ; j < nd ; ++j )
@@ -2087,7 +2057,7 @@ SECTION("tensor2s.dyadic( tensor2s )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = i+1 ; j < nd ; ++j )
@@ -2156,7 +2126,7 @@ SECTION("tensor2s.dyadic( tensor2d )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = i+1 ; j < nd ; ++j )
@@ -2601,7 +2571,7 @@ SECTION("tensor2d.ddot( tensor4 )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd*nd*nd*nd);
+  ColD b = ColD::Random(nd*nd*nd*nd);
   Eigen::MatrixXd c(nd,nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
@@ -3016,8 +2986,8 @@ SECTION("tensor2d.dot( vector )")
   // compute using Eigen
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd c(nd);
+  ColD b = ColD::Random(nd);
+  ColD c(nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -3071,7 +3041,7 @@ SECTION("tensor2d.dyadic( tensor2 )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -3134,7 +3104,7 @@ SECTION("tensor2d.dyadic( tensor2s )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -3203,7 +3173,7 @@ SECTION("tensor2d.dyadic( tensor2d )")
 
   Eigen::MatrixXd a = Eigen::MatrixXd::Random(nd,nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd*nd*nd*nd);
+  ColD c(nd*nd*nd*nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -3635,8 +3605,8 @@ SECTION("vector.dot( vector )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
+  ColD a = ColD::Random(nd);
+  ColD b = ColD::Random(nd);
   double c = 0.;
 
   for ( size_t i=0; i<nd; ++i )
@@ -3675,9 +3645,9 @@ SECTION("vector.dot( tensor2 )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
+  ColD a = ColD::Random(nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd);
+  ColD c(nd);
 
   c.setZero();
 
@@ -3725,9 +3695,9 @@ SECTION("vector.dot( tensor2s )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
+  ColD a = ColD::Random(nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd);
+  ColD c(nd);
 
   for ( size_t i = 0 ; i < nd ; ++i ) {
     for ( size_t j = i+1 ; j < nd ; ++j ) {
@@ -3781,9 +3751,9 @@ SECTION("vector.dot( tensor2d )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
+  ColD a = ColD::Random(nd);
   Eigen::MatrixXd b = Eigen::MatrixXd::Random(nd,nd);
-  Eigen::VectorXd c(nd);
+  ColD c(nd);
 
   for ( size_t i = 0 ; i < nd ; ++i )
     for ( size_t j = 0 ; j < nd ; ++j )
@@ -3836,8 +3806,8 @@ SECTION("vector.dyadic( vector )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
+  ColD a = ColD::Random(nd);
+  ColD b = ColD::Random(nd);
   Eigen::MatrixXd c(nd,nd);
 
   c.setZero();
@@ -3893,8 +3863,8 @@ SECTION("vector.cross( vector )")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(3);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(3);
+  ColD a = ColD::Random(3);
+  ColD b = ColD::Random(3);
 
   Eigen::Vector3d aa(a(0),a(1),a(2));
   Eigen::Vector3d bb(b(0),b(1),b(2));
@@ -3940,12 +3910,12 @@ SECTION("vector arithmetic")
 {
   // compute using Eigen
 
-  Eigen::VectorXd a = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd b = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd c = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd d = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd e = Eigen::VectorXd::Random(nd);
-  Eigen::VectorXd f(nd);
+  ColD a = ColD::Random(nd);
+  ColD b = ColD::Random(nd);
+  ColD c = ColD::Random(nd);
+  ColD d = ColD::Random(nd);
+  ColD e = ColD::Random(nd);
+  ColD f(nd);
 
   for ( size_t i=0; i<nd; ++i )
     f(i) = ( 7.*a(i) + 10./b(i) ) / ( c(i)+2. ) * ( d(i)-1. ) - 2.*e(i);

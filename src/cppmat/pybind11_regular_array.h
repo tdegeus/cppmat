@@ -15,14 +15,14 @@ namespace pybind11 {
 namespace detail {
 
 // =================================================================================================
-// type caster: cppmat::matrix <-> NumPy-array
+// type caster: cppmat::array <-> NumPy-array
 // =================================================================================================
 
-template <typename T> struct type_caster<cppmat::matrix<T>>
+template <typename T> struct type_caster<cppmat::array<T>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::matrix<T>, _("cppmat::matrix<T>"));
+  PYBIND11_TYPE_CASTER(cppmat::array<T>, _("cppmat::array<T>"));
 
   // Python -> C++
   // -------------
@@ -48,7 +48,7 @@ public:
     for ( ssize_t i = 0 ; i < rank ; i++ ) shape[i] = buf.shape()[i];
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::matrix<T>::Copy(shape, buf.data(), buf.data()+buf.size());
+    value = cppmat::array<T>::Copy(shape, buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -58,7 +58,7 @@ public:
   // -------------
 
   static py::handle cast(
-    const cppmat::matrix<T>& src, py::return_value_policy policy, py::handle parent
+    const cppmat::array<T>& src, py::return_value_policy policy, py::handle parent
   )
   {
     // - create Python variable (all variables are copied)

@@ -23,7 +23,7 @@ namespace tiny {
 template<class X, size_t n>
 inline vector<X,n> vector<X,n>::Arange()
 {
-  // allocate matrix
+  // call basic constructor
   vector<X,n> out;
 
   // initialize
@@ -37,7 +37,7 @@ inline vector<X,n> vector<X,n>::Arange()
 template<class X, size_t n>
 inline vector<X,n> vector<X,n>::Zero()
 {
-  // allocate matrix
+  // call basic constructor
   vector<X,n> out;
 
   // initialize
@@ -51,7 +51,7 @@ inline vector<X,n> vector<X,n>::Zero()
 template<class X, size_t n>
 inline vector<X,n> vector<X,n>::Ones()
 {
-  // allocate matrix
+  // call basic constructor
   vector<X,n> out;
 
   // initialize
@@ -65,7 +65,7 @@ inline vector<X,n> vector<X,n>::Ones()
 template<class X, size_t n>
 inline vector<X,n> vector<X,n>::Constant(X D)
 {
-  // allocate matrix
+  // call basic constructor
   vector<X,n> out;
 
   // initialize
@@ -80,7 +80,7 @@ template<class X, size_t n>
 template<typename Iterator>
 inline vector<X,n> vector<X,n>::Copy(Iterator first, Iterator last)
 {
-  // allocate matrix
+  // call basic constructor
   vector<X,n> out;
 
   // initialize
@@ -112,12 +112,11 @@ inline size_t vector<X,n>::ndim() const
 template<class X, size_t n>
 inline size_t vector<X,n>::shape(int i) const
 {
-  i = ( i < 0 ) ? i + 1 : ( i >= 1 ) ? i - 1 : i ;
+  // check axis: (0) or (-1)
+  assert( i  <  1 );
+  assert( i >= -1 );
 
-  if ( i == 0 ) return n;
-
-  assert( false );
-  return 0;
+  return m_n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -125,10 +124,11 @@ inline size_t vector<X,n>::shape(int i) const
 template<class X, size_t n>
 inline size_t vector<X,n>::shape(size_t i) const
 {
-  if ( i == 0 ) return n;
+  // check axis: (0)
+  assert( i < 1 );
 
-  assert( false );
-  return 0;
+  return m_n;
+
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -138,7 +138,7 @@ inline std::vector<size_t> vector<X,n>::shape() const
 {
   std::vector<size_t> ret(1);
 
-  ret[0] = n;
+  ret[0] = m_n;
 
   return ret;
 }
@@ -159,12 +159,14 @@ inline std::vector<size_t> vector<X,n>::strides(bool bytes) const
 }
 
 // =================================================================================================
-// index operators
+// index operators : operator[...]
 // =================================================================================================
 
 template<class X, size_t n>
 inline X& vector<X,n>::operator[](size_t i)
 {
+  assert( i < m_size );
+
   return m_data[i];
 }
 
@@ -173,14 +175,20 @@ inline X& vector<X,n>::operator[](size_t i)
 template<class X, size_t n>
 inline const X& vector<X,n>::operator[](size_t i) const
 {
+  assert( i < m_size );
+
   return m_data[i];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// index operators : operator(...)
+// =================================================================================================
 
 template<class X, size_t n>
 inline X& vector<X,n>::operator()(size_t a)
 {
+  assert( a < m_n );
+
   return m_data[a];
 }
 
@@ -189,6 +197,8 @@ inline X& vector<X,n>::operator()(size_t a)
 template<class X, size_t n>
 inline const X& vector<X,n>::operator()(size_t a) const
 {
+  assert( a < m_n );
+
   return m_data[a];
 }
 
@@ -211,7 +221,7 @@ inline const X* vector<X,n>::data() const
 }
 
 // =================================================================================================
-// iterators
+// iterators : begin() and end()
 // =================================================================================================
 
 template<class X, size_t n>
@@ -242,6 +252,50 @@ template<class X, size_t n>
 inline auto vector<X,n>::end() const
 {
   return std::begin(m_data) + m_size;
+}
+
+// =================================================================================================
+// iterators : index()
+// =================================================================================================
+
+template<class X, size_t n>
+inline auto vector<X,n>::index(size_t i)
+{
+  assert( i < m_size );
+
+  return std::begin(m_data) + i;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline auto vector<X,n>::index(size_t i) const
+{
+  assert( i < m_size );
+
+  return std::begin(m_data) + i;
+}
+
+// =================================================================================================
+// iterators : item()
+// =================================================================================================
+
+template<class X, size_t n>
+inline auto vector<X,n>::item(size_t a)
+{
+  assert( a < m_n );
+
+  return std::begin(m_data) + a;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline auto vector<X,n>::item(size_t a) const
+{
+  assert( a < m_n );
+
+  return std::begin(m_data) + a;
 }
 
 // =================================================================================================
@@ -285,7 +339,7 @@ template<class Iterator>
 inline void vector<X,n>::setCopy(Iterator first, Iterator last)
 {
   // check size
-  assert( n == last - first );
+  assert( m_size == last - first );
 
   // copy
   std::copy(first, last, std::begin(m_data));
@@ -538,7 +592,25 @@ inline vector<X,n> operator- (const X &A, const vector<X,n> &B)
 }
 
 // =================================================================================================
-// basic algebra
+// basic algebra : location of the minimum/maximum
+// =================================================================================================
+
+template<class X, size_t n>
+inline size_t vector<X,n>::argmin() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t n>
+inline size_t vector<X,n>::argmax() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// =================================================================================================
+// basic algebra : minimum
 // =================================================================================================
 
 template<class X, size_t n>
@@ -547,7 +619,9 @@ inline X vector<X,n>::minCoeff() const
   return *std::min_element(begin(),end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : maximum
+// =================================================================================================
 
 template<class X, size_t n>
 inline X vector<X,n>::maxCoeff() const
@@ -555,7 +629,9 @@ inline X vector<X,n>::maxCoeff() const
   return *std::max_element(begin(),end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : sum
+// =================================================================================================
 
 template<class X, size_t n>
 inline X vector<X,n>::sum() const
@@ -568,7 +644,9 @@ inline X vector<X,n>::sum() const
   return out;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : mean
+// =================================================================================================
 
 template<class X, size_t n>
 inline double vector<X,n>::mean() const
@@ -576,17 +654,58 @@ inline double vector<X,n>::mean() const
   return static_cast<double>(this->sum())/static_cast<double>(m_size);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : weighted average
+// =================================================================================================
 
 template<class X, size_t n>
-inline double vector<X,n>::average(const vector<X,n> &weights) const
+inline double vector<X,n>::average(const vector<X,n> &weights, bool norm) const
 {
   X out = static_cast<X>(0);
 
   for ( size_t i = 0 ; i < m_size ; ++i )
     out += m_data[i] * weights[i];
 
-  return static_cast<double>(out)/static_cast<double>(weights.sum());
+  if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
+  else        return static_cast<double>(out);
+}
+
+// =================================================================================================
+// find all non-zero entries
+// =================================================================================================
+
+template<class X, size_t n>
+inline cppmat::vector<size_t> vector<X,n>::where() const
+{
+  size_t nnz = 0;
+
+  for ( size_t i = 0 ; i < m_size ; ++i )
+    if ( m_data[i] )
+      ++nnz;
+
+  cppmat::vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < m_size ; ++i ) {
+    if ( m_data[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
+}
+
+// =================================================================================================
+// basic algebra : absolute value
+// =================================================================================================
+
+template<class X, size_t n>
+inline void vector<X,n>::abs()
+{
+  for ( auto &i : m_data )
+    i = std::abs(i);
 }
 
 // =================================================================================================
@@ -596,9 +715,9 @@ inline double vector<X,n>::average(const vector<X,n> &weights) const
 template<class X, size_t n>
 inline void vector<X,n>::printf(std::string fmt) const
 {
-  for ( size_t j = 0 ; j < n ; ++j ) {
-    if ( j != n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
-    else            std::printf((fmt + ";\n").c_str(), (*this)(j));
+  for ( size_t j = 0 ; j < m_n ; ++j ) {
+    if ( j != m_n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
+    else              std::printf((fmt + ";\n").c_str(), (*this)(j));
   }
 }
 

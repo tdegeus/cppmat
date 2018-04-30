@@ -7,7 +7,7 @@
 #ifndef CPPMAT_PYBIND11_H
 #define CPPMAT_PYBIND11_H
 
-#include "cppmat.h"
+#include "../cppmat.h"
 
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>

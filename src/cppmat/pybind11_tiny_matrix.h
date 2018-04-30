@@ -15,16 +15,16 @@ namespace pybind11 {
 namespace detail {
 
 // =================================================================================================
-// type caster: cppmat::tiny::matrix2 <-> NumPy-array
+// type caster: cppmat::tiny::matrix <-> NumPy-array
 // =================================================================================================
 
-template <class T, size_t M, size_t N> struct type_caster<cppmat::tiny::matrix2<T,M,N>>
+template <class T, size_t M, size_t N> struct type_caster<cppmat::tiny::matrix<T,M,N>>
 {
 public:
 
-  using tinymat2 = cppmat::tiny::matrix2<T,M,N>;
+  using tinymat2 = cppmat::tiny::matrix<T,M,N>;
 
-  PYBIND11_TYPE_CASTER(tinymat2, _("cppmat::tiny::matrix2<T,M,N>"));
+  PYBIND11_TYPE_CASTER(tinymat2, _("cppmat::tiny::matrix<T,M,N>"));
 
   // Python -> C++
   // -------------
@@ -49,7 +49,7 @@ public:
     if ( buf.shape()[1] != static_cast<ssize_t>(N) ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::tiny::matrix2<T,M,N>::Copy(buf.data(), buf.data()+buf.size());
+    value = cppmat::tiny::matrix<T,M,N>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -59,7 +59,7 @@ public:
   // -------------
 
   static py::handle cast(
-    const cppmat::tiny::matrix2<T,M,N>& src, py::return_value_policy policy, py::handle parent
+    const cppmat::tiny::matrix<T,M,N>& src, py::return_value_policy policy, py::handle parent
   )
   {
     // - create Python variable (all variables are copied)

@@ -12,11 +12,11 @@ typedef Eigen::Matrix<double, Eigen::Dynamic, 1, Eigen::ColMajor> ColD;
 
 static const size_t N = 9;
 
-typedef cppmat::tiny::vector<double,N> Vec;
+typedef cppmat::periodic::vector<double> Vec;
 
 // =================================================================================================
 
-TEST_CASE("cppmat::tiny::vector", "vector.h")
+TEST_CASE("cppmat::periodic::vector", "vector.h")
 {
 
 // =================================================================================================

@@ -26,9 +26,9 @@ class vector
 private:
 
   std::vector<X> m_data;    // data container
+  size_t         m_size=0;  // total size
   size_t         m_n=0;     // number of columns
   int            m_n_i=0;   // == m_n, but int
-  size_t         m_size=0;  // total size
 
 public:
 
@@ -61,7 +61,7 @@ public:
   X&       operator[](size_t i);
   const X& operator[](size_t i) const;
 
-  // index operators: access using matrix indices
+  // index operators: access using list-index
   X&       operator()(int a);
   const X& operator()(int a) const;
 
@@ -74,6 +74,14 @@ public:
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using list-index
+  auto item(int a);
+  auto item(int a) const;
 
   // basic initialization
   void setArange();
@@ -93,11 +101,24 @@ public:
   vector<X>& operator-= (const        X  &B);
 
   // basic algebra
-  X      minCoeff() const;
-  X      maxCoeff() const;
-  X      sum() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  size_t argmin() const;
+  size_t argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
   double mean() const;
-  double average(const vector<X> &weights) const;
+  // - weighted average
+  double average(const vector<X> &weights, bool norm=true) const;
+
+  // find all non-zero entries
+  vector<size_t> where() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

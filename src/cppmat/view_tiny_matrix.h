@@ -23,11 +23,11 @@ namespace view {
 namespace reg = cppmat::tiny;
 
 // =================================================================================================
-// cppmat::view::matrix2
+// cppmat::view::matrix
 // =================================================================================================
 
 template<class X, size_t m, size_t n>
-class matrix2
+class matrix
 {
 private:
 
@@ -37,10 +37,10 @@ private:
 public:
 
   // constructor
-  matrix2();
+  matrix();
 
   // constructor: map external pointer
-  static matrix2<X,m,n> Map(const X *D);
+  static matrix<X,m,n> Map(const X *D);
 
   // reset external pointer
   void setMap(const X *D);
@@ -72,7 +72,7 @@ public:
   X      maxCoeff() const;
   X      sum() const;
   double mean() const;
-  double average(const matrix2<X,m,n> &weights) const;
+  double average(const matrix<X,m,n> &weights) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -81,40 +81,40 @@ public:
 
 // arithmetic operators
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator* (const matrix<X,m,n> &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator/ (const matrix<X,m,n> &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator+ (const matrix<X,m,n> &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator- (const matrix<X,m,n> &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator* (const matrix2<X,m,n> &A, const         X      &B);
+inline reg::matrix<X,m,n> operator* (const matrix<X,m,n> &A, const        X      &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator/ (const matrix2<X,m,n> &A, const         X      &B);
+inline reg::matrix<X,m,n> operator/ (const matrix<X,m,n> &A, const        X      &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator+ (const matrix2<X,m,n> &A, const         X      &B);
+inline reg::matrix<X,m,n> operator+ (const matrix<X,m,n> &A, const        X      &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator- (const matrix2<X,m,n> &A, const         X      &B);
+inline reg::matrix<X,m,n> operator- (const matrix<X,m,n> &A, const        X      &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator* (const         X      &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator* (const        X      &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator/ (const         X      &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator/ (const        X      &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator+ (const         X      &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator+ (const        X      &A, const matrix<X,m,n> &B);
 
 template<class X, size_t m, size_t n>
-inline reg::matrix2<X,m,n> operator- (const         X      &A, const matrix2<X,m,n> &B);
+inline reg::matrix<X,m,n> operator- (const        X      &A, const matrix<X,m,n> &B);
 
 // =================================================================================================
 

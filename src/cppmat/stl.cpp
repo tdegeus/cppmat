@@ -51,26 +51,6 @@ inline std::vector<X> del(const std::vector<X> &A, size_t idx)
 // =================================================================================================
 
 template<class X>
-inline std::vector<X> sort_pmodulo(const std::vector<X> &in, X n, bool reverse)
-{
-  std::vector<X> out = in;
-
-  // take the modulo (e.g. to correct for 'periodicity')
-  for ( auto &i : out )
-    i = (n + (i%n)) % n;
-
-  // sort
-  std::sort(out.begin(),out.end());
-
-  // reverse order
-  if ( reverse ) std::reverse(out.begin(), out.end());
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
 inline std::string to_string(const std::vector<X> &A)
 {
   std::string out = "(";
@@ -86,9 +66,14 @@ inline std::string to_string(const std::vector<X> &A)
 // =================================================================================================
 
 template<class X>
-inline X abs(X A)
+inline array<X> abs(const array<X> &A)
 {
-  return std::abs(A);
+  array<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
 }
 
 // =================================================================================================
@@ -97,6 +82,84 @@ template<class X>
 inline matrix<X> abs(const matrix<X> &A)
 {
   matrix<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline vector<X> abs(const vector<X> &A)
+{
+  vector<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline periodic::array<X> abs(const periodic::array<X> &A)
+{
+  periodic::array<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline periodic::matrix<X> abs(const periodic::matrix<X> &A)
+{
+  periodic::matrix<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+inline periodic::vector<X> abs(const periodic::vector<X> &A)
+{
+  periodic::vector<X> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X, size_t m, size_t n>
+inline tiny::matrix<X,m,n> abs(const tiny::matrix<X,m,n> &A)
+{
+  tiny::matrix<X,m,n> out = A;
+
+  for ( auto &i : out )
+    i = std::abs(i);
+
+  return out;
+}
+
+// =================================================================================================
+
+template<class X, size_t n>
+inline tiny::vector<X,n> abs(const tiny::vector<X,n> &A)
+{
+  tiny::vector<X,n> out = A;
 
   for ( auto &i : out )
     i = std::abs(i);

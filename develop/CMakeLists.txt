@@ -35,12 +35,16 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 
 # create executable
 add_executable(${PROJECT_NAME}
-  matrix.cpp
-  matrix2.cpp
-  vector.cpp
+  main.cpp
+  regular_array.cpp
+  regular_matrix.cpp
+  regular_vector.cpp
+  periodic_array.cpp
+  periodic_matrix.cpp
+  periodic_vector.cpp
+  tiny_matrix.cpp
+  tiny_vector.cpp
   tensor.cpp
   tensor2.cpp
   tensor3.cpp
-  tiny_matrix2.cpp
-  tiny_vector.cpp
 )

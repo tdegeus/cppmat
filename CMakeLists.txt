@@ -19,45 +19,47 @@ set(main_header src/cppmat.h)
 set(headers
   src/cppmat/stl.h
   src/cppmat/stl.cpp
-  src/cppmat/vector.h
-  src/cppmat/vector.cpp
-  src/cppmat/matrix.h
-  src/cppmat/matrix.cpp
-  src/cppmat/matrix2.h
-  src/cppmat/matrix2.cpp
-  src/cppmat/periodic_vector.h
-  src/cppmat/periodic_vector.cpp
+  src/cppmat/private.h
+  src/cppmat/private.cpp
+  src/cppmat/regular_array.h
+  src/cppmat/regular_array.cpp
+  src/cppmat/regular_matrix.h
+  src/cppmat/regular_matrix.cpp
+  src/cppmat/regular_vector.h
+  src/cppmat/regular_vector.cpp
+  src/cppmat/periodic_array.h
+  src/cppmat/periodic_array.cpp
   src/cppmat/periodic_matrix.h
   src/cppmat/periodic_matrix.cpp
-  src/cppmat/periodic_matrix2.h
-  src/cppmat/periodic_matrix2.cpp
+  src/cppmat/periodic_vector.h
+  src/cppmat/periodic_vector.cpp
+  src/cppmat/tiny_matrix.h
+  src/cppmat/tiny_matrix.cpp
   src/cppmat/tiny_vector.h
   src/cppmat/tiny_vector.cpp
-  src/cppmat/tiny_matrix2.h
-  src/cppmat/tiny_matrix2.cpp
-  src/cppmat/view_vector.h
-  src/cppmat/view_vector.cpp
-  src/cppmat/view_matrix2.h
-  src/cppmat/view_matrix2.cpp
   src/cppmat/tensor.h
   src/cppmat/tensor.cpp
   src/cppmat/tensor2.h
   src/cppmat/tensor2.cpp
   src/cppmat/tensor3.h
   src/cppmat/tensor3.cpp
+  src/cppmat/view_tiny_matrix.h
+  src/cppmat/view_tiny_matrix.cpp
+  src/cppmat/view_tiny_vector.h
+  src/cppmat/view_tiny_vector.cpp
   src/cppmat/view_tensor2.h
   src/cppmat/view_tensor2.cpp
   src/cppmat/view_tensor3.h
   src/cppmat/view_tensor3.cpp
   src/cppmat/pybind11.h
-  src/cppmat/pybind11_vector.h
-  src/cppmat/pybind11_matrix.h
-  src/cppmat/pybind11_matrix2.h
-  src/cppmat/pybind11_periodic_vector.h
+  src/cppmat/pybind11_regular_array.h
+  src/cppmat/pybind11_regular_matrix.h
+  src/cppmat/pybind11_regular_vector.h
+  src/cppmat/pybind11_periodic_array.h
   src/cppmat/pybind11_periodic_matrix.h
-  src/cppmat/pybind11_periodic_matrix2.h
+  src/cppmat/pybind11_periodic_vector.h
+  src/cppmat/pybind11_tiny_matrix.h
   src/cppmat/pybind11_tiny_vector.h
-  src/cppmat/pybind11_tiny_matrix2.h
   src/cppmat/pybind11_tensor.h
   src/cppmat/pybind11_tensor2.h
   src/cppmat/pybind11_tensor3.h
