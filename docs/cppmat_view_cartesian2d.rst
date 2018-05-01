@@ -15,7 +15,7 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
   int main()
   {
-      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({50,50,3});
+      cppmat::array<double> container = cppmat::array<double>::Arange({50,50,3});
 
       cppmat::view::cartesian2d::tensor2s<double> view;
 
@@ -55,7 +55,7 @@ This prints:
 
     int main()
     {
-      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({50,50,3});
+      cppmat::array<double> container = cppmat::array<double>::Arange({50,50,3});
 
       cppmat::cartesian2d::tensor2s<double> copy;
 

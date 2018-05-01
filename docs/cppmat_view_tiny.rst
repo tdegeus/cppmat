@@ -5,12 +5,12 @@
 cppmat::view
 ************
 
-.. _view_matrix2:
+.. _view_tiny_matrix:
 
-cppmat::view::matrix2
-=====================
+cppmat::view::matrix
+====================
 
-[:download:`view_matrix2.h <../src/cppmat/view_matrix2.h>`, :download:`view_matrix2.cpp <../src/cppmat/view_matrix2.cpp>`]
+[:download:`view_tiny_matrix.h <../src/cppmat/view_tiny_matrix.h>`, :download:`view_tiny_matrix.cpp <../src/cppmat/view_tiny_matrix.cpp>`]
 
 This class can be used to 'view' and external pointer. This can be useful to refer to a part of a bigger matrix. For example:
 
@@ -20,9 +20,9 @@ This class can be used to 'view' and external pointer. This can be useful to ref
 
   int main()
   {
-      cppmat::matrix<double> container = cppmat::matrix<double>::Arange({100,4,2});
+      cppmat::array<double> container = cppmat::array<double>::Arange({100,4,2});
 
-      cppmat::view::matrix2<double,4,2> view;
+      cppmat::view::matrix<double,4,2> view;
 
       view.setMap(&container(10)); // equivalent to "view.setMap(&container(10,0,0));"
 
@@ -48,13 +48,13 @@ This prints:
 
   .. code-block:: cpp
 
-    using Mat = cppmat::view::matrix2<double,4,2>;
+    using Mat = cppmat::view::matrix<double,4,2>;
 
     Mat view = Mat::Map(&container(10));
 
 .. note::
 
-  This function cannot make any modification to the view. Its usage is thus somewhat limited. To get a wider functionality use :ref:`tiny_matrix2`. For example:
+  This function cannot make any modification to the view. Its usage is thus somewhat limited. To get a wider functionality use :ref:`tiny_matrix`. For example:
 
   .. code-block:: cpp
 
@@ -62,9 +62,9 @@ This prints:
 
     int main()
     {
-        cppmat::matrix<double> container = cppmat::matrix<double>::Arange({100,4,2});
+        cppmat::array<double> container = cppmat::array<double>::Arange({100,4,2});
 
-        cppmat::tiny::matrix2<double,4,2> copy;
+        cppmat::tiny::matrix<double,4,2> copy;
 
         copy.setCopy(container.item(10), container.item(10)+copy.size());
 
@@ -75,7 +75,7 @@ This prints:
 
   .. code-block:: cpp
 
-    using Mat = cppmat::tiny::matrix2<double,4,2>;
+    using Mat = cppmat::tiny::matrix<double,4,2>;
 
     Mat copy = Mat::Copy(container.item(10), container.item(10)+8);
 
@@ -85,11 +85,11 @@ This prints:
 
     std::copy(container.item(10), container.item(10)+copy.size(), copy.data());
 
-.. _view_vector:
+.. _view_tiny_vector:
 
 cppmat::view::vector
 ====================
 
-[:download:`view_vector.h <../src/cppmat/view_vector.h>`, :download:`view_vector.cpp <../src/cppmat/view_vector.cpp>`]
+[:download:`view_tiny_vector.h <../src/cppmat/view_tiny_vector.h>`, :download:`view_tiny_vector.cpp <../src/cppmat/view_tiny_vector.cpp>`]
 
-See :ref:`view_matrix2` and :ref:`tiny_vector`.
+See :ref:`view_tiny_matrix` and :ref:`tiny_vector`.

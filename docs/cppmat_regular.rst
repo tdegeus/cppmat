@@ -5,12 +5,12 @@
 cppmat
 ******
 
-.. _matrix:
+.. _regular_array:
 
-cppmat::matrix
-==============
+cppmat::array
+=============
 
-[:download:`matrix.h <../src/cppmat/matrix.h>`, :download:`matrix.cpp <../src/cppmat/matrix.cpp>`]
+[:download:`regular_array.h <../src/cppmat/regular_array.h>`, :download:`regular_array.cpp <../src/cppmat/regular_array.cpp>`]
 
 Header-only module that provides a C++ class for n-d matrices. For example, a rank 3 matrix is allocated as follows:
 
@@ -20,7 +20,7 @@ Header-only module that provides a C++ class for n-d matrices. For example, a ra
 
   int main()
   {
-      cppmat::matrix<double> A({10,10,10});
+      cppmat::array<double> A({10,10,10});
 
       A(0,0,0) = ...
 
@@ -31,7 +31,7 @@ Header-only module that provides a C++ class for n-d matrices. For example, a ra
 
 .. note:: **Tip**
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`matrix2` instead of :ref:`matrix`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please the fixed sized :ref:`tiny_matrix2`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`vector` and :ref:`tiny_vector`, but generally one can just use the standard C++ ``std::vector``.
+  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`regular_matrix` instead of :ref:`regular_array`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please the fixed sized :ref:`tiny_matrix`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`regular_vector` and :ref:`tiny_vector`, which have many similarities to the standard C++ ``std::vector``.
 
 Methods
 -------
@@ -86,7 +86,7 @@ Methods
 
     .. code-block:: cpp
 
-      cppmat::matrix<double> A({10,10});
+      cppmat::array<double> A({10,10});
 
       A.chdim(3);
 
@@ -115,27 +115,27 @@ Methods
 (Named) constructors
 --------------------
 
-*   ``cppmat::matrix<double>(shape)``
+*   ``cppmat::array<double>(shape)``
 
     Allocate to a certain shape, nothing is initialized.
 
-*   ``cppmat::matrix<double>::Arange(shape)``
+*   ``cppmat::array<double>::Arange(shape)``
 
     Allocate to a certain shape, set entries to its index in the flat storage.
 
-*   ``cppmat::matrix<double>::Zero(shape)``
+*   ``cppmat::array<double>::Zero(shape)``
 
     Allocate to a certain shape, set all entries to zero.
 
-*   ``cppmat::matrix<double>::Ones(shape)``
+*   ``cppmat::array<double>::Ones(shape)``
 *
     Allocate to a certain shape, set all entries to one.
 
-*   ``cppmat::matrix<double>::Constant(shape, constant)``
+*   ``cppmat::array<double>::Constant(shape, constant)``
 *
     Allocate to a certain shape, set all entries to a certain constant.
 
-*   ``cppmat::matrix<double>::Copy(shape, first, last)``
+*   ``cppmat::array<double>::Copy(shape, first, last)``
 *
     Allocate to a certain shape, copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
 
@@ -150,7 +150,7 @@ In principle the number of indices should match the dimensions of the matrix (i.
 
     .. code-block:: cpp
 
-      cppmat::matrix<double> A({10,10});
+      cppmat::array<double> A({10,10});
 
       A(5,5,0) = ...
 
@@ -199,7 +199,7 @@ To print, use the common C++ ``std::cout << A << std::endl;``. To customize form
 Advanced indexing
 -----------------
 
-To allow an arbitrary number of indices at runtime (i.e. the case in which the number of indices is not known at compile time), ``cppmat::matrix`` can also be supplied with the indices stored in a list, using the ``.at(first,last)``, where ``first`` and ``last`` are iterators to the beginning and the end of this list of indices. When the indices are also stored in a ``cppmat::matrix`` these iterators can be easily obtained using ``.item(i,j)``. Consider this example:
+To allow an arbitrary number of indices at runtime (i.e. the case in which the number of indices is not known at compile time), ``cppmat::array`` can also be supplied with the indices stored in a list, using the ``.at(first,last)``, where ``first`` and ``last`` are iterators to the beginning and the end of this list of indices. When the indices are also stored in a ``cppmat::array`` these iterators can be easily obtained using ``.item(i,j)``. Consider this example:
 
 .. code-block:: cpp
 
@@ -210,7 +210,7 @@ To allow an arbitrary number of indices at runtime (i.e. the case in which the n
     // example matrix
     // --------------
 
-    cppmat::matrix<size_t> A({2,4});
+    cppmat::array<size_t> A({2,4});
 
     A(0,0) =  0; A(0,1) =  1; A(0,2) =  2; A(0,3) =  3;
     A(1,0) = 10; A(1,1) = 11; A(1,2) = 12; A(1,3) = 13;
@@ -218,7 +218,7 @@ To allow an arbitrary number of indices at runtime (i.e. the case in which the n
     // view, based on list of indices
     // ------------------------------
 
-    cppmat::matrix<size_t> index({2,2});
+    cppmat::array<size_t> index({2,2});
 
     index(0,0) = 0; index(0,1) = 1;
     index(1,0) = 1; index(1,1) = 2;
@@ -260,7 +260,7 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
 
     int main()
     {
-      cppmat::matrix<size_t> A({2,4});
+      cppmat::array<size_t> A({2,4});
 
       std::cout << A.compress(1,2) << std::endl;
 
@@ -280,12 +280,12 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
     6
     1, 2,
 
-.. _matrix2:
+.. _regular_matrix:
 
-cppmat::matrix2
-===============
+cppmat::matrix
+==============
 
-[:download:`matrix2.h <../src/cppmat/matrix2.h>`, :download:`matrix2.cpp <../src/cppmat/matrix2.cpp>`]
+[:download:`regular_matrix.h <../src/cppmat/regular_matrix.h>`, :download:`regular_matrix.cpp <../src/cppmat/regular_matrix.cpp>`]
 
 Class for 2-d matrices. For example:
 
@@ -295,7 +295,7 @@ Class for 2-d matrices. For example:
 
   int main()
   {
-      cppmat::matrix2<double> A(10,10);
+      cppmat::matrix<double> A(10,10);
 
       A(0,0) = ...
 
@@ -306,14 +306,14 @@ Class for 2-d matrices. For example:
 
 .. note::
 
-  The entire interface is the same as for :ref:`matrix`, though there is obviously no ``chdim`` method.
+  The entire interface is the same as for :ref:`regular_array`, though there is obviously no ``chdim`` method.
 
-.. _vector:
+.. _regular_vector:
 
 cppmat::vector
 ==============
 
-[:download:`vector.h <../src/cppmat/vector.h>`, :download:`vector.cpp <../src/cppmat/vector.cpp>`]
+[:download:`regular_vector.h <../src/cppmat/regular_vector.h>`, :download:`regular_vector.cpp <../src/cppmat/regular_vector.cpp>`]
 
 Class for 1-d matrices (a.k.a. vectors). For example:
 
@@ -334,7 +334,7 @@ Class for 1-d matrices (a.k.a. vectors). For example:
 
 .. note::
 
-  The entire interface is the same as for :ref:`matrix`, though there is obviously no ``chdim`` method.
+  The entire interface is the same as for :ref:`regular_array`, though there is obviously no ``chdim`` method.
 
 .. note::
 

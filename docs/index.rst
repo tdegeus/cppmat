@@ -58,19 +58,19 @@ The following classes can be used.
 +-------------------------------------------------------------+--------------------------------------+
 | **Class**                                                   | **Description**                      |
 +=============================================================+======================================+
-| :ref:`cppmat::matrix <matrix>`                              | n-d matrix of flexible size          |
+| :ref:`cppmat::array <regular_array>`                        | n-d matrix of flexible size          |
 +-------------------------------------------------------------+--------------------------------------+
-| :ref:`cppmat::matrix2 <matrix2>`                            | 2-d matrix of flexible size          |
+| :ref:`cppmat::matrix <regular_matrix>`                      | 2-d matrix of flexible size          |
 +-------------------------------------------------------------+--------------------------------------+
-| :ref:`cppmat::vector <vector>`                              | array (1-d matrix) of flexible size  |
+| :ref:`cppmat::vector <regular_vector>`                      | array (1-d matrix) of flexible size  |
 +-------------------------------------------------------------+--------------------------------------+
-| :ref:`cppmat::periodic::matrix <periodic_matrix>`           | n-d matrix of flexible size          |
+| :ref:`cppmat::periodic::array <periodic_array>`             | n-d matrix of flexible size          |
 +-------------------------------------------------------------+--------------------------------------+
-| :ref:`cppmat::periodic::matrix2 <periodic_matrix2>`         | 2-d matrix of flexible size          |
+| :ref:`cppmat::periodic::matrix <periodic_matrix>`           | 2-d matrix of flexible size          |
 +-------------------------------------------------------------+--------------------------------------+
 | :ref:`cppmat::periodic::vector <periodic_vector>`           | array (1-d matrix) of flexible size  |
 +-------------------------------------------------------------+--------------------------------------+
-| :ref:`cppmat::tiny::matrix2 <tiny_matrix2>`                 | small, fixed size, 2-d matrix        |
+| :ref:`cppmat::tiny::matrix <tiny_matrix>`                   | small, fixed size, 2-d matrix        |
 +-------------------------------------------------------------+--------------------------------------+
 | :ref:`cppmat::tiny::vector <tiny_vector>`                   | small, fixed size, array             |
 +-------------------------------------------------------------+--------------------------------------+
@@ -110,9 +110,9 @@ In addition, the following classes are available to view a ``const``-pointer:
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 | **Class**                                                              | **Equivalent class**                                        |
 +========================================================================+=============================================================+
-| :ref:`cppmat::view::matrix2 <view_matrix2>`                            | :ref:`cppmat::tiny::matrix2 <tiny_matrix2>`                 |
+| :ref:`cppmat::view::matrix <view_tiny_matrix>`                         | :ref:`cppmat::tiny::matrix <tiny_matrix>`                   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
-| :ref:`cppmat::view::vector <view_vector>`                              | :ref:`cppmat::tiny::vector <tiny_vector>`                   |
+| :ref:`cppmat::view::vector <view_tiny_vector>`                         | :ref:`cppmat::tiny::vector <tiny_vector>`                   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 | :ref:`cppmat::view::cartesian2d::tensor4 <view_cartesian2d_tensor4>`   | :ref:`cppmat::cartesian2d::tensor4 <cartesian2d_tensor4>`   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
@@ -144,7 +144,7 @@ Example
 
   int main()
   {
-      cppmat::matrix<double> A({10,10,10});
+      cppmat::array<double> A({10,10,10});
 
       A(0,0,0) = ...
 
@@ -159,10 +159,10 @@ Contents
 .. toctree::
    :maxdepth: 1
 
-   cppmat.rst
+   cppmat_regular.rst
    cppmat_periodic.rst
    cppmat_tiny.rst
-   cppmat_view.rst
+   cppmat_view_tiny.rst
    cppmat_cartesian.rst
    cppmat_cartesian2d.rst
    cppmat_cartesian3d.rst

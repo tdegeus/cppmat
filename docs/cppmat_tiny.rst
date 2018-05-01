@@ -5,12 +5,12 @@
 cppmat::tiny
 ************
 
-.. _tiny_matrix2:
+.. _tiny_matrix:
 
-cppmat::tiny::matrix2
-=====================
+cppmat::tiny::matrix
+====================
 
-[:download:`tiny_matrix2.h <../src/cppmat/tiny_matrix2.h>`, :download:`tiny_matrix2.cpp <../src/cppmat/tiny_matrix2.cpp>`]
+[:download:`tiny_matrix.h <../src/cppmat/tiny_matrix.h>`, :download:`tiny_matrix.cpp <../src/cppmat/tiny_matrix.cpp>`]
 
 Class for fixed size, small, 2-d matrices. For example:
 
@@ -20,7 +20,7 @@ Class for fixed size, small, 2-d matrices. For example:
 
   int main()
   {
-      cppmat::tiny::matrix2<double,10,10> A;
+      cppmat::tiny::matrix<double,10,10> A;
 
       A(0,0) = ...
 
@@ -29,15 +29,15 @@ Class for fixed size, small, 2-d matrices. For example:
       return 0;
   }
 
-Compared to :ref:`matrix2` the size of the matrix cannot be dynamically changed. Consequently there is not dynamic memory allocation, often resulting in faster behavior.
+Compared to :ref:`regular_matrix` the size of the matrix cannot be dynamically changed. Consequently there is not dynamic memory allocation, often resulting in faster behavior.
 
 .. note::
 
-  The methods are the same as for :ref:`matrix2`.
+  The methods are the same as for :ref:`regular_matrix`.
 
 .. note::
 
-  To 'view' a pointer as a matrix, use :ref:`view_matrix2`.
+  To 'view' a pointer as a matrix, use :ref:`view_tiny_matrix`.
 
 .. _tiny_vector:
 
@@ -65,8 +65,8 @@ Class for fixed size, small, 2-d matrices. For example:
 
 .. note::
 
-  The methods are the same as for :ref:`vector`.
+  The methods are the same as for :ref:`regular_vector`.
 
 .. note::
 
-  To 'view' a pointer as a matrix, use :ref:`view_vector`.
+  To 'view' a pointer as a matrix, use :ref:`view_tiny_vector`.

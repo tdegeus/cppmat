@@ -5,12 +5,12 @@ cppmat::periodic
 
 The classes below are identical to those under :ref:`cppmat`, with the exception that periodic indices can be used. For example ``-1`` will refer to the last index along that dimension (i.e. ``-1 -> N-1``, with ``N = A.shape(i)``), while ``N`` will refer to the first index (``N -> 0``).
 
-.. _periodic_matrix:
+.. _periodic_array:
 
-cppmat::periodic::matrix
-========================
+cppmat::periodic::array
+=======================
 
-[:download:`periodic_matrix.h <../src/cppmat/periodic_matrix.h>`, :download:`periodic_matrix.cpp <../src/cppmat/periodic_matrix.cpp>`]
+[:download:`periodic_array.h <../src/cppmat/periodic_array.h>`, :download:`periodic_array.cpp <../src/cppmat/periodic_array.cpp>`]
 
 
 .. code-block:: cpp
@@ -19,7 +19,7 @@ cppmat::periodic::matrix
 
   int main()
   {
-      cppmat::matrix<double> A({10,10,10});
+      cppmat::array<double> A({10,10,10});
 
       A(-1,-1,-1) = ... // last item
 
@@ -30,14 +30,14 @@ cppmat::periodic::matrix
 
 .. note::
 
-  The entire interface is the same as for :ref:`matrix`.
+  The entire interface is the same as for :ref:`regular_array`.
 
-.. _periodic_matrix2:
+.. _periodic_matrix:
 
-cppmat::periodic::matrix2
-=========================
+cppmat::periodic::matrix
+========================
 
-[:download:`periodic_matrix2.h <../src/cppmat/periodic_matrix2.h>`, :download:`periodic_matrix2.cpp <../src/cppmat/periodic_matrix2.cpp>`]
+[:download:`periodic_matrix.h <../src/cppmat/periodic_matrix.h>`, :download:`periodic_matrix.cpp <../src/cppmat/periodic_matrix.cpp>`]
 
 .. code-block:: cpp
 
@@ -45,7 +45,7 @@ cppmat::periodic::matrix2
 
   int main()
   {
-      cppmat::matrix2<double> A(10,10);
+      cppmat::matrix<double> A(10,10);
 
       A(-1,-1) = ... // last item
 
@@ -56,7 +56,7 @@ cppmat::periodic::matrix2
 
 .. note::
 
-  The entire interface is the same as for :ref:`matrix2`.
+  The entire interface is the same as for :ref:`regular_matrix`.
 
 .. _periodic_vector:
 
@@ -82,4 +82,4 @@ cppmat::periodic::vector
 
 .. note::
 
-  The entire interface is the same as for :ref:`vector`.
+  The entire interface is the same as for :ref:`regular_vector`.

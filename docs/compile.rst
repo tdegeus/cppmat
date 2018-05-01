@@ -53,16 +53,18 @@ Install systemwide (root)
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat/src/build
+      $ cd /path/to/temp/build
 
 2.  'Build' ``cppmat``
 
     .. code-block:: bash
 
-      $ cmake ..
+      $ cmake /path/to/cppmat
       $ make install
 
-    (If you've used another build directory, change the first command to ``$ cmake /path/to/cppmat/src``)
+.. note::
+
+  One usually does not need any compiler arguments after following this protocol.
 
 Install in custom location (user)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,23 +73,26 @@ Install in custom location (user)
 
     .. code-block:: bash
 
-      $ cd /path/to/cppmat/src/build
+      $ cd /path/to/temp/build
 
 2.  'Build' ``cppmat``, to install it in a custom location
 
     .. code-block:: bash
 
       $ mkdir /custom/install/path
-      $ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/custom/install/path
+      $ cmake /path/to/cppmat -DCMAKE_INSTALL_PREFIX:PATH=/custom/install/path
       $ make install
-
-    (If you've used another build directory, change the first command to ``$ cmake /path/to/cppmat/src``)
 
 3.  Add the following path to your ``~/.bashrc`` (or ``~/.zshrc``):
 
     .. code-block:: bash
 
       export PKG_CONFIG_PATH=/custom/install/path/share/pkgconfig:$PKG_CONFIG_PATH
+      export CPLUS_INCLUDE_PATH=$HOME/custom/install/path/include:$CPLUS_INCLUDE_PATH
+
+.. note::
+
+  One usually does not need any compiler arguments after following this protocol.
 
 .. note:: **(Not recommended)**
 
@@ -97,14 +102,14 @@ Install in custom location (user)
 
   2.  Modify the line ``prefix=@CMAKE_INSTALL_PREFIX@`` to ``prefix=/path/to/cppmat``.
 
-  3.  Modify the line ``Cflags: -I${prefix}/@INCLUDE_INSTALL_DIR@`` to ``Cflags: -I${prefix}/src``.
+  3.  Modify the line ``Cflags: -I${prefix}/@CPPMAT_INCLUDE_DIR@`` to ``Cflags: -I${prefix}/src``.
 
   4.  Modify the line ``Version: @CPPMAT_VERSION_NUMBER@`` to reflect the correct release version.
 
 Compiler arguments from 'pkg-config'
 ------------------------------------
 
-Instead of ``-I...`` one can now use
+Should the compiler for some reason not be able to find the headers, instead of ``-I...`` one can now use
 
 .. code-block:: bash
 
@@ -125,3 +130,7 @@ Add the following to your ``CMakeLists.txt``:
 
   pkg_check_modules(CPPMAT REQUIRED cppmat)
   include_directories(${CPPMAT_INCLUDE_DIRS})
+
+.. note::
+
+  Except the C++ standard it should usually not be necessary to load cppmat explicitly, as it is installed in a location when the compiler can find it.
