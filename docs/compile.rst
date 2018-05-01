@@ -134,3 +134,27 @@ Add the following to your ``CMakeLists.txt``:
 .. note::
 
   Except the C++ standard it should usually not be necessary to load cppmat explicitly, as it is installed in a location when the compiler can find it.
+
+Compiling Python modules that use cppmat
+========================================
+
+To compile Python modules that use cppmat using for example
+
+.. code-block:: bash
+
+  python setup.py build
+  python setup.py install
+
+One can 'install' cppmat's headers to the include directory that Python uses. One can obtain cppmat from PyPi:
+
+.. code-block:: bash
+
+  pip install cppmat
+
+Or install from a local copy:
+
+.. code-block:: bash
+
+  pip install /path/to/cppmat
+
+
