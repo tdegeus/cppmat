@@ -25,9 +25,7 @@ class vector
 {
 private:
 
-  static const size_t m_size=n;  // total size
-  static const size_t m_n=n;     // number of columns
-  X m_data[m_size];              // data container
+  X m_data[n]; // data container
 
 public:
 
@@ -86,6 +84,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators

@@ -31,9 +31,7 @@ class tensor4
 {
 private:
 
-  static const size_t m_nd=2;     // number of dimensions
-  static const size_t m_size=16;  // total size
-  X m_data[m_size];               // data container
+  X m_data[16]; // data container
 
 public:
 
@@ -87,6 +85,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
   void setI();
   void setIrt();
@@ -133,9 +132,7 @@ class tensor2
 {
 private:
 
-  static const size_t m_nd=2;     // number of dimensions
-  static const size_t m_size=4;   // total size
-  X m_data[m_size];               // data container
+  X m_data[4]; // data container
 
 public:
 
@@ -188,6 +185,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
   void setI();
 
@@ -251,9 +249,7 @@ class tensor2s
 {
 private:
 
-  static const size_t m_nd=2;     // number of dimensions
-  static const size_t m_size=3;   // total size
-  X m_data[m_size];               // data container
+  X m_data[3]; // data container
 
 public:
 
@@ -310,7 +306,9 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
-  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopy     (Iterator first);
+  template<typename Iterator> void setCopy     (Iterator first, Iterator last);
+  template<typename Iterator> void setCopyDense(Iterator first);
   template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
@@ -369,10 +367,8 @@ class tensor2d
 {
 private:
 
-  static const size_t m_nd=2;     // number of dimensions
-  static const size_t m_size=2;   // total size
-  X m_data[m_size];               // data container
-  X m_zero[1];                    // dummy parameter, used to return "0" for any off-diagonal entry
+  X m_data[2]; // data container
+  X m_zero[1]; // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
@@ -430,7 +426,9 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
-  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopy     (Iterator first);
+  template<typename Iterator> void setCopy     (Iterator first, Iterator last);
+  template<typename Iterator> void setCopyDense(Iterator first);
   template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
@@ -486,9 +484,7 @@ class vector
 {
 private:
 
-  static const size_t m_nd=2;     // number of dimensions
-  static const size_t m_size=2;   // total size
-  X m_data[m_size];               // data container
+  X m_data[2]; // data container
 
 public:
 
@@ -537,6 +533,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators

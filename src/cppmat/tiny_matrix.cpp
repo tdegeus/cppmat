@@ -84,7 +84,7 @@ inline matrix<X,m,n> matrix<X,m,n>::Copy(Iterator first)
   matrix<X,m,n> out;
 
   // initialize
-  out.setCopy(first,first+out.size());
+  out.setCopy(first);
 
   return out;
 }
@@ -109,7 +109,7 @@ inline matrix<X,m,n> matrix<X,m,n>::Copy(Iterator first, Iterator last)
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::Size()
 {
-  return m_size;
+  return m*n;
 }
 
 // =================================================================================================
@@ -119,7 +119,7 @@ inline size_t matrix<X,m,n>::Size()
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::size() const
 {
-  return m_size;
+  return m*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -135,7 +135,7 @@ inline size_t matrix<X,m,n>::ndim() const
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::rows() const
 {
-  return m_m;
+  return m;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -143,7 +143,7 @@ inline size_t matrix<X,m,n>::rows() const
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::cols() const
 {
-  return m_n;
+  return n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -159,8 +159,8 @@ inline size_t matrix<X,m,n>::shape(int i) const
   i = ( 2 + (i%2) ) % 2;
 
   // return shape
-  if ( i == 0 ) return m_m;
-  else          return m_n;
+  if ( i == 0 ) return m;
+  else          return n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -172,8 +172,8 @@ inline size_t matrix<X,m,n>::shape(size_t i) const
   assert( i < 2 );
 
   // return shape
-  if ( i == 0 ) return m_m;
-  else          return m_n;
+  if ( i == 0 ) return m;
+  else          return n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -183,8 +183,8 @@ inline std::vector<size_t> matrix<X,m,n>::shape() const
 {
   std::vector<size_t> ret(2);
 
-  ret[0] = m_m;
-  ret[1] = m_n;
+  ret[0] = m;
+  ret[1] = n;
 
   return ret;
 }
@@ -196,7 +196,7 @@ inline std::vector<size_t> matrix<X,m,n>::strides(bool bytes) const
 {
   std::vector<size_t> ret(2);
 
-  ret[0] = m_n;
+  ret[0] = n;
   ret[1] = 1;
 
   if ( bytes ) {
@@ -214,7 +214,7 @@ inline std::vector<size_t> matrix<X,m,n>::strides(bool bytes) const
 template<class X, size_t m, size_t n>
 inline X& matrix<X,m,n>::operator[](size_t i)
 {
-  assert( i < m_size );
+  assert( i < m*n );
 
   return m_data[i];
 }
@@ -224,7 +224,7 @@ inline X& matrix<X,m,n>::operator[](size_t i)
 template<class X, size_t m, size_t n>
 inline const X& matrix<X,m,n>::operator[](size_t i) const
 {
-  assert( i < m_size );
+  assert( i < m*n );
 
   return m_data[i];
 }
@@ -236,9 +236,9 @@ inline const X& matrix<X,m,n>::operator[](size_t i) const
 template<class X, size_t m, size_t n>
 inline X& matrix<X,m,n>::operator()(size_t a)
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return m_data[a*m_n];
+  return m_data[a*n];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -246,9 +246,9 @@ inline X& matrix<X,m,n>::operator()(size_t a)
 template<class X, size_t m, size_t n>
 inline const X& matrix<X,m,n>::operator()(size_t a) const
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return m_data[a*m_n];
+  return m_data[a*n];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -256,10 +256,10 @@ inline const X& matrix<X,m,n>::operator()(size_t a) const
 template<class X, size_t m, size_t n>
 inline X& matrix<X,m,n>::operator()(size_t a, size_t b)
 {
-  assert( a < m_m );
-  assert( b < m_n );
+  assert( a < m );
+  assert( b < n );
 
-  return m_data[a*m_n+b];
+  return m_data[a*n+b];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -267,10 +267,10 @@ inline X& matrix<X,m,n>::operator()(size_t a, size_t b)
 template<class X, size_t m, size_t n>
 inline const X& matrix<X,m,n>::operator()(size_t a, size_t b) const
 {
-  assert( a < m_m );
-  assert( b < m_n );
+  assert( a < m );
+  assert( b < n );
 
-  return m_data[a*m_n+b];
+  return m_data[a*n+b];
 }
 
 // =================================================================================================
@@ -295,7 +295,7 @@ inline X& matrix<X,m,n>::at(Iterator first, Iterator last)
   // optional index
   if ( last-first == 2 ) b = first[1];
 
-  return m_data[a*m_n+b];
+  return m_data[a*n+b];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -318,7 +318,7 @@ inline const X& matrix<X,m,n>::at(Iterator first, Iterator last) const
   // optional index
   if ( last-first == 2 ) b = first[1];
 
-  return m_data[a*m_n+b];
+  return m_data[a*n+b];
 }
 
 // =================================================================================================
@@ -328,9 +328,9 @@ inline const X& matrix<X,m,n>::at(Iterator first, Iterator last) const
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::compress(size_t a) const
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return a*m_n;
+  return a*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -338,10 +338,10 @@ inline size_t matrix<X,m,n>::compress(size_t a) const
 template<class X, size_t m, size_t n>
 inline size_t matrix<X,m,n>::compress(size_t a, size_t b) const
 {
-  assert( a < m_m );
-  assert( b < m_n );
+  assert( a < m );
+  assert( b < n );
 
-  return a*m_n+b;
+  return a*n+b;
 }
 
 // =================================================================================================
@@ -352,14 +352,14 @@ template<class X, size_t m, size_t n>
 inline std::vector<size_t> matrix<X,m,n>::decompress(size_t i) const
 {
   // check input
-  assert( i < m_size );
+  assert( i < m*n );
 
   // allocate array-index
   std::vector<size_t> idx(2);
 
   // reconstruct
-  idx[1] = i % m_n;
-  idx[0] = ( i - idx[1] ) / m_n;
+  idx[1] = i % n;
+  idx[0] = ( i - idx[1] ) / n;
 
   return idx;
 }
@@ -405,7 +405,7 @@ inline auto matrix<X,m,n>::begin() const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::end()
 {
-  return std::begin(m_data) + m_size;
+  return std::begin(m_data) + m*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -413,7 +413,7 @@ inline auto matrix<X,m,n>::end()
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::end() const
 {
-  return std::begin(m_data) + m_size;
+  return std::begin(m_data) + m*n;
 }
 
 // =================================================================================================
@@ -423,9 +423,9 @@ inline auto matrix<X,m,n>::end() const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::beginRow(size_t a)
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + a*m_n;
+  return std::begin(m_data) + a*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -433,9 +433,9 @@ inline auto matrix<X,m,n>::beginRow(size_t a)
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::beginRow(size_t a) const
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + a*m_n;
+  return std::begin(m_data) + a*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -443,9 +443,9 @@ inline auto matrix<X,m,n>::beginRow(size_t a) const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::endRow(size_t a)
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + (a+1)*m_n;
+  return std::begin(m_data) + (a+1)*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -453,9 +453,9 @@ inline auto matrix<X,m,n>::endRow(size_t a)
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::endRow(size_t a) const
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + (a+1)*m_n;
+  return std::begin(m_data) + (a+1)*n;
 }
 
 // =================================================================================================
@@ -465,7 +465,7 @@ inline auto matrix<X,m,n>::endRow(size_t a) const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::index(size_t i)
 {
-  assert( i < m_size );
+  assert( i < m*n );
 
   return std::begin(m_data) + i;
 }
@@ -475,7 +475,7 @@ inline auto matrix<X,m,n>::index(size_t i)
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::index(size_t i) const
 {
-  assert( i < m_size );
+  assert( i < m*n );
 
   return std::begin(m_data) + i;
 }
@@ -487,9 +487,9 @@ inline auto matrix<X,m,n>::index(size_t i) const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::item(size_t a)
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + a*m_n;
+  return std::begin(m_data) + a*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -497,9 +497,9 @@ inline auto matrix<X,m,n>::item(size_t a)
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::item(size_t a) const
 {
-  assert( a < m_m );
+  assert( a < m );
 
-  return std::begin(m_data) + a*m_n;
+  return std::begin(m_data) + a*n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -507,10 +507,10 @@ inline auto matrix<X,m,n>::item(size_t a) const
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::item(size_t a, size_t b)
 {
-  assert( a < m_m );
-  assert( b < m_n );
+  assert( a < m );
+  assert( b < n );
 
-  return std::begin(m_data) + a*m_n+b;
+  return std::begin(m_data) + a*n+b;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -518,10 +518,10 @@ inline auto matrix<X,m,n>::item(size_t a, size_t b)
 template<class X, size_t m, size_t n>
 inline auto matrix<X,m,n>::item(size_t a, size_t b) const
 {
-  assert( a < m_m );
-  assert( b < m_n );
+  assert( a < m );
+  assert( b < n );
 
-  return std::begin(m_data) + a*m_n+b;
+  return std::begin(m_data) + a*n+b;
 }
 
 // =================================================================================================
@@ -531,7 +531,7 @@ inline auto matrix<X,m,n>::item(size_t a, size_t b) const
 template<class X, size_t m, size_t n>
 inline void matrix<X,m,n>::setArange()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < m*n ; ++i ) m_data[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -539,7 +539,7 @@ inline void matrix<X,m,n>::setArange()
 template<class X, size_t m, size_t n>
 inline void matrix<X,m,n>::setZero()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
+  for ( size_t i = 0 ; i < m*n ; ++i ) m_data[i] = static_cast<X>(0);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -547,7 +547,7 @@ inline void matrix<X,m,n>::setZero()
 template<class X, size_t m, size_t n>
 inline void matrix<X,m,n>::setOnes()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  for ( size_t i = 0 ; i < m*n ; ++i ) m_data[i] = static_cast<X>(1);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -555,7 +555,17 @@ inline void matrix<X,m,n>::setOnes()
 template<class X, size_t m, size_t n>
 inline void matrix<X,m,n>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+  for ( size_t i = 0 ; i < m*n ; ++i ) m_data[i] = D;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t m, size_t n>
+template<class Iterator>
+inline void matrix<X,m,n>::setCopy(Iterator first)
+{
+  // copy
+  std::copy(first, first+m*n, std::begin(m_data));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -565,7 +575,7 @@ template<class Iterator>
 inline void matrix<X,m,n>::setCopy(Iterator first, Iterator last)
 {
   // check size
-  assert( m_size == last - first );
+  assert( m*n == last - first );
 
   // copy
   std::copy(first, last, std::begin(m_data));
@@ -578,7 +588,7 @@ inline void matrix<X,m,n>::setCopy(Iterator first, Iterator last)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator*= (const matrix<X,m,n> &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] *= B[i];
 
   return *this;
@@ -589,7 +599,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator*= (const matrix<X,m,n> &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator/= (const matrix<X,m,n> &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] /= B[i];
 
   return *this;
@@ -600,7 +610,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator/= (const matrix<X,m,n> &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator+= (const matrix<X,m,n> &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] += B[i];
 
   return *this;
@@ -611,7 +621,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator+= (const matrix<X,m,n> &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator-= (const matrix<X,m,n> &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] -= B[i];
 
   return *this;
@@ -622,7 +632,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator-= (const matrix<X,m,n> &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator*= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] *= B;
 
   return *this;
@@ -633,7 +643,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator*= (const X &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator/= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] /= B;
 
   return *this;
@@ -644,7 +654,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator/= (const X &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator+= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] += B;
 
   return *this;
@@ -655,7 +665,7 @@ inline matrix<X,m,n>& matrix<X,m,n>::operator+= (const X &B)
 template<class X, size_t m, size_t n>
 inline matrix<X,m,n>& matrix<X,m,n>::operator-= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     m_data[i] -= B;
 
   return *this;
@@ -864,7 +874,7 @@ inline X matrix<X,m,n>::sum() const
 {
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     out += m_data[i];
 
   return out;
@@ -877,7 +887,7 @@ inline X matrix<X,m,n>::sum() const
 template<class X, size_t m, size_t n>
 inline double matrix<X,m,n>::mean() const
 {
-  return static_cast<double>(this->sum())/static_cast<double>(m_size);
+  return static_cast<double>(this->sum())/static_cast<double>(m*n);
 }
 
 // =================================================================================================
@@ -887,12 +897,12 @@ inline double matrix<X,m,n>::mean() const
 template<class X, size_t m, size_t n>
 inline double matrix<X,m,n>::average(const matrix<X,m,n> &weights, bool norm) const
 {
-  assert( m_m == weights.shape(0) );
-  assert( m_n == weights.shape(1) );
+  assert( m == weights.shape(0) );
+  assert( n == weights.shape(1) );
 
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < m*n ; ++i )
     out += m_data[i] * weights[i];
 
   if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
@@ -917,10 +927,10 @@ inline void matrix<X,m,n>::abs()
 template<class X, size_t m, size_t n>
 inline void matrix<X,m,n>::printf(std::string fmt) const
 {
-  for ( size_t i = 0 ; i < m_m ; ++i ) {
-    for ( size_t j = 0 ; j < m_n ; ++j ) {
-      if ( j != m_n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
-      else              std::printf((fmt + ";\n").c_str(), (*this)(i,j));
+  for ( size_t i = 0 ; i < m ; ++i ) {
+    for ( size_t j = 0 ; j < n ; ++j ) {
+      if ( j != n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
+      else            std::printf((fmt + ";\n").c_str(), (*this)(i,j));
     }
   }
 }

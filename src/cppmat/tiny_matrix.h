@@ -25,10 +25,7 @@ class matrix
 {
 private:
 
-  static const size_t m_size=m*n;  // total size
-  static const size_t m_m=m;       // number of rows
-  static const size_t m_n=n;       // number of columns
-  X m_data[m_size];                // data container
+  X m_data[m*n]; // data container
 
 public:
 
@@ -111,6 +108,7 @@ public:
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators
