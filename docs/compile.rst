@@ -28,9 +28,9 @@ Add the following compiler's arguments:
 
   If you want to avoid separately including the header files using a compiler flag, ``git submodule`` is a nice way to go:
 
-  1.  Include this module as a submodule using ``git submodule add https://github.com/tdegeus/cppmat.git``.
+  1.  Include the submodule using ``git submodule add https://github.com/tdegeus/cppmat.git``.
 
-  2.  Replace the first line of this example by ``#include "cppmat/src/cppmat/cppmat.h"``.
+  2.  Include using ``#include "cppmat/src/cppmat/cppmat.h"``.
 
       *If you decide to manually copy the header file, you might need to modify this relative path to your liking.*
 
@@ -46,8 +46,8 @@ Install
 
 To enable (semi-)automatic build, one should 'install' ``cppmat`` somewhere.
 
-Install systemwide (root)
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Install systemwide (depends on your privileges)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 1.  Proceed to a (temporary) build directory. For example
 
@@ -55,7 +55,7 @@ Install systemwide (root)
 
       $ cd /path/to/temp/build
 
-2.  'Build' ``cppmat``
+2.  'Install' ``cppmat``:
 
     .. code-block:: bash
 
@@ -75,7 +75,7 @@ Install in custom location (user)
 
       $ cd /path/to/temp/build
 
-2.  'Build' ``cppmat``, to install it in a custom location
+2.  'Install' ``cppmat``, to install it in a custom location
 
     .. code-block:: bash
 
@@ -133,7 +133,7 @@ Add the following to your ``CMakeLists.txt``:
 
 .. note::
 
-  Except the C++ standard it should usually not be necessary to load cppmat explicitly, as it is installed in a location when the compiler can find it.
+  Except the C++ standard it should usually not be necessary to load cppmat explicitly, as it is installed in a location where the compiler can find it.
 
 Compiling Python modules that use cppmat
 ========================================
