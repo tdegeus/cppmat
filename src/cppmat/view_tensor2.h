@@ -32,12 +32,12 @@ class tensor4
 {
 private:
 
-  const X *m_data; // pointer to data (points outside)
+  const X *mData=nullptr; // pointer to data (points outside)
 
 public:
 
   // constructor
-  tensor4();
+  tensor4() = default;
 
   // constructor: map external pointer
   static tensor4<X> Map(const X *D);
@@ -94,12 +94,12 @@ class tensor2
 {
 private:
 
-  const X *m_data; // pointer to data (points outside)
+  const X *mData=nullptr; // pointer to data (points outside)
 
 public:
 
   // constructor
-  tensor2();
+  tensor2() = default;
 
   // constructor: map external pointer
   static tensor2<X> Map(const X *D);
@@ -175,12 +175,12 @@ class tensor2s
 {
 private:
 
-  const X *m_data; // pointer to data (points outside)
+  const X *mData=nullptr; // pointer to data (points outside)
 
 public:
 
   // constructor
-  tensor2s();
+  tensor2s() = default;
 
   // constructor: map external pointer
   static tensor2s<X> Map(const X *D);
@@ -253,8 +253,8 @@ class tensor2d
 {
 private:
 
-  const X *m_data; // pointer to data (points outside)
-  X m_zero[1];     // dummy parameter, used to return "0" for any off-diagonal entry
+  const X *mData=nullptr; // pointer to data (points outside)
+  X m_zero[1];             // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
@@ -329,12 +329,12 @@ class vector
 {
 private:
 
-  const X *m_data; // pointer to data (points outside)
+  const X *mData=nullptr; // pointer to data (points outside)
 
 public:
 
   // constructor
-  vector();
+  vector() = default;
 
   // constructor: map external pointer
   static vector<X> Map(const X *D);

@@ -10,8 +10,6 @@
 // -------------------------------------------------------------------------------------------------
 
 #include "cppmat.h"
-#include "tensor2.h"
-#include "tensor3.h"
 
 // -------------------------------------------------------------------------------------------------
 
@@ -27,14 +25,14 @@ class tensor4
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_nd=0;    // number of dimensions (rank == 4 -> shape == [m_nd,m_nd,m_nd,m_nd])
-  size_t         m_size=0;  // == m_data.size() == m_nd*m_nd*m_nd*m_nd
+  std::vector<X> mData;    // data container
+  size_t         mNd=0;    // number of dimensions (rank == 4 -> shape == [mNd,mNd,mNd,mNd])
+  size_t         mSize=0;  // == mData.size() == mNd*mNd*mNd*mNd
 
 public:
 
   // constructor
-  tensor4(){};
+  tensor4() = default;
   tensor4(size_t nd);
 
   // constructor: initialize
@@ -49,8 +47,7 @@ public:
   static tensor4<X> II      (size_t nd);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor4<X> Copy(size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor4<X> Copy(size_t nd, Iterator first, Iterator last);
 
   // resize
   void resize(size_t nd);
@@ -69,15 +66,29 @@ public:
   X&       operator()(size_t i, size_t j, size_t k, size_t l);
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b,c,d)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b,c,d -> i)
+  size_t compress(size_t a, size_t b, size_t c, size_t d) const;
+
   // pointer to data
   X*       data();
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin();
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b, size_t c, size_t d);
+  auto item(size_t a, size_t b, size_t c, size_t d) const;
 
   // basic initialization
   void setArange();
@@ -114,7 +125,23 @@ public:
   bool operator== (const tensor4<X> &B) const; // A_ijkl == B_ijkl
 
   // basic algebra
-  X norm() const; // sum(| A_ijkl |)
+  // - tensor norm: sum(| A_ijkl |)
+  X norm() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor4<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -130,14 +157,14 @@ class tensor2
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_nd=0;    // number of dimensions (rank == 2 -> shape == [m_nd,m_nd])
-  size_t         m_size=0;  // == m_data.size() == m_nd*m_nd
+  std::vector<X> mData;    // data container
+  size_t         mNd=0;    // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  size_t         mSize=0;  // == mData.size() == mNd*mNd
 
 public:
 
   // constructor
-  tensor2(){};
+  tensor2() = default;
   tensor2(size_t nd);
 
   // constructor: initialize
@@ -148,8 +175,7 @@ public:
   static tensor2<X> I       (size_t nd);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2<X> Copy(size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor2<X> Copy(size_t nd, Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -171,15 +197,29 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b -> i)
+  size_t compress(size_t a, size_t b) const;
+
   // pointer to data
   X*       data();
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin();
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b);
+  auto item(size_t a, size_t b) const;
 
   // basic initialization
   void setArange();
@@ -233,7 +273,23 @@ public:
   bool isdiagonal() const;  // A_ij == 0, i != j
 
   // basic algebra
-  X norm() const; // sum(| A_ij |)
+  // - tensor norm: sum(| A_ij |)
+  X norm() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -249,14 +305,14 @@ class tensor2s
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_nd=0;    // number of dimensions (rank == 2 -> shape == [m_nd,m_nd])
-  size_t         m_size=0;  // == m_data.size() == (m_nd+1)*m_nd/2
+  std::vector<X> mData;    // data container
+  size_t         mNd=0;    // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  size_t         mSize=0;  // == mData.size() == (mNd+1)*mNd/2
 
 public:
 
   // constructor
-  tensor2s(){};
+  tensor2s() = default;
   tensor2s(size_t nd);
 
   // constructor: initialize
@@ -267,12 +323,8 @@ public:
   static tensor2s<X> I       (size_t nd);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2s<X> Copy(size_t nd, Iterator first, Iterator last);
-
-  // constructor: initialize by copying from external object, stored as "tensor2"
-  template<typename Iterator>
-  static tensor2s<X> CopyDense(size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor2s<X> Copy     (size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor2s<X> CopyDense(size_t nd, Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -297,22 +349,36 @@ public:
   X&       operator()(size_t i, size_t j);
   const X& operator()(size_t i, size_t j) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b -> i)
+  size_t compress(size_t a, size_t b) const;
+
   // pointer to data
   X*       data();
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin();
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b);
+  auto item(size_t a, size_t b) const;
 
   // basic initialization
   void setArange();
   void setZero();
   void setOnes();
   void setConstant(X D);
-  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopy     (Iterator first, Iterator last);
   template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
@@ -355,7 +421,23 @@ public:
   bool isdiagonal() const; // A_ij == 0, i != j
 
   // basic algebra
-  X norm() const; // sum(| A_ij |)
+  // - tensor norm: sum(| A_ij |)
+  X norm() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2s<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -371,10 +453,10 @@ class tensor2d
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_nd=0;    // number of dimensions (rank == 2 -> shape == [m_nd,m_nd])
-  size_t         m_size=0;  // == m_data.size() == m_nd
-  X              m_zero[1]; // dummy parameter, used to return "0" for any off-diagonal entry
+  std::vector<X> mData;    // data container
+  size_t         mNd=0;    // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  size_t         mSize=0;  // == mData.size() == mNd
+  X              mZero[1]; // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
@@ -390,12 +472,8 @@ public:
   static tensor2d<X> I       (size_t nd);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static tensor2d<X> Copy(size_t nd, Iterator first, Iterator last);
-
-  // constructor: initialize by copying from external object, stored as "tensor2"
-  template<typename Iterator>
-  static tensor2d<X> CopyDense(size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor2d<X> Copy     (size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static tensor2d<X> CopyDense(size_t nd, Iterator first, Iterator last);
 
   // cast into another object
   template<class U> U cast() const;
@@ -425,18 +503,22 @@ public:
   X*       data();
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin();
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
 
   // basic initialization
   void setArange();
   void setZero();
   void setOnes();
   void setConstant(X D);
-  template<typename Iterator> void setCopy(Iterator first, Iterator last);
+  template<typename Iterator> void setCopy     (Iterator first, Iterator last);
   template<typename Iterator> void setCopyDense(Iterator first, Iterator last);
   void setI();
 
@@ -476,7 +558,23 @@ public:
   bool operator== (const tensor2d<X> &B) const; // A_ij == B_ij
 
   // basic algebra
-  X norm() const; // sum(| A_ii |)
+  // - tensor norm: sum(| A_ij |)
+  X norm() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2d<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -492,14 +590,14 @@ class vector
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_nd=0;    // number of dimensions (rank == 1 -> shape == [m_nd])
-  size_t         m_size=0;  // == m_data.size() == m_nd
+  std::vector<X> mData;    // data container
+  size_t         mNd=0;    // number of dimensions (rank == 1 -> shape == [mNd])
+  size_t         mSize=0;  // == mData.size() == mNd
 
 public:
 
   // constructor
-  vector(){};
+  vector() = default;
   vector(size_t nd);
 
   // constructor: initialize
@@ -509,8 +607,7 @@ public:
   static vector<X> Constant(size_t nd, X D);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static vector<X> Copy(size_t nd, Iterator first, Iterator last);
+  template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first, Iterator last);
 
   // resize
   void resize(size_t nd);
@@ -533,11 +630,19 @@ public:
   X*       data();
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin();
   auto begin() const;
   auto end();
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i);
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a);
+  auto item(size_t a) const;
 
   // basic initialization
   void setArange();
@@ -568,9 +673,27 @@ public:
   bool operator== (const vector<X> &B) const; // A_i == B_i
 
   // basic algebra
-  X norm() const;       // sum(| A_i |)
-  X length() const;     // sqrt(sum(pow(A_i,2.)))
-  void setUnitLength(); // A_i /= A.length()
+  // - vector norm: sum(| A_ij |)
+  X norm() const;
+  // - vector length: sqrt(sum(pow(A_i,2.)))
+  X length() const;
+  // - set vector length to unity: A_i /= A.length()
+  void setUnitLength();
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const vector<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;

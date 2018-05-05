@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VIEW_VECTOR_CPP
-#define CPPMAT_VIEW_VECTOR_CPP
+#ifndef CPPMAT_VIEW_TINY_VECTOR_CPP
+#define CPPMAT_VIEW_TINY_VECTOR_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -15,24 +15,17 @@
 
 namespace cppmat {
 namespace view {
+namespace tiny {
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
-template<class X, size_t n>
-inline vector<X,n>::vector()
+template<class X, size_t N>
+inline vector<X,N> vector<X,N>::Map(const X *D)
 {
-  m_data = nullptr;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t n>
-inline vector<X,n> vector<X,n>::Map(const X *D)
-{
-  // allocate matrix
-  vector<X,n> out;
+  // call basic constructor
+  vector<X,N> out;
 
   // initialize
   out.setMap(D);
@@ -40,75 +33,82 @@ inline vector<X,n> vector<X,n>::Map(const X *D)
   return out;
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t N>
+inline size_t vector<X,N>::Size()
+{
+  return N;
+}
+
 // =================================================================================================
 // map external pointer
 // =================================================================================================
 
-template<class X, size_t n>
-inline void vector<X,n>::setMap(const X *D)
+template<class X, size_t N>
+inline void vector<X,N>::setMap(const X *D)
 {
-  m_data = D;
+  mData = D;
 }
 
 // =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t n>
-inline size_t vector<X,n>::size() const
+template<class X, size_t N>
+inline size_t vector<X,N>::size() const
 {
-  return m_size;
+  return mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline size_t vector<X,n>::ndim() const
+template<class X, size_t N>
+inline size_t vector<X,N>::ndim() const
 {
   return 1;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline size_t vector<X,n>::shape(size_t i) const
+template<class X, size_t N>
+inline size_t vector<X,N>::shape(int i) const
 {
-  if ( i == 0 ) return n;
+  // check axis: (0) or (-1)
+  assert( i  <  1 );
+  assert( i >= -1 );
 
-  assert( false );
-  return 0;
+  return N;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline size_t vector<X,n>::shape(int i) const
+template<class X, size_t N>
+inline size_t vector<X,N>::shape(size_t i) const
 {
-  i = ( i < 0 ) ? i + 1 : ( i >= 1 ) ? i - 1 : i ;
+  // check axis: (0)
+  assert( i < 1 );
 
-  if ( i == 0 ) return n;
+  return N;
 
-  assert( false );
-  return 0;
 }
-
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline std::vector<size_t> vector<X,n>::shape() const
+template<class X, size_t N>
+inline std::vector<size_t> vector<X,N>::shape() const
 {
   std::vector<size_t> ret(1);
 
-  ret[0] = n;
+  ret[0] = N;
 
   return ret;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline std::vector<size_t> vector<X,n>::strides(bool bytes) const
+template<class X, size_t N>
+inline std::vector<size_t> vector<X,N>::strides(bool bytes) const
 {
   std::vector<size_t> ret(1);
 
@@ -121,53 +121,86 @@ inline std::vector<size_t> vector<X,n>::strides(bool bytes) const
 }
 
 // =================================================================================================
-// index operators
+// index operators : operator[...]
 // =================================================================================================
 
-template<class X, size_t n> inline const X& vector<X,n>::operator[](size_t i) const
+template<class X, size_t N>
+inline const X& vector<X,N>::operator[](size_t i) const
 {
-  return m_data[i];
+  assert( i < mSize );
+
+  return mData[i];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline const X& vector<X,n>::operator()(size_t a) const
+template<class X, size_t N>
+inline const X& vector<X,N>::operator()(size_t a) const
 {
-  return m_data[a];
+  assert( a < N );
+
+  return mData[a];
 }
 
 // =================================================================================================
-// pointers / iterators
+// pointer to data
 // =================================================================================================
 
-template<class X, size_t n> inline const X* vector<X,n>::data() const
+template<class X, size_t N>
+inline const X* vector<X,N>::data() const
 {
-  return &m_data[0];
+  return std::begin(mData);
+}
+
+// =================================================================================================
+// iterators : begin() and end()
+// =================================================================================================
+
+template<class X, size_t N>
+inline auto vector<X,N>::begin() const
+{
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n> inline auto vector<X,n>::begin() const
+template<class X, size_t N>
+inline auto vector<X,N>::end() const
 {
-  return &m_data[0];
+  return std::begin(mData) + N;
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t n> inline auto vector<X,n>::end() const
+// =================================================================================================
+// iterators : index()
+// =================================================================================================
+template<class X, size_t N>
+inline auto vector<X,N>::index(size_t i) const
 {
-  return &m_data[0] + m_size;
+  assert( i < mSize );
+
+  return begin() + i;
+}
+
+// =================================================================================================
+// iterators : item()
+// =================================================================================================
+
+template<class X, size_t N>
+inline auto vector<X,N>::item(size_t a) const
+{
+  assert( a < N );
+
+  return begin() + a;
 }
 
 // =================================================================================================
 // arithmetic operators
 // =================================================================================================
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const vector<X,N> &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B[i];
@@ -177,10 +210,10 @@ inline reg::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const vector<X,N> &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B[i];
@@ -190,10 +223,10 @@ inline reg::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const vector<X,N> &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B[i];
@@ -203,10 +236,10 @@ inline reg::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const vector<X,N> &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B[i];
@@ -216,10 +249,10 @@ inline reg::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const vector<X,n> &A, const X &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const vector<X,N> &A, const X &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] * B;
@@ -229,10 +262,10 @@ inline reg::vector<X,n> operator* (const vector<X,n> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const vector<X,n> &A, const X &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const vector<X,N> &A, const X &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] / B;
@@ -242,10 +275,10 @@ inline reg::vector<X,n> operator/ (const vector<X,n> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const vector<X,n> &A, const X &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const vector<X,N> &A, const X &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] + B;
@@ -255,10 +288,10 @@ inline reg::vector<X,n> operator+ (const vector<X,n> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const vector<X,n> &A, const X &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const vector<X,N> &A, const X &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A[i] - B;
@@ -268,10 +301,10 @@ inline reg::vector<X,n> operator- (const vector<X,n> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const X &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const X &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A * B[i];
@@ -281,10 +314,10 @@ inline reg::vector<X,n> operator* (const X &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const X &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const X &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -294,10 +327,10 @@ inline reg::vector<X,n> operator/ (const X &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const X &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const X &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A + B[i];
@@ -307,10 +340,10 @@ inline reg::vector<X,n> operator+ (const X &A, const vector<X,n> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const X &A, const vector<X,n> &B)
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const X &A, const vector<X,N> &B)
 {
-  reg::vector<X,n> C;
+  reg::vector<X,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -319,81 +352,135 @@ inline reg::vector<X,n> operator- (const X &A, const vector<X,n> &B)
 }
 
 // =================================================================================================
-// basic algebra
+// basic algebra : location of the minimum/maximum
 // =================================================================================================
 
-template<class X, size_t n>
-inline X vector<X,n>::minCoeff() const
+template<class X, size_t N>
+inline size_t vector<X,N>::argmin() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t N>
+inline size_t vector<X,N>::argmax() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// =================================================================================================
+// basic algebra : minimum
+// =================================================================================================
+
+template<class X, size_t N>
+inline X vector<X,N>::minCoeff() const
 {
   return *std::min_element(begin(),end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : maximum
+// =================================================================================================
 
-template<class X, size_t n>
-inline X vector<X,n>::maxCoeff() const
+template<class X, size_t N>
+inline X vector<X,N>::maxCoeff() const
 {
   return *std::max_element(begin(),end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : sum
+// =================================================================================================
 
-template<class X, size_t n>
-inline X vector<X,n>::sum() const
+template<class X, size_t N>
+inline X vector<X,N>::sum() const
 {
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i];
 
   return out;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : mean
+// =================================================================================================
 
-template<class X, size_t n>
-inline double vector<X,n>::mean() const
+template<class X, size_t N>
+inline double vector<X,N>::mean() const
 {
-  return static_cast<double>(this->sum())/static_cast<double>(m_size);
+  return static_cast<double>(this->sum())/static_cast<double>(mSize);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// basic algebra : weighted average
+// =================================================================================================
 
-template<class X, size_t m>
-inline double vector<X,m>::average(const vector<X,m> &weights) const
+template<class X, size_t N>
+inline double vector<X,N>::average(const vector<X,N> &weights, bool norm) const
 {
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i] * weights[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i] * weights[i];
 
-  return static_cast<double>(out)/static_cast<double>(weights.sum());
+  if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
+  else        return static_cast<double>(out);
+}
+
+// =================================================================================================
+// find all non-zero entries
+// =================================================================================================
+
+template<class X, size_t N>
+inline cppmat::vector<size_t> vector<X,N>::where() const
+{
+  size_t nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] )
+      ++nnz;
+
+  cppmat::vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
 }
 
 // =================================================================================================
 // formatted print
 // =================================================================================================
 
-template<class X, size_t n>
-inline void vector<X,n>::printf(std::string fmt) const
+template<class X, size_t N>
+inline void vector<X,N>::printf(std::string fmt) const
 {
-  for ( size_t j = 0 ; j < n ; ++j ) {
-    if ( j != n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
+  for ( size_t j = 0 ; j < N ; ++j ) {
+    if ( j != N-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
     else            std::printf((fmt + ";\n").c_str(), (*this)(j));
   }
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t n>
-inline std::ostream& operator<<(std::ostream& out, const vector<X,n>& src)
+template<class X, size_t N>
+inline std::ostream& operator<<(std::ostream& out, const vector<X,N>& src)
 {
   auto w = out.width();
   auto p = out.precision();
 
-  for ( size_t j = 0 ; j < n ; ++j ) {
+  for ( size_t j = 0 ; j < N ; ++j ) {
     out << std::setw(w) << std::setprecision(p) << src(j);
-    if ( j != n-1 ) out << ", ";
+    if ( j != N-1 ) out << ", ";
   }
 
   return out;
@@ -401,7 +488,7 @@ inline std::ostream& operator<<(std::ostream& out, const vector<X,n>& src)
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PERIODIC_MATRIX2_H
-#define CPPMAT_PERIODIC_MATRIX2_H
+#ifndef CPPMAT_PERIODIC_MATRIX_H
+#define CPPMAT_PERIODIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -25,17 +25,17 @@ class matrix
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_size=0;  // total size
-  size_t         m_m=0;     // number of rows
-  size_t         m_n=0;     // number of columns
-  int            m_m_i=0;   // == m_m, but int
-  int            m_n_i=0;   // == m_n, but int
+  std::vector<X> mData;    // data container
+  size_t         mSize=0;  // total size
+  size_t         M=0;      // number of rows
+  size_t         N=0;      // number of columns
+  int            MI=0;     // == M, but int
+  int            NI=0;     // == N, but int
 
 public:
 
   // constructor
-  matrix(){};
+  matrix() = default;
   matrix(size_t m, size_t n);
 
   // constructor: initialize

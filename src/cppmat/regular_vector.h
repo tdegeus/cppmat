@@ -24,14 +24,14 @@ class vector
 {
 private:
 
-  std::vector<X> m_data;    // data container
-  size_t         m_size=0;  // total size
-  size_t         m_n=0;     // number of columns
+  std::vector<X> mData;    // data container
+  size_t         mSize=0;  // total size
+  size_t         N=0;      // number of columns
 
 public:
 
   // constructor
-  vector(){};
+  vector() = default;
   vector(size_t n);
 
   // constructor: initialize

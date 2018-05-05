@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VIEW_VECTOR_H
-#define CPPMAT_VIEW_VECTOR_H
+#ifndef CPPMAT_VIEW_TINY_VECTOR_H
+#define CPPMAT_VIEW_TINY_VECTOR_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -15,6 +15,7 @@
 
 namespace cppmat {
 namespace view {
+namespace tiny {
 
 // =================================================================================================
 // alias name-space with "normal" class
@@ -26,24 +27,27 @@ namespace reg = cppmat::tiny;
 // cppmat::view::vector
 // =================================================================================================
 
-template<class X, size_t n>
+template<class X, size_t N>
 class vector
 {
 private:
 
-  const X *m_data;  // pointer to data (points outside)
-  size_t m_size=n;  // total number of entries
+  const X *mData=nullptr;      // pointer to data (points outside)
+  static const size_t mSize=N; // total size
 
 public:
 
   // constructor
-  vector();
+  vector() = default;
 
   // constructor: map external pointer
-  static vector<X,n> Map(const X *D);
+  static vector<X,N> Map(const X *D);
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;
@@ -56,7 +60,7 @@ public:
   // index operators: access plain storage
   const X& operator[](size_t i) const;
 
-  // index operators: access using matrix indices
+  // index operators: access using list-index
   const X& operator()(size_t a) const;
 
   // pointer to data
@@ -66,12 +70,30 @@ public:
   auto begin() const;
   auto end() const;
 
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using list-index
+  auto item(size_t a) const;
   // basic algebra
-  X      minCoeff() const;
-  X      maxCoeff() const;
-  X      sum() const;
+  // - absolute value
+  void abs();
+  // - location of the minimum/maximum
+  size_t argmin() const;
+  size_t argmax() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
   double mean() const;
-  double average(const vector<X,n> &weights) const;
+  // - weighted average
+  double average(const vector<X,N> &weights, bool norm=true) const;
+
+  // find all non-zero entries
+  cppmat::vector<size_t> where() const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -79,45 +101,45 @@ public:
 };
 
 // arithmetic operators
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator* (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator* (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator/ (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator/ (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator+ (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator+ (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline reg::vector<X,n> operator- (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline reg::vector<X,N> operator- (const        X    &A, const vector<X,N> &B);
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

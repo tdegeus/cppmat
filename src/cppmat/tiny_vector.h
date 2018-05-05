@@ -20,27 +20,28 @@ namespace tiny {
 // cppmat::tiny::vector
 // =================================================================================================
 
-template<class X, size_t n>
+template<class X, size_t N>
 class vector
 {
 private:
 
-  X m_data[n]; // data container
+  X mData[N];                  // data container
+  static const size_t mSize=N; // total size
 
 public:
 
   // constructor
-  vector(){};
+  vector() = default;
 
   // constructor: initialize
-  static vector<X,n> Arange();
-  static vector<X,n> Zero();
-  static vector<X,n> Ones();
-  static vector<X,n> Constant(X D);
+  static vector<X,N> Arange();
+  static vector<X,N> Zero();
+  static vector<X,N> Ones();
+  static vector<X,N> Constant(X D);
 
   // constructor: initialize by copying from external object
-  template<typename Iterator> static vector<X,n> Copy(Iterator first);
-  template<typename Iterator> static vector<X,n> Copy(Iterator first, Iterator last);
+  template<typename Iterator> static vector<X,N> Copy(Iterator first);
+  template<typename Iterator> static vector<X,N> Copy(Iterator first, Iterator last);
 
   // information without constructing
   static size_t Size();
@@ -88,14 +89,14 @@ public:
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
 
   // arithmetic operators
-  vector<X,n>& operator*= (const vector<X,n> &B);
-  vector<X,n>& operator/= (const vector<X,n> &B);
-  vector<X,n>& operator+= (const vector<X,n> &B);
-  vector<X,n>& operator-= (const vector<X,n> &B);
-  vector<X,n>& operator*= (const        X    &B);
-  vector<X,n>& operator/= (const        X    &B);
-  vector<X,n>& operator+= (const        X    &B);
-  vector<X,n>& operator-= (const        X    &B);
+  vector<X,N>& operator*= (const vector<X,N> &B);
+  vector<X,N>& operator/= (const vector<X,N> &B);
+  vector<X,N>& operator+= (const vector<X,N> &B);
+  vector<X,N>& operator-= (const vector<X,N> &B);
+  vector<X,N>& operator*= (const        X    &B);
+  vector<X,N>& operator/= (const        X    &B);
+  vector<X,N>& operator+= (const        X    &B);
+  vector<X,N>& operator-= (const        X    &B);
 
   // basic algebra
   // - absolute value
@@ -112,7 +113,7 @@ public:
   // - mean
   double mean() const;
   // - weighted average
-  double average(const vector<X,n> &weights, bool norm=true) const;
+  double average(const vector<X,N> &weights, bool norm=true) const;
 
   // find all non-zero entries
   cppmat::vector<size_t> where() const;
@@ -123,41 +124,41 @@ public:
 };
 
 // arithmetic operators
-template<class X, size_t n>
-inline vector<X,n> operator* (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator* (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator/ (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator/ (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator+ (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator+ (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator- (const vector<X,n> &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator- (const vector<X,N> &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator* (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline vector<X,N> operator* (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator/ (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline vector<X,N> operator/ (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator+ (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline vector<X,N> operator+ (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator- (const vector<X,n> &A, const        X    &B);
+template<class X, size_t N>
+inline vector<X,N> operator- (const vector<X,N> &A, const        X    &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator* (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator* (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator/ (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator/ (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator+ (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator+ (const        X    &A, const vector<X,N> &B);
 
-template<class X, size_t n>
-inline vector<X,n> operator- (const        X    &A, const vector<X,n> &B);
+template<class X, size_t N>
+inline vector<X,N> operator- (const        X    &A, const vector<X,N> &B);
 
 // =================================================================================================
 

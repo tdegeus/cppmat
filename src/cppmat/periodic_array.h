@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PERIODIC_MATRIX_H
-#define CPPMAT_PERIODIC_MATRIX_H
+#ifndef CPPMAT_PERIODIC_ARRAY_H
+#define CPPMAT_PERIODIC_ARRAY_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -25,18 +25,18 @@ class array
 {
 private:
 
-  static const size_t MAX_DIM=6;     // maximum number of dimensions
-  std::vector<X> m_data;             // data container
-  size_t         m_ndim=0;           // actual number of dimensions
-  size_t         m_size=0;           // total size == data.size() == prod(shape)
-  size_t         m_shape[MAX_DIM];   // number of entries in each dimensions
-  int            m_shape_i[MAX_DIM]; // == m_shape, but with int's
-  size_t         m_strides[MAX_DIM]; // stride length for each index
+  static const size_t MAX_DIM=6;    // maximum number of dimensions
+  std::vector<X> mData;             // data container
+  size_t         mNdim=0;           // actual number of dimensions
+  size_t         mSize=0;           // total size == data.size() == prod(shape)
+  size_t         mShape[MAX_DIM];   // number of entries in each dimensions
+  int            mShapeI[MAX_DIM];  // == mShape, but with int's
+  size_t         mStrides[MAX_DIM]; // stride length for each index
 
 public:
 
   // constructor
-  array(){};
+  array() = default;
   array(const std::vector<size_t> &shape);
 
   // constructor: initialize

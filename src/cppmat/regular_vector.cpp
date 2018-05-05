@@ -22,7 +22,7 @@ namespace cppmat {
 template<class X>
 inline vector<X>::vector(size_t n)
 {
-  // store shape, and other size parameters, allocate "m_data"
+  // store shape, and other size parameters, allocate "mData"
   resize(n);
 }
 
@@ -105,11 +105,11 @@ template<class X>
 inline void vector<X>::resize(size_t n)
 {
   // update size
-  m_n    = n;
-  m_size = n;
+  N     = n;
+  mSize = n;
 
   // allocate data
-  m_data.resize(m_size);
+  mData.resize(mSize);
 }
 
 // =================================================================================================
@@ -119,7 +119,7 @@ inline void vector<X>::resize(size_t n)
 template<class X>
 inline size_t vector<X>::size() const
 {
-  return m_size;
+  return mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ inline size_t vector<X>::shape(int i) const
   assert( i  <  1 );
   assert( i >= -1 );
 
-  return m_n;
+  return N;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -150,8 +150,7 @@ inline size_t vector<X>::shape(size_t i) const
   // check axis: (0)
   assert( i < 1 );
 
-  return m_n;
-
+  return N;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -161,7 +160,7 @@ inline std::vector<size_t> vector<X>::shape() const
 {
   std::vector<size_t> ret(1);
 
-  ret[0] = m_n;
+  ret[0] = N;
 
   return ret;
 }
@@ -188,9 +187,9 @@ inline std::vector<size_t> vector<X>::strides(bool bytes) const
 template<class X>
 inline X& vector<X>::operator[](size_t i)
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data[i];
+  return mData[i];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -198,9 +197,9 @@ inline X& vector<X>::operator[](size_t i)
 template<class X>
 inline const X& vector<X>::operator[](size_t i) const
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data[i];
+  return mData[i];
 }
 
 // =================================================================================================
@@ -210,9 +209,9 @@ inline const X& vector<X>::operator[](size_t i) const
 template<class X>
 inline X& vector<X>::operator()(size_t a)
 {
-  assert( a < m_n );
+  assert( a < N );
 
-  return m_data[a];
+  return mData[a];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -220,9 +219,9 @@ inline X& vector<X>::operator()(size_t a)
 template<class X>
 inline const X& vector<X>::operator()(size_t a) const
 {
-  assert( a < m_n );
+  assert( a < N );
 
-  return m_data[a];
+  return mData[a];
 }
 
 // =================================================================================================
@@ -232,7 +231,7 @@ inline const X& vector<X>::operator()(size_t a) const
 template<class X>
 inline X* vector<X>::data()
 {
-  return m_data.data();
+  return mData.data();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -240,7 +239,7 @@ inline X* vector<X>::data()
 template<class X>
 inline const X* vector<X>::data() const
 {
-  return m_data.data();
+  return mData.data();
 }
 
 // =================================================================================================
@@ -250,7 +249,7 @@ inline const X* vector<X>::data() const
 template<class X>
 inline auto vector<X>::begin()
 {
-  return m_data.begin();
+  return mData.begin();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -258,7 +257,7 @@ inline auto vector<X>::begin()
 template<class X>
 inline auto vector<X>::begin() const
 {
-  return m_data.begin();
+  return mData.begin();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -266,7 +265,7 @@ inline auto vector<X>::begin() const
 template<class X>
 inline auto vector<X>::end()
 {
-  return m_data.end();
+  return mData.end();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -274,7 +273,7 @@ inline auto vector<X>::end()
 template<class X>
 inline auto vector<X>::end() const
 {
-  return m_data.end();
+  return mData.end();
 }
 
 // =================================================================================================
@@ -284,9 +283,9 @@ inline auto vector<X>::end() const
 template<class X>
 inline auto vector<X>::index(size_t i)
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data.begin() + i;
+  return begin() + i;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -294,9 +293,9 @@ inline auto vector<X>::index(size_t i)
 template<class X>
 inline auto vector<X>::index(size_t i) const
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data.begin() + i;
+  return begin() + i;
 }
 
 // =================================================================================================
@@ -306,9 +305,9 @@ inline auto vector<X>::index(size_t i) const
 template<class X>
 inline auto vector<X>::item(size_t a)
 {
-  assert( a < m_n );
+  assert( a < N );
 
-  return m_data.begin() + a;
+  return begin() + a;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -316,9 +315,9 @@ inline auto vector<X>::item(size_t a)
 template<class X>
 inline auto vector<X>::item(size_t a) const
 {
-  assert( a < m_n );
+  assert( a < N );
 
-  return m_data.begin() + a;
+  return begin() + a;
 }
 
 // =================================================================================================
@@ -328,7 +327,7 @@ inline auto vector<X>::item(size_t a) const
 template<class X>
 inline void vector<X>::setArange()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < mSize ; ++i ) mData[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -336,7 +335,7 @@ inline void vector<X>::setArange()
 template<class X>
 inline void vector<X>::setZero()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
+  std::fill(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -344,7 +343,7 @@ inline void vector<X>::setZero()
 template<class X>
 inline void vector<X>::setOnes()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  std::fill(begin(), end(), static_cast<X>(1));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -352,7 +351,7 @@ inline void vector<X>::setOnes()
 template<class X>
 inline void vector<X>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+  std::fill(begin(), end(), D);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -361,11 +360,9 @@ template<class X>
 template<class Iterator>
 inline void vector<X>::setCopy(Iterator first, Iterator last)
 {
-  // check size
-  assert( m_size == last - first );
+  assert( mSize == last - first );
 
-  // copy
-  std::copy(first, last, m_data.data());
+  std::copy(first, last, begin());
 }
 
 // =================================================================================================
@@ -375,10 +372,10 @@ inline void vector<X>::setCopy(Iterator first, Iterator last)
 template<class X>
 inline vector<X>& vector<X>::operator*= (const vector<X> &B)
 {
-  assert( m_n == B.shape(0) );
+  assert( N == B.shape(0) );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] *= B[i];
 
   return *this;
 }
@@ -388,10 +385,10 @@ inline vector<X>& vector<X>::operator*= (const vector<X> &B)
 template<class X>
 inline vector<X>& vector<X>::operator/= (const vector<X> &B)
 {
-  assert( m_n == B.shape(0) );
+  assert( N == B.shape(0) );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] /= B[i];
 
   return *this;
 }
@@ -401,10 +398,10 @@ inline vector<X>& vector<X>::operator/= (const vector<X> &B)
 template<class X>
 inline vector<X>& vector<X>::operator+= (const vector<X> &B)
 {
-  assert( m_n == B.shape(0) );
+  assert( N == B.shape(0) );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] += B[i];
 
   return *this;
 }
@@ -414,10 +411,10 @@ inline vector<X>& vector<X>::operator+= (const vector<X> &B)
 template<class X>
 inline vector<X>& vector<X>::operator-= (const vector<X> &B)
 {
-  assert( m_n == B.shape(0) );
+  assert( N == B.shape(0) );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] -= B[i];
 
   return *this;
 }
@@ -427,8 +424,8 @@ inline vector<X>& vector<X>::operator-= (const vector<X> &B)
 template<class X>
 inline vector<X>& vector<X>::operator*= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] *= B;
 
   return *this;
 }
@@ -438,8 +435,8 @@ inline vector<X>& vector<X>::operator*= (const X &B)
 template<class X>
 inline vector<X>& vector<X>::operator/= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] /= B;
 
   return *this;
 }
@@ -449,8 +446,8 @@ inline vector<X>& vector<X>::operator/= (const X &B)
 template<class X>
 inline vector<X>& vector<X>::operator+= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] += B;
 
   return *this;
 }
@@ -460,8 +457,8 @@ inline vector<X>& vector<X>::operator+= (const X &B)
 template<class X>
 inline vector<X>& vector<X>::operator-= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] -= B;
 
   return *this;
 }
@@ -677,8 +674,8 @@ inline X vector<X>::sum() const
 {
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i];
 
   return out;
 }
@@ -690,7 +687,7 @@ inline X vector<X>::sum() const
 template<class X>
 inline double vector<X>::mean() const
 {
-  return static_cast<double>(this->sum())/static_cast<double>(m_size);
+  return static_cast<double>(this->sum())/static_cast<double>(mSize);
 }
 
 // =================================================================================================
@@ -700,12 +697,12 @@ inline double vector<X>::mean() const
 template<class X>
 inline double vector<X>::average(const vector<X> &weights, bool norm) const
 {
-  assert( m_n == weights.shape(0) );
+  assert( N == weights.shape(0) );
 
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i] * weights[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i] * weights[i];
 
   if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
   else        return static_cast<double>(out);
@@ -720,16 +717,16 @@ inline vector<size_t> vector<X>::where() const
 {
   size_t nnz = 0;
 
-  for ( auto &i : m_data )
-    if ( i )
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] )
       ++nnz;
 
   vector<size_t> out(nnz);
 
   size_t j = 0;
 
-  for ( size_t i = 0 ; i < m_size ; ++i ) {
-    if ( m_data[i] ) {
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
       out[j] = i;
       ++j;
     }
@@ -745,7 +742,7 @@ inline vector<size_t> vector<X>::where() const
 template<class X>
 inline void vector<X>::abs()
 {
-  for ( auto &i : m_data )
+  for ( auto &i : mData )
     i = std::abs(i);
 }
 
@@ -756,9 +753,9 @@ inline void vector<X>::abs()
 template<class X>
 inline void vector<X>::printf(std::string fmt) const
 {
-  for ( size_t j = 0 ; j < m_n ; ++j ) {
-    if ( j != m_n-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
-    else              std::printf((fmt + ";\n").c_str(), (*this)(j));
+  for ( size_t j = 0 ; j < N ; ++j ) {
+    if ( j != N-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
+    else            std::printf((fmt + ";\n").c_str(), (*this)(j));
   }
 }
 

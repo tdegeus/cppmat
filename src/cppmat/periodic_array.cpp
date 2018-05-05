@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PERIODIC_MATRIX_CPP
-#define CPPMAT_PERIODIC_MATRIX_CPP
+#ifndef CPPMAT_PERIODIC_ARRAY_CPP
+#define CPPMAT_PERIODIC_ARRAY_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@ namespace periodic {
 template<class X>
 inline array<X>::array(const std::vector<size_t> &shape)
 {
-  // store shape, and other size parameters, allocate "m_data"
+  // store shape, and other size parameters, allocate "mData"
   resize(shape);
 }
 
@@ -109,36 +109,36 @@ inline void array<X>::resize(const std::vector<size_t> &shape)
   assert( shape.size() <= MAX_DIM );
 
   // update number of dimensions
-  m_ndim = shape.size();
+  mNdim = shape.size();
 
   // initialize shape in all directions to "1"
   for ( size_t i = 0 ; i < MAX_DIM ; ++i )
   {
-    m_shape  [i] = 1;
-    m_strides[i] = 1;
+    mShape  [i] = 1;
+    mStrides[i] = 1;
   }
 
   // initialize size
-  m_size = 1;
+  mSize = 1;
 
   // update shape/size
-  for ( size_t i = 0 ; i < m_ndim ; ++i )
+  for ( size_t i = 0 ; i < mNdim ; ++i )
   {
-    m_shape[i] = shape[i];
-    m_size    *= shape[i];
+    mShape[i] = shape[i];
+    mSize    *= shape[i];
   }
 
   // set storage strides
-  for ( size_t i = 0 ; i < m_ndim ; ++i )
-    for ( size_t j = i+1 ; j < m_ndim ; ++j )
-      m_strides[i] *= m_shape[j];
+  for ( size_t i = 0 ; i < mNdim ; ++i )
+    for ( size_t j = i+1 ; j < mNdim ; ++j )
+      mStrides[i] *= mShape[j];
 
   // update shape stored as integers
   for ( size_t i = 0 ; i < MAX_DIM ; ++i )
-    m_shape_i[i] = static_cast<int>(m_shape[i]);
+    mShapeI[i] = static_cast<int>(mShape[i]);
 
   // allocate data
-  m_data.resize(m_size);
+  mData.resize(mSize);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -148,11 +148,11 @@ inline void array<X>::chdim(size_t ndim)
 {
   // check that all removed dimensions are of shape 1
   #ifndef NDEBUG
-    for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( m_shape[i] == 1 );
+    for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
   #endif
 
   // update number of dimensions
-  m_ndim = ndim;
+  mNdim = ndim;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -166,7 +166,7 @@ inline void array<X>::reshape(const std::vector<size_t> &shape)
 
     for ( auto &i : shape ) n *= i;
 
-    assert( n == m_size );
+    assert( n == mSize );
   #endif
 
   // process new shape
@@ -180,7 +180,7 @@ inline void array<X>::reshape(const std::vector<size_t> &shape)
 template<class X>
 inline size_t array<X>::size() const
 {
-  return m_size;
+  return mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -188,7 +188,7 @@ inline size_t array<X>::size() const
 template<class X>
 inline size_t array<X>::ndim() const
 {
-  return m_ndim;
+  return mNdim;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -197,17 +197,17 @@ template<class X>
 inline size_t array<X>::shape(int i) const
 {
   // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( i  <      static_cast<int>(m_ndim) );
-  assert( i >= -1 * static_cast<int>(m_ndim) );
+  assert( i  <      static_cast<int>(mNdim) );
+  assert( i >= -1 * static_cast<int>(mNdim) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(m_ndim);
+  int n = static_cast<int>(mNdim);
 
   // correct periodic index
   i = ( n + (i%n) ) % n;
 
   // return shape
-  return m_shape[i];
+  return mShape[i];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -216,10 +216,10 @@ template<class X>
 inline size_t array<X>::shape(size_t i) const
 {
   // check axis: (0,1,...,ndim-1)
-  assert( i < m_ndim );
+  assert( i < mNdim );
 
   // return shape
-  return m_shape[i];
+  return mShape[i];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -227,9 +227,9 @@ inline size_t array<X>::shape(size_t i) const
 template<class X>
 inline std::vector<size_t> array<X>::shape() const
 {
-  std::vector<size_t> ret(m_ndim);
+  std::vector<size_t> ret(mNdim);
 
-  for ( size_t i = 0 ; i < m_ndim ; ++i ) ret[i] = m_shape[i];
+  std::copy(std::begin(mShape), std::begin(mShape)+mNdim, ret.begin());
 
   return ret;
 }
@@ -239,13 +239,12 @@ inline std::vector<size_t> array<X>::shape() const
 template<class X>
 inline std::vector<size_t> array<X>::strides(bool bytes) const
 {
-  std::vector<size_t> ret(m_ndim);
+  std::vector<size_t> ret(mNdim);
 
-  for ( size_t i = 0 ; i < m_ndim ; ++i )
-    ret[i] = m_strides[i];
+  std::copy(std::begin(mStrides), std::begin(mStrides)+mNdim, ret.begin());
 
   if ( bytes )
-    for ( size_t i = 0 ; i < m_ndim ; ++i )
+    for ( size_t i = 0 ; i < mNdim ; ++i )
       ret[i] *= sizeof(X);
 
   return ret;
@@ -258,9 +257,9 @@ inline std::vector<size_t> array<X>::strides(bool bytes) const
 template<class X>
 inline X& array<X>::operator[](size_t i)
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data[i];
+  return mData[i];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -268,9 +267,9 @@ inline X& array<X>::operator[](size_t i)
 template<class X>
 inline const X& array<X>::operator[](size_t i) const
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data[i];
+  return mData[i];
 }
 
 // =================================================================================================
@@ -280,13 +279,13 @@ inline const X& array<X>::operator[](size_t i) const
 template<class X>
 inline X& array<X>::operator()(int a)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
-  assert( m_ndim >= 1 );
+  assert( mNdim >= 1 );
 
-  assert( a < m_shape_i[0] );
+  assert( a < mShapeI[0] );
 
-  return m_data[a*m_strides[0]];
+  return mData[a*mStrides[0]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -294,13 +293,13 @@ inline X& array<X>::operator()(int a)
 template<class X>
 inline const X& array<X>::operator()(int a) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
-  assert( m_ndim >= 1 );
+  assert( mNdim >= 1 );
 
-  assert( a < m_shape_i[0] );
+  assert( a < mShapeI[0] );
 
-  return m_data[a*m_strides[0]];
+  return mData[a*mStrides[0]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -308,15 +307,15 @@ inline const X& array<X>::operator()(int a) const
 template<class X>
 inline X& array<X>::operator()(int a, int b)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
-  assert( m_ndim >= 2 );
+  assert( mNdim >= 2 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]];
+  return mData[a*mStrides[0]+b*mStrides[1]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -324,15 +323,15 @@ inline X& array<X>::operator()(int a, int b)
 template<class X>
 inline const X& array<X>::operator()(int a, int b) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
-  assert( m_ndim >= 2 );
+  assert( mNdim >= 2 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]];
+  return mData[a*mStrides[0]+b*mStrides[1]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -340,17 +339,17 @@ inline const X& array<X>::operator()(int a, int b) const
 template<class X>
 inline X& array<X>::operator()(int a, int b, int c)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
 
-  assert( m_ndim >= 3 );
+  assert( mNdim >= 3 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -358,17 +357,17 @@ inline X& array<X>::operator()(int a, int b, int c)
 template<class X>
 inline const X& array<X>::operator()(int a, int b, int c) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
 
-  assert( m_ndim >= 3 );
+  assert( mNdim >= 3 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -376,19 +375,19 @@ inline const X& array<X>::operator()(int a, int b, int c) const
 template<class X>
 inline X& array<X>::operator()(int a, int b, int c, int d)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
 
-  assert( m_ndim >= 4 );
+  assert( mNdim >= 4 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -396,19 +395,19 @@ inline X& array<X>::operator()(int a, int b, int c, int d)
 template<class X>
 inline const X& array<X>::operator()(int a, int b, int c, int d) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
 
-  assert( m_ndim >= 4 );
+  assert( mNdim >= 4 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -416,21 +415,21 @@ inline const X& array<X>::operator()(int a, int b, int c, int d) const
 template<class X>
 inline X& array<X>::operator()(int a, int b, int c, int d, int e)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
 
-  assert( m_ndim >= 5 );
+  assert( mNdim >= 5 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -438,21 +437,21 @@ inline X& array<X>::operator()(int a, int b, int c, int d, int e)
 template<class X>
 inline const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
 
-  assert( m_ndim >= 5 );
+  assert( mNdim >= 5 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
 
-  return m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]];
+  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -460,24 +459,24 @@ inline const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 template<class X>
 inline X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
-  f = ( m_shape_i[5] + (f % m_shape_i[5]) ) % m_shape_i[5];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
+  f = ( mShapeI[5] + (f % mShapeI[5]) ) % mShapeI[5];
 
-  assert( m_ndim >= 6 );
+  assert( mNdim >= 6 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
-  assert( f < m_shape_i[5] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
+  assert( f < mShapeI[5] );
 
   return \
-  m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
+  mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5]];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -485,24 +484,24 @@ inline X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 template<class X>
 inline const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
-  f = ( m_shape_i[5] + (f % m_shape_i[5]) ) % m_shape_i[5];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
+  f = ( mShapeI[5] + (f % mShapeI[5]) ) % mShapeI[5];
 
-  assert( m_ndim >= 6 );
+  assert( mNdim >= 6 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
-  assert( f < m_shape_i[5] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
+  assert( f < mShapeI[5] );
 
   return \
-  m_data[a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5]];
+  mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5]];
 }
 
 // =================================================================================================
@@ -514,12 +513,12 @@ template<class Iterator>
 inline X& array<X>::at(Iterator first, Iterator last)
 {
   // check input
-  assert( static_cast<size_t>(last-first)  > 0      );
-  assert( static_cast<size_t>(last-first) <= m_ndim );
+  assert( static_cast<size_t>(last-first)  > 0     );
+  assert( static_cast<size_t>(last-first) <= mNdim );
 
   // iterator to shape and stride
-  int    *shape   = &m_shape_i[0];
-  size_t *stride  = &m_strides[0];
+  int    *shape   = &mShapeI [0];
+  size_t *stride  = &mStrides[0];
 
   // zero-initialize plain storage index
   size_t idx = 0;
@@ -533,14 +532,14 @@ inline X& array<X>::at(Iterator first, Iterator last)
     i = ( (*shape) + (i % (*shape)) ) % (*shape);
     // - check array index
     assert( i < (*shape) );
-    // - update the index
+    // - update index
     idx += i * (*stride);
     // - move iterators forward
     ++stride;
     ++shape;
   }
 
-  return m_data[idx];
+  return mData[idx];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -550,12 +549,12 @@ template<class Iterator>
 inline const X& array<X>::at(Iterator first, Iterator last) const
 {
   // check input
-  assert( static_cast<size_t>(last-first)  > 0      );
-  assert( static_cast<size_t>(last-first) <= m_ndim );
+  assert( static_cast<size_t>(last-first)  > 0     );
+  assert( static_cast<size_t>(last-first) <= mNdim );
 
   // iterator to shape and stride
-  int    *shape   = &m_shape_i[0];
-  size_t *stride  = &m_strides[0];
+  int    *shape   = &mShapeI [0];
+  size_t *stride  = &mStrides[0];
 
   // zero-initialize plain storage index
   size_t idx = 0;
@@ -569,14 +568,14 @@ inline const X& array<X>::at(Iterator first, Iterator last) const
     i = ( (*shape) + (i % (*shape)) ) % (*shape);
     // - check array index
     assert( i < (*shape) );
-    // - update the index
+    // - update index
     idx += i * (*stride);
     // - move iterators forward
     ++stride;
     ++shape;
   }
 
-  return m_data[idx];
+  return mData[idx];
 
 }
 
@@ -587,13 +586,13 @@ inline const X& array<X>::at(Iterator first, Iterator last) const
 template<class X>
 inline size_t array<X>::compress(int a) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
-  assert( m_ndim >= 1 );
+  assert( mNdim >= 1 );
 
-  assert( a < m_shape_i[0] );
+  assert( a < mShapeI[0] );
 
-  return a*m_strides[0];
+  return a*mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -601,15 +600,15 @@ inline size_t array<X>::compress(int a) const
 template<class X>
 inline size_t array<X>::compress(int a, int b) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
-  assert( m_ndim >= 2 );
+  assert( mNdim >= 2 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
 
-  return a*m_strides[0]+b*m_strides[1];
+  return a*mStrides[0]+b*mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -617,17 +616,17 @@ inline size_t array<X>::compress(int a, int b) const
 template<class X>
 inline size_t array<X>::compress(int a, int b, int c) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
 
-  assert( m_ndim >= 3 );
+  assert( mNdim >= 3 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
 
-  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -635,19 +634,19 @@ inline size_t array<X>::compress(int a, int b, int c) const
 template<class X>
 inline size_t array<X>::compress(int a, int b, int c, int d) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
 
-  assert( m_ndim >= 4 );
+  assert( mNdim >= 4 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
 
-  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -655,21 +654,21 @@ inline size_t array<X>::compress(int a, int b, int c, int d) const
 template<class X>
 inline size_t array<X>::compress(int a, int b, int c, int d, int e) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
 
-  assert( m_ndim >= 5 );
+  assert( mNdim >= 5 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
 
-  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -677,23 +676,23 @@ inline size_t array<X>::compress(int a, int b, int c, int d, int e) const
 template<class X>
 inline size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
-  f = ( m_shape_i[5] + (f % m_shape_i[5]) ) % m_shape_i[5];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
+  f = ( mShapeI[5] + (f % mShapeI[5]) ) % mShapeI[5];
 
-  assert( m_ndim >= 6 );
+  assert( mNdim >= 6 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
-  assert( f < m_shape_i[5] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
+  assert( f < mShapeI[5] );
 
-  return a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
 }
 
 // =================================================================================================
@@ -704,15 +703,15 @@ template<class X>
 inline std::vector<size_t> array<X>::decompress(size_t i) const
 {
   // check input
-  assert( i < m_size );
+  assert( i < mSize );
 
   // allocate array-index
-  std::vector<size_t> idx(m_ndim);
+  std::vector<size_t> idx(mNdim);
 
   // reconstruct
-  for ( size_t j = 0 ; j < m_ndim ; ++j ) {
-    idx[j] = (i - i%m_strides[j]) / m_strides[j];
-    i -= idx[j] * m_strides[j];
+  for ( size_t j = 0 ; j < mNdim ; ++j ) {
+    idx[j] = (i - i%mStrides[j]) / mStrides[j];
+    i -= idx[j] * mStrides[j];
   }
 
   return idx;
@@ -725,7 +724,7 @@ inline std::vector<size_t> array<X>::decompress(size_t i) const
 template<class X>
 inline X* array<X>::data()
 {
-  return m_data.data();
+  return mData.data();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -733,7 +732,7 @@ inline X* array<X>::data()
 template<class X>
 inline const X* array<X>::data() const
 {
-  return m_data.data();
+  return mData.data();
 }
 
 // =================================================================================================
@@ -743,7 +742,7 @@ inline const X* array<X>::data() const
 template<class X>
 inline auto array<X>::begin()
 {
-  return m_data.begin();
+  return mData.begin();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -751,7 +750,7 @@ inline auto array<X>::begin()
 template<class X>
 inline auto array<X>::begin() const
 {
-  return m_data.begin();
+  return mData.begin();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -759,7 +758,7 @@ inline auto array<X>::begin() const
 template<class X>
 inline auto array<X>::end()
 {
-  return m_data.end();
+  return mData.end();
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -767,7 +766,7 @@ inline auto array<X>::end()
 template<class X>
 inline auto array<X>::end() const
 {
-  return m_data.end();
+  return mData.end();
 }
 
 // =================================================================================================
@@ -777,9 +776,9 @@ inline auto array<X>::end() const
 template<class X>
 inline auto array<X>::index(size_t i)
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data.begin() + i;
+  return begin() + i;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -787,9 +786,9 @@ inline auto array<X>::index(size_t i)
 template<class X>
 inline auto array<X>::index(size_t i) const
 {
-  assert( i < m_size );
+  assert( i < mSize );
 
-  return m_data.begin() + i;
+  return begin() + i;
 }
 
 // =================================================================================================
@@ -799,13 +798,13 @@ inline auto array<X>::index(size_t i) const
 template<class X>
 inline auto array<X>::item(int a)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
-  assert( m_ndim >= 1 );
+  assert( mNdim >= 1 );
 
-  assert( a < m_shape_i[0] );
+  assert( a < mShapeI[0] );
 
-  return m_data.begin() + a*m_strides[0];
+  return begin() + a*mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -813,13 +812,13 @@ inline auto array<X>::item(int a)
 template<class X>
 inline auto array<X>::item(int a) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
-  assert( m_ndim >= 1 );
+  assert( mNdim >= 1 );
 
-  assert( a < m_shape_i[0] );
+  assert( a < mShapeI[0] );
 
-  return m_data.begin() + a*m_strides[0];
+  return begin() + a*mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -827,15 +826,15 @@ inline auto array<X>::item(int a) const
 template<class X>
 inline auto array<X>::item(int a, int b)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
-  assert( m_ndim >= 2 );
+  assert( mNdim >= 2 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+  return begin() + a*mStrides[0]+b*mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -843,15 +842,15 @@ inline auto array<X>::item(int a, int b)
 template<class X>
 inline auto array<X>::item(int a, int b) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
-  assert( m_ndim >= 2 );
+  assert( mNdim >= 2 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1];
+  return begin() + a*mStrides[0]+b*mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -859,17 +858,17 @@ inline auto array<X>::item(int a, int b) const
 template<class X>
 inline auto array<X>::item(int a, int b, int c)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
 
-  assert( m_ndim >= 3 );
+  assert( mNdim >= 3 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -877,17 +876,17 @@ inline auto array<X>::item(int a, int b, int c)
 template<class X>
 inline auto array<X>::item(int a, int b, int c) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
 
-  assert( m_ndim >= 3 );
+  assert( mNdim >= 3 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2];
+  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -895,19 +894,19 @@ inline auto array<X>::item(int a, int b, int c) const
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
 
-  assert( m_ndim >= 4 );
+  assert( mNdim >= 4 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -915,19 +914,19 @@ inline auto array<X>::item(int a, int b, int c, int d)
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
 
-  assert( m_ndim >= 4 );
+  assert( mNdim >= 4 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
 
-  return m_data.begin() + a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3];
+  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -935,21 +934,21 @@ inline auto array<X>::item(int a, int b, int c, int d) const
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d, int e)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
 
-  assert( m_ndim >= 5 );
+  assert( mNdim >= 5 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
 
-  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -957,21 +956,21 @@ inline auto array<X>::item(int a, int b, int c, int d, int e)
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d, int e) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
 
-  assert( m_ndim >= 5 );
+  assert( mNdim >= 5 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
 
-  return m_data.begin()+a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4];
+  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -979,24 +978,23 @@ inline auto array<X>::item(int a, int b, int c, int d, int e) const
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d, int e, int f)
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
-  f = ( m_shape_i[5] + (f % m_shape_i[5]) ) % m_shape_i[5];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
+  f = ( mShapeI[5] + (f % mShapeI[5]) ) % mShapeI[5];
 
-  assert( m_ndim >= 6 );
+  assert( mNdim >= 6 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
-  assert( f < m_shape_i[5] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
+  assert( f < mShapeI[5] );
 
-  return m_data.begin() +
-    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1004,24 +1002,23 @@ inline auto array<X>::item(int a, int b, int c, int d, int e, int f)
 template<class X>
 inline auto array<X>::item(int a, int b, int c, int d, int e, int f) const
 {
-  a = ( m_shape_i[0] + (a % m_shape_i[0]) ) % m_shape_i[0];
-  b = ( m_shape_i[1] + (b % m_shape_i[1]) ) % m_shape_i[1];
-  c = ( m_shape_i[2] + (c % m_shape_i[2]) ) % m_shape_i[2];
-  d = ( m_shape_i[3] + (d % m_shape_i[3]) ) % m_shape_i[3];
-  e = ( m_shape_i[4] + (e % m_shape_i[4]) ) % m_shape_i[4];
-  f = ( m_shape_i[5] + (f % m_shape_i[5]) ) % m_shape_i[5];
+  a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
+  b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
+  c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
+  d = ( mShapeI[3] + (d % mShapeI[3]) ) % mShapeI[3];
+  e = ( mShapeI[4] + (e % mShapeI[4]) ) % mShapeI[4];
+  f = ( mShapeI[5] + (f % mShapeI[5]) ) % mShapeI[5];
 
-  assert( m_ndim >= 6 );
+  assert( mNdim >= 6 );
 
-  assert( a < m_shape_i[0] );
-  assert( b < m_shape_i[1] );
-  assert( c < m_shape_i[2] );
-  assert( d < m_shape_i[3] );
-  assert( e < m_shape_i[4] );
-  assert( f < m_shape_i[5] );
+  assert( a < mShapeI[0] );
+  assert( b < mShapeI[1] );
+  assert( c < mShapeI[2] );
+  assert( d < mShapeI[3] );
+  assert( e < mShapeI[4] );
+  assert( f < mShapeI[5] );
 
-  return m_data.begin() +
-    a*m_strides[0]+b*m_strides[1]+c*m_strides[2]+d*m_strides[3]+e*m_strides[4]+f*m_strides[5];
+  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
 }
 
 // =================================================================================================
@@ -1031,7 +1028,7 @@ inline auto array<X>::item(int a, int b, int c, int d, int e, int f) const
 template<class X>
 inline void array<X>::setArange()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(i);
+  for ( size_t i = 0 ; i < mSize ; ++i ) mData[i] = static_cast<X>(i);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1039,7 +1036,7 @@ inline void array<X>::setArange()
 template<class X>
 inline void array<X>::setZero()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(0);
+  std::fill(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1047,7 +1044,7 @@ inline void array<X>::setZero()
 template<class X>
 inline void array<X>::setOnes()
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = static_cast<X>(1);
+  std::fill(begin(), end(), static_cast<X>(1));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1055,7 +1052,7 @@ inline void array<X>::setOnes()
 template<class X>
 inline void array<X>::setConstant(X D)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i ) m_data[i] = D;
+  std::fill(begin(), end(), D);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1064,11 +1061,9 @@ template<class X>
 template<class Iterator>
 inline void array<X>::setCopy(Iterator first, Iterator last)
 {
-  // check size
-  assert( m_size == last - first );
+  assert( mSize == last - first );
 
-  // copy
-  std::copy(first, last, m_data.data());
+  std::copy(first, last, begin());
 }
 
 // =================================================================================================
@@ -1081,8 +1076,8 @@ inline array<X>& array<X>::operator*= (const array<X> &B)
   assert( shape() == B.shape() );
   assert( ndim()  == B.ndim()  );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] *= B[i];
 
   return *this;
 }
@@ -1095,8 +1090,8 @@ inline array<X>& array<X>::operator/= (const array<X> &B)
   assert( shape() == B.shape() );
   assert( ndim()  == B.ndim()  );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] /= B[i];
 
   return *this;
 }
@@ -1109,8 +1104,8 @@ inline array<X>& array<X>::operator+= (const array<X> &B)
   assert( shape() == B.shape() );
   assert( ndim()  == B.ndim()  );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] += B[i];
 
   return *this;
 }
@@ -1123,8 +1118,8 @@ inline array<X>& array<X>::operator-= (const array<X> &B)
   assert( shape() == B.shape() );
   assert( ndim()  == B.ndim()  );
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] -= B[i];
 
   return *this;
 }
@@ -1134,8 +1129,8 @@ inline array<X>& array<X>::operator-= (const array<X> &B)
 template<class X>
 inline array<X>& array<X>::operator*= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] *= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] *= B;
 
   return *this;
 }
@@ -1145,8 +1140,8 @@ inline array<X>& array<X>::operator*= (const X &B)
 template<class X>
 inline array<X>& array<X>::operator/= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] /= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] /= B;
 
   return *this;
 }
@@ -1156,8 +1151,8 @@ inline array<X>& array<X>::operator/= (const X &B)
 template<class X>
 inline array<X>& array<X>::operator+= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] += B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] += B;
 
   return *this;
 }
@@ -1167,8 +1162,8 @@ inline array<X>& array<X>::operator+= (const X &B)
 template<class X>
 inline array<X>& array<X>::operator-= (const X &B)
 {
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    m_data[i] -= B;
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] -= B;
 
   return *this;
 }
@@ -1375,7 +1370,7 @@ template<class X>
 inline array<X> array<X>::minCoeff(size_t axis) const
 {
   // check input
-  assert( axis < m_ndim );
+  assert( axis < mNdim );
 
   // initialize output to the same shape as the input, with one axis removed
   array<X> out = array<X>::Constant(del(this->shape(),axis), this->maxCoeff());
@@ -1384,19 +1379,19 @@ inline array<X> array<X>::minCoeff(size_t axis) const
   // - copy strides
   std::vector<size_t> estrides = this->strides();
   // - insert total size at the beginning
-  estrides.insert(estrides.begin(), m_size);
+  estrides.insert(estrides.begin(), mSize);
 
   // extract sizes
   size_t n = estrides[axis  ];
   size_t m = estrides[axis+1];
 
   // perform reduction
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < mSize ; ++i )
   {
     // - get the new index
     size_t ni = i/n*m + i%m;
     // - store
-    out[ni] = std::min(out[ni], m_data[i]);
+    out[ni] = std::min(out[ni], mData[i]);
   }
 
   return out;
@@ -1408,11 +1403,11 @@ template<class X>
 inline array<X> array<X>::minCoeff(int axis) const
 {
   // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(m_ndim) );
-  assert( axis >= -1 * static_cast<int>(m_ndim) );
+  assert( axis  <      static_cast<int>(mNdim) );
+  assert( axis >= -1 * static_cast<int>(mNdim) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(m_ndim);
+  int n = static_cast<int>(mNdim);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
@@ -1427,7 +1422,7 @@ template<class X>
 inline array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(m_ndim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
 
   // copy array
   array<X> out = (*this);
@@ -1455,7 +1450,7 @@ template<class X>
 inline array<X> array<X>::maxCoeff(size_t axis) const
 {
   // check input
-  assert( axis < m_ndim );
+  assert( axis < mNdim );
 
   // initialize output to the same shape as the input, with one axis removed
   array<X> out = array<X>::Constant(del(this->shape(),axis), this->minCoeff());
@@ -1464,19 +1459,19 @@ inline array<X> array<X>::maxCoeff(size_t axis) const
   // - copy strides
   std::vector<size_t> estrides = this->strides();
   // - insert total size at the beginning
-  estrides.insert(estrides.begin(), m_size);
+  estrides.insert(estrides.begin(), mSize);
 
   // extract sizes
   size_t n = estrides[axis  ];
   size_t m = estrides[axis+1];
 
   // perform reduction
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < mSize ; ++i )
   {
     // - get the new index
     size_t ni = i/n*m + i%m;
     // - store
-    out[ni] = std::max(out[ni], m_data[i]);
+    out[ni] = std::max(out[ni], mData[i]);
   }
 
   return out;
@@ -1488,11 +1483,11 @@ template<class X>
 inline array<X> array<X>::maxCoeff(int axis) const
 {
   // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(m_ndim) );
-  assert( axis >= -1 * static_cast<int>(m_ndim) );
+  assert( axis  <      static_cast<int>(mNdim) );
+  assert( axis >= -1 * static_cast<int>(mNdim) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(m_ndim);
+  int n = static_cast<int>(mNdim);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
@@ -1507,7 +1502,7 @@ template<class X>
 inline array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(m_ndim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
 
   // copy array
   array<X> out = (*this);
@@ -1528,8 +1523,8 @@ inline X array<X>::sum() const
 {
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i];
 
   return out;
 }
@@ -1546,19 +1541,19 @@ inline array<X> array<X>::sum(size_t axis) const
   // - copy strides
   std::vector<size_t> estrides = this->strides();
   // - insert total size at the beginning
-  estrides.insert(estrides.begin(), m_size);
+  estrides.insert(estrides.begin(), mSize);
 
   // extract sizes
   size_t n = estrides[axis  ];
   size_t m = estrides[axis+1];
 
   // perform reduction
-  for ( size_t i = 0 ; i < m_size ; ++i )
+  for ( size_t i = 0 ; i < mSize ; ++i )
   {
     // - get the new index
     size_t ni = i/n*m + i%m;
     // - store
-    out[ni] += m_data[i];
+    out[ni] += mData[i];
   }
 
   return out;
@@ -1570,11 +1565,11 @@ template<class X>
 inline array<X> array<X>::sum(int axis) const
 {
   // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(m_ndim) );
-  assert( axis >= -1 * static_cast<int>(m_ndim) );
+  assert( axis  <      static_cast<int>(mNdim) );
+  assert( axis >= -1 * static_cast<int>(mNdim) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(m_ndim);
+  int n = static_cast<int>(mNdim);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
@@ -1589,7 +1584,7 @@ template<class X>
 inline array<X> array<X>::sum(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(m_ndim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
 
   // copy array
   array<X> out = (*this);
@@ -1608,7 +1603,7 @@ inline array<X> array<X>::sum(const std::vector<int> &axes_in) const
 template<class X>
 inline double array<X>::mean() const
 {
-  return static_cast<double>(this->sum())/static_cast<double>(m_size);
+  return static_cast<double>(this->sum())/static_cast<double>(mSize);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1652,8 +1647,8 @@ inline double array<X>::average(const array<X> &weights, bool norm) const
 
   X out = static_cast<X>(0);
 
-  for ( size_t i = 0 ; i < m_size ; ++i )
-    out += m_data[i] * weights[i];
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += mData[i] * weights[i];
 
   if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
   else        return static_cast<double>(out);
@@ -1694,7 +1689,7 @@ inline array<X> array<X>::average(
 template<class X>
 inline void array<X>::abs()
 {
-  for ( auto &i : m_data )
+  for ( auto &i : mData )
     i = std::abs(i);
 }
 
@@ -1705,22 +1700,22 @@ inline void array<X>::abs()
 template<class X>
 inline void array<X>::printf(std::string fmt) const
 {
-  if ( m_ndim == 1 )
+  if ( mNdim == 1 )
   {
-    for ( size_t j = 0 ; j < m_shape[0] ; ++j ) {
-      if ( j != m_shape[0]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
-      else                     std::printf((fmt + ";\n").c_str(), (*this)(j));
+    for ( size_t j = 0 ; j < mShape[0] ; ++j ) {
+      if ( j != mShape[0]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
+      else                    std::printf((fmt + ";\n").c_str(), (*this)(j));
     }
 
     return;
   }
 
-  if ( m_ndim == 2 )
+  if ( mNdim == 2 )
   {
-    for ( size_t i = 0 ; i < m_shape[0] ; ++i ) {
-      for ( size_t j = 0 ; j < m_shape[1] ; ++j ) {
-        if ( j != m_shape[1]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
-        else                     std::printf((fmt + ";\n").c_str(), (*this)(i,j));
+    for ( size_t i = 0 ; i < mShape[0] ; ++i ) {
+      for ( size_t j = 0 ; j < mShape[1] ; ++j ) {
+        if ( j != mShape[1]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
+        else                    std::printf((fmt + ";\n").c_str(), (*this)(i,j));
       }
     }
 
@@ -1729,10 +1724,10 @@ inline void array<X>::printf(std::string fmt) const
 
   std::cout << "cppmat::periodic::array[";
 
-  for ( size_t i = 0 ; i < m_ndim-1 ; ++i )
+  for ( size_t i = 0 ; i < mNdim-1 ; ++i )
     std::cout << shape(i) << ",";
 
-  std::cout << shape(m_ndim-1) << "]\n";
+  std::cout << shape(mNdim-1) << "]\n";
 
 }
 
