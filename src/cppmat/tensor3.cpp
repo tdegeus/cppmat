@@ -821,7 +821,8 @@ inline std::vector<size_t> tensor4<X>::shape() const
 {
   std::vector<size_t> out(4);
 
-  std::fill(out.begin(), out.end(), mNd);
+  for ( size_t i = 0 ; i < 4 ; ++i )
+    out[i] = mNd;
 
   return out;
 }
@@ -833,7 +834,8 @@ inline std::vector<size_t> tensor2<X>::shape() const
 {
   std::vector<size_t> out(2);
 
-  std::fill(out.begin(), out.end(), mNd);
+  for ( size_t i = 0 ; i < 2 ; ++i )
+    out[i] = mNd;
 
   return out;
 }
@@ -845,7 +847,8 @@ inline std::vector<size_t> vector<X>::shape() const
 {
   std::vector<size_t> out(1);
 
-  std::fill(out.begin(), out.end(), mNd);
+  for ( size_t i = 0 ; i < 1 ; ++i )
+    out[i] = mNd;
 
   return out;
 }
