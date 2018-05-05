@@ -162,12 +162,10 @@ Contents
    cppmat_regular.rst
    cppmat_periodic.rst
    cppmat_tiny.rst
-   cppmat_view_tiny.rst
    cppmat_cartesian.rst
    cppmat_cartesian2d.rst
    cppmat_cartesian3d.rst
-   cppmat_view_cartesian2d.rst
-   cppmat_view_cartesian3d.rst
+   cppmat_view.rst
    copy.rst
    compile.rst
    python.rst
