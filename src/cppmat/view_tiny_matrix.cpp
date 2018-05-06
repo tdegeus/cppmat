@@ -510,6 +510,22 @@ inline std::vector<size_t> matrix<X,M,N>::argmax() const
   return decompress( std::max_element(begin(),end()) - begin() );
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline size_t matrix<X,M,N>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline size_t matrix<X,M,N>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
 // =================================================================================================
 // basic algebra : minimum
 // =================================================================================================

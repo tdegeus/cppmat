@@ -43,7 +43,7 @@ cppmat
 
   This library is free to use under the `MIT license <https://github.com/tdegeus/cppmat/blob/master/LICENSE>`_. Any additions are very much appreciated, in terms of suggested functionality, code, documentation, testimonials, word of mouth advertisement, .... Bug reports or feature requests can be filed on `GitHub <http://github.com/tdegeus/cppmat>`_. As always, the code comes with no guarantee. None of the developers can be held responsible for possible mistakes.
 
-.. note::
+.. tip::
 
   This document should be considered as a quick-start guide. A lot effort has been spent on the readability of the code itself. One is highly encouraged to answer more advanced questions that arise from this guide directly using the code.
 
@@ -110,9 +110,9 @@ In addition, the following classes are available to view a ``const``-pointer:
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 | **Class**                                                              | **Equivalent class**                                        |
 +========================================================================+=============================================================+
-| :ref:`cppmat::view::matrix <view_tiny_matrix>`                         | :ref:`cppmat::tiny::matrix <tiny_matrix>`                   |
+| :ref:`cppmat::view::tiny::matrix <view_tiny_matrix>`                   | :ref:`cppmat::tiny::matrix <tiny_matrix>`                   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
-| :ref:`cppmat::view::vector <view_tiny_vector>`                         | :ref:`cppmat::tiny::vector <tiny_vector>`                   |
+| :ref:`cppmat::view::tiny::vector <view_tiny_vector>`                   | :ref:`cppmat::tiny::vector <tiny_vector>`                   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+
 | :ref:`cppmat::view::cartesian2d::tensor4 <view_cartesian2d_tensor4>`   | :ref:`cppmat::cartesian2d::tensor4 <cartesian2d_tensor4>`   |
 +------------------------------------------------------------------------+-------------------------------------------------------------+

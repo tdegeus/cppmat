@@ -130,6 +130,9 @@ public:
   // - location of the minimum/maximum
   std::vector<size_t> argmin() const;
   std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
   // - minimum
   X         minCoeff() const;
   vector<X> minCoeff(int    axis) const;

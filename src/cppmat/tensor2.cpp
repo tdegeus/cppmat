@@ -5514,7 +5514,7 @@ inline vector<X> operator- (const X &A, const map::vector<X> &B)
 }
 
 // =================================================================================================
-// tensor products
+// tensor products: ddot
 // =================================================================================================
 
 template<class X>
@@ -5723,8 +5723,9 @@ inline X tensor2d<X>::ddot(const tensor2d<X> &B) const
   return mData[0]*B[0] + mData[1]*B[1];
 }
 
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// tensor products: dot
+// =================================================================================================
 
 template<class X>
 inline tensor2<X> tensor2<X>::dot(const tensor2<X> &B) const
@@ -5948,7 +5949,9 @@ inline X vector<X>::dot(const vector<X> &B) const
   return C;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// tensor products: dyadic
+// =================================================================================================
 
 template<class X>
 inline tensor4<X> tensor2<X>::dyadic(const tensor2<X> &B) const
@@ -6100,7 +6103,9 @@ inline tensor2<X> vector<X>::dyadic(const vector<X> &B) const
   return C;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// tensor products: ddot
+// =================================================================================================
 
 template<class X>
 inline tensor4<X> ddot(const tensor4<X> &A, const tensor4<X> &B)
@@ -6228,7 +6233,9 @@ inline X ddot(const tensor2d<X> &A, const tensor2d<X> &B)
   return A.ddot(B);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// tensor products: dot (out-of-class)
+// =================================================================================================
 
 template<class X>
 inline tensor2<X> dot(const tensor2<X> &A, const tensor2<X> &B)
@@ -6356,7 +6363,9 @@ inline X dot(const vector<X> &A, const vector<X> &B)
   return A.dot(B);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// tensor products: dyadic (out-of-class)
+// =================================================================================================
 
 template<class X>
 inline tensor4<X> dyadic(const tensor2<X> &A, const tensor2<X> &B)
@@ -7015,6 +7024,48 @@ inline std::vector<size_t> vector<X>::argmin() const
 }
 
 // =================================================================================================
+// basic algebra: location of the minimum
+// =================================================================================================
+
+template<class X>
+inline size_t tensor4<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2s<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2d<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// =================================================================================================
 // basic algebra: location of the maximum
 // =================================================================================================
 
@@ -7060,6 +7111,48 @@ template<class X>
 inline std::vector<size_t> vector<X>::argmax() const
 {
   return decompress( std::max_element(begin(),end()) - begin() );
+}
+
+// =================================================================================================
+// basic algebra: location of the maximum
+// =================================================================================================
+
+template<class X>
+inline size_t tensor4<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2s<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2d<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::argmaxIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
 }
 
 // =================================================================================================

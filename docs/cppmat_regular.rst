@@ -29,9 +29,9 @@ Header-only module that provides a C++ class for n-d matrices. For example, a ra
       return 0;
   }
 
-.. note:: **Tip**
+.. tip::
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`regular_matrix` instead of :ref:`regular_array`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please the fixed sized :ref:`tiny_matrix`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`regular_vector` and :ref:`tiny_vector`, which have many similarities to the standard C++ ``std::vector``.
+  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`regular_matrix` instead of :ref:`regular_array`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please use the fixed sized :ref:`tiny_matrix`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`regular_vector` and :ref:`tiny_vector`, which have many similarities to the standard C++ ``std::vector``.
 
 Methods
 -------
@@ -96,7 +96,19 @@ Methods
 
     Set all entries to zero or one, a constant, or the index in the flat storage.
 
-*   ``A.minCoeff()``, ``A.maxCoeff()``
+*   ``A.setCopy(first, last)``
+
+    Copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
+
+*   ``A.argmin()``, ``A.argmax()``
+
+    Return the array-indices of the minimum/maximum.
+
+*   ``A.argminIndex()``, ``A.argmaxIndex()``
+
+    Return the plain store index of the minimum/maximum.
+
+*   ``A.minCoeff([axis])``, ``A.maxCoeff([axis])``
 
     Return the minimum or the maximum entry.
 
@@ -250,7 +262,7 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
   *   `Row- and column-major order (Wikipedia) <https://en.wikipedia.org/wiki/Row-_and_column-major_order>`_
   *   `Reduction (sum) along arbitrary axes of a multidimensional array (StackOverflow) <https://stackoverflow.com/a/49905058/2646505>`_
 
-.. note::
+.. tip::
 
   One can switch back-and-forth between matrix indices and the plain storage using the ``compress`` and ``decompress`` functions. For example:
 

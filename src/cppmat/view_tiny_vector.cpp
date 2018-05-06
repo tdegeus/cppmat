@@ -369,6 +369,22 @@ inline size_t vector<X,N>::argmax() const
   return std::max_element(begin(),end()) - begin();
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t N>
+inline size_t vector<X,N>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t N>
+inline size_t vector<X,N>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
 // =================================================================================================
 // basic algebra : minimum
 // =================================================================================================

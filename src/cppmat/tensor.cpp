@@ -5530,6 +5530,48 @@ inline std::vector<size_t> vector<X>::argmin() const
 }
 
 // =================================================================================================
+// basic algebra: location of the minimum
+// =================================================================================================
+
+template<class X>
+inline size_t tensor4<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2s<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2d<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::argminIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
+}
+
+// =================================================================================================
 // basic algebra: location of the maximum
 // =================================================================================================
 
@@ -5575,6 +5617,48 @@ template<class X>
 inline std::vector<size_t> vector<X>::argmax() const
 {
   return decompress( std::max_element(begin(),end()) - begin() );
+}
+
+// =================================================================================================
+// basic algebra: location of the maximum
+// =================================================================================================
+
+template<class X>
+inline size_t tensor4<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2s<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t tensor2d<X>::argmaxIndex() const
+{
+  return std::max_element(begin(),end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline size_t vector<X>::argmaxIndex() const
+{
+  return std::min_element(begin(),end()) - begin();
 }
 
 // =================================================================================================

@@ -104,6 +104,9 @@ public:
   // - location of the minimum/maximum
   size_t argmin() const;
   size_t argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
   // - minimum
   X minCoeff() const;
   // - maximum

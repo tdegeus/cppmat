@@ -32,7 +32,9 @@ class tensor4
 {
 private:
 
-  const X *mData=nullptr; // pointer to data (points outside)
+  const X *mData=nullptr;       // pointer to data (points outside)
+  static const size_t mNd=3;    // number of dimensions (rank == 4 -> shape == [mNd,mNd,mNd,mNd])
+  static const size_t mSize=81; // == mData.size() == mNd*mNd*mNd*mNd
 
 public:
 
@@ -44,6 +46,9 @@ public:
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;
@@ -57,13 +62,24 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j, size_t k, size_t l) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b,c,d)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b,c,d -> i)
+  size_t compress(size_t a, size_t b, size_t c, size_t d) const;
+
   // pointer to data
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin() const;
   auto end() const;
 
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b, size_t c, size_t d) const;
   // tensor products / operations
   reg::tensor4<X> inline ddot(const tensor4 <X> &B) const;
   reg::tensor2<X> inline ddot(const tensor2 <X> &B) const;
@@ -78,7 +94,24 @@ public:
   bool operator== (const reg::tensor4<X> &B) const;
 
   // basic algebra
+  // - tensor norm: sum(| A_ijkl |)
   X norm() const;
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor4<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -94,7 +127,9 @@ class tensor2
 {
 private:
 
-  const X *mData=nullptr; // pointer to data (points outside)
+  const X *mData=nullptr;      // pointer to data (points outside)
+  static const size_t mNd=3;   // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  static const size_t mSize=9; // == mData.size() == mNd*mNd
 
 public:
 
@@ -106,6 +141,9 @@ public:
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -122,12 +160,24 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b -> i)
+  size_t compress(size_t a, size_t b) const;
+
   // pointer to data
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin() const;
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b) const;
 
   // tensor products / operations
   reg::tensor2<X> inline dot   (const tensor2 <X> &B) const;
@@ -159,7 +209,24 @@ public:
   bool isdiagonal() const;
 
   // basic algebra
+  // - tensor norm: sum(| A_ij |)
   X norm() const;
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -175,7 +242,9 @@ class tensor2s
 {
 private:
 
-  const X *mData=nullptr; // pointer to data (points outside)
+  const X *mData=nullptr;      // pointer to data (points outside)
+  static const size_t mNd=3;   // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  static const size_t mSize=6; // == mData.size() == (mNd+1)*mNd/2
 
 public:
 
@@ -187,6 +256,9 @@ public:
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -201,12 +273,24 @@ public:
   // index operators: access using matrix indices
   const X& operator()(size_t i, size_t j) const;
 
+  // index operators: plain storage -> array-indices (i -> a,b)
+  std::vector<size_t> decompress(size_t i) const;
+
+  // index operators: array-indices -> plain storage (a,b -> i)
+  size_t compress(size_t a, size_t b) const;
+
   // pointer to data
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin() const;
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a, size_t b) const;
 
   // tensor products / operations
   reg::tensor2 <X> inline dot   (const tensor2 <X> &B) const;
@@ -234,10 +318,27 @@ public:
   bool operator== (const reg::tensor2d<X> &B) const;
 
   // structure check
-  bool isdiagonal() const;
+  bool isdiagonal() const; // A_ij == 0, i != j
 
   // basic algebra
+  // - tensor norm: sum(| A_ij |)
   X norm() const;
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2s<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -253,8 +354,10 @@ class tensor2d
 {
 private:
 
-  const X *mData=nullptr; // pointer to data (points outside)
-  X m_zero[1];             // dummy parameter, used to return "0" for any off-diagonal entry
+  const X *mData=nullptr;      // pointer to data (points outside)
+  static const size_t mNd=3;   // number of dimensions (rank == 2 -> shape == [mNd,mNd])
+  static const size_t mSize=3; // == mData.size() == mNd
+  X mZero[1];                  // dummy parameter, used to return "0" for any off-diagonal entry
 
 public:
 
@@ -266,6 +369,9 @@ public:
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // cast into another object
   template<class U> U cast() const;
@@ -283,9 +389,12 @@ public:
   // pointer to data
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin() const;
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
 
   // tensor products / operations
   reg::tensor2 <X> inline dot   (const tensor2 <X> &B) const;
@@ -313,7 +422,24 @@ public:
   bool operator== (const reg::tensor2d<X> &B) const;
 
   // basic algebra
+  // - tensor norm: sum(| A_ij |)
   X norm() const;
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const tensor2d<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
@@ -329,7 +455,9 @@ class vector
 {
 private:
 
-  const X *mData=nullptr; // pointer to data (points outside)
+  const X *mData=nullptr;      // pointer to data (points outside)
+  static const size_t mNd=3;   // number of dimensions (rank == 1 -> shape == [mNd])
+  static const size_t mSize=3; // == mData.size() == mNd
 
 public:
 
@@ -341,6 +469,9 @@ public:
 
   // reset external pointer
   void setMap(const X *D);
+
+  // information without constructing
+  static size_t Size();
 
   // get dimensions
   size_t size() const;
@@ -357,9 +488,15 @@ public:
   // pointer to data
   const X* data() const;
 
-  // iterators
+  // iterator to first and last entry
   auto begin() const;
   auto end() const;
+
+  // iterator to specific entry: access plain storage
+  auto index(size_t i) const;
+
+  // iterator to specific entry: access using array-indices
+  auto item(size_t a) const;
 
   // tensor products / operations
   X               inline dot   (const vector  <X> &B) const;
@@ -374,8 +511,26 @@ public:
   bool operator== (const reg::vector<X> &B) const;
 
   // basic algebra
+  // - vector norm: sum(| A_ij |)
   X norm() const;
+  // - vector length: sqrt(sum(pow(A_i,2.)))
   X length() const;
+  // - location of the minimum/maximum
+  std::vector<size_t> argmin() const;
+  std::vector<size_t> argmax() const;
+  // - location of the minimum/maximum
+  size_t argminIndex() const;
+  size_t argmaxIndex() const;
+  // - minimum
+  X minCoeff() const;
+  // - maximum
+  X maxCoeff() const;
+  // - sum
+  X sum() const;
+  // - mean
+  double mean() const;
+  // - weighted average
+  double average(const vector<X> &weights, bool norm=true) const;
 
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
