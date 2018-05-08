@@ -1555,10 +1555,14 @@ inline array<X> array<X>::average(
 // =================================================================================================
 
 template<class X>
-inline void array<X>::abs()
+inline array<X> array<X>::abs() const
 {
-  for ( auto &i : mData )
+  array<X> out = (*this);
+
+  for ( auto &i : out )
     i = std::abs(i);
+
+  return out;
 }
 
 // =================================================================================================

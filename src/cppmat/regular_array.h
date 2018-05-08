@@ -141,7 +141,7 @@ public:
 
   // basic algebra
   // - absolute value
-  void abs();
+  array<X> abs() const;
   // - location of the minimum/maximum
   std::vector<size_t> argmin() const;
   std::vector<size_t> argmax() const;
