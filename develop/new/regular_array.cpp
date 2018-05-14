@@ -1574,6 +1574,9 @@ template<class X>
 inline
 array<X> array<X>::sum(const std::vector<int> &axes_in) const
 {
+  // check rank
+  assert( axes_in.size() < mRank );
+
   // correct for 'periodicity', sort from high to low
   std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
 
