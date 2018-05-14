@@ -1093,7 +1093,7 @@ template<class Iterator>
 inline
 void array<X>::setCopy(Iterator first, Iterator last)
 {
-  assert( mSize == last-first );
+  assert( mSize == static_cast<size_t>(last-first) );
 
   std::copy(first, last, begin());
 }
@@ -1117,7 +1117,7 @@ template<class Iterator>
 inline
 void array<X>::copyTo(Iterator first, Iterator last) const
 {
-  assert( mSize == last-first );
+  assert( mSize == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 

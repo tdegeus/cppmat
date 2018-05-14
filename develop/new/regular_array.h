@@ -148,10 +148,10 @@ public:
   array<X>& operator/= (const array<X> &B);
   array<X>& operator+= (const array<X> &B);
   array<X>& operator-= (const array<X> &B);
-  array<X>& operator*= (const         X  &B);
-  array<X>& operator/= (const         X  &B);
-  array<X>& operator+= (const         X  &B);
-  array<X>& operator-= (const         X  &B);
+  array<X>& operator*= (const       X  &B);
+  array<X>& operator/= (const       X  &B);
+  array<X>& operator+= (const       X  &B);
+  array<X>& operator-= (const       X  &B);
 
   // absolute value
   array<X> abs() const;

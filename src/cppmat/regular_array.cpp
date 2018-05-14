@@ -139,20 +139,6 @@ inline void array<X>::resize(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::chdim(size_t ndim)
-{
-  // check that all removed dimensions are of shape 1
-  #ifndef NDEBUG
-    for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
-  #endif
-
-  // update number of dimensions
-  mNdim = ndim;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
 inline void array<X>::reshape(const std::vector<size_t> &shape)
 {
   // check that the size is unchanged
@@ -166,6 +152,20 @@ inline void array<X>::reshape(const std::vector<size_t> &shape)
 
   // process new shape
   resize(shape);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline void array<X>::chdim(size_t ndim)
+{
+  // check that all removed dimensions are of shape 1
+  #ifndef NDEBUG
+    for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
+  #endif
+
+  // update number of dimensions
+  mNdim = ndim;
 }
 
 // =================================================================================================
