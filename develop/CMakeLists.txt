@@ -37,14 +37,4 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 add_executable(${PROJECT_NAME}
   main.cpp
   regular_array.cpp
-  regular_matrix.cpp
-  regular_vector.cpp
-  periodic_array.cpp
-  periodic_matrix.cpp
-  periodic_vector.cpp
-  tiny_matrix.cpp
-  tiny_vector.cpp
-  tensor.cpp
-  tensor2.cpp
-  tensor3.cpp
 )

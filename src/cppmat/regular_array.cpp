@@ -4,12 +4,12 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_ARRAY_CPP
-#define CPPMAT_ARRAY_CPP
+#ifndef CPPMAT_REGULAR_ARRAY_CPP
+#define CPPMAT_REGULAR_ARRAY_CPP
 
 // -------------------------------------------------------------------------------------------------
 
-#include "regular_array.h"
+#include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
 
@@ -20,21 +20,31 @@ namespace cppmat {
 // =================================================================================================
 
 template<class X>
-inline array<X>::array(const std::vector<size_t> &shape)
+inline
+array<X>::array(const std::vector<size_t> &shape)
 {
-  // store shape, and other size parameters, allocate "mData"
   resize(shape);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::Arange(const std::vector<size_t> &shape)
+inline
+array<X>::array(const array<X> &A)
 {
-  // call basic constructor
+  resize(A.shape());
+
+  setCopy(A.begin(), A.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> array<X>::Arange(const std::vector<size_t> &shape)
+{
   array<X> out(shape);
 
-  // initialize
   out.setArange();
 
   return out;
@@ -43,12 +53,11 @@ inline array<X> array<X>::Arange(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::Zero(const std::vector<size_t> &shape)
+inline
+array<X> array<X>::Zero(const std::vector<size_t> &shape)
 {
-  // call basic constructor
   array<X> out(shape);
 
-  // initialize
   out.setZero();
 
   return out;
@@ -57,12 +66,11 @@ inline array<X> array<X>::Zero(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::Ones(const std::vector<size_t> &shape)
+inline
+array<X> array<X>::Ones(const std::vector<size_t> &shape)
 {
-  // call basic constructor
   array<X> out(shape);
 
-  // initialize
   out.setOnes();
 
   return out;
@@ -71,12 +79,11 @@ inline array<X> array<X>::Ones(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
+inline
+array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 {
-  // call basic constructor
   array<X> out(shape);
 
-  // initialize
   out.setConstant(D);
 
   return out;
@@ -86,12 +93,25 @@ inline array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 
 template<class X>
 template<typename Iterator>
-inline array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
+inline
+array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
 {
-  // call basic constructor
   array<X> out(shape);
 
-  // initialize
+  out.setCopy(first);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline
+array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
+{
+  array<X> out(shape);
+
   out.setCopy(first,last);
 
   return out;
@@ -102,70 +122,70 @@ inline array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first,
 // =================================================================================================
 
 template<class X>
-inline void array<X>::resize(const std::vector<size_t> &shape)
+inline
+void array<X>::resize(const std::vector<size_t> &shape)
 {
   assert( shape.size()  > 0       );
   assert( shape.size() <= MAX_DIM );
 
+  // store old size
+  size_t size = mSize;
+
   // update number of dimensions
-  mNdim = shape.size();
+  mRank = shape.size();
 
-  // initialize shape in all directions to "1"
-  for ( size_t i = 0 ; i < MAX_DIM ; ++i )
-  {
-    mShape  [i] = 1;
-    mStrides[i] = 1;
-  }
+  // initialize shape/strides in all directions
+  std::fill(std::begin(mShape  )+mRank, std::begin(mShape  )+MAX_DIM, 1);
+  std::fill(std::begin(mStrides)      , std::begin(mStrides)+MAX_DIM, 1);
 
-  // initialize size
+  // copy shape from input
+  std::copy(shape.begin(), shape.end(), std::begin(mShape));
+
+  // get size
+  // - initialize
   mSize = 1;
-
-  // update shape/size
-  for ( size_t i = 0 ; i < mNdim ; ++i )
-  {
-    mShape[i] = shape[i];
-    mSize    *= shape[i];
-  }
+  // - product of shape in all directions
+  for ( size_t i = 0 ; i < mRank ; ++i ) mSize *= shape[i];
 
   // set storage strides
-  for ( size_t i = 0 ; i < mNdim ; ++i )
-    for ( size_t j = i+1 ; j < mNdim ; ++j )
+  for ( size_t i = 0 ; i < mRank ; ++i )
+    for ( size_t j = i+1 ; j < mRank ; ++j )
       mStrides[i] *= mShape[j];
 
   // allocate data
-  mData.resize(mSize);
+  if ( mSize != size ) mData.resize(mSize);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::reshape(const std::vector<size_t> &shape)
+inline
+void array<X>::reshape(const std::vector<size_t> &shape)
 {
   // check that the size is unchanged
   #ifndef NDEBUG
     size_t n = 1;
-
     for ( auto &i : shape ) n *= i;
-
     assert( n == mSize );
   #endif
 
-  // process new shape
+  // process change
   resize(shape);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::chdim(size_t ndim)
+inline
+void array<X>::chrank(size_t rank)
 {
   // check that all removed dimensions are of shape 1
   #ifndef NDEBUG
-    for ( size_t i = ndim ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
+    for ( size_t i = rank ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
   #endif
 
   // update number of dimensions
-  mNdim = ndim;
+  mRank = rank;
 }
 
 // =================================================================================================
@@ -173,7 +193,8 @@ inline void array<X>::chdim(size_t ndim)
 // =================================================================================================
 
 template<class X>
-inline size_t array<X>::size() const
+inline
+size_t array<X>::size() const
 {
   return mSize;
 }
@@ -181,22 +202,24 @@ inline size_t array<X>::size() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::ndim() const
+inline
+size_t array<X>::rank() const
 {
-  return mNdim;
+  return mRank;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::shape(int i) const
+inline
+size_t array<X>::shape(int i) const
 {
-  // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( i  <      static_cast<int>(mNdim) );
-  assert( i >= -1 * static_cast<int>(mNdim) );
+  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
+  assert( i  <      static_cast<int>(mRank) );
+  assert( i >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(mNdim);
+  int n = static_cast<int>(mRank);
 
   // correct periodic index
   i = ( n + (i%n) ) % n;
@@ -208,10 +231,11 @@ inline size_t array<X>::shape(int i) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::shape(size_t i) const
+inline
+size_t array<X>::shape(size_t i) const
 {
-  // check axis: (0,1,...,ndim-1)
-  assert( i < mNdim );
+  // check axis: (0,1,...,rank-1)
+  assert( i < mRank );
 
   // return shape
   return mShape[i];
@@ -220,29 +244,31 @@ inline size_t array<X>::shape(size_t i) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::vector<size_t> array<X>::shape() const
+inline
+std::vector<size_t> array<X>::shape() const
 {
-  std::vector<size_t> ret(mNdim);
+  std::vector<size_t> shape(mRank);
 
-  std::copy(std::begin(mShape), std::begin(mShape)+mNdim, ret.begin());
+  std::copy(std::begin(mShape), std::begin(mShape)+mRank, shape.begin());
 
-  return ret;
+  return shape;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline std::vector<size_t> array<X>::strides(bool bytes) const
+inline
+std::vector<size_t> array<X>::strides(bool bytes) const
 {
-  std::vector<size_t> ret(mNdim);
+  std::vector<size_t> strides(mRank);
 
-  std::copy(std::begin(mStrides), std::begin(mStrides)+mNdim, ret.begin());
+  std::copy(std::begin(mStrides), std::begin(mStrides)+mRank, strides.begin());
 
   if ( bytes )
-    for ( size_t i = 0 ; i < mNdim ; ++i )
-      ret[i] *= sizeof(X);
+    for ( size_t i = 0 ; i < mRank ; ++i )
+      strides[i] *= sizeof(X);
 
-  return ret;
+  return strides;
 }
 
 // =================================================================================================
@@ -250,7 +276,8 @@ inline std::vector<size_t> array<X>::strides(bool bytes) const
 // =================================================================================================
 
 template<class X>
-inline X& array<X>::operator[](size_t i)
+inline
+X& array<X>::operator[](size_t i)
 {
   assert( i < mSize );
 
@@ -260,7 +287,8 @@ inline X& array<X>::operator[](size_t i)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator[](size_t i) const
+inline
+const X& array<X>::operator[](size_t i) const
 {
   assert( i < mSize );
 
@@ -272,117 +300,146 @@ inline const X& array<X>::operator[](size_t i) const
 // =================================================================================================
 
 template<class X>
-inline X& array<X>::operator()(size_t a)
+inline
+X& array<X>::operator()(size_t a)
 {
-  assert( mNdim >= 1 );
+  assert( mRank >= 1 );
 
   assert( a < mShape[0] );
 
-  return mData[a*mStrides[0]];
+  return mData[\
+    a * mStrides[0]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator()(size_t a) const
+inline
+const X& array<X>::operator()(size_t a) const
 {
-  assert( mNdim >= 1 );
+  assert( mRank >= 1 );
 
   assert( a < mShape[0] );
 
-  return mData[a*mStrides[0]];
+  return mData[\
+    a * mStrides[0]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X& array<X>::operator()(size_t a, size_t b)
+inline
+X& array<X>::operator()(size_t a, size_t b)
 {
-  assert( mNdim >= 2 );
-
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-
-  return mData[a*mStrides[0]+b*mStrides[1]];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline const X& array<X>::operator()(size_t a, size_t b) const
-{
-  assert( mNdim >= 2 );
+  assert( mRank >= 2 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X& array<X>::operator()(size_t a, size_t b, size_t c)
+inline
+const X& array<X>::operator()(size_t a, size_t b) const
 {
-  assert( mNdim >= 3 );
+  assert( mRank >= 2 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
-  assert( c < mShape[2] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator()(size_t a, size_t b, size_t c) const
+inline
+X& array<X>::operator()(size_t a, size_t b, size_t c)
 {
-  assert( mNdim >= 3 );
+  assert( mRank >= 3 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d)
+inline
+const X& array<X>::operator()(size_t a, size_t b, size_t c) const
 {
-  assert( mNdim >= 4 );
+  assert( mRank >= 3 );
+
+  assert( a < mShape[0] );
+  assert( b < mShape[1] );
+  assert( c < mShape[2] );
+
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d)
+{
+  assert( mRank >= 4 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
+inline
+const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mNdim >= 4 );
+  assert( mRank >= 4 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
+inline
+X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
-  assert( mNdim >= 5 );
+  assert( mRank >= 5 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -390,15 +447,21 @@ inline X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
+inline
+const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mNdim >= 5 );
+  assert( mRank >= 5 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -406,15 +469,21 @@ inline const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, siz
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+inline
+X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
-  assert( mNdim >= 6 );
+  assert( mRank >= 6 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -423,17 +492,22 @@ inline X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e,
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return \
-  mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4] + \
+    f * mStrides[5]];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X& array<X>::operator()(
-  size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+inline
+const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mNdim >= 6 );
+  assert( mRank >= 6 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -442,8 +516,13 @@ inline const X& array<X>::operator()(
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return \
-  mData[a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5]];
+  return mData[\
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4] + \
+    f * mStrides[5]];
 }
 
 // =================================================================================================
@@ -452,11 +531,12 @@ inline const X& array<X>::operator()(
 
 template<class X>
 template<class Iterator>
-inline X& array<X>::at(Iterator first, Iterator last)
+inline
+X& array<X>::at(Iterator first, Iterator last)
 {
   // check input
   assert( static_cast<size_t>(last-first)  > 0     );
-  assert( static_cast<size_t>(last-first) <= mNdim );
+  assert( static_cast<size_t>(last-first) <= mRank );
 
   // iterator to shape and stride
   size_t *shape  = &mShape  [0];
@@ -484,11 +564,12 @@ inline X& array<X>::at(Iterator first, Iterator last)
 
 template<class X>
 template<class Iterator>
-inline const X& array<X>::at(Iterator first, Iterator last) const
+inline
+const X& array<X>::at(Iterator first, Iterator last) const
 {
   // check input
   assert( static_cast<size_t>(last-first)  > 0     );
-  assert( static_cast<size_t>(last-first) <= mNdim );
+  assert( static_cast<size_t>(last-first) <= mRank );
 
   // iterator to shape and stride
   size_t *shape  = &mShape  [0];
@@ -517,63 +598,74 @@ inline const X& array<X>::at(Iterator first, Iterator last) const
 // =================================================================================================
 
 template<class X>
-inline size_t array<X>::compress(size_t a) const
+inline
+size_t array<X>::compress(size_t a) const
 {
-  assert( mNdim >= 1 );
+  assert( mRank >= 1 );
 
   assert( a < mShape[0] );
 
-  return a*mStrides[0];
+  return a * mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::compress(size_t a, size_t b) const
+inline
+size_t array<X>::compress(size_t a, size_t b) const
 {
-  assert( mNdim >= 2 );
+  assert( mRank >= 2 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
-  return a*mStrides[0]+b*mStrides[1];
+  return a * mStrides[0] + \
+         b * mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::compress(size_t a, size_t b, size_t c) const
+inline
+size_t array<X>::compress(size_t a, size_t b, size_t c) const
 {
-  assert( mNdim >= 3 );
+  assert( mRank >= 3 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
 
-  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
+  return a * mStrides[0] + \
+         b * mStrides[1] + \
+         c * mStrides[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d) const
+inline
+size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mNdim >= 4 );
+  assert( mRank >= 4 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
+  return a * mStrides[0] + \
+         b * mStrides[1] + \
+         c * mStrides[2] + \
+         d * mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
+inline
+size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mNdim >= 5 );
+  assert( mRank >= 5 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -581,15 +673,20 @@ inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t 
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
+  return a * mStrides[0] + \
+         b * mStrides[1] + \
+         c * mStrides[2] + \
+         d * mStrides[3] + \
+         e * mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+inline
+size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mNdim >= 6 );
+  assert( mRank >= 6 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -598,7 +695,12 @@ inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t 
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
+  return a * mStrides[0] + \
+         b * mStrides[1] + \
+         c * mStrides[2] + \
+         d * mStrides[3] + \
+         e * mStrides[4] + \
+         f * mStrides[5];
 }
 
 // =================================================================================================
@@ -606,16 +708,17 @@ inline size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t 
 // =================================================================================================
 
 template<class X>
-inline std::vector<size_t> array<X>::decompress(size_t i) const
+inline
+std::vector<size_t> array<X>::decompress(size_t i) const
 {
   // check input
   assert( i < mSize );
 
   // allocate array-index
-  std::vector<size_t> idx(mNdim);
+  std::vector<size_t> idx(mRank);
 
   // reconstruct
-  for ( size_t j = 0 ; j < mNdim ; ++j ) {
+  for ( size_t j = 0 ; j < mRank ; ++j ) {
     idx[j] = (i - i%mStrides[j]) / mStrides[j];
     i -= idx[j] * mStrides[j];
   }
@@ -628,7 +731,8 @@ inline std::vector<size_t> array<X>::decompress(size_t i) const
 // =================================================================================================
 
 template<class X>
-inline X* array<X>::data()
+inline
+X* array<X>::data()
 {
   return mData.data();
 }
@@ -636,7 +740,8 @@ inline X* array<X>::data()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline const X* array<X>::data() const
+inline
+const X* array<X>::data() const
 {
   return mData.data();
 }
@@ -646,7 +751,8 @@ inline const X* array<X>::data() const
 // =================================================================================================
 
 template<class X>
-inline auto array<X>::begin()
+inline
+auto array<X>::begin()
 {
   return mData.begin();
 }
@@ -654,7 +760,8 @@ inline auto array<X>::begin()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::begin() const
+inline
+auto array<X>::begin() const
 {
   return mData.begin();
 }
@@ -662,7 +769,8 @@ inline auto array<X>::begin() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::end()
+inline
+auto array<X>::end()
 {
   return mData.end();
 }
@@ -670,7 +778,8 @@ inline auto array<X>::end()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::end() const
+inline
+auto array<X>::end() const
 {
   return mData.end();
 }
@@ -680,7 +789,8 @@ inline auto array<X>::end() const
 // =================================================================================================
 
 template<class X>
-inline auto array<X>::index(size_t i)
+inline
+auto array<X>::index(size_t i)
 {
   assert( i < mSize );
 
@@ -690,7 +800,8 @@ inline auto array<X>::index(size_t i)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::index(size_t i) const
+inline
+auto array<X>::index(size_t i) const
 {
   assert( i < mSize );
 
@@ -702,117 +813,146 @@ inline auto array<X>::index(size_t i) const
 // =================================================================================================
 
 template<class X>
-inline auto array<X>::item(size_t a)
+inline
+auto array<X>::item(size_t a)
 {
-  assert( mNdim >= 1 );
+  assert( mRank >= 1 );
 
   assert( a < mShape[0] );
 
-  return begin() + a*mStrides[0];
+  return begin() + \
+    a * mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a) const
+inline
+auto array<X>::item(size_t a) const
 {
-  assert( mNdim >= 1 );
+  assert( mRank >= 1 );
 
   assert( a < mShape[0] );
 
-  return begin() + a*mStrides[0];
+  return begin() + \
+    a * mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b)
+inline
+auto array<X>::item(size_t a, size_t b)
 {
-  assert( mNdim >= 2 );
-
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-
-  return begin() + a*mStrides[0]+b*mStrides[1];
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline auto array<X>::item(size_t a, size_t b) const
-{
-  assert( mNdim >= 2 );
+  assert( mRank >= 2 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
-  return begin() + a*mStrides[0]+b*mStrides[1];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c)
+inline
+auto array<X>::item(size_t a, size_t b) const
 {
-  assert( mNdim >= 3 );
+  assert( mRank >= 2 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
-  assert( c < mShape[2] );
 
-  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c) const
+inline
+auto array<X>::item(size_t a, size_t b, size_t c)
 {
-  assert( mNdim >= 3 );
+  assert( mRank >= 3 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
 
-  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d)
+inline
+auto array<X>::item(size_t a, size_t b, size_t c) const
 {
-  assert( mNdim >= 4 );
+  assert( mRank >= 3 );
+
+  assert( a < mShape[0] );
+  assert( b < mShape[1] );
+  assert( c < mShape[2] );
+
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d)
+{
+  assert( mRank >= 4 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d) const
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mNdim >= 4 );
+  assert( mRank >= 4 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return begin() + a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
-  assert( mNdim >= 5 );
+  assert( mRank >= 5 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -820,15 +960,21 @@ inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mNdim >= 5 );
+  assert( mRank >= 5 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -836,15 +982,21 @@ inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e) con
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
-  assert( mNdim >= 6 );
+  assert( mRank >= 6 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -853,15 +1005,22 @@ inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, siz
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4] + \
+    f * mStrides[5];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+inline
+auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mNdim >= 6 );
+  assert( mRank >= 6 );
 
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -870,15 +1029,22 @@ inline auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, siz
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return begin()+a*mStrides[0]+b*mStrides[1]+c*mStrides[2]+d*mStrides[3]+e*mStrides[4]+f*mStrides[5];
+  return begin() + \
+    a * mStrides[0] + \
+    b * mStrides[1] + \
+    c * mStrides[2] + \
+    d * mStrides[3] + \
+    e * mStrides[4] + \
+    f * mStrides[5];
 }
 
 // =================================================================================================
-// basic initialization
+// initialize
 // =================================================================================================
 
 template<class X>
-inline void array<X>::setArange()
+inline
+void array<X>::setArange()
 {
   for ( size_t i = 0 ; i < mSize ; ++i ) mData[i] = static_cast<X>(i);
 }
@@ -886,7 +1052,8 @@ inline void array<X>::setArange()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::setZero()
+inline
+void array<X>::setZero()
 {
   std::fill(begin(), end(), static_cast<X>(0));
 }
@@ -894,7 +1061,8 @@ inline void array<X>::setZero()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::setOnes()
+inline
+void array<X>::setOnes()
 {
   std::fill(begin(), end(), static_cast<X>(1));
 }
@@ -902,7 +1070,8 @@ inline void array<X>::setOnes()
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline void array<X>::setConstant(X D)
+inline
+void array<X>::setConstant(X D)
 {
   std::fill(begin(), end(), D);
 }
@@ -911,11 +1080,78 @@ inline void array<X>::setConstant(X D)
 
 template<class X>
 template<class Iterator>
-inline void array<X>::setCopy(Iterator first, Iterator last)
+inline
+void array<X>::setCopy(Iterator first)
 {
-  assert( mSize == last - first );
+  std::copy(first, first+mSize, begin());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline
+void array<X>::setCopy(Iterator first, Iterator last)
+{
+  assert( mSize == static_cast<size_t>(last-first) );
 
   std::copy(first, last, begin());
+}
+
+// =================================================================================================
+// copy to target
+// =================================================================================================
+
+template<class X>
+template<class Iterator>
+inline
+void array<X>::copyTo(Iterator first) const
+{
+  std::copy(begin(), end(), first);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<class Iterator>
+inline
+void array<X>::copyTo(Iterator first, Iterator last) const
+{
+  assert( mSize == static_cast<size_t>(last-first) );
+
+  UNUSED(last);
+
+  std::copy(begin(), end(), first);
+}
+
+// =================================================================================================
+// sign change
+// =================================================================================================
+
+template<class X>
+inline
+array<X> array<X>::operator- () const
+{
+  array<X> out(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = -mData[i];
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> array<X>::operator+ () const
+{
+  array<X> out(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = mData[i];
+
+  return out;
 }
 
 // =================================================================================================
@@ -923,10 +1159,12 @@ inline void array<X>::setCopy(Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X>
-inline array<X>& array<X>::operator*= (const array<X> &B)
+inline
+array<X>& array<X>::operator*= (const array<X> &B)
 {
   assert( shape() == B.shape() );
-  assert( ndim()  == B.ndim()  );
+  assert( rank () == B.rank () );
+  assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B[i];
@@ -937,10 +1175,12 @@ inline array<X>& array<X>::operator*= (const array<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator/= (const array<X> &B)
+inline
+array<X>& array<X>::operator/= (const array<X> &B)
 {
   assert( shape() == B.shape() );
-  assert( ndim()  == B.ndim()  );
+  assert( rank () == B.rank () );
+  assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B[i];
@@ -951,10 +1191,12 @@ inline array<X>& array<X>::operator/= (const array<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator+= (const array<X> &B)
+inline
+array<X>& array<X>::operator+= (const array<X> &B)
 {
   assert( shape() == B.shape() );
-  assert( ndim()  == B.ndim()  );
+  assert( rank () == B.rank () );
+  assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B[i];
@@ -965,10 +1207,12 @@ inline array<X>& array<X>::operator+= (const array<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator-= (const array<X> &B)
+inline
+array<X>& array<X>::operator-= (const array<X> &B)
 {
   assert( shape() == B.shape() );
-  assert( ndim()  == B.ndim()  );
+  assert( rank () == B.rank () );
+  assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B[i];
@@ -979,7 +1223,8 @@ inline array<X>& array<X>::operator-= (const array<X> &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator*= (const X &B)
+inline
+array<X>& array<X>::operator*= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B;
@@ -990,7 +1235,8 @@ inline array<X>& array<X>::operator*= (const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator/= (const X &B)
+inline
+array<X>& array<X>::operator/= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B;
@@ -1001,7 +1247,8 @@ inline array<X>& array<X>::operator/= (const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator+= (const X &B)
+inline
+array<X>& array<X>::operator+= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B;
@@ -1012,7 +1259,8 @@ inline array<X>& array<X>::operator+= (const X &B)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X>& array<X>::operator-= (const X &B)
+inline
+array<X>& array<X>::operator-= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B;
@@ -1020,214 +1268,83 @@ inline array<X>& array<X>::operator-= (const X &B)
   return *this;
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator* (const array<X> &A, const array<X> &B)
-{
-  assert( A.shape() == B.shape() );
-  assert( A.ndim()  == B.ndim()  );
-
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] * B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator/ (const array<X> &A, const array<X> &B)
-{
-  assert( A.shape() == B.shape() );
-  assert( A.ndim()  == B.ndim()  );
-
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] / B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator+ (const array<X> &A, const array<X> &B)
-{
-  assert( A.shape() == B.shape() );
-  assert( A.ndim()  == B.ndim()  );
-
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] + B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator- (const array<X> &A, const array<X> &B)
-{
-  assert( A.shape() == B.shape() );
-  assert( A.ndim()  == B.ndim()  );
-
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] - B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator* (const array<X> &A, const X &B)
-{
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] * B;
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator/ (const array<X> &A, const X &B)
-{
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] / B;
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator+ (const array<X> &A, const X &B)
-{
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] + B;
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator- (const array<X> &A, const X &B)
-{
-  array<X> C(A.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A[i] - B;
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator* (const X &A, const array<X> &B)
-{
-  array<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A * B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator/ (const X &A, const array<X> &B)
-{
-  array<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A / B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator+ (const X &A, const array<X> &B)
-{
-  array<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A + B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline array<X> operator- (const X &A, const array<X> &B)
-{
-  array<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A - B[i];
-
-  return C;
-}
-
 // =================================================================================================
-// basic algebra : location of the minimum/maximum
+// absolute value
 // =================================================================================================
 
 template<class X>
-inline std::vector<size_t> array<X>::argmin() const
+inline
+array<X> array<X>::abs() const
 {
-  return decompress( std::min_element(begin(),end()) - begin() );
-}
+  array<X> out(shape());
 
-// -------------------------------------------------------------------------------------------------
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = std::abs(mData[i]);
 
-template<class X>
-inline std::vector<size_t> array<X>::argmax() const
-{
-  return decompress( std::max_element(begin(),end()) - begin() );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline size_t array<X>::argminIndex() const
-{
-  return std::min_element(begin(),end()) - begin();
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline size_t array<X>::argmaxIndex() const
-{
-  return std::max_element(begin(),end()) - begin();
+  return out;
 }
 
 // =================================================================================================
-// basic algebra : minimum
+// norm
 // =================================================================================================
 
 template<class X>
-inline X array<X>::minCoeff() const
+inline
+X array<X>::norm() const
+{
+  X out = static_cast<X>(0);
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out += std::abs(mData[i]);
+
+  return out;
+}
+
+// =================================================================================================
+// location of the minimum/maximum
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<size_t> array<X>::argmin() const
+{
+  return decompress( std::min_element(begin(), end()) - begin() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+std::vector<size_t> array<X>::argmax() const
+{
+  return decompress( std::max_element(begin(), end()) - begin() );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+size_t array<X>::argminIndex() const
+{
+  return std::min_element(begin(), end()) - begin();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+size_t array<X>::argmaxIndex() const
+{
+  return std::max_element(begin(), end()) - begin();
+}
+
+// =================================================================================================
+// minimum
+// =================================================================================================
+
+template<class X>
+inline
+X array<X>::minCoeff() const
 {
   return *std::min_element(begin(),end());
 }
@@ -1235,17 +1352,18 @@ inline X array<X>::minCoeff() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::minCoeff(size_t axis) const
+inline
+array<X> array<X>::minCoeff(size_t axis) const
 {
   // check input
-  assert( axis < mNdim );
+  assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(this->shape(),axis), this->maxCoeff());
+  array<X> out = array<X>::Constant(del(shape(),axis), maxCoeff());
 
   // extended strides
   // - copy strides
-  std::vector<size_t> estrides = this->strides();
+  std::vector<size_t> estrides = strides();
   // - insert total size at the beginning
   estrides.insert(estrides.begin(), mSize);
 
@@ -1268,29 +1386,31 @@ inline array<X> array<X>::minCoeff(size_t axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::minCoeff(int axis) const
+inline
+array<X> array<X>::minCoeff(int axis) const
 {
-  // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(mNdim) );
-  assert( axis >= -1 * static_cast<int>(mNdim) );
+  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
+  assert( axis  <      static_cast<int>(mRank) );
+  assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(mNdim);
+  int n = static_cast<int>(mRank);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
 
   // compute
-  return this->minCoeff(static_cast<size_t>(axis));
+  return minCoeff(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
+inline
+array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
 
   // copy array
   array<X> out = (*this);
@@ -1303,11 +1423,12 @@ inline array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
 }
 
 // =================================================================================================
-// basic algebra : maximum
+// maximum
 // =================================================================================================
 
 template<class X>
-inline X array<X>::maxCoeff() const
+inline
+X array<X>::maxCoeff() const
 {
   return *std::max_element(begin(),end());
 }
@@ -1315,17 +1436,18 @@ inline X array<X>::maxCoeff() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::maxCoeff(size_t axis) const
+inline
+array<X> array<X>::maxCoeff(size_t axis) const
 {
   // check input
-  assert( axis < mNdim );
+  assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(this->shape(),axis), this->minCoeff());
+  array<X> out = array<X>::Constant(del(shape(),axis), minCoeff());
 
   // extended strides
   // - copy strides
-  std::vector<size_t> estrides = this->strides();
+  std::vector<size_t> estrides = strides();
   // - insert total size at the beginning
   estrides.insert(estrides.begin(), mSize);
 
@@ -1348,29 +1470,31 @@ inline array<X> array<X>::maxCoeff(size_t axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::maxCoeff(int axis) const
+inline
+array<X> array<X>::maxCoeff(int axis) const
 {
-  // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(mNdim) );
-  assert( axis >= -1 * static_cast<int>(mNdim) );
+  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
+  assert( axis  <      static_cast<int>(mRank) );
+  assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(mNdim);
+  int n = static_cast<int>(mRank);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
 
   // compute
-  return this->maxCoeff(static_cast<size_t>(axis));
+  return maxCoeff(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
+inline
+array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
 
   // copy array
   array<X> out = (*this);
@@ -1383,31 +1507,28 @@ inline array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
 }
 
 // =================================================================================================
-// basic algebra : sum
+// sum
 // =================================================================================================
 
 template<class X>
-inline X array<X>::sum() const
+inline
+X array<X>::sum() const
 {
-  X out = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    out += mData[i];
-
-  return out;
+  return std::accumulate(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::sum(size_t axis) const
+inline
+array<X> array<X>::sum(size_t axis) const
 {
   // zero-initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Zero(del(this->shape(),axis));
+  array<X> out = array<X>::Zero(del(shape(),axis));
 
   // extended strides
   // - copy strides
-  std::vector<size_t> estrides = this->strides();
+  std::vector<size_t> estrides = strides();
   // - insert total size at the beginning
   estrides.insert(estrides.begin(), mSize);
 
@@ -1430,29 +1551,34 @@ inline array<X> array<X>::sum(size_t axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::sum(int axis) const
+inline
+array<X> array<X>::sum(int axis) const
 {
-  // check axis: (0,1,...,ndim-1) or (-1,-2,...,-ndim)
-  assert( axis  <      static_cast<int>(mNdim) );
-  assert( axis >= -1 * static_cast<int>(mNdim) );
+  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
+  assert( axis  <      static_cast<int>(mRank) );
+  assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
-  int n = static_cast<int>(mNdim);
+  int n = static_cast<int>(mRank);
 
   // correct periodic axis
   axis = ( n + (axis%n) ) % n;
 
   // compute
-  return this->sum(static_cast<size_t>(axis));
+  return sum(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::sum(const std::vector<int> &axes_in) const
+inline
+array<X> array<X>::sum(const std::vector<int> &axes_in) const
 {
+  // check rank
+  assert( axes_in.size() < mRank );
+
   // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mNdim), true);
+  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
 
   // copy array
   array<X> out = (*this);
@@ -1465,21 +1591,23 @@ inline array<X> array<X>::sum(const std::vector<int> &axes_in) const
 }
 
 // =================================================================================================
-// basic algebra : mean
+// mean
 // =================================================================================================
 
 template<class X>
-inline double array<X>::mean() const
+inline
+double array<X>::mean() const
 {
-  return static_cast<double>(this->sum())/static_cast<double>(mSize);
+  return static_cast<double>(sum())/static_cast<double>(mSize);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::mean(size_t axis) const
+inline
+array<X> array<X>::mean(size_t axis) const
 {
-  array<X> weights = array<X>::Ones(this->shape());
+  array<X> weights = array<X>::Ones(shape());
 
   return (*this).sum(axis) / weights.sum(axis);
 }
@@ -1487,9 +1615,10 @@ inline array<X> array<X>::mean(size_t axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::mean(int axis) const
+inline
+array<X> array<X>::mean(int axis) const
 {
-  array<X> weights = array<X>::Ones(this->shape());
+  array<X> weights = array<X>::Ones(shape());
 
   return (*this).sum(axis) / weights.sum(axis);
 }
@@ -1497,35 +1626,31 @@ inline array<X> array<X>::mean(int axis) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::mean(const std::vector<int> &axes) const
+inline
+array<X> array<X>::mean(const std::vector<int> &axes) const
 {
-  array<X> weights = array<X>::Ones(this->shape());
+  array<X> weights = array<X>::Ones(shape());
 
   return (*this).sum(axes) / weights.sum(axes);
 }
 
 // =================================================================================================
-// basic algebra : weighted average
+// weighted average
 // =================================================================================================
 
 template<class X>
-inline double array<X>::average(const array<X> &weights, bool norm) const
+inline
+double array<X>::average(const array<X> &weights, bool norm) const
 {
-  assert( shape() == weights.shape() );
-
-  X out = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    out += mData[i] * weights[i];
-
-  if ( norm ) return static_cast<double>(out)/static_cast<double>(weights.sum());
-  else        return static_cast<double>(out);
+  if ( norm ) return static_cast<double>((weights*(*this)).sum())/static_cast<double>(weights.sum());
+  else        return static_cast<double>((weights*(*this)).sum());
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::average(const array<X> &weights, size_t axis, bool norm) const
+inline
+array<X> array<X>::average(const array<X> &weights, size_t axis, bool norm) const
 {
   if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
   else        return (weights*(*this)).sum(axis);
@@ -1534,7 +1659,8 @@ inline array<X> array<X>::average(const array<X> &weights, size_t axis, bool nor
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::average(const array<X> &weights, int axis, bool norm) const
+inline
+array<X> array<X>::average(const array<X> &weights, int axis, bool norm) const
 {
   if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
   else        return (weights*(*this)).sum(axis);
@@ -1543,7 +1669,8 @@ inline array<X> array<X>::average(const array<X> &weights, int axis, bool norm) 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline array<X> array<X>::average(
+inline
+array<X> array<X>::average(
   const array<X> &weights, const std::vector<int> &axes, bool norm) const
 {
   if ( norm ) return (weights*(*this)).sum(axes) / weights.sum(axes);
@@ -1551,16 +1678,29 @@ inline array<X> array<X>::average(
 }
 
 // =================================================================================================
-// basic algebra : absolute value
+// find all non-zero entries
 // =================================================================================================
 
 template<class X>
-inline array<X> array<X>::abs() const
+inline
+std::vector<size_t> array<X>::where() const
 {
-  array<X> out = (*this);
+  size_t nnz = 0;
 
-  for ( auto &i : out )
-    i = std::abs(i);
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] )
+      ++nnz;
+
+  std::vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
 
   return out;
 }
@@ -1570,48 +1710,13 @@ inline array<X> array<X>::abs() const
 // =================================================================================================
 
 template<class X>
-inline void array<X>::printf(std::string fmt) const
-{
-  if ( mNdim == 1 )
-  {
-    for ( size_t j = 0 ; j < mShape[0] ; ++j ) {
-      if ( j != mShape[0]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(j));
-      else                    std::printf((fmt + ";\n").c_str(), (*this)(j));
-    }
-
-    return;
-  }
-
-  if ( mNdim == 2 )
-  {
-    for ( size_t i = 0 ; i < mShape[0] ; ++i ) {
-      for ( size_t j = 0 ; j < mShape[1] ; ++j ) {
-        if ( j != mShape[1]-1 ) std::printf((fmt + ","  ).c_str(), (*this)(i,j));
-        else                    std::printf((fmt + ";\n").c_str(), (*this)(i,j));
-      }
-    }
-
-    return;
-  }
-
-  std::cout << "cppmat::array[";
-
-  for ( size_t i = 0 ; i < mNdim-1 ; ++i )
-    std::cout << shape(i) << ",";
-
-  std::cout << shape(mNdim-1) << "]\n";
-
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline std::ostream& operator<<(std::ostream& out, const array<X>& src)
+inline
+std::ostream& operator<<(std::ostream& out, const array<X>& src)
 {
   auto w = out.width();
   auto p = out.precision();
 
-  if ( src.ndim() == 1 )
+  if ( src.rank() == 1 )
   {
     for ( size_t j = 0 ; j < src.shape(0) ; ++j ) {
       out << std::setw(w) << std::setprecision(p) << src(j);
@@ -1621,7 +1726,7 @@ inline std::ostream& operator<<(std::ostream& out, const array<X>& src)
     return out;
   }
 
-  if ( src.ndim() == 2 )
+  if ( src.rank() == 2 )
   {
     for ( size_t i = 0 ; i < src.shape(0) ; ++i ) {
       for ( size_t j = 0 ; j < src.shape(1) ; ++j ) {
@@ -1637,12 +1742,152 @@ inline std::ostream& operator<<(std::ostream& out, const array<X>& src)
 
   out << "cppmat::array[";
 
-  for ( size_t i = 0 ; i < src.ndim()-1 ; ++i )
+  for ( size_t i = 0 ; i < src.rank()-1 ; ++i )
     out << src.shape(i) << ",";
 
-  out << src.shape(src.ndim()-1) << "]";
+  out << src.shape(src.rank()-1) << "]";
 
   return out;
+}
+
+// =================================================================================================
+// arithmetic operators: external
+// =================================================================================================
+
+template<class X>
+inline
+array<X> operator* (array<X> A, const array<X> &B)
+{
+  A *= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator/ (array<X> A, const array<X> &B)
+{
+  A /= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator+ (array<X> A, const array<X> &B)
+{
+  A += B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator- (array<X> A, const array<X> &B)
+{
+  A -= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator* (array<X> A, const X &B)
+{
+  A *= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator/ (array<X> A, const X &B)
+{
+  A /= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator+ (array<X> A, const X &B)
+{
+  A += B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator- (array<X> A, const X &B)
+{
+  A -= B;
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator* (const X &A, array<X> B)
+{
+  B *= A;
+
+  return B;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator/ (const X &A, const array<X> &B)
+{
+  array<X> C(B.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A / B[i];
+
+  return C;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator+ (const X &A, array<X> B)
+{
+  B += A;
+
+  return B;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> operator- (const X &A, const array<X> &B)
+{
+  array<X> C(B.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A - B[i];
+
+  return C;
 }
 
 // =================================================================================================

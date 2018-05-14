@@ -17,13 +17,14 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <numeric>
 #include <iso646.h> // to fix a Microsoft Visual Studio error on "and" and "or"
 
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
-#define CPPMAT_MAJOR_VERSION 6
-#define CPPMAT_MINOR_VERSION 5
+#define CPPMAT_MAJOR_VERSION 7
+#define CPPMAT_MINOR_VERSION 0
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -42,13 +43,40 @@
 
 // ====================================== forward declaration ======================================
 
+  namespace cppmat {
+
+  template<class X> class Expandable;
+
+}
+
+// -------------------------------------------------------------------------------------------------
+
 namespace cppmat {
 
   template<class X> class array;
+  template<class X> class matrix4;
   template<class X> class matrix;
   template<class X> class vector;
 
 }
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace symmetric {
+
+  template<class X> class matrix;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace diagonal {
+
+  template<class X> class matrix;
+
+}}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -90,6 +118,19 @@ namespace cartesian2d {
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace cartesian3d {
+
+  template<class X> class tensor4;
+  template<class X> class tensor2;
+  template<class X> class tensor2s;
+  template<class X> class tensor2d;
+  template<class X> class vector;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
 namespace view {
 namespace cartesian2d {
 
@@ -100,19 +141,6 @@ namespace cartesian2d {
   template<class X> class vector;
 
 }}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace cartesian3d {
-
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
-
-}}
 
 // -------------------------------------------------------------------------------------------------
 
@@ -130,41 +158,23 @@ namespace cartesian3d {
 
 // =================================================================================================
 
+#include "stl.h"
 #include "private.h"
 #include "regular_array.h"
 #include "regular_matrix.h"
 #include "regular_vector.h"
-#include "periodic_array.h"
-#include "periodic_matrix.h"
-#include "periodic_vector.h"
-#include "tiny_matrix.h"
-#include "tiny_vector.h"
-#include "tensor.h"
-#include "tensor2.h"
-#include "tensor3.h"
-#include "view_tiny_matrix.h"
-#include "view_tiny_vector.h"
-#include "view_tensor2.h"
-#include "view_tensor3.h"
-#include "stl.h"
+#include "symmetric_matrix.h"
+#include "diagonal_matrix.h"
+#include "misc_matrix.h"
 
+#include "stl.cpp"
 #include "private.cpp"
 #include "regular_array.cpp"
 #include "regular_matrix.cpp"
 #include "regular_vector.cpp"
-#include "periodic_array.cpp"
-#include "periodic_matrix.cpp"
-#include "periodic_vector.cpp"
-#include "tiny_matrix.cpp"
-#include "tiny_vector.cpp"
-#include "tensor.cpp"
-#include "tensor2.cpp"
-#include "tensor3.cpp"
-#include "view_tiny_matrix.cpp"
-#include "view_tiny_vector.cpp"
-#include "view_tensor2.cpp"
-#include "view_tensor3.cpp"
-#include "stl.cpp"
+#include "symmetric_matrix.cpp"
+#include "diagonal_matrix.cpp"
+#include "misc_matrix.cpp"
 
 // =================================================================================================
 

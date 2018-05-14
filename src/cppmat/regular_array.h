@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_ARRAY_H
-#define CPPMAT_ARRAY_H
+#ifndef CPPMAT_REGULAR_ARRAY_H
+#define CPPMAT_REGULAR_ARRAY_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -22,19 +22,24 @@ namespace cppmat {
 template<class X>
 class array
 {
-private:
+protected:
 
   static const size_t MAX_DIM=6;    // maximum number of dimensions
-  std::vector<X> mData;             // data container
-  size_t         mNdim=0;           // actual number of dimensions
   size_t         mSize=0;           // total size == data.size() == prod(shape)
-  size_t         mShape[MAX_DIM];   // number of entries in each dimensions
+  size_t         mRank=0;           // rank (number of axes)
+  size_t         mShape  [MAX_DIM]; // number of entries along each axis
   size_t         mStrides[MAX_DIM]; // stride length for each index
+  std::vector<X> mData;             // data container
 
 public:
 
   // constructor
   array() = default;
+
+  // constructor: copy
+  array(const array<X> &A);
+
+  // constructor: allocate, don't initialize
   array(const std::vector<size_t> &shape);
 
   // constructor: initialize
@@ -43,18 +48,18 @@ public:
   static array<X> Ones    (const std::vector<size_t> &shape);
   static array<X> Constant(const std::vector<size_t> &shape, X D);
 
-  // constructor: initialize by copying from external object
-  template<typename Iterator>
-  static array<X> Copy(const std::vector<size_t> &shape, Iterator first, Iterator last);
+  // constructor: copy
+  template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first);
+  template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
 
   // resize
   void resize (const std::vector<size_t> &shape);
   void reshape(const std::vector<size_t> &shape);
-  void chdim  (size_t ndim);
+  void chrank (size_t rank);
 
   // get dimensions
   size_t size() const;
-  size_t ndim() const;
+  size_t rank() const;
   size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
@@ -83,9 +88,6 @@ public:
   template<class Iterator> X&       at(Iterator first, Iterator last);
   template<class Iterator> const X& at(Iterator first, Iterator last) const;
 
-  // index operators: plain storage -> array-indices (i -> a,b,c,...)
-  std::vector<size_t> decompress(size_t i) const;
-
   // index operators: array-indices -> plain storage (a,b,c,... -> i)
   size_t compress(size_t a) const;
   size_t compress(size_t a, size_t b) const;
@@ -93,6 +95,9 @@ public:
   size_t compress(size_t a, size_t b, size_t c, size_t d) const;
   size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e) const;
   size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
+
+  // index operators: plain storage -> array-indices (i -> a,b,c,...)
+  std::vector<size_t> decompress(size_t i) const;
 
   // pointer to data
   X*       data();
@@ -122,12 +127,21 @@ public:
   auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f);
   auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
-  // basic initialization
+  // initialization
   void setArange();
   void setZero();
   void setOnes();
   void setConstant(X D);
+  template<typename Iterator> void setCopy(Iterator first);
   template<typename Iterator> void setCopy(Iterator first, Iterator last);
+
+  // copy to target
+  template<typename Iterator> void copyTo(Iterator first) const;
+  template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
+
+  // sign change
+  array<X> operator- () const;
+  array<X> operator+ () const;
 
   // arithmetic operators
   array<X>& operator*= (const array<X> &B);
@@ -139,59 +153,68 @@ public:
   array<X>& operator+= (const       X  &B);
   array<X>& operator-= (const       X  &B);
 
-  // basic algebra
-  // - absolute value
+  // absolute value
   array<X> abs() const;
-  // - location of the minimum/maximum
+
+  // norm (sum of absolute values)
+  X norm() const;
+
+  // location of the minimum/maximum: array-index (a,b,c,...)
   std::vector<size_t> argmin() const;
   std::vector<size_t> argmax() const;
-  // - location of the minimum/maximum
+
+  // location of the minimum/maximum: plain storage (i)
   size_t argminIndex() const;
   size_t argmaxIndex() const;
-  // - minimum
+
+  // minimum
   X        minCoeff() const;
   array<X> minCoeff(int    axis) const;
   array<X> minCoeff(size_t axis) const;
   array<X> minCoeff(const std::vector<int> &axes) const;
-  // - maximum
+
+  // maximum
   X        maxCoeff() const;
   array<X> maxCoeff(int    axis) const;
   array<X> maxCoeff(size_t axis) const;
   array<X> maxCoeff(const std::vector<int> &axes) const;
-  // - sum
+
+  // sum
   X        sum() const;
   array<X> sum(int    axis) const;
   array<X> sum(size_t axis) const;
   array<X> sum(const std::vector<int> &axes) const;
-  // - mean
+
+  // mean
   double   mean() const;
   array<X> mean(int    axis) const;
   array<X> mean(size_t axis) const;
   array<X> mean(const std::vector<int> &axes) const;
-  // - weighted average
+
+  // weighted average
   double   average(const array<X> &weights,                               bool norm=true) const;
   array<X> average(const array<X> &weights, int    axis,                  bool norm=true) const;
   array<X> average(const array<X> &weights, size_t axis,                  bool norm=true) const;
   array<X> average(const array<X> &weights, const std::vector<int> &axes, bool norm=true) const;
 
-  // formatted print; NB also "operator<<" is defined
-  void printf(std::string fmt) const;
+  // find all non-zero entries: plain storage (i)
+  std::vector<size_t> where() const;
 
 };
 
-// arithmetic operators
-template<class X> inline array<X> operator* (const array<X> &A, const array<X> &B);
-template<class X> inline array<X> operator/ (const array<X> &A, const array<X> &B);
-template<class X> inline array<X> operator+ (const array<X> &A, const array<X> &B);
-template<class X> inline array<X> operator- (const array<X> &A, const array<X> &B);
-template<class X> inline array<X> operator* (const array<X> &A, const       X  &B);
-template<class X> inline array<X> operator/ (const array<X> &A, const       X  &B);
-template<class X> inline array<X> operator+ (const array<X> &A, const       X  &B);
-template<class X> inline array<X> operator- (const array<X> &A, const       X  &B);
-template<class X> inline array<X> operator* (const       X  &A, const array<X> &B);
-template<class X> inline array<X> operator/ (const       X  &A, const array<X> &B);
-template<class X> inline array<X> operator+ (const       X  &A, const array<X> &B);
-template<class X> inline array<X> operator- (const       X  &A, const array<X> &B);
+// extrernal arithmetic operators
+template<class X> inline array<X> operator* (array<X> A, const array<X> &B);
+template<class X> inline array<X> operator/ (array<X> A, const array<X> &B);
+template<class X> inline array<X> operator+ (array<X> A, const array<X> &B);
+template<class X> inline array<X> operator- (array<X> A, const array<X> &B);
+template<class X> inline array<X> operator* (array<X> A, const       X  &B);
+template<class X> inline array<X> operator/ (array<X> A, const       X  &B);
+template<class X> inline array<X> operator+ (array<X> A, const       X  &B);
+template<class X> inline array<X> operator- (array<X> A, const       X  &B);
+template<class X> inline array<X> operator* (const X &A,       array<X>  B);
+template<class X> inline array<X> operator/ (const X &A, const array<X> &B);
+template<class X> inline array<X> operator+ (const X &A,       array<X>  B);
+template<class X> inline array<X> operator- (const X &A, const array<X> &B);
 
 // =================================================================================================
 

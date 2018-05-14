@@ -4,7 +4,8 @@
 #define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
 
 #define CPPMAT_NOCONVERT
-#include <cppmat/cppmat.h>
+// #include <cppmat/cppmat.h>
+#include "../src/cppmat/cppmat.h"
 
 #include <Eigen/Eigen>
 
@@ -506,7 +507,7 @@ SECTION( "scalar / array" )
 }
 
 // =================================================================================================
-// basic algebra
+// algebra - partial
 // =================================================================================================
 
 SECTION( "minCoeff" )
@@ -635,7 +636,7 @@ SECTION( "average" )
 }
 
 // =================================================================================================
-// arithmetic
+// algebra
 // =================================================================================================
 
 SECTION( "minCoeff" )
@@ -735,27 +736,7 @@ SECTION( "abs" )
 
   Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
 
-  Arr C = cppmat::abs(A);
-
-  ColD c = ColD(M*N*O*P);
-
-  for ( auto i = 0 ; i < a.size() ; ++i ) c[i] = std::abs(a[i]);
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( auto i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-SECTION( "abs" )
-{
-  ColD a = ColD::Random(M*N*O*P) - ColD::Constant(M*N*O*P, .5);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-  Arr C = A;
-
-  C.abs();
+  Arr C = A.abs();
 
   ColD c = ColD(M*N*O*P);
 
