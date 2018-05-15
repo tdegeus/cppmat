@@ -752,6 +752,33 @@ inline vector<size_t> vector<X>::where() const
 }
 
 // =================================================================================================
+// find all entries equal to some constant
+// =================================================================================================
+
+template<class X>
+inline vector<size_t> vector<X>::where(X D) const
+{
+  size_t nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      ++nnz;
+
+  vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] == D ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
+}
+
+// =================================================================================================
 // sort arguments
 // =================================================================================================
 

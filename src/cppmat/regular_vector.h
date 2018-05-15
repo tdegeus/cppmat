@@ -118,8 +118,11 @@ public:
   // - weighted average
   double average(const vector<X> &weights, bool norm=true) const;
 
-  // find all non-zero entries
+  // find the indices of all non-zero entries
   vector<size_t> where() const;
+
+  // find the indices of all entries equal to some constant
+  vector<size_t> where(X D) const;
 
   // index order after sorting from low to high
   std::vector<size_t> argsort(bool ascending=true) const;
