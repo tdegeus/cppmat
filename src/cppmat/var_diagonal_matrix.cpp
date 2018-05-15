@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_DIAGONAL_MATRIX_CPP
-#define CPPMAT_DIAGONAL_MATRIX_CPP
+#ifndef CPPMAT_VAR_DIAGONAL_MATRIX_CPP
+#define CPPMAT_VAR_DIAGONAL_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 

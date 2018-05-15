@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_SYMMETRIC_MATRIX_CPP
-#define CPPMAT_SYMMETRIC_MATRIX_CPP
+#ifndef CPPMAT_VAR_SYMMETRIC_MATRIX_CPP
+#define CPPMAT_VAR_SYMMETRIC_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 

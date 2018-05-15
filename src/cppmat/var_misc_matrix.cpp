@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_MISC_MATRIX_CPP
-#define CPPMAT_MISC_MATRIX_CPP
+#ifndef CPPMAT_VAR_MISC_MATRIX_CPP
+#define CPPMAT_VAR_MISC_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 

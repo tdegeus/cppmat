@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_REGULAR_VECTOR_CPP
-#define CPPMAT_REGULAR_VECTOR_CPP
+#ifndef CPPMAT_VAR_REGULAR_MATRIX_CPP
+#define CPPMAT_VAR_REGULAR_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -21,8 +21,9 @@ namespace cppmat {
 
 template<class X>
 inline
-vector<X>::vector(size_t n) : array<X>({n})
+matrix<X>::matrix(size_t m, size_t n) : array<X>({m,n})
 {
+  M = m;
   N = n;
 }
 
@@ -30,20 +31,21 @@ vector<X>::vector(size_t n) : array<X>({n})
 
 template<class X>
 inline
-vector<X>::vector(const array<X> &A) : array<X>(A)
+matrix<X>::matrix(const array<X> &A) : array<X>(A)
 {
-  assert( this->mRank == 1 );
+  assert( this->mRank == 2 );
 
-  N = this->mShape[0];
+  M = this->mShape[0];
+  N = this->mShape[1];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-vector<X> vector<X>::Arange(size_t n)
+matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setArange();
 
@@ -54,9 +56,9 @@ vector<X> vector<X>::Arange(size_t n)
 
 template<class X>
 inline
-vector<X> vector<X>::Zero(size_t n)
+matrix<X> matrix<X>::Zero(size_t m, size_t n)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setZero();
 
@@ -67,9 +69,9 @@ vector<X> vector<X>::Zero(size_t n)
 
 template<class X>
 inline
-vector<X> vector<X>::Ones(size_t n)
+matrix<X> matrix<X>::Ones(size_t m, size_t n)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setOnes();
 
@@ -80,9 +82,9 @@ vector<X> vector<X>::Ones(size_t n)
 
 template<class X>
 inline
-vector<X> vector<X>::Constant(size_t n, X D)
+matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setConstant(D);
 
@@ -94,9 +96,9 @@ vector<X> vector<X>::Constant(size_t n, X D)
 template<class X>
 template<typename Iterator>
 inline
-vector<X> vector<X>::Copy(size_t n, Iterator first)
+matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setCopy(first);
 
@@ -108,9 +110,9 @@ vector<X> vector<X>::Copy(size_t n, Iterator first)
 template<class X>
 template<typename Iterator>
 inline
-vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
+matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 {
-  vector<X> out(n);
+  matrix<X> out(m,n);
 
   out.setCopy(first,last);
 
@@ -123,11 +125,72 @@ vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
 
 template<class X>
 inline
-void vector<X>::resize(size_t n)
+void matrix<X>::resize(size_t m, size_t n)
 {
+  M = m;
   N = n;
 
-  cppmat::array<X>::resize({n});
+  cppmat::array<X>::resize({m,n});
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+void matrix<X>::reshape(size_t m, size_t n)
+{
+  assert( m*n == this->mSize );
+
+  M = m;
+  N = n;
+
+  cppmat::array<X>::resize({m,n});
+}
+
+// =================================================================================================
+// iterators : beginRow() and endRow()
+// =================================================================================================
+
+template<class X>
+inline
+auto matrix<X>::beginRow(size_t a)
+{
+  assert( a < this->mShape[0] );
+
+  return this->begin() + a * this->mShape[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::beginRow(size_t a) const
+{
+  assert( a < this->mShape[0] );
+
+  return this->begin() + a * this->mShape[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::endRow(size_t a)
+{
+  assert( a < this->mShape[0] );
+
+  return this->begin() + (a+1) * this->mShape[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::endRow(size_t a) const
+{
+  assert( a < this->mShape[0] );
+
+  return this->begin() + (a+1) * this->mShape[1];
 }
 
 // =================================================================================================

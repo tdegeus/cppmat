@@ -160,21 +160,21 @@ namespace cartesian3d {
 
 #include "stl.h"
 #include "private.h"
-#include "regular_array.h"
-#include "regular_matrix.h"
-#include "regular_vector.h"
-#include "symmetric_matrix.h"
-#include "diagonal_matrix.h"
-#include "misc_matrix.h"
+#include "var_regular_array.h"
+#include "var_regular_matrix.h"
+#include "var_regular_vector.h"
+#include "var_symmetric_matrix.h"
+#include "var_diagonal_matrix.h"
+#include "var_misc_matrix.h"
 
 #include "stl.cpp"
 #include "private.cpp"
-#include "regular_array.cpp"
-#include "regular_matrix.cpp"
-#include "regular_vector.cpp"
-#include "symmetric_matrix.cpp"
-#include "diagonal_matrix.cpp"
-#include "misc_matrix.cpp"
+#include "var_regular_array.cpp"
+#include "var_regular_matrix.cpp"
+#include "var_regular_vector.cpp"
+#include "var_symmetric_matrix.cpp"
+#include "var_diagonal_matrix.cpp"
+#include "var_misc_matrix.cpp"
 
 // =================================================================================================
 

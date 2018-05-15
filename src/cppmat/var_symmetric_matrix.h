@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_DIAGONAL_MATRIX_H
-#define CPPMAT_DIAGONAL_MATRIX_H
+#ifndef CPPMAT_VAR_SYMMETRIC_MATRIX_H
+#define CPPMAT_VAR_SYMMETRIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,10 +14,10 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace diagonal {
+namespace symmetric {
 
 // =================================================================================================
-// cppmat::diagonal::matrix
+// cppmat::symmetric::matrix
 // =================================================================================================
 
 template<class X>
@@ -30,7 +30,6 @@ protected:
   static const size_t mRank=2;   // rank (number of axes)
   size_t              N=0;       // number of rows/columns
   std::vector<X>      mData;     // data container
-  X                   mZero[1];  // pointer to a zero entry
 
 public:
 
@@ -58,7 +57,6 @@ public:
   // copy constructor
   #ifndef CPPMAT_NOCONVERT
   operator cppmat::matrix<X> () const;
-  operator cppmat::symmetric::matrix<X> () const;
   #endif
 
   // resize
@@ -134,10 +132,9 @@ public:
   matrix<X>& operator-= (const        X  &B);
 
   // extra arithmetic operators
-  matrix<X>& operator*= (const cppmat::matrix<X> &B);
-  matrix<X>& operator/= (const cppmat::matrix<X> &B);
-  matrix<X>& operator*= (const cppmat::symmetric::matrix<X> &B);
-  matrix<X>& operator/= (const cppmat::symmetric::matrix<X> &B);
+  matrix<X>& operator*= (const cppmat::diagonal::matrix<X> &B);
+  matrix<X>& operator+= (const cppmat::diagonal::matrix<X> &B);
+  matrix<X>& operator-= (const cppmat::diagonal::matrix<X> &B);
 
   // absolute value
   matrix<X> abs() const;

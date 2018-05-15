@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_REGULAR_ARRAY_H
-#define CPPMAT_REGULAR_ARRAY_H
+#ifndef CPPMAT_VAR_REGULAR_ARRAY_H
+#define CPPMAT_VAR_REGULAR_ARRAY_H
 
 // -------------------------------------------------------------------------------------------------
 
