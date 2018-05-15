@@ -22,6 +22,10 @@ template<class X> std::vector<X> del(const std::vector<X> &A, size_t idx);
 
 // -------------------------------------------------------------------------------------------------
 
+template <typename X> std::vector<size_t> argsort(const std::vector<X> &v, bool ascending=true);
+
+// -------------------------------------------------------------------------------------------------
+
 template<class X> std::string to_string(const std::vector<X> &A);
 
 // -------------------------------------------------------------------------------------------------

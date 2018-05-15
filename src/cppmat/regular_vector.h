@@ -121,6 +121,9 @@ public:
   // find all non-zero entries
   vector<size_t> where() const;
 
+  // index order after sorting from low to high
+  std::vector<size_t> argsort(bool ascending=true) const;
+
   // formatted print; NB also "operator<<" is defined
   void printf(std::string fmt) const;
 

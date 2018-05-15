@@ -65,6 +65,32 @@ inline std::string to_string(const std::vector<X> &A)
 
 // =================================================================================================
 
+template <typename X>
+std::vector<size_t> argsort(const std::vector<X> &v, bool ascending) {
+
+  // initialize original index locations
+  // - allocate
+  std::vector<size_t> idx(v.size());
+  // - fill
+  iota(idx.begin(), idx.end(), 0);
+
+  // sort indexes based on comparing values in "v"
+  sort(idx.begin(), idx.end(), [&v](size_t i, size_t j) {return v[i] < v[j];});
+
+  // no reversing of order
+  if ( ascending ) return idx;
+
+  // reverse order
+  // - allocate
+  std::vector<size_t> jdx(v.size());
+  // - fill
+  for ( size_t i = 0 ; i < v.size() ; ++i ) jdx[v.size()-i-1] = idx[i];
+  // - return
+  return jdx;
+}
+
+// =================================================================================================
+
 template<class X>
 inline array<X> abs(const array<X> &A)
 {
