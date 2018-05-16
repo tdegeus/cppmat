@@ -29,6 +29,17 @@ inline vector<X>::vector(size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline
+vector<X>::vector(const std::vector<X> &D)
+{
+  resize(D.size());
+
+  this->setCopy(D.begin(), D.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 inline vector<X> vector<X>::Arange(size_t n)
 {
   // call basic constructor

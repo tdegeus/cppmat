@@ -33,6 +33,7 @@ public:
   // constructor
   vector() = default;
   vector(size_t n);
+  vector(const std::vector<X> &D);
 
   // constructor: initialize
   static vector<X> Arange  (size_t n);
