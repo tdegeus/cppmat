@@ -45,11 +45,14 @@ public:
   // constructor
   matrix() = default;
 
+  // constructor: allocate, don't initialize
+  matrix(size_t m, size_t n);
+
   // constructor: copy
   matrix(const array<X> &A);
 
-  // constructor: allocate, don't initialize
-  matrix(size_t m, size_t n);
+  // constructor: copy
+  matrix(size_t m, size_t n, const std::vector<X> &D);  
 
   // constructor: initialize
   static matrix<X> Arange  (size_t m, size_t n);

@@ -17,8 +17,14 @@ namespace cppmat {
 
 // =================================================================================================
 
+// delete a specific item from a vector
 template<class X> std::vector<X> del(const std::vector<X> &A, int    idx);
 template<class X> std::vector<X> del(const std::vector<X> &A, size_t idx);
+
+// -------------------------------------------------------------------------------------------------
+
+// return the indices that would sort an array
+template <typename X> std::vector<size_t> argsort(const std::vector<X> &v, bool ascending=true);
 
 // -------------------------------------------------------------------------------------------------
 

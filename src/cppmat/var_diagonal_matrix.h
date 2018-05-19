@@ -37,11 +37,11 @@ public:
   // constructor
   matrix() = default;
 
-  // constructor: copy
-  matrix(const matrix<X> &A);
-
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);
+
+  // constructor: copy
+  matrix(const matrix<X> &A);
 
   // constructor: initialize
   static matrix<X> Arange  (size_t m, size_t n);
@@ -60,6 +60,9 @@ public:
   operator cppmat::matrix<X> () const;
   operator cppmat::symmetric::matrix<X> () const;
   #endif
+
+  // return plain storage as vector
+  std::vector<X> asVector() const;
 
   // resize
   void resize(size_t m, size_t n);
@@ -125,13 +128,10 @@ public:
 
   // arithmetic operators
   matrix<X>& operator*= (const matrix<X> &B);
-  matrix<X>& operator/= (const matrix<X> &B);
   matrix<X>& operator+= (const matrix<X> &B);
   matrix<X>& operator-= (const matrix<X> &B);
   matrix<X>& operator*= (const        X  &B);
   matrix<X>& operator/= (const        X  &B);
-  matrix<X>& operator+= (const        X  &B);
-  matrix<X>& operator-= (const        X  &B);
 
   // extra arithmetic operators
   matrix<X>& operator*= (const cppmat::matrix<X> &B);
@@ -145,19 +145,18 @@ public:
   // norm (sum of absolute values)
   X norm() const;
 
-  // location of the minimum/maximum: matrix-index (a,b)
-  std::vector<size_t> argmin() const;
-  std::vector<size_t> argmax() const;
+  // return the indices that would sort an array
+  matrix<size_t> argsort(bool ascending=true) const;
 
-  // location of the minimum/maximum: plain storage (i)
-  size_t argminIndex() const;
-  size_t argmaxIndex() const;
+  // location of the minimum/maximum: plain storage (use decompress to convert to indices)
+  size_t argmin() const;
+  size_t argmax() const;
 
   // minimum
-  X minCoeff() const;
+  X min() const;
 
   // maximum
-  X maxCoeff() const;
+  X max() const;
 
   // sum
   X sum() const;
@@ -168,24 +167,21 @@ public:
   // weighted average
   double average(const matrix<X> &weights, bool norm=true) const;
 
-  // find all non-zero entries: plain storage (i)
+  // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+
+  // find the plain storage indices of all entries equal to some constant
+  std::vector<size_t> where(X D) const;
 
 };
 
 // external arithmetic operators
 template<class X> inline matrix<X> operator* (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator/ (matrix<X> A, const matrix<X> &B);
 template<class X> inline matrix<X> operator+ (matrix<X> A, const matrix<X> &B);
 template<class X> inline matrix<X> operator- (matrix<X> A, const matrix<X> &B);
 template<class X> inline matrix<X> operator* (matrix<X> A, const        X  &B);
 template<class X> inline matrix<X> operator/ (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator+ (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator- (matrix<X> A, const        X  &B);
 template<class X> inline matrix<X> operator* (const  X &A,       matrix<X>  B);
-template<class X> inline matrix<X> operator/ (const  X &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (const  X &A,       matrix<X>  B);
-template<class X> inline matrix<X> operator- (const  X &A, const matrix<X> &B);
 
 // =================================================================================================
 

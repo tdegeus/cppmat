@@ -36,11 +36,14 @@ public:
   // constructor
   array() = default;
 
+  // constructor: allocate, don't initialize
+  array(const std::vector<size_t> &shape);
+
   // constructor: copy
   array(const array<X> &A);
 
-  // constructor: allocate, don't initialize
-  array(const std::vector<size_t> &shape);
+  // constructor: copy
+  array(const std::vector<size_t> &shape, const std::vector<X> &D);
 
   // constructor: initialize
   static array<X> Arange  (const std::vector<size_t> &shape);
@@ -51,6 +54,9 @@ public:
   // constructor: copy
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first);
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
+
+  // return plain storage as vector
+  std::vector<X> asVector() const;
 
   // resize
   void resize (const std::vector<size_t> &shape);
@@ -159,25 +165,24 @@ public:
   // norm (sum of absolute values)
   X norm() const;
 
-  // location of the minimum/maximum: array-index (a,b,c,...)
-  std::vector<size_t> argmin() const;
-  std::vector<size_t> argmax() const;
+  // return the indices that would sort an array
+  array<size_t> argsort(bool ascending=true) const;
 
-  // location of the minimum/maximum: plain storage (i)
-  size_t argminIndex() const;
-  size_t argmaxIndex() const;
+  // location of the minimum/maximum: plain storage (use decompress to convert to indices)
+  size_t argmin() const;
+  size_t argmax() const;
 
   // minimum
-  X        minCoeff() const;
-  array<X> minCoeff(int    axis) const;
-  array<X> minCoeff(size_t axis) const;
-  array<X> minCoeff(const std::vector<int> &axes) const;
+  X        min() const;
+  array<X> min(int    axis) const;
+  array<X> min(size_t axis) const;
+  array<X> min(const std::vector<int> &axes) const;
 
   // maximum
-  X        maxCoeff() const;
-  array<X> maxCoeff(int    axis) const;
-  array<X> maxCoeff(size_t axis) const;
-  array<X> maxCoeff(const std::vector<int> &axes) const;
+  X        max() const;
+  array<X> max(int    axis) const;
+  array<X> max(size_t axis) const;
+  array<X> max(const std::vector<int> &axes) const;
 
   // sum
   X        sum() const;
@@ -197,8 +202,11 @@ public:
   array<X> average(const array<X> &weights, size_t axis,                  bool norm=true) const;
   array<X> average(const array<X> &weights, const std::vector<int> &axes, bool norm=true) const;
 
-  // find all non-zero entries: plain storage (i)
+  // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+
+  // find the plain storage indices of all entries equal to some constant
+  std::vector<size_t> where(X D) const;
 
 };
 

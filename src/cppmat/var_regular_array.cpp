@@ -41,6 +41,17 @@ array<X>::array(const array<X> &A)
 
 template<class X>
 inline
+array<X>::array(const std::vector<size_t> &shape, const std::vector<X> &D)
+{
+  resize(shape);
+
+  setCopy(D.begin(), D.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 array<X> array<X>::Arange(const std::vector<size_t> &shape)
 {
   array<X> out(shape);
@@ -115,6 +126,17 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterat
   out.setCopy(first,last);
 
   return out;
+}
+
+// =================================================================================================
+// return plain storage as vector
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<X> array<X>::asVector() const
+{
+  return mData;
 }
 
 // =================================================================================================
@@ -1046,7 +1068,7 @@ template<class X>
 inline
 void array<X>::setArange()
 {
-  for ( size_t i = 0 ; i < mSize ; ++i ) mData[i] = static_cast<X>(i);
+  std::iota(mData.begin(), mData.end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1301,30 +1323,23 @@ X array<X>::norm() const
 }
 
 // =================================================================================================
+// return the indices that would sort an array
+// =================================================================================================
+
+template<class X>
+inline
+array<size_t> array<X>::argsort(bool ascending) const
+{
+  return array<size_t>(shape(), cppmat::argsort(mData, ascending));
+}
+
+// =================================================================================================
 // location of the minimum/maximum
 // =================================================================================================
 
 template<class X>
 inline
-std::vector<size_t> array<X>::argmin() const
-{
-  return decompress( std::min_element(begin(), end()) - begin() );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-std::vector<size_t> array<X>::argmax() const
-{
-  return decompress( std::max_element(begin(), end()) - begin() );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-size_t array<X>::argminIndex() const
+size_t array<X>::argmin() const
 {
   return std::min_element(begin(), end()) - begin();
 }
@@ -1333,7 +1348,7 @@ size_t array<X>::argminIndex() const
 
 template<class X>
 inline
-size_t array<X>::argmaxIndex() const
+size_t array<X>::argmax() const
 {
   return std::max_element(begin(), end()) - begin();
 }
@@ -1344,7 +1359,7 @@ size_t array<X>::argmaxIndex() const
 
 template<class X>
 inline
-X array<X>::minCoeff() const
+X array<X>::min() const
 {
   return *std::min_element(begin(),end());
 }
@@ -1353,13 +1368,13 @@ X array<X>::minCoeff() const
 
 template<class X>
 inline
-array<X> array<X>::minCoeff(size_t axis) const
+array<X> array<X>::min(size_t axis) const
 {
   // check input
   assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(shape(),axis), maxCoeff());
+  array<X> out = array<X>::Constant(del(shape(),axis), max());
 
   // extended strides
   // - copy strides
@@ -1387,7 +1402,7 @@ array<X> array<X>::minCoeff(size_t axis) const
 
 template<class X>
 inline
-array<X> array<X>::minCoeff(int axis) const
+array<X> array<X>::min(int axis) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
   assert( axis  <      static_cast<int>(mRank) );
@@ -1400,14 +1415,14 @@ array<X> array<X>::minCoeff(int axis) const
   axis = ( n + (axis%n) ) % n;
 
   // compute
-  return minCoeff(static_cast<size_t>(axis));
+  return min(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
+array<X> array<X>::min(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
   std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
@@ -1417,7 +1432,7 @@ array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
 
   // loop to compute
   for ( auto &axis : axes )
-    out = out.minCoeff(axis);
+    out = out.min(axis);
 
   return out;
 }
@@ -1428,7 +1443,7 @@ array<X> array<X>::minCoeff(const std::vector<int> &axes_in) const
 
 template<class X>
 inline
-X array<X>::maxCoeff() const
+X array<X>::max() const
 {
   return *std::max_element(begin(),end());
 }
@@ -1437,13 +1452,13 @@ X array<X>::maxCoeff() const
 
 template<class X>
 inline
-array<X> array<X>::maxCoeff(size_t axis) const
+array<X> array<X>::max(size_t axis) const
 {
   // check input
   assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(shape(),axis), minCoeff());
+  array<X> out = array<X>::Constant(del(shape(),axis), min());
 
   // extended strides
   // - copy strides
@@ -1471,7 +1486,7 @@ array<X> array<X>::maxCoeff(size_t axis) const
 
 template<class X>
 inline
-array<X> array<X>::maxCoeff(int axis) const
+array<X> array<X>::max(int axis) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
   assert( axis  <      static_cast<int>(mRank) );
@@ -1484,14 +1499,14 @@ array<X> array<X>::maxCoeff(int axis) const
   axis = ( n + (axis%n) ) % n;
 
   // compute
-  return maxCoeff(static_cast<size_t>(axis));
+  return max(static_cast<size_t>(axis));
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
+array<X> array<X>::max(const std::vector<int> &axes_in) const
 {
   // correct for 'periodicity', sort from high to low
   std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
@@ -1501,7 +1516,7 @@ array<X> array<X>::maxCoeff(const std::vector<int> &axes_in) const
 
   // loop to compute
   for ( auto &axis : axes )
-    out = out.maxCoeff(axis);
+    out = out.max(axis);
 
   return out;
 }
@@ -1678,7 +1693,7 @@ array<X> array<X>::average(
 }
 
 // =================================================================================================
-// find all non-zero entries
+// find the plain storage indices of all non-zero entries
 // =================================================================================================
 
 template<class X>
@@ -1697,6 +1712,34 @@ std::vector<size_t> array<X>::where() const
 
   for ( size_t i = 0 ; i < mSize ; ++i ) {
     if ( mData[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
+}
+
+// =================================================================================================
+// find the plain storage indices of all entries equal to some constant
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<size_t> array<X>::where(X D) const
+{
+  size_t nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      ++nnz;
+
+  std::vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] == D ) {
       out[j] = i;
       ++j;
     }

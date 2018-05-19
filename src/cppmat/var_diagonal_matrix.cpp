@@ -50,8 +50,6 @@ template<class X>
 inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setArange();
@@ -65,8 +63,6 @@ template<class X>
 inline
 matrix<X> matrix<X>::Zero(size_t m, size_t n)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setZero();
@@ -80,8 +76,6 @@ template<class X>
 inline
 matrix<X> matrix<X>::Ones(size_t m, size_t n)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setOnes();
@@ -95,8 +89,6 @@ template<class X>
 inline
 matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setConstant(D);
@@ -111,8 +103,6 @@ template<typename Iterator>
 inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setCopy(first);
@@ -127,13 +117,22 @@ template<typename Iterator>
 inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 {
-  assert( m == n );
-
   matrix<X> out(m,n);
 
   out.setCopy(first,last);
 
   return out;
+}
+
+// =================================================================================================
+// return plain storage as vector
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<X> matrix<X>::asVector() const
+{
+  return mData;
 }
 
 // =================================================================================================
@@ -492,7 +491,7 @@ template<class X>
 inline
 void matrix<X>::setArange()
 {
-  for ( size_t i = 0 ; i < mSize ; ++i ) mData[i] = static_cast<X>(i);
+  std::iota(mData.begin(), mData.end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -539,7 +538,7 @@ template<class Iterator>
 inline
 void matrix<X>::setCopy(Iterator first, Iterator last)
 {
-  assert( mSize == last-first );
+  assert( mSize == static_cast<size_t>(last-first) );
 
   std::copy(first, last, begin());
 }
@@ -575,7 +574,7 @@ void matrix<X>::setCopyDense(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( N*N == last-first );
+  assert( N*N == static_cast<size_t>(last-first) );
 
   // check the input to be diagonal
   #ifndef NDEBUG
@@ -609,7 +608,7 @@ template<class Iterator>
 inline
 void matrix<X>::copyTo(Iterator first, Iterator last) const
 {
-  assert( mSize == last-first );
+  assert( mSize == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -638,7 +637,7 @@ template<class Iterator>
 inline
 void matrix<X>::copyToDense(Iterator first, Iterator last) const
 {
-  assert( N*N == last-first );
+  assert( N*N == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -702,22 +701,6 @@ matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
 
 template<class X>
 inline
-matrix<X>& matrix<X>::operator/= (const matrix<X> &B)
-{
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    mData[i] /= B[i];
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
 matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
 {
   assert( shape() == B.shape() );
@@ -770,30 +753,6 @@ matrix<X>& matrix<X>::operator/= (const X &B)
   return *this;
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X>& matrix<X>::operator+= (const X &B)
-{
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    mData[i] += B;
-
-  return *this;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X>& matrix<X>::operator-= (const X &B)
-{
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    mData[i] -= B;
-
-  return *this;
-}
-
 // =================================================================================================
 // absolute value
 // =================================================================================================
@@ -802,7 +761,7 @@ template<class X>
 inline
 matrix<X> matrix<X>::abs() const
 {
-  matrix<X> out(shape());
+  matrix<X> out(N, N);
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = std::abs(mData[i]);
@@ -827,30 +786,23 @@ X matrix<X>::norm() const
 }
 
 // =================================================================================================
+// return the indices that would sort an array
+// =================================================================================================
+
+template<class X>
+inline
+matrix<size_t> matrix<X>::argsort(bool ascending) const
+{
+  return matrix<size_t>(N, N, cppmat::argsort(mData, ascending));
+}
+
+// =================================================================================================
 // location of the minimum/maximum
 // =================================================================================================
 
 template<class X>
 inline
-std::vector<size_t> matrix<X>::argmin() const
-{
-  return decompress( std::min_element(begin(), end()) - begin() );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-std::vector<size_t> matrix<X>::argmax() const
-{
-  return decompress( std::max_element(begin(), end()) - begin() );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-size_t matrix<X>::argminIndex() const
+size_t matrix<X>::argmin() const
 {
   return std::min_element(begin(), end()) - begin();
 }
@@ -859,7 +811,7 @@ size_t matrix<X>::argminIndex() const
 
 template<class X>
 inline
-size_t matrix<X>::argmaxIndex() const
+size_t matrix<X>::argmax() const
 {
   return std::max_element(begin(), end()) - begin();
 }
@@ -870,7 +822,7 @@ size_t matrix<X>::argmaxIndex() const
 
 template<class X>
 inline
-X matrix<X>::minCoeff() const
+X matrix<X>::min() const
 {
   return *std::min_element(begin(),end());
 }
@@ -881,7 +833,7 @@ X matrix<X>::minCoeff() const
 
 template<class X>
 inline
-X matrix<X>::maxCoeff() const
+X matrix<X>::max() const
 {
   return *std::max_element(begin(),end());
 }
@@ -921,7 +873,7 @@ double matrix<X>::average(const matrix<X> &weights, bool norm) const
 }
 
 // =================================================================================================
-// find all non-zero entries
+// find the plain storage indices of all non-zero entries
 // =================================================================================================
 
 template<class X>
@@ -940,6 +892,34 @@ std::vector<size_t> matrix<X>::where() const
 
   for ( size_t i = 0 ; i < mSize ; ++i ) {
     if ( mData[i] ) {
+      out[j] = i;
+      ++j;
+    }
+  }
+
+  return out;
+}
+
+// =================================================================================================
+// find the plain storage indices of all entries equal to some constant
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<size_t> matrix<X>::where(X D) const
+{
+  size_t nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      ++nnz;
+
+  std::vector<size_t> out(nnz);
+
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] == D ) {
       out[j] = i;
       ++j;
     }
@@ -980,17 +960,6 @@ inline
 matrix<X> operator* (matrix<X> A, const matrix<X> &B)
 {
   A *= B;
-
-  return A;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X> operator/ (matrix<X> A, const matrix<X> &B)
-{
-  A /= B;
 
   return A;
 }
@@ -1043,72 +1012,11 @@ matrix<X> operator/ (matrix<X> A, const X &B)
 
 template<class X>
 inline
-matrix<X> operator+ (matrix<X> A, const X &B)
-{
-  A += B;
-
-  return A;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X> operator- (matrix<X> A, const X &B)
-{
-  A -= B;
-
-  return A;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
 matrix<X> operator* (const X &A, matrix<X> B)
 {
   B *= A;
 
   return B;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X> operator/ (const X &A, const matrix<X> &B)
-{
-  matrix<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A / B[i];
-
-  return C;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X> operator+ (const X &A, matrix<X> B)
-{
-  B += A;
-
-  return B;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X> operator- (const X &A, const matrix<X> &B)
-{
-  matrix<X> C(B.shape());
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    C[i] = A - B[i];
-
-  return C;
 }
 
 // =================================================================================================

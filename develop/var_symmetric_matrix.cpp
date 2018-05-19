@@ -9,32 +9,32 @@
 
 #include <Eigen/Eigen>
 
+#include "support.h"
+
 typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
 typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t M = 11;
-static const size_t N = 9;
-static const size_t O = 6;
-static const size_t P = 5;
+static const size_t N = 11;
 
-typedef cppmat::array<double> Arr;
+typedef cppmat::symmetric::matrix<double> sMat;
 
 // =================================================================================================
 
-TEST_CASE("cppmat::array", "matrix.h")
+TEST_CASE("cppmat::symmetric::matrix", "matrix.h")
 {
 
 // =================================================================================================
 // arithmetic
 // =================================================================================================
 
-SECTION( "array += array" )
+SECTION( "matrix += matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -42,8 +42,6 @@ SECTION( "array += array" )
 
   A += B;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -51,13 +49,13 @@ SECTION( "array += array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array -= array" )
+SECTION( "matrix -= matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -65,8 +63,6 @@ SECTION( "array -= array" )
 
   A -= B;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -74,13 +70,13 @@ SECTION( "array -= array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array *= array" )
+SECTION( "matrix *= matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -88,8 +84,6 @@ SECTION( "array *= array" )
 
   A *= B;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -97,13 +91,13 @@ SECTION( "array *= array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array /= array" )
+SECTION( "matrix /= matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N) + MatD::Ones(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N)) + MatD::Ones(M,N);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -111,8 +105,6 @@ SECTION( "array /= array" )
 
   A /= B;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -122,12 +114,12 @@ SECTION( "array /= array" )
 // arithmetic
 // =================================================================================================
 
-SECTION( "array += scalar" )
+SECTION( "matrix += scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -135,8 +127,6 @@ SECTION( "array += scalar" )
 
   A += b;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -144,12 +134,12 @@ SECTION( "array += scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array -= scalar" )
+SECTION( "matrix -= scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -157,8 +147,6 @@ SECTION( "array -= scalar" )
 
   A -= b;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -166,12 +154,12 @@ SECTION( "array -= scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array *= scalar" )
+SECTION( "matrix *= scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -179,8 +167,6 @@ SECTION( "array *= scalar" )
 
   A *= b;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -188,12 +174,12 @@ SECTION( "array *= scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array /= scalar" )
+SECTION( "matrix /= scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0) + 1.0;
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -201,8 +187,6 @@ SECTION( "array /= scalar" )
 
   A /= b;
 
-  REQUIRE( static_cast<size_t>(a.size()) == A.size() );
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       EQ( a(i,j), A(i,j) );
@@ -212,13 +196,13 @@ SECTION( "array /= scalar" )
 // arithmetic
 // =================================================================================================
 
-SECTION( "array + array" )
+SECTION( "matrix + matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -226,9 +210,7 @@ SECTION( "array + array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) + b(i,j);
 
-  Arr C = A + B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A + B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -237,13 +219,13 @@ SECTION( "array + array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array - array" )
+SECTION( "matrix - matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -251,9 +233,7 @@ SECTION( "array - array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) - b(i,j);
 
-  Arr C = A - B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A - B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -262,13 +242,13 @@ SECTION( "array - array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array * array" )
+SECTION( "matrix * matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -276,9 +256,7 @@ SECTION( "array * array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) * b(i,j);
 
-  Arr C = A * B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A * B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -287,13 +265,13 @@ SECTION( "array * array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array / array" )
+SECTION( "matrix / matrix" )
 {
-  MatD a = MatD::Random(M,N);
-  MatD b = MatD::Random(M,N) + MatD::Ones(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N)) + MatD::Ones(M,N);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -301,9 +279,7 @@ SECTION( "array / array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) / b(i,j);
 
-  Arr C = A / B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A / B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -314,12 +290,12 @@ SECTION( "array / array" )
 // arithmetic
 // =================================================================================================
 
-SECTION( "array + scalar" )
+SECTION( "matrix + scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -327,9 +303,7 @@ SECTION( "array + scalar" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) + b;
 
-  Arr C = A + b;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A + b;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -338,12 +312,12 @@ SECTION( "array + scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array - scalar" )
+SECTION( "matrix - scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -351,9 +325,7 @@ SECTION( "array - scalar" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) - b;
 
-  Arr C = A - b;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A - b;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -362,12 +334,12 @@ SECTION( "array - scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array * scalar" )
+SECTION( "matrix * scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0);
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -375,9 +347,7 @@ SECTION( "array * scalar" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) * b;
 
-  Arr C = A * b;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A * b;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -386,12 +356,12 @@ SECTION( "array * scalar" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "array / scalar" )
+SECTION( "matrix / scalar" )
 {
-  MatD a = MatD::Random(M,N);
+  MatD a = makeSymmetric(MatD::Random(M,N));
   double b = a(0,0) + 1.0;
 
-  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -399,9 +369,7 @@ SECTION( "array / scalar" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a(i,j) / b;
 
-  Arr C = A / b;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = A / b;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -412,12 +380,12 @@ SECTION( "array / scalar" )
 // arithmetic
 // =================================================================================================
 
-SECTION( "scalar + array" )
+SECTION( "scalar + matrix" )
 {
-  MatD b = MatD::Random(M,N);
+  MatD b = makeSymmetric(MatD::Random(M,N));
   double a = b(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -425,9 +393,7 @@ SECTION( "scalar + array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a + b(i,j);
 
-  Arr C = a + B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = a + B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -436,12 +402,12 @@ SECTION( "scalar + array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "scalar - array" )
+SECTION( "scalar - matrix" )
 {
-  MatD b = MatD::Random(M,N);
+  MatD b = makeSymmetric(MatD::Random(M,N));
   double a = b(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -449,9 +415,7 @@ SECTION( "scalar - array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a - b(i,j);
 
-  Arr C = a - B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = a - B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -460,12 +424,12 @@ SECTION( "scalar - array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "scalar * array" )
+SECTION( "scalar * matrix" )
 {
-  MatD b = MatD::Random(M,N);
+  MatD b = makeSymmetric(MatD::Random(M,N));
   double a = b(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -473,9 +437,7 @@ SECTION( "scalar * array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a * b(i,j);
 
-  Arr C = a * B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = a * B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -484,12 +446,12 @@ SECTION( "scalar * array" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "scalar / array" )
+SECTION( "scalar / matrix" )
 {
-  MatD b = MatD::Random(M,N) + MatD::Ones(M,N);
+  MatD b = makeSymmetric(MatD::Random(M,N)) + MatD::Ones(M,N);
   double a = b(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -497,9 +459,7 @@ SECTION( "scalar / array" )
     for ( size_t j = 0 ; j < N ; ++j )
       c(i,j) = a / b(i,j);
 
-  Arr C = a / B;
-
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
+  sMat C = a / B;
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -507,145 +467,16 @@ SECTION( "scalar / array" )
 }
 
 // =================================================================================================
-// algebra - partial
-// =================================================================================================
-
-SECTION( "minCoeff" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-
-  Arr C = A.minCoeff({-1,-2});
-
-  Arr c = Arr::Constant({M,N}, A.maxCoeff());
-
-  for ( size_t i = 0 ; i < M ; i++ )
-    for ( size_t j = 0 ; j < N ; j++ )
-      for ( size_t k = 0 ; k < O ; k++ )
-        for ( size_t l = 0 ; l < P ; l++ )
-          c(i,j) = std::min( c(i,j), A(i,j,k,l) );
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-SECTION( "maxCoeff" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-
-  Arr C = A.maxCoeff({-1,-2});
-
-  Arr c = Arr::Constant({M,N}, A.minCoeff());
-
-  for ( size_t i = 0 ; i < M ; i++ )
-    for ( size_t j = 0 ; j < N ; j++ )
-      for ( size_t k = 0 ; k < O ; k++ )
-        for ( size_t l = 0 ; l < P ; l++ )
-          c(i,j) = std::max( c(i,j), A(i,j,k,l) );
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-SECTION( "sum" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-
-  Arr C = A.sum({0,1});
-
-  Arr c = Arr::Zero({O,P});
-
-  for ( size_t i = 0 ; i < M ; i++ )
-    for ( size_t j = 0 ; j < N ; j++ )
-      for ( size_t k = 0 ; k < O ; k++ )
-        for ( size_t l = 0 ; l < P ; l++ )
-          c(k,l) += A(i,j,k,l);
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-SECTION( "mean" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-
-  Arr C = A.mean({0,1});
-
-  Arr c = Arr::Zero({O,P});
-
-  for ( size_t i = 0 ; i < M ; i++ )
-    for ( size_t j = 0 ; j < N ; j++ )
-      for ( size_t k = 0 ; k < O ; k++ )
-        for ( size_t l = 0 ; l < P ; l++ )
-          c(k,l) += A(i,j,k,l);
-
-  c /= static_cast<double>(M*N);
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-SECTION( "average" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-  ColD b = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N,O,P}, b.data(), b.data()+b.size());
-
-  Arr C = A.average(B,{-2,0});
-
-  Arr c = Arr::Zero({N,P});
-  Arr d = Arr::Zero({N,P});
-
-  for ( size_t i = 0 ; i < M ; i++ ) {
-    for ( size_t j = 0 ; j < N ; j++ ) {
-      for ( size_t k = 0 ; k < O ; k++ ) {
-        for ( size_t l = 0 ; l < P ; l++ ) {
-          c(j,l) += B(i,j,k,l) * A(i,j,k,l);
-          d(j,l) += B(i,j,k,l);
-        }
-      }
-    }
-  }
-
-  c /= d;
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
-}
-
-// =================================================================================================
 // algebra
 // =================================================================================================
 
-SECTION( "minCoeff" )
+SECTION( "min" )
 {
-  ColD a = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.minCoeff();
+  double C = A.min();
 
   double c = a.minCoeff();
 
@@ -654,13 +485,13 @@ SECTION( "minCoeff" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "maxCoeff" )
+SECTION( "max" )
 {
-  ColD a = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.maxCoeff();
+  double C = A.max();
 
   double c = a.maxCoeff();
 
@@ -671,15 +502,17 @@ SECTION( "maxCoeff" )
 
 SECTION( "sum" )
 {
-  ColD a = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   double C = A.sum();
 
   double c = 0.0;
 
-  for ( auto i = 0 ; i < a.size() ; ++i ) c += a[i];
+  for ( auto i = 0 ; i < a.rows() ; ++i )
+    for ( auto j = 0 ; j < a.cols() ; ++j )
+      c += a(i,j);
 
   EQ( c, C );
 }
@@ -688,17 +521,19 @@ SECTION( "sum" )
 
 SECTION( "mean" )
 {
-  ColD a = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   double C = A.mean();
 
   double c = 0.0;
 
-  for ( auto i = 0 ; i < a.size() ; ++i ) c += a[i];
+  for ( auto i = 0 ; i < a.rows() ; ++i )
+    for ( auto j = 0 ; j < a.cols() ; ++j )
+      c += a(i,j);
 
-  c /= static_cast<double>(M*N*O*P);
+  c /= static_cast<double>(M*N);
 
   EQ( c, C );
 }
@@ -707,19 +542,23 @@ SECTION( "mean" )
 
 SECTION( "average" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-  ColD b = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  MatD b = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N,O,P}, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
   double C = A.average(B);
 
   double c = 0.0;
   double d = 0.0;
 
-  for ( auto i = 0 ; i < a.size() ; ++i ) c += b[i] * a[i];
-  for ( auto i = 0 ; i < a.size() ; ++i ) d += b[i];
+  for ( auto i = 0 ; i < a.rows() ; ++i ) {
+    for ( auto j = 0 ; j < a.cols() ; ++j ) {
+      c += b(i,j) * a(i,j);
+      d += b(i,j);
+    }
+  }
 
   c /= d;
 
@@ -732,50 +571,34 @@ SECTION( "average" )
 
 SECTION( "abs" )
 {
-  ColD a = ColD::Random(M*N*O*P) - ColD::Constant(M*N*O*P, .5);
+  MatD a = makeSymmetric(MatD::Random(M,N) - MatD::Constant(M,N,.5));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  Arr C = A.abs();
+  sMat C = A.abs();
 
-  ColD c = ColD(M*N*O*P);
+  MatD c = a.cwiseAbs();
 
-  for ( auto i = 0 ; i < a.size() ; ++i ) c[i] = std::abs(a[i]);
-
-  REQUIRE( c.size() == C.size() );
-
-  for ( auto i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  for ( size_t i = 0 ; i < M ; ++i )
+    for ( size_t j = 0 ; j < N ; ++j )
+      EQ( c(i,j), C(i,j) );
 }
 
 // =================================================================================================
 // index operators
 // =================================================================================================
 
-SECTION( "at" )
-{
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-
-  std::vector<size_t> idx = {1,2,3,4};
-
-  EQ( A.at(idx.begin(), idx.end()), A(1,2,3,4) );
-}
-
-// -------------------------------------------------------------------------------------------------
-
 SECTION( "decompress" )
 {
-  ColD a = ColD::Random(M*N*O*P);
+  MatD a = makeSymmetric(MatD::Random(M,N));
 
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  std::vector<size_t> idx = A.decompress(A.compress(1,2,3,4));
-  std::vector<size_t> jdx = {1,2,3,4};
+  std::vector<size_t> idx = A.decompress(A.compress(1,2));
+  std::vector<size_t> jdx = {1,2};
 
   REQUIRE( idx == jdx );
 }
-
 
 // =================================================================================================
 

@@ -41,6 +41,15 @@ vector<X>::vector(const array<X> &A) : array<X>(A)
 
 template<class X>
 inline
+vector<X>::vector(const std::vector<X> &D) : array<X>({D.size()}, D)
+{
+  N = D.size();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 vector<X> vector<X>::Arange(size_t n)
 {
   vector<X> out(n);
@@ -128,6 +137,21 @@ void vector<X>::resize(size_t n)
   N = n;
 
   cppmat::array<X>::resize({n});
+}
+
+// =================================================================================================
+// finite difference
+// =================================================================================================
+
+template<class X>
+inline
+vector<X> vector<X>::diff() const
+{
+  vector<X> out(N);
+
+  std::adjacent_difference(this->begin(), this->end(), out.begin());
+
+  return out;
 }
 
 // =================================================================================================

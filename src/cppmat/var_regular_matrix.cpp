@@ -43,6 +43,16 @@ matrix<X>::matrix(const array<X> &A) : array<X>(A)
 
 template<class X>
 inline
+matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : array<X>({m,n}, D)
+{
+  M = m;
+  N = n;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
   matrix<X> out(m,n);

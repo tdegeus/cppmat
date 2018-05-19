@@ -45,11 +45,14 @@ public:
   // constructor
   vector() = default;
 
+  // constructor: allocate, don't initialize
+  vector(size_t n);
+
   // constructor: copy
   vector(const array<X> &A);
 
-  // constructor: allocate, don't initialize
-  vector(size_t n);
+  // constructor: copy
+  vector(const std::vector<X> &D);
 
   // constructor: initialize
   static vector<X> Arange  (size_t n);
@@ -63,6 +66,9 @@ public:
 
   // resize
   void resize(size_t n);
+
+  // forward difference (x0, x1-x0, x2-x1, ...)
+  vector<X> diff() const;
 
 };
 

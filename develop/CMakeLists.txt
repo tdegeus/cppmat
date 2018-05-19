@@ -36,5 +36,8 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 # create executable
 add_executable(${PROJECT_NAME}
   main.cpp
-  regular_array.cpp
+  var_regular_array.cpp
+  var_symmetric_matrix.cpp
+  var_diagonal_matrix.cpp
+  var_misc_matrix.cpp
 )
