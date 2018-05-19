@@ -21,7 +21,7 @@ namespace cppmat {
 
 template<class X>
 inline
-vector<X>::vector(size_t n) : array<X>({n})
+vector<X>::vector(size_t n) : cppmat::array<X>({n})
 {
   N = n;
 }
@@ -30,7 +30,7 @@ vector<X>::vector(size_t n) : array<X>({n})
 
 template<class X>
 inline
-vector<X>::vector(const array<X> &A) : array<X>(A)
+vector<X>::vector(const cppmat::array<X> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 1 );
 
@@ -41,9 +41,9 @@ vector<X>::vector(const array<X> &A) : array<X>(A)
 
 template<class X>
 inline
-vector<X>::vector(const std::vector<X> &D) : array<X>({D.size()}, D)
+vector<X>::vector(const std::vector<X> &D) : cppmat::array<X>({D.size()}, D)
 {
-  N = D.size();
+  N = this->mShape[0];
 }
 
 // -------------------------------------------------------------------------------------------------

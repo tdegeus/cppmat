@@ -22,7 +22,7 @@ namespace cppmat {
 template<class X>
 class vector : public cppmat::array<X>
 {
-private:
+protected:
 
   size_t N=0; // number of entries
 
@@ -49,7 +49,7 @@ public:
   vector(size_t n);
 
   // constructor: copy
-  vector(const array<X> &A);
+  vector(const cppmat::array<X> &A);
 
   // constructor: copy
   vector(const std::vector<X> &D);

@@ -166,6 +166,11 @@ namespace cartesian3d {
 #include "var_symmetric_matrix.h"
 #include "var_diagonal_matrix.h"
 #include "var_misc_matrix.h"
+#include "var_cartesian_tensor4.h"
+#include "var_cartesian_tensor2.h"
+#include "var_cartesian_tensor2s.h"
+#include "var_cartesian_tensor2d.h"
+#include "var_cartesian_vector.h"
 
 #include "stl.cpp"
 #include "private.cpp"
@@ -175,6 +180,11 @@ namespace cartesian3d {
 #include "var_symmetric_matrix.cpp"
 #include "var_diagonal_matrix.cpp"
 #include "var_misc_matrix.cpp"
+#include "var_cartesian_tensor4.cpp"
+#include "var_cartesian_tensor2.cpp"
+#include "var_cartesian_tensor2s.cpp"
+#include "var_cartesian_tensor2d.cpp"
+#include "var_cartesian_vector.cpp"
 
 // =================================================================================================
 

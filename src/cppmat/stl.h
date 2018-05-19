@@ -23,7 +23,7 @@ template<class X> std::vector<X> del(const std::vector<X> &A, size_t idx);
 
 // -------------------------------------------------------------------------------------------------
 
-// return the indices that would sort an array
+// return the indices that would sort the vector
 template <typename X> std::vector<size_t> argsort(const std::vector<X> &v, bool ascending=true);
 
 // -------------------------------------------------------------------------------------------------

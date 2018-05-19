@@ -1323,7 +1323,7 @@ X array<X>::norm() const
 }
 
 // =================================================================================================
-// return the indices that would sort an array
+// return the indices that would sort the array
 // =================================================================================================
 
 template<class X>

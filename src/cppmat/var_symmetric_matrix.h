@@ -42,6 +42,11 @@ public:
   // constructor: copy
   matrix(const matrix<X> &A);
 
+  // constructor: copy
+  #ifndef CPPMAT_NOCONVERT
+  matrix(const cppmat::diagonal::matrix<X> &A);
+  #endif
+
   // constructor: initialize
   static matrix<X> Arange  (size_t m, size_t n);
   static matrix<X> Zero    (size_t m, size_t n);
@@ -53,11 +58,6 @@ public:
   template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first, Itr last);
   template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first);
   template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first, Itr last);
-
-  // copy constructor
-  #ifndef CPPMAT_NOCONVERT
-  operator cppmat::matrix<X> () const;
-  #endif
 
   // return plain storage as vector
   std::vector<X> asVector() const;
@@ -145,7 +145,7 @@ public:
   // norm (sum of absolute values)
   X norm() const;
 
-  // return the indices that would sort an array
+  // return the indices that would sort the matrix
   matrix<size_t> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)

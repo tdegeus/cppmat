@@ -1,0 +1,80 @@
+/* =================================================================================================
+
+(c - MIT) T.W.J. de Geus (Tom) | tom@geus.me | www.geus.me | github.com/tdegeus/cppmat
+
+================================================================================================= */
+
+#ifndef CPPMAT_VAR_CARTESIAN_VECTOR_H
+#define CPPMAT_VAR_CARTESIAN_VECTOR_H
+
+// -------------------------------------------------------------------------------------------------
+
+#include "cppmat.h"
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace cartesian {
+
+// =================================================================================================
+// cppmat::cartesian::vector
+// =================================================================================================
+
+template<class X>
+class vector
+{
+protected:
+
+  size_t ND=0;
+
+public:
+
+  // constructor
+  vector() = default;
+
+  // constructor: allocate, don't initialize
+  vector(size_t nd);
+
+  // constructor: copy
+  vector(const cppmat::array <X> &A);
+  vector(const cppmat::vector<X> &A);
+
+  // constructor: copy
+  vector(const std::vector<X> &D);
+
+  // constructor: initialize
+  static vector<X> Arange  (size_t nd);
+  static vector<X> Zero    (size_t nd);
+  static vector<X> Ones    (size_t nd);
+  static vector<X> Constant(size_t nd, X D);
+
+  // constructor: initialize by copying from external object
+  template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first);
+  template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first, Iterator last);
+
+  // resize
+  void resize(size_t nd);
+
+  // number of dimensions (== shape[0])
+  size_t ndim() const;
+
+  // tensor products / operations
+  X          dot   (const vector  <X> &B) const; // dot    product: C   = A_i*B_i
+  vector <X> dot   (const tensor2 <X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> dot   (const tensor2s<X> &B) const; // dot    product: C_j = A_i*B_ij
+  vector <X> dot   (const tensor2d<X> &B) const; // dot    product: C_j = A_i*B_ij
+  tensor2<X> dyadic(const vector  <X> &B) const; // dyadic product: C_ij = A_i*B_j
+  vector <X> cross (const vector  <X> &B) const; // cross  product (only in 3D)
+  X          length()                     const; // sqrt(sum(pow(A_i,2.)))
+  void       setUnitLength();                    // A_i /= A.length()
+
+};
+
+// =================================================================================================
+
+}} // namespace ...
+
+// -------------------------------------------------------------------------------------------------
+
+#endif
+

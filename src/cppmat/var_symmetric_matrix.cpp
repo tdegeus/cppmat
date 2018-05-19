@@ -42,6 +42,21 @@ matrix<X>::matrix(const matrix<X> &A)
 
 // -------------------------------------------------------------------------------------------------
 
+#ifndef CPPMAT_NOCONVERT
+template<class X>
+inline
+matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A)
+{
+  resize(A.shape(0), A.shape(1));
+
+  for ( size_t i = 0 ; i < N ; ++i )
+    for ( size_t j = 0 ; j < N ; ++j )
+      (*this)(i,j) = A(i,j);
+}
+#endif
+
+// -------------------------------------------------------------------------------------------------
+
 template<class X>
 inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
@@ -164,25 +179,6 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last
 
   return out;
 }
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-matrix<X>::operator cppmat::matrix<X> () const
-{
-  cppmat::matrix<X> out(N,N);
-
-  for ( size_t i = 0 ; i < N ; ++i )
-    for ( size_t j = i ; j < N ; ++j )
-      out[i*N+j] = out[j*N+i] = mData[i*N-(i-1)*i/2+j-i];
-
-  return out;
-}
-#endif
 
 // =================================================================================================
 // resize
@@ -809,7 +805,7 @@ X matrix<X>::norm() const
 }
 
 // =================================================================================================
-// return the indices that would sort an array
+// return the indices that would sort the matrix
 // =================================================================================================
 
 template<class X>

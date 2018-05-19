@@ -170,40 +170,6 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last
 }
 
 // =================================================================================================
-// copy constructor
-// =================================================================================================
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-matrix<X>::operator cppmat::matrix<X> () const
-{
-  cppmat::matrix<X> out = cppmat::matrix<X>::Zero(N,N);
-
-  for ( size_t i = 0 ; i < N ; ++i )
-    out[i*N+i] = this->mData[i];
-
-  return out;
-}
-#endif
-
-// -------------------------------------------------------------------------------------------------
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-matrix<X>::operator cppmat::symmetric::matrix<X> () const
-{
-  cppmat::symmetric::matrix<X> out = cppmat::symmetric::matrix<X>::Zero(N,N);
-
-  for ( size_t i = 0 ; i < N ; ++i )
-    out[i*N-(i-1)*i/2] = this->mData[i];
-
-  return out;
-}
-#endif
-
-// =================================================================================================
 // resize
 // =================================================================================================
 
@@ -786,7 +752,7 @@ X matrix<X>::norm() const
 }
 
 // =================================================================================================
-// return the indices that would sort an array
+// return the indices that would sort the matrix
 // =================================================================================================
 
 template<class X>

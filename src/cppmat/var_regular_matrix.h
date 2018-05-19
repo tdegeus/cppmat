@@ -22,7 +22,7 @@ namespace cppmat {
 template<class X>
 class matrix : public cppmat::array<X>
 {
-private:
+protected:
 
   size_t M=0; // number of rows
   size_t N=0; // number of columns
@@ -49,10 +49,16 @@ public:
   matrix(size_t m, size_t n);
 
   // constructor: copy
-  matrix(const array<X> &A);
+  matrix(const cppmat::array<X> &A);
 
   // constructor: copy
-  matrix(size_t m, size_t n, const std::vector<X> &D);  
+  #ifndef CPPMAT_NOCONVERT
+  matrix(const cppmat::symmetric::matrix<X> &A);
+  matrix(const cppmat::diagonal ::matrix<X> &A);
+  #endif
+
+  // constructor: copy
+  matrix(size_t m, size_t n, const std::vector<X> &D);
 
   // constructor: initialize
   static matrix<X> Arange  (size_t m, size_t n);

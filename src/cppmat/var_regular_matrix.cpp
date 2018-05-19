@@ -21,7 +21,7 @@ namespace cppmat {
 
 template<class X>
 inline
-matrix<X>::matrix(size_t m, size_t n) : array<X>({m,n})
+matrix<X>::matrix(size_t m, size_t n) : cppmat::array<X>({m,n})
 {
   M = m;
   N = n;
@@ -31,7 +31,7 @@ matrix<X>::matrix(size_t m, size_t n) : array<X>({m,n})
 
 template<class X>
 inline
-matrix<X>::matrix(const array<X> &A) : array<X>(A)
+matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 2 );
 
@@ -41,9 +41,35 @@ matrix<X>::matrix(const array<X> &A) : array<X>(A)
 
 // -------------------------------------------------------------------------------------------------
 
+#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
-matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : array<X>({m,n}, D)
+matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
+{
+  for ( size_t i = 0 ; i < M ; ++i )
+    for ( size_t j = 0 ; j < N ; ++j )
+      (*this)(i,j) = A(i,j);
+}
+#endif
+
+// -------------------------------------------------------------------------------------------------
+
+#ifndef CPPMAT_NOCONVERT
+template<class X>
+inline
+matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
+{
+  for ( size_t i = 0 ; i < M ; ++i )
+    for ( size_t j = 0 ; j < N ; ++j )
+      (*this)(i,j) = A(i,j);
+}
+#endif
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::array<X>({m,n}, D)
 {
   M = m;
   N = n;
