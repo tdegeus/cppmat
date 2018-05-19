@@ -47,14 +47,16 @@ public:
   tensor4(size_t nd, const std::vector<X> &D);
 
   // constructor: initialize
+  static tensor4<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor4<X> Arange  (size_t nd);
   static tensor4<X> Zero    (size_t nd);
   static tensor4<X> Ones    (size_t nd);
   static tensor4<X> Constant(size_t nd, X D);
   static tensor4<X> I       (size_t nd);
   static tensor4<X> Irt     (size_t nd);
-  static tensor4<X> Is      (size_t nd);
   static tensor4<X> Id      (size_t nd);
+  static tensor4<X> Is      (size_t nd);
+  static tensor4<X> Isd     (size_t nd);
   static tensor4<X> II      (size_t nd);
 
   // constructor: initialize by copying from external object
@@ -70,8 +72,9 @@ public:
   // initialize
   void setI();
   void setIrt();
-  void setIs();
   void setId();
+  void setIs();
+  void setIsd();
   void setII();
 
   // tensor products / operations

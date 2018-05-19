@@ -44,6 +44,7 @@ public:
   #endif
 
   // constructor: initialize
+  static tensor2s<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2s<X> Arange  (size_t nd);
   static tensor2s<X> Zero    (size_t nd);
   static tensor2s<X> Ones    (size_t nd);

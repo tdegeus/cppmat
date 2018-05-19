@@ -39,6 +39,7 @@ public:
   tensor2d(const cppmat::diagonal::matrix<X> &A);
 
   // constructor: initialize
+  static tensor2d<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2d<X> Arange  (size_t nd);
   static tensor2d<X> Zero    (size_t nd);
   static tensor2d<X> Ones    (size_t nd);

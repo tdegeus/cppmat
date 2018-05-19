@@ -18,6 +18,8 @@
 #include <string>
 #include <vector>
 #include <numeric>
+#include <random>
+#include <ctime>
 #include <iso646.h> // to fix a Microsoft Visual Studio error on "and" and "or"
 
 // =================================================================================================

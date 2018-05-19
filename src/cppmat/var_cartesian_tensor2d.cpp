@@ -48,6 +48,19 @@ tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<X> &A) : cppmat::diagonal::
 
 template<class X>
 inline
+tensor2d<X> tensor2d<X>::Random(size_t nd, X lower, X upper)
+{
+  tensor2d<X> out(nd);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 tensor2d<X> tensor2d<X>::Arange(size_t nd)
 {
   tensor2d<X> out(nd);

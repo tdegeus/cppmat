@@ -46,6 +46,7 @@ public:
   array(const std::vector<size_t> &shape, const std::vector<X> &D);
 
   // constructor: initialize
+  static array<X> Random  (const std::vector<size_t> &shape, X lower=(X)0, X upper=(X)1);
   static array<X> Arange  (const std::vector<size_t> &shape);
   static array<X> Zero    (const std::vector<size_t> &shape);
   static array<X> Ones    (const std::vector<size_t> &shape);
@@ -134,6 +135,7 @@ public:
   auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
   // initialization
+  void setRandom(X lower=(X)0, X upper=(X)1);
   void setArange();
   void setZero();
   void setOnes();

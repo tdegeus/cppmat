@@ -49,6 +49,7 @@ public:
   tensor2(size_t nd, const std::vector<X> &D);
 
   // constructor: initialize
+  static tensor2<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2<X> Arange  (size_t nd);
   static tensor2<X> Zero    (size_t nd);
   static tensor2<X> Ones    (size_t nd);

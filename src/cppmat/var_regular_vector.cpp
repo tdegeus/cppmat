@@ -50,6 +50,19 @@ vector<X>::vector(const std::vector<X> &D) : cppmat::array<X>({D.size()}, D)
 
 template<class X>
 inline
+vector<X> vector<X>::Random(size_t n, X lower, X upper)
+{
+  vector<X> out(n);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 vector<X> vector<X>::Arange(size_t n)
 {
   vector<X> out(n);

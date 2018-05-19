@@ -59,6 +59,19 @@ matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A)
 
 template<class X>
 inline
+matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
+{
+  matrix<X> out(m,n);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
   matrix<X> out(m,n);
@@ -471,6 +484,25 @@ auto matrix<X>::item(size_t a, size_t b) const
 // =================================================================================================
 // initialize
 // =================================================================================================
+
+template<class X>
+inline
+void matrix<X>::setRandom(X lower, X upper)
+{
+  // type of random number distribution
+  std::uniform_real_distribution<X> dist(lower, upper);
+
+  // Mersenne Twister: Good quality random number generator
+  std::mt19937 rng;
+
+  // Initialize with non-deterministic seeds
+  rng.seed(std::random_device{}());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] = dist(rng);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline

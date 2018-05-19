@@ -21,7 +21,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X>
-class vector
+class vector : public cppmat::vector<X>
 {
 protected:
 
@@ -43,6 +43,7 @@ public:
   vector(const std::vector<X> &D);
 
   // constructor: initialize
+  static vector<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static vector<X> Arange  (size_t nd);
   static vector<X> Zero    (size_t nd);
   static vector<X> Ones    (size_t nd);

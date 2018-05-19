@@ -55,6 +55,7 @@ public:
   vector(const std::vector<X> &D);
 
   // constructor: initialize
+  static vector<X> Random  (size_t n, X lower=(X)0, X upper=(X)1);
   static vector<X> Arange  (size_t n);
   static vector<X> Zero    (size_t n);
   static vector<X> Ones    (size_t n);

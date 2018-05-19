@@ -51,6 +51,19 @@ tensor4<X>::tensor4(size_t nd, const std::vector<X> &D) : cppmat::array<X>({nd,n
 
 template<class X>
 inline
+tensor4<X> tensor4<X>::Random(size_t nd, X lower, X upper)
+{
+  tensor4<X> out(nd);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 tensor4<X> tensor4<X>::Arange(size_t nd)
 {
   tensor4<X> out(nd);
@@ -157,6 +170,19 @@ tensor4<X> tensor4<X>::Irt(size_t nd)
 
 template<class X>
 inline
+tensor4<X> tensor4<X>::Id(size_t nd)
+{
+  tensor4<X> out(nd);
+
+  out.setId();
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 tensor4<X> tensor4<X>::Is(size_t nd)
 {
   tensor4<X> out(nd);
@@ -170,11 +196,11 @@ tensor4<X> tensor4<X>::Is(size_t nd)
 
 template<class X>
 inline
-tensor4<X> tensor4<X>::Id(size_t nd)
+tensor4<X> tensor4<X>::Isd(size_t nd)
 {
   tensor4<X> out(nd);
 
-  out.setId();
+  out.setIsd();
 
   return out;
 }
@@ -224,7 +250,7 @@ template<class X>
 inline
 void tensor4<X>::setI()
 {
-  cppmat::matrix4<X>::setZero();
+  cppmat::array<X>::setZero();
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -240,7 +266,7 @@ template<class X>
 inline
 void tensor4<X>::setIrt()
 {
-  cppmat::matrix4<X>::setZero();
+  cppmat::array<X>::setZero();
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -256,7 +282,7 @@ template<class X>
 inline
 void tensor4<X>::setIs()
 {
-  return ( tensor4<X>::I(ND) + tensor4<X>::Irt(ND) ) / static_cast<X>(2);
+  (*this) = ( tensor4<X>::I(ND) + tensor4<X>::Irt(ND) ) / static_cast<X>(2);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -265,7 +291,16 @@ template<class X>
 inline
 void tensor4<X>::setId()
 {
-  return tensor4<X>::Is(ND) - tensor4<X>::II(ND)/static_cast<X>(ND);
+  (*this) = tensor4<X>::I(ND) - tensor4<X>::II(ND)/static_cast<X>(ND);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+void tensor4<X>::setIsd()
+{
+  (*this) = tensor4<X>::Is(ND) - tensor4<X>::II(ND)/static_cast<X>(ND);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -274,7 +309,7 @@ template<class X>
 inline
 void tensor4<X>::setII()
 {
-  cppmat::matrix4<X>::setZero();
+  cppmat::array<X>::setZero();
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )

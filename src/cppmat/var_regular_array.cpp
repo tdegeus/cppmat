@@ -52,6 +52,19 @@ array<X>::array(const std::vector<size_t> &shape, const std::vector<X> &D)
 
 template<class X>
 inline
+array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
+{
+  array<X> out(shape);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 array<X> array<X>::Arange(const std::vector<size_t> &shape)
 {
   array<X> out(shape);
@@ -1063,6 +1076,25 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) 
 // =================================================================================================
 // initialize
 // =================================================================================================
+
+template<class X>
+inline
+void array<X>::setRandom(X lower, X upper)
+{
+  // type of random number distribution
+  std::uniform_real_distribution<X> dist(lower, upper);
+
+  // Mersenne Twister: Good quality random number generator
+  std::mt19937 rng;
+
+  // Initialize with non-deterministic seeds
+  rng.seed(std::random_device{}());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] = dist(rng);
+}
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline

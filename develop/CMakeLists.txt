@@ -40,4 +40,9 @@ add_executable(${PROJECT_NAME}
   var_symmetric_matrix.cpp
   var_diagonal_matrix.cpp
   var_misc_matrix.cpp
+  var_cartesian_tensor4.cpp
+  var_cartesian_tensor2.cpp
+  var_cartesian_tensor2s.cpp
+  var_cartesian_tensor2d.cpp
+  var_cartesian_vector.cpp
 )

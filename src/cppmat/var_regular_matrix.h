@@ -61,6 +61,7 @@ public:
   matrix(size_t m, size_t n, const std::vector<X> &D);
 
   // constructor: initialize
+  static matrix<X> Random  (size_t m, size_t n, X lower=(X)0, X upper=(X)1);
   static matrix<X> Arange  (size_t m, size_t n);
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);

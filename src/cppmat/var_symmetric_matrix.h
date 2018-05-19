@@ -48,6 +48,7 @@ public:
   #endif
 
   // constructor: initialize
+  static matrix<X> Random  (size_t m, size_t n, X lower=(X)0, X upper=(X)1);
   static matrix<X> Arange  (size_t m, size_t n);
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);
@@ -105,6 +106,7 @@ public:
   auto item(size_t a, size_t b) const;
 
   // initialization
+  void setRandom(X lower=(X)0, X upper=(X)1);
   void setArange();
   void setZero();
   void setOnes();

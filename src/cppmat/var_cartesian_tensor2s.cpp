@@ -52,6 +52,19 @@ tensor2s<X>::tensor2s(const cppmat::diagonal::matrix<X> &A) : cppmat::symmetric:
 
 template<class X>
 inline
+tensor2s<X> tensor2s<X>::Random(size_t nd, X lower, X upper)
+{
+  tensor2s<X> out(nd);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 tensor2s<X> tensor2s<X>::Arange(size_t nd)
 {
   tensor2s<X> out(nd);

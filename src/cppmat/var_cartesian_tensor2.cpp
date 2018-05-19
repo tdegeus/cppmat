@@ -80,6 +80,19 @@ tensor2<X>::tensor2(size_t nd, const std::vector<X> &D) : cppmat::matrix<X>(nd,n
 
 template<class X>
 inline
+tensor2<X> tensor2<X>::Random(size_t nd, X lower, X upper)
+{
+  tensor2<X> out(nd);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 tensor2<X> tensor2<X>::Arange(size_t nd)
 {
   tensor2<X> out(nd);

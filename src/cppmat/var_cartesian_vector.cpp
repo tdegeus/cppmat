@@ -58,6 +58,19 @@ vector<X>::vector(const std::vector<X> &D) : cppmat::vector<X>(D)
 
 template<class X>
 inline
+vector<X> vector<X>::Random(size_t nd, X lower, X upper)
+{
+  vector<X> out(nd);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 vector<X> vector<X>::Arange(size_t nd)
 {
   vector<X> out(nd);
@@ -234,11 +247,11 @@ tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 {
   assert( ndim() == B.ndim() );
 
-  tensor2<X> C = tensor2<X>::Zero(ND);
+  tensor2<X> C(ND);
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
-      C(i,j) += (*this)(i) * B(j);
+      C(i,j) = (*this)(i) * B(j);
 
   return C;
 }

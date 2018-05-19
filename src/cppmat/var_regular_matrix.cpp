@@ -79,6 +79,19 @@ matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::array<X
 
 template<class X>
 inline
+matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
+{
+  matrix<X> out(m,n);
+
+  out.setRandom(lower, upper);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
   matrix<X> out(m,n);
