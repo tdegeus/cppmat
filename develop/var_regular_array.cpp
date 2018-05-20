@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t M = 11;
 static const size_t N = 9;
@@ -44,9 +31,7 @@ SECTION( "array += array" )
 
   A += B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -65,9 +50,7 @@ SECTION( "array -= array" )
 
   A -= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -86,9 +69,7 @@ SECTION( "array *= array" )
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -107,9 +88,7 @@ SECTION( "array /= array" )
 
   A /= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -129,9 +108,7 @@ SECTION( "array += scalar" )
 
   A += b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -149,9 +126,7 @@ SECTION( "array -= scalar" )
 
   A -= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -169,9 +144,7 @@ SECTION( "array *= scalar" )
 
   A *= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -189,9 +162,7 @@ SECTION( "array /= scalar" )
 
   A /= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -214,11 +185,7 @@ SECTION( "array + array" )
 
   Arr C = A + B;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -239,11 +206,7 @@ SECTION( "array - array" )
 
   Arr C = A - B;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -264,11 +227,7 @@ SECTION( "array * array" )
 
   Arr C = A * B;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -289,11 +248,7 @@ SECTION( "array / array" )
 
   Arr C = A / B;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -315,11 +270,7 @@ SECTION( "array + scalar" )
 
   Arr C = A + b;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -339,11 +290,7 @@ SECTION( "array - scalar" )
 
   Arr C = A - b;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -363,11 +310,7 @@ SECTION( "array * scalar" )
 
   Arr C = A * b;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -387,11 +330,7 @@ SECTION( "array / scalar" )
 
   Arr C = A / b;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -400,96 +339,80 @@ SECTION( "array / scalar" )
 
 SECTION( "scalar + array" )
 {
-  MatD b = MatD::Random(M,N);
-  double a = b(0,0);
+  MatD a = MatD::Random(M,N);
+  double b = a(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a + b(i,j);
+      c(i,j) = b + a(i,j);
 
-  Arr C = a + B;
+  Arr C = b + A;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar - array" )
 {
-  MatD b = MatD::Random(M,N);
-  double a = b(0,0);
+  MatD a = MatD::Random(M,N);
+  double b = a(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a - b(i,j);
+      c(i,j) = b - a(i,j);
 
-  Arr C = a - B;
+  Arr C = b - A;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar * array" )
 {
-  MatD b = MatD::Random(M,N);
-  double a = b(0,0);
+  MatD a = MatD::Random(M,N);
+  double b = a(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a * b(i,j);
+      c(i,j) = b * a(i,j);
 
-  Arr C = a * B;
+  Arr C = b * A;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar / array" )
 {
-  MatD b = MatD::Random(M,N) + MatD::Ones(M,N);
-  double a = b(0,0);
+  MatD a = MatD::Random(M,N) + MatD::Ones(M,N);
+  double b = a(0,0);
 
-  Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
+  Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a / b(i,j);
+      c(i,j) = b / a(i,j);
 
-  Arr C = a / B;
+  Arr C = b / A;
 
-  REQUIRE( static_cast<size_t>(c.size()) == C.size() );
-
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -498,9 +421,7 @@ SECTION( "scalar / array" )
 
 SECTION( "min" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  Arr A = Arr::Random({M,N,O,P});
 
   Arr C = A.min({-1,-2});
 
@@ -512,18 +433,14 @@ SECTION( "min" )
         for ( size_t l = 0 ; l < P ; l++ )
           c(i,j) = std::min( c(i,j), A(i,j,k,l) );
 
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "max" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  Arr A = Arr::Random({M,N,O,P});
 
   Arr C = A.max({-1,-2});
 
@@ -535,18 +452,14 @@ SECTION( "max" )
         for ( size_t l = 0 ; l < P ; l++ )
           c(i,j) = std::max( c(i,j), A(i,j,k,l) );
 
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "sum" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  Arr A = Arr::Random({M,N,O,P});
 
   Arr C = A.sum({0,1});
 
@@ -558,18 +471,14 @@ SECTION( "sum" )
         for ( size_t l = 0 ; l < P ; l++ )
           c(k,l) += A(i,j,k,l);
 
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "mean" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  Arr A = Arr::Random({M,N,O,P});
 
   Arr C = A.mean({0,1});
 
@@ -583,20 +492,15 @@ SECTION( "mean" )
 
   c /= static_cast<double>(M*N);
 
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "average" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-  ColD b = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
-  Arr B = Arr::Copy({M,N,O,P}, b.data(), b.data()+b.size());
+  Arr A = Arr::Random({M,N,O,P});
+  Arr B = Arr::Random({M,N,O,P});
 
   Arr C = A.average(B,{-2,0});
 
@@ -616,9 +520,7 @@ SECTION( "average" )
 
   c /= d;
 
-  REQUIRE( c.size() == C.size() );
-
-  for ( size_t i = 0 ; i < c.size() ; ++i ) EQ( c[i], C[i] );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -631,11 +533,11 @@ SECTION( "min" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
-  double C = A.min();
-
   double c = a.minCoeff();
 
-  EQ( c, C );
+  double C = A.min();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -646,11 +548,11 @@ SECTION( "max" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
-  double C = A.max();
-
   double c = a.maxCoeff();
 
-  EQ( c, C );
+  double C = A.max();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -661,15 +563,15 @@ SECTION( "sum" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
-  double C = A.sum();
-
   double c = 0.0;
 
   for ( auto i = 0 ; i < a.rows() ; ++i )
     for ( auto j = 0 ; j < a.cols() ; ++j )
       c += a(i,j);
 
-  EQ( c, C );
+  double C = A.sum();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -680,8 +582,6 @@ SECTION( "mean" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
-  double C = A.mean();
-
   double c = 0.0;
 
   for ( auto i = 0 ; i < a.rows() ; ++i )
@@ -690,7 +590,9 @@ SECTION( "mean" )
 
   c /= static_cast<double>(M*N);
 
-  EQ( c, C );
+  double C = A.mean();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -702,8 +604,6 @@ SECTION( "average" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
   Arr B = Arr::Copy({M,N}, b.data(), b.data()+b.size());
-
-  double C = A.average(B);
 
   double c = 0.0;
   double d = 0.0;
@@ -717,7 +617,9 @@ SECTION( "average" )
 
   c /= d;
 
-  EQ( c, C );
+  double C = A.average(B);
+
+  EQ(c, C);
 }
 
 // =================================================================================================
@@ -730,13 +632,11 @@ SECTION( "abs" )
 
   Arr A = Arr::Copy({M,N}, a.data(), a.data()+a.size());
 
-  Arr C = A.abs();
-
   MatD c = a.cwiseAbs();
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Arr C = A.abs();
+
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -745,9 +645,7 @@ SECTION( "abs" )
 
 SECTION( "at" )
 {
-  ColD a = ColD::Random(M*N*O*P);
-
-  Arr A = Arr::Copy({M,N,O,P}, a.data(), a.data()+a.size());
+  Arr A = Arr::Random({M,N,O,P});
 
   std::vector<size_t> idx = {1,2,3,4};
 
@@ -767,7 +665,6 @@ SECTION( "decompress" )
 
   REQUIRE( idx == jdx );
 }
-
 
 // =================================================================================================
 

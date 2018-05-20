@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t M = 11;
 static const size_t N = 11;
@@ -42,9 +29,7 @@ SECTION( "matrix += matrix" )
 
   A += B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -63,9 +48,7 @@ SECTION( "matrix -= matrix" )
 
   A -= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -84,9 +67,7 @@ SECTION( "matrix *= matrix" )
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -94,7 +75,7 @@ SECTION( "matrix *= matrix" )
 SECTION( "matrix /= matrix" )
 {
   MatD a = makeSymmetric(MatD::Random(M,N));
-  MatD b = makeSymmetric(MatD::Random(M,N)) + MatD::Ones(M,N);
+  MatD b = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
@@ -105,9 +86,7 @@ SECTION( "matrix /= matrix" )
 
   A /= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -127,9 +106,7 @@ SECTION( "matrix += scalar" )
 
   A += b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -147,9 +124,7 @@ SECTION( "matrix -= scalar" )
 
   A -= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -167,9 +142,7 @@ SECTION( "matrix *= scalar" )
 
   A *= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -187,9 +160,7 @@ SECTION( "matrix /= scalar" )
 
   A /= b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -212,9 +183,7 @@ SECTION( "matrix + matrix" )
 
   sMat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -235,9 +204,7 @@ SECTION( "matrix - matrix" )
 
   sMat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -258,9 +225,7 @@ SECTION( "matrix * matrix" )
 
   sMat C = A * B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -281,9 +246,7 @@ SECTION( "matrix / matrix" )
 
   sMat C = A / B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -305,9 +268,7 @@ SECTION( "matrix + scalar" )
 
   sMat C = A + b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -327,9 +288,7 @@ SECTION( "matrix - scalar" )
 
   sMat C = A - b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -349,9 +308,7 @@ SECTION( "matrix * scalar" )
 
   sMat C = A * b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -371,9 +328,7 @@ SECTION( "matrix / scalar" )
 
   sMat C = A / b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -382,88 +337,80 @@ SECTION( "matrix / scalar" )
 
 SECTION( "scalar + matrix" )
 {
-  MatD b = makeSymmetric(MatD::Random(M,N));
-  double a = b(0,0);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  double b = a(0,0);
 
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a + b(i,j);
+      c(i,j) = b + a(i,j);
 
-  sMat C = a + B;
+  sMat C = b + A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar - matrix" )
 {
-  MatD b = makeSymmetric(MatD::Random(M,N));
-  double a = b(0,0);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  double b = a(0,0);
 
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a - b(i,j);
+      c(i,j) = b - a(i,j);
 
-  sMat C = a - B;
+  sMat C = b - A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar * matrix" )
 {
-  MatD b = makeSymmetric(MatD::Random(M,N));
-  double a = b(0,0);
+  MatD a = makeSymmetric(MatD::Random(M,N));
+  double b = a(0,0);
 
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a * b(i,j);
+      c(i,j) = b * a(i,j);
 
-  sMat C = a * B;
+  sMat C = b * A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 SECTION( "scalar / matrix" )
 {
-  MatD b = makeSymmetric(MatD::Random(M,N)) + MatD::Ones(M,N);
-  double a = b(0,0);
+  MatD a = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
+  double b = a(0,0);
 
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      c(i,j) = a / b(i,j);
+      c(i,j) = b / a(i,j);
 
-  sMat C = a / B;
+  sMat C = b / A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -476,11 +423,11 @@ SECTION( "min" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.min();
-
   double c = a.minCoeff();
 
-  EQ( c, C );
+  double C = A.min();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -491,11 +438,11 @@ SECTION( "max" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.max();
-
   double c = a.maxCoeff();
 
-  EQ( c, C );
+  double C = A.max();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -506,15 +453,15 @@ SECTION( "sum" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.sum();
-
   double c = 0.0;
 
   for ( auto i = 0 ; i < a.rows() ; ++i )
     for ( auto j = 0 ; j < a.cols() ; ++j )
       c += a(i,j);
 
-  EQ( c, C );
+  double C = A.sum();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -525,8 +472,6 @@ SECTION( "mean" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  double C = A.mean();
-
   double c = 0.0;
 
   for ( auto i = 0 ; i < a.rows() ; ++i )
@@ -535,7 +480,9 @@ SECTION( "mean" )
 
   c /= static_cast<double>(M*N);
 
-  EQ( c, C );
+  double C = A.mean();
+
+  EQ(c, C);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -547,8 +494,6 @@ SECTION( "average" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
-
-  double C = A.average(B);
 
   double c = 0.0;
   double d = 0.0;
@@ -562,7 +507,9 @@ SECTION( "average" )
 
   c /= d;
 
-  EQ( c, C );
+  double C = A.average(B);
+
+  EQ(c, C);
 }
 
 // =================================================================================================
@@ -575,13 +522,11 @@ SECTION( "abs" )
 
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
 
-  sMat C = A.abs();
-
   MatD c = a.cwiseAbs();
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  sMat C = A.abs();
+
+  Equal(C, c);
 }
 
 // =================================================================================================

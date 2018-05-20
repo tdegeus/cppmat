@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t M = 11;
 static const size_t N = 11;
@@ -38,17 +25,13 @@ SECTION( "matrix *= symmetric::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) *=  b(i,j);
+      a(i,j) *= b(i,j);
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -61,17 +44,13 @@ SECTION( "matrix /= symmetric::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) /=  b(i,j);
+      a(i,j) /= b(i,j);
 
   A /= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -84,17 +63,13 @@ SECTION( "matrix += symmetric::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) +=  b(i,j);
+      a(i,j) += b(i,j);
 
   A += B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -107,17 +82,13 @@ SECTION( "matrix -= symmetric::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) -=  b(i,j);
+      a(i,j) -= b(i,j);
 
   A -= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -130,17 +101,13 @@ SECTION( "matrix *= diagonal::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) *=  b(i,j);
+      a(i,j) *= b(i,j);
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -153,17 +120,13 @@ SECTION( "matrix += diagonal::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) +=  b(i,j);
+      a(i,j) += b(i,j);
 
   A += B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -176,17 +139,13 @@ SECTION( "matrix -= diagonal::matrix" )
    Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) -=  b(i,j);
+      a(i,j) -= b(i,j);
 
   A -= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -201,17 +160,13 @@ SECTION( "symmetric::matrix *= diagonal::matrix" )
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) *=  b(i,j);
+      a(i,j) *= b(i,j);
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -224,17 +179,13 @@ SECTION( "symmetric::matrix += diagonal::matrix" )
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) +=  b(i,j);
+      a(i,j) += b(i,j);
 
   A += B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -247,17 +198,13 @@ SECTION( "symmetric::matrix -= diagonal::matrix" )
   sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
   dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) -=  b(i,j);
+      a(i,j) -= b(i,j);
 
   A -= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -272,17 +219,13 @@ SECTION( "diagonal::matrix *= matrix" )
   dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
    Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) *=  b(i,j);
+      a(i,j) *= b(i,j);
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -295,17 +238,13 @@ SECTION( "diagonal::matrix /= matrix" )
   dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
    Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) /=  b(i,j);
+      a(i,j) /= b(i,j);
 
   A /= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -318,17 +257,13 @@ SECTION( "diagonal::matrix *= symmetric::matrix" )
   dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) *=  b(i,j);
+      a(i,j) *= b(i,j);
 
   A *= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -341,17 +276,13 @@ SECTION( "diagonal::matrix /= symmetric::matrix" )
   dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
   sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
 
-  MatD c = MatD::Zero(M,N);
-
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
-      a(i,j) /=  b(i,j);
+      a(i,j) /= b(i,j);
 
   A /= B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( a(i,j), A(i,j) );
+  Equal(A, a);
 }
 
 // =================================================================================================
@@ -374,9 +305,7 @@ SECTION( "matrix * symmetric::matrix" )
 
   Mat C = A * B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -397,9 +326,7 @@ SECTION( "matrix / symmetric::matrix" )
 
   Mat C = A / B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -420,9 +347,7 @@ SECTION( "matrix + symmetric::matrix" )
 
   Mat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -443,9 +368,7 @@ SECTION( "matrix - symmetric::matrix" )
 
   Mat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -466,9 +389,7 @@ SECTION( "matrix + diagonal::matrix" )
 
   Mat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -489,9 +410,7 @@ SECTION( "matrix - diagonal::matrix" )
 
   Mat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -512,9 +431,7 @@ SECTION( "symmetric::matrix * matrix" )
 
   Mat C = A * B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -535,9 +452,7 @@ SECTION( "symmetric::matrix / matrix" )
 
   Mat C = A / B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -558,9 +473,7 @@ SECTION( "symmetric::matrix + matrix" )
 
   Mat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -581,9 +494,7 @@ SECTION( "symmetric::matrix - matrix" )
 
   Mat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -604,9 +515,7 @@ SECTION( "diagonal::matrix + matrix" )
 
   Mat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -627,9 +536,7 @@ SECTION( "diagonal::matrix - matrix" )
 
   Mat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -652,9 +559,7 @@ SECTION( "symmetric::matrix + diagonal::matrix" )
 
   sMat C = A + B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -675,9 +580,7 @@ SECTION( "symmetric::matrix - diagonal::matrix" )
 
   sMat C = A - B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -697,9 +600,7 @@ SECTION( "diagonal::matrix + scalar" )
 
   sMat C = A + b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -719,9 +620,7 @@ SECTION( "diagonal::matrix - scalar" )
 
   sMat C = A - b;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -742,9 +641,7 @@ SECTION( "diagonal::matrix + symmetric::matrix" )
 
   sMat C = B + A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -765,9 +662,7 @@ SECTION( "diagonal::matrix - symmetric::matrix" )
 
   sMat C = B - A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -787,9 +682,7 @@ SECTION( "scalar + diagonal::matrix" )
 
   sMat C = b + A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -809,9 +702,7 @@ SECTION( "scalar - diagonal::matrix" )
 
   sMat C = b - A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================
@@ -834,9 +725,7 @@ SECTION( "diagonal::matrix * matrix" )
 
   dMat C = A * B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -857,9 +746,7 @@ SECTION( "diagonal::matrix / matrix" )
 
   dMat C = A / B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -880,9 +767,7 @@ SECTION( "diagonal::matrix * symmetric::matrix" )
 
   dMat C = A * B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -903,9 +788,7 @@ SECTION( "diagonal::matrix / symmetric::matrix" )
 
   dMat C = A / B;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -926,9 +809,7 @@ SECTION( "diagonal::matrix * matrix" )
 
   dMat C = B * A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -949,9 +830,7 @@ SECTION( "diagonal::matrix * symmetric::matrix" )
 
   dMat C = B * A;
 
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      EQ( c(i,j), C(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================

@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t ND = 11;
 
@@ -38,9 +25,7 @@ SECTION( "I, T2s.dot(T2)" )
 
   T2  B = I.dot(A);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      EQ( B(i,j), A(i,j) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -52,9 +37,7 @@ SECTION( "I, T2s.dot(T2s)" )
 
   T2  B = I.dot(A);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      EQ( B(i,j), A(i,j) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -66,9 +49,7 @@ SECTION( "I, T2s.dot(T2d)" )
 
   T2  B = I.dot(A);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      EQ( B(i,j), A(i,j) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -80,8 +61,7 @@ SECTION( "I, T2s.dot(V)" )
 
   V   B = I.dot(A);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    EQ( B(i), A(i) );
+  Equal(A, B);
 }
 
 // =================================================================================================
@@ -95,9 +75,7 @@ SECTION( "I, T2s.dot(T4)" )
 
   T2  B = A.ddot(I);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      EQ( B(i,j), A(i,j) );
+  Equal(A, B);
 }
 
 // =================================================================================================
@@ -113,7 +91,7 @@ SECTION( "T2s.ddot(T2), T2s.dot(T2), T2s.trace()" )
 
   double c = A.dot(B).trace();
 
-  EQ( C, c );
+  EQ(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -127,7 +105,7 @@ SECTION( "T2s.ddot(T2s), T2s.dot(T2s), T2s.trace()" )
 
   double c = A.dot(B).trace();
 
-  EQ( C, c );
+  EQ(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -141,7 +119,7 @@ SECTION( "T2s.ddot(T2d), T2s.dot(T2d), T2s.trace()" )
 
   double c = A.dot(B).trace();
 
-  EQ( C, c );
+  EQ(C, c);
 }
 
 // =================================================================================================
@@ -157,11 +135,7 @@ SECTION( "T2s.dyadic(T2)" )
 
   T4  D = T4::II(ND);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      for ( size_t k = 0 ; k < B.ndim() ; ++k )
-        for ( size_t l = 0 ; l < B.ndim() ; ++l )
-          EQ( C(i,j,k,l), D(i,j,k,l) );
+  Equal(C, D);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -175,11 +149,7 @@ SECTION( "T2s.dyadic(T2s)" )
 
   T4  D = T4::II(ND);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      for ( size_t k = 0 ; k < B.ndim() ; ++k )
-        for ( size_t l = 0 ; l < B.ndim() ; ++l )
-          EQ( C(i,j,k,l), D(i,j,k,l) );
+  Equal(C, D);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -193,11 +163,7 @@ SECTION( "T2s.dyadic(T2d)" )
 
   T4  D = T4::II(ND);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    for ( size_t j = 0 ; j < B.ndim() ; ++j )
-      for ( size_t k = 0 ; k < B.ndim() ; ++k )
-        for ( size_t l = 0 ; l < B.ndim() ; ++l )
-          EQ( C(i,j,k,l), D(i,j,k,l) );
+  Equal(C, D);
 }
 
 // =================================================================================================
@@ -227,7 +193,7 @@ SECTION("T2s.det() -- 3D")
   T2s    A = T2s::CopyDense(3, a.data(), a.data()+a.size());
   double C = A.det();
 
-  EQ( C, c );
+  EQ(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -240,7 +206,7 @@ SECTION("T2s.det() -- 2D")
   T2s    A = T2s::CopyDense(2, a.data(), a.data()+a.size());
   double C = A.det();
 
-  EQ( C, c );
+  EQ(C, c);
 }
 
 // =================================================================================================
@@ -255,9 +221,7 @@ SECTION("T2s.inv() -- 3D")
   T2s A = T2s::CopyDense(3, a.data(), a.data()+a.size());
   T2s C = A.inv();
 
-  for ( size_t i = 0 ; i < A.ndim() ; ++i )
-    for ( size_t j = 0 ; j < A.ndim() ; ++j )
-      EQ( C(i,j), c(i,j) );
+  Equal(C, c);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -270,9 +234,7 @@ SECTION("T2s.inv() -- 2D")
   T2s A = T2s::CopyDense(2, a.data(), a.data()+a.size());
   T2s C = A.inv();
 
-  for ( size_t i = 0 ; i < A.ndim() ; ++i )
-    for ( size_t j = 0 ; j < A.ndim() ; ++j )
-      EQ( C(i,j), c(i,j) );
+  Equal(C, c);
 }
 
 // =================================================================================================

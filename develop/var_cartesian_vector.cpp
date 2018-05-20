@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t ND = 3;
 
@@ -39,7 +26,7 @@ SECTION( "V.dot(V), length" )
 
   double b = std::pow(A.length(), 2.);
 
-  EQ( B, b );
+  EQ(B, b);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -51,8 +38,7 @@ SECTION( "V.dot(T2)" )
 
   V   B = A.dot(I);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    EQ( B(i), A(i) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -64,8 +50,7 @@ SECTION( "V.dot(T2s)" )
 
   V   B = A.dot(I);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    EQ( B(i), A(i) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -77,8 +62,7 @@ SECTION( "V.dot(T2d)" )
 
   V   B = A.dot(I);
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    EQ( B(i), A(i) );
+  Equal(A, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -92,8 +76,7 @@ SECTION( "V.dyadic(V)" )
   V  D = C.dot(A.dyadic(B));
   V  E = C.dot(A) * B;
 
-  for ( size_t i = 0 ; i < B.ndim() ; ++i )
-    EQ( D(i), E(i) );
+  Equal(D, E);
 }
 
 // -------------------------------------------------------------------------------------------------

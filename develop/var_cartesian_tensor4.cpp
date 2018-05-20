@@ -1,18 +1,5 @@
 
-#include <catch/catch.hpp>
-
-#define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );
-
-#define CPPMAT_NOCONVERT
-// #include <cppmat/cppmat.h>
-#include "../src/cppmat/cppmat.h"
-
-#include <Eigen/Eigen>
-
 #include "support.h"
-
-typedef Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> MatD;
-typedef Eigen::Matrix<double, Eigen::Dynamic,              1, Eigen::ColMajor> ColD;
 
 static const size_t ND = 11;
 
@@ -85,8 +72,7 @@ SECTION( "I, T4.ddot(T4)" )
 
   T4 C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], A[i] );
+  Equal(C, A);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -98,8 +84,7 @@ SECTION( "I, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], A[i] );
+  Equal(C, A);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -111,11 +96,7 @@ SECTION( "Irt, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      for ( size_t k = 0 ; k < C.ndim() ; ++k )
-        for ( size_t l = 0 ; l < C.ndim() ; ++l )
-          EQ( C(i,j), A(j,i) );
+  Equal(C, A.T());
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -127,10 +108,7 @@ SECTION( "Is, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = ( A + A.T() )/2.;
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], B[i] );
+  Equal(C, (A+A.T())/2.);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -142,10 +120,7 @@ SECTION( "Id, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = A - A.trace()/static_cast<double>(ND) * T2::I(ND);
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], B[i] );
+  Equal(C, A-A.trace()/static_cast<double>(ND)*T2::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -157,12 +132,9 @@ SECTION( "Isd, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = ( A + A.T() )/2.;
+  T2 B = (A+A.T())/2.;
 
-  B = B - B.trace()/static_cast<double>(ND) * T2::I(ND);
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], B[i] );
+  Equal(C, B-B.trace()/static_cast<double>(ND)*T2::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -174,10 +146,7 @@ SECTION( "II, T4.ddot(T2)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = A.trace() * T2::I(ND);
-
-  for ( size_t i = 0 ; i < C.size() ; ++i )
-    EQ( C[i], B[i] );
+  Equal(C, A.trace()*T2::I(ND));
 }
 
 // =================================================================================================
@@ -191,9 +160,7 @@ SECTION( "I, T4.ddot(T2s)" )
 
   T2  C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), A(i,j) );
+  Equal(C, A);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -205,11 +172,7 @@ SECTION( "Irt, T4.ddot(T2s)" )
 
   T2  C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      for ( size_t k = 0 ; k < C.ndim() ; ++k )
-        for ( size_t l = 0 ; l < C.ndim() ; ++l )
-          EQ( C(i,j), A(j,i) );
+  Equal(C, A.T());
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -221,11 +184,7 @@ SECTION( "Is, T4.ddot(T2s)" )
 
   T2  C = I.ddot(A);
 
-  T2s B = ( A + A.T() )/2.;
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, (A+A.T())/2.);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -237,11 +196,7 @@ SECTION( "Id, T4.ddot(T2s)" )
 
   T2 C = I.ddot(A);
 
-  T2s B = A - A.trace()/static_cast<double>(ND) * T2s::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, A-A.trace()/static_cast<double>(ND)*T2s::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -253,13 +208,9 @@ SECTION( "Isd, T4.ddot(T2s)" )
 
   T2  C = I.ddot(A);
 
-  T2s B = ( A + A.T() )/2.;
+  T2s B = (A+A.T())/2.;
 
-  B = B - B.trace()/static_cast<double>(ND) * T2s::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, B-B.trace()/static_cast<double>(ND)*T2s::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -271,11 +222,7 @@ SECTION( "II, T4.ddot(T2s)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = A.trace() * T2::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, A.trace()*T2::I(ND));
 }
 
 // =================================================================================================
@@ -289,9 +236,7 @@ SECTION( "I, T4.ddot(T2d)" )
 
   T2  C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), A(i,j) );
+  Equal(C, A);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -303,11 +248,7 @@ SECTION( "Irt, T4.ddot(T2d)" )
 
   T2  C = I.ddot(A);
 
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      for ( size_t k = 0 ; k < C.ndim() ; ++k )
-        for ( size_t l = 0 ; l < C.ndim() ; ++l )
-          EQ( C(i,j), A(j,i) );
+  Equal(C, A.T());
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -319,11 +260,7 @@ SECTION( "Is, T4.ddot(T2d)" )
 
   T2  C = I.ddot(A);
 
-  T2d B = ( A + A.T() )/2.;
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, (A+A.T())/2.);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -335,11 +272,7 @@ SECTION( "Id, T4.ddot(T2d)" )
 
   T2 C = I.ddot(A);
 
-  T2d B = A - A.trace()/static_cast<double>(ND) * T2d::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, A-A.trace()/static_cast<double>(ND)*T2d::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -351,13 +284,9 @@ SECTION( "Isd, T4.ddot(T2d)" )
 
   T2  C = I.ddot(A);
 
-  T2d B = ( A + A.T() )/2.;
+  T2d B = (A+A.T())/2.;
 
-  B = B - B.trace()/static_cast<double>(ND) * T2d::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, B-B.trace()/static_cast<double>(ND)*T2d::I(ND));
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -369,11 +298,7 @@ SECTION( "II, T4.ddot(T2d)" )
 
   T2 C = I.ddot(A);
 
-  T2 B = A.trace() * T2::I(ND);
-
-  for ( size_t i = 0 ; i < C.ndim() ; ++i )
-    for ( size_t j = 0 ; j < C.ndim() ; ++j )
-      EQ( C(i,j), B(i,j) );
+  Equal(C, A.trace()*T2::I(ND));
 }
 
 // =================================================================================================
