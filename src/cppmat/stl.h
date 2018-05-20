@@ -28,7 +28,8 @@ template <typename X> std::vector<size_t> argsort(const std::vector<X> &v, bool 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> std::string to_string(const std::vector<X> &A);
+// convert vector items to string, and join these string together using the "join" string
+template<class X> std::string to_string(const std::vector<X> &A, std::string join=", ");
 
 // =================================================================================================
 

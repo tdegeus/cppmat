@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_MATRIX_CPP
-#define CPPMAT_VAR_REGULAR_MATRIX_CPP
+#ifndef CPPMAT_VAR_PERIODIC_MATRIX_CPP
+#define CPPMAT_VAR_PERIODIC_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,6 +14,7 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace periodic {
 
 // =================================================================================================
 // constructors
@@ -21,58 +22,32 @@ namespace cppmat {
 
 template<class X>
 inline
-matrix<X>::matrix(size_t m, size_t n) : cppmat::array<X>({m,n})
+matrix<X>::matrix(size_t m, size_t n) : cppmat::periodic::array<X>({m,n})
 {
-  M = m;
-  N = n;
+  M = static_cast<int>(m);
+  N = static_cast<int>(n);
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::array<X>(A)
+matrix<X>::matrix(const cppmat::periodic::array<X> &A) : cppmat::periodic::array<X>(A)
 {
   assert( this->mRank == 2 );
 
-  M = this->mShape[0];
-  N = this->mShape[1];
+  M = this->mShapeI[0];
+  N = this->mShapeI[1];
 }
-
-// -------------------------------------------------------------------------------------------------
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
-{
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
-}
-#endif
-
-// -------------------------------------------------------------------------------------------------
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
-{
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
-}
-#endif
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::array<X>({m,n}, D)
+matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::periodic::array<X>({m,n}, D)
 {
-  M = m;
-  N = n;
+  M = static_cast<int>(m);
+  N = static_cast<int>(n);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -176,10 +151,10 @@ template<class X>
 inline
 void matrix<X>::resize(size_t m, size_t n)
 {
-  M = m;
-  N = n;
+  M = static_cast<int>(m);
+  N = static_cast<int>(n);
 
-  cppmat::array<X>::resize({m,n});
+  cppmat::periodic::array<X>::resize({m,n});
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -190,10 +165,10 @@ void matrix<X>::reshape(size_t m, size_t n)
 {
   assert( m*n == this->mSize );
 
-  M = m;
-  N = n;
+  M = static_cast<int>(m);
+  N = static_cast<int>(n);
 
-  cppmat::array<X>::resize({m,n});
+  cppmat::periodic::array<X>::resize({m,n});
 }
 
 // =================================================================================================
@@ -204,7 +179,7 @@ template<class X>
 inline
 size_t matrix<X>::rows() const
 {
-  return M;
+  return static_cast<size_t>(M);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -213,7 +188,53 @@ template<class X>
 inline
 size_t matrix<X>::cols() const
 {
-  return N;
+  return static_cast<size_t>(N);
+}
+
+// =================================================================================================
+// iterators : beginRow() and endRow()
+// =================================================================================================
+
+template<class X>
+inline
+auto matrix<X>::beginRow(int a)
+{
+  a = ( M + (a % M) ) % M;
+
+  return this->begin() + a * this->mShapeI[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::beginRow(int a) const
+{
+  a = ( M + (a % M) ) % M;
+
+  return this->begin() + a * this->mShapeI[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::endRow(int a)
+{
+  a = ( M + (a % M) ) % M;
+
+  return this->begin() + (a+1) * this->mShapeI[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+auto matrix<X>::endRow(int a) const
+{
+  a = ( M + (a % M) ) % M;
+
+  return this->begin() + (a+1) * this->mShapeI[1];
 }
 
 // =================================================================================================
@@ -264,7 +285,7 @@ auto matrix<X>::endRow(size_t a) const
 
 // =================================================================================================
 
-} // namespace ...
+}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

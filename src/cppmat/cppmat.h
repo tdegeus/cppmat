@@ -45,18 +45,9 @@
 
 // ====================================== forward declaration ======================================
 
-  namespace cppmat {
-
-  template<class X> class Expandable;
-
-}
-
-// -------------------------------------------------------------------------------------------------
-
 namespace cppmat {
 
   template<class X> class array;
-  template<class X> class matrix4;
   template<class X> class matrix;
   template<class X> class vector;
 
@@ -104,60 +95,6 @@ namespace cartesian {
 
 }}
 
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace cartesian2d {
-
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
-
-}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace cartesian3d {
-
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
-
-}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace view {
-namespace cartesian2d {
-
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
-
-}}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace view {
-namespace cartesian3d {
-
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
-
-}}}
-
 // =================================================================================================
 
 #include "stl.h"
@@ -168,6 +105,9 @@ namespace cartesian3d {
 #include "var_symmetric_matrix.h"
 #include "var_diagonal_matrix.h"
 #include "var_misc_matrix.h"
+#include "var_periodic_array.h"
+#include "var_periodic_matrix.h"
+#include "var_periodic_vector.h"
 #include "var_cartesian_tensor4.h"
 #include "var_cartesian_tensor2.h"
 #include "var_cartesian_tensor2s.h"
@@ -182,6 +122,9 @@ namespace cartesian3d {
 #include "var_symmetric_matrix.cpp"
 #include "var_diagonal_matrix.cpp"
 #include "var_misc_matrix.cpp"
+#include "var_periodic_array.cpp"
+#include "var_periodic_matrix.cpp"
+#include "var_periodic_vector.cpp"
 #include "var_cartesian_tensor4.cpp"
 #include "var_cartesian_tensor2.cpp"
 #include "var_cartesian_tensor2s.cpp"

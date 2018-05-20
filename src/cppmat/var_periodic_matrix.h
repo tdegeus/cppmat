@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_MATRIX_H
-#define CPPMAT_VAR_REGULAR_MATRIX_H
+#ifndef CPPMAT_VAR_PERIODIC_MATRIX_H
+#define CPPMAT_VAR_PERIODIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,31 +14,24 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace periodic {
 
 // =================================================================================================
 // cppmat::matrix
 // =================================================================================================
 
 template<class X>
-class matrix : public cppmat::array<X>
+class matrix : public cppmat::periodic::array<X>
 {
 protected:
 
-  size_t M=0; // number of rows
-  size_t N=0; // number of columns
+  int M=0; // number of rows
+  int N=0; // number of columns
 
 private:
 
   // hide functions
-  using cppmat::array<X>::chrank;
-
-public:
-
-  // avoid name-hiding (also use the already defined overloads)
-  using cppmat::array<X>::operator*=;
-  using cppmat::array<X>::operator/=;
-  using cppmat::array<X>::operator+=;
-  using cppmat::array<X>::operator-=;
+  using cppmat::periodic::array<X>::chrank;
 
 public:
 
@@ -49,13 +42,7 @@ public:
   matrix(size_t m, size_t n);
 
   // constructor: copy
-  matrix(const cppmat::array<X> &A);
-
-  // constructor: copy
-  #ifndef CPPMAT_NOCONVERT
-  matrix(const cppmat::symmetric::matrix<X> &A);
-  matrix(const cppmat::diagonal ::matrix<X> &A);
-  #endif
+  matrix(const cppmat::periodic::array<X> &A);
 
   // constructor: copy
   matrix(size_t m, size_t n, const std::vector<X> &D);
@@ -80,24 +67,22 @@ public:
   size_t cols() const;
 
   // iterator to the first and last entry of a row
+  auto beginRow(int i);
+  auto beginRow(int i) const;
+  auto endRow  (int i);
+  auto endRow  (int i) const;
+
+  // iterator to the first and last entry of a row
   auto beginRow(size_t i);
   auto beginRow(size_t i) const;
   auto endRow  (size_t i);
   auto endRow  (size_t i) const;
 
-  // extra arithmetic operators
-  matrix<X>& operator*= (const cppmat::symmetric::matrix<X> &B);
-  matrix<X>& operator/= (const cppmat::symmetric::matrix<X> &B);
-  matrix<X>& operator+= (const cppmat::symmetric::matrix<X> &B);
-  matrix<X>& operator-= (const cppmat::symmetric::matrix<X> &B);
-  matrix<X>& operator*= (const cppmat::diagonal ::matrix<X> &B);
-  matrix<X>& operator+= (const cppmat::diagonal ::matrix<X> &B);
-  matrix<X>& operator-= (const cppmat::diagonal ::matrix<X> &B);
 };
 
 // =================================================================================================
 
-} // namespace ...
+}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_VECTOR_H
-#define CPPMAT_VAR_REGULAR_VECTOR_H
+#ifndef CPPMAT_VAR_PERIODIC_VECTOR_H
+#define CPPMAT_VAR_PERIODIC_VECTOR_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,23 +14,24 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace periodic {
 
 // =================================================================================================
 // cppmat::vector
 // =================================================================================================
 
 template<class X>
-class vector : public cppmat::array<X>
+class vector : public cppmat::periodic::array<X>
 {
 protected:
 
-  size_t N=0; // number of entries
+  int N=0; // number of entries
 
 private:
 
   // hide functions
-  using cppmat::array<X>::reshape;
-  using cppmat::array<X>::chrank;
+  using cppmat::periodic::array<X>::reshape;
+  using cppmat::periodic::array<X>::chrank;
 
 public:
 
@@ -41,7 +42,7 @@ public:
   vector(size_t n);
 
   // constructor: copy
-  vector(const cppmat::array<X> &A);
+  vector(const cppmat::periodic::array<X> &A);
 
   // constructor: copy
   vector(const std::vector<X> &D);
@@ -67,7 +68,7 @@ public:
 
 // =================================================================================================
 
-} // namespace ...
+}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

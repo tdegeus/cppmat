@@ -65,6 +65,8 @@ public:
   // get dimensions
   size_t size() const;
   size_t rank() const;
+  size_t rows() const;
+  size_t cols() const;
   size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;

@@ -77,14 +77,14 @@ std::vector<size_t> argsort(const std::vector<X> &v, bool ascending)
 // =================================================================================================
 
 template<class X>
-inline std::string to_string(const std::vector<X> &A)
+inline std::string to_string(const std::vector<X> &A, std::string join)
 {
-  std::string out = "(";
+  std::string out = "";
 
   for ( size_t i = 0 ; i < A.size()-1 ; ++i )
-    out += std::to_string(A[i]) + ", ";
+    out += std::to_string(A[i]) + join;
 
-  out += std::to_string(A[A.size()-1]) + ")";
+  out += std::to_string(A[A.size()-1]);
 
   return out;
 }
