@@ -45,6 +45,9 @@ public:
   vector(const cppmat::periodic::array<X> &A);
 
   // constructor: copy
+  vector(const cppmat::array<X> &A);
+
+  // constructor: copy
   vector(const std::vector<X> &D);
 
   // constructor: initialize

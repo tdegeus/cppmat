@@ -42,6 +42,17 @@ vector<X>::vector(const cppmat::periodic::array<X> &A) : cppmat::periodic::array
 
 template<class X>
 inline
+vector<X>::vector(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
+{
+  assert( this->mRank == 1 );
+
+  N = this->mShapeI[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 vector<X>::vector(const std::vector<X> &D) : cppmat::periodic::array<X>({D.size()}, D)
 {
   N = this->mShapeI[0];

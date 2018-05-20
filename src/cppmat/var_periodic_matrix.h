@@ -45,6 +45,9 @@ public:
   matrix(const cppmat::periodic::array<X> &A);
 
   // constructor: copy
+  matrix(const cppmat::array<X> &A);
+
+  // constructor: copy
   matrix(size_t m, size_t n, const std::vector<X> &D);
 
   // constructor: initialize

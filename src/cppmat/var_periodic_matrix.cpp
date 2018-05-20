@@ -44,6 +44,18 @@ matrix<X>::matrix(const cppmat::periodic::array<X> &A) : cppmat::periodic::array
 
 template<class X>
 inline
+matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
+{
+  assert( this->mRank == 2 );
+
+  M = this->mShapeI[0];
+  N = this->mShapeI[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::periodic::array<X>({m,n}, D)
 {
   M = static_cast<int>(m);
