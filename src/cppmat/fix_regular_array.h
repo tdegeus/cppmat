@@ -198,55 +198,79 @@ public:
 
 };
 
+// =================================================================================================
 // external arithmetic operators
+// =================================================================================================
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const X &B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const X &B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator* (const X &A,       array<X,RANK,I,J,K,L,M,N>  B);
+
+// -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator/ (const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator+ (const X &A,       array<X,RANK,I,J,K,L,M,N>  B);
 
+// -------------------------------------------------------------------------------------------------
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> operator- (const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
-
 
 // =================================================================================================
 

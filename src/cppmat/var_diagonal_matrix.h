@@ -34,7 +34,7 @@ protected:
 public:
 
   // constructor
-  matrix() = default;
+  matrix();
 
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);

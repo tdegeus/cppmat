@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_DIAGONAL_MATRIX_CPP
-#define CPPMAT_VAR_DIAGONAL_MATRIX_CPP
+#ifndef CPPMAT_FIX_DIAGONAL_MATRIX_CPP
+#define CPPMAT_FIX_DIAGONAL_MATRIX_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,54 +14,65 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace tiny {
 namespace diagonal {
+
+// =================================================================================================
+// return size without constructing
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+size_t matrix<X,M,N>::Size()
+{
+  return N;
+}
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>::matrix()
+matrix<X,M,N>::matrix()
 {
   mZero[0] = static_cast<X>(0);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy - current type
+// =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>::matrix(size_t m, size_t n)
+matrix<X,M,N>::matrix(const matrix<X,M,N> &A)
 {
   mZero[0] = static_cast<X>(0);
-
-  assert( m == n );
-
-  resize(m,n);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X>::matrix(const matrix<X> &A)
-{
-  mZero[0] = static_cast<X>(0);
-
-  resize(A.shape(0), A.shape(1));
 
   setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy - other types
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A)
+{
+  for ( size_t i = 0 ; i < N ; ++i )
+    mData[i] = A[i];
 }
 
 // =================================================================================================
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
+matrix<X,M,N> matrix<X,M,N>::Random(X lower, X upper)
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setRandom(lower, upper);
 
@@ -70,11 +81,11 @@ matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Arange(size_t m, size_t n)
+matrix<X,M,N> matrix<X,M,N>::Arange()
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setArange();
 
@@ -83,11 +94,11 @@ matrix<X> matrix<X>::Arange(size_t m, size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Zero(size_t m, size_t n)
+matrix<X,M,N> matrix<X,M,N>::Zero()
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setZero();
 
@@ -96,11 +107,11 @@ matrix<X> matrix<X>::Zero(size_t m, size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Ones(size_t m, size_t n)
+matrix<X,M,N> matrix<X,M,N>::Ones()
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setOnes();
 
@@ -109,11 +120,11 @@ matrix<X> matrix<X>::Ones(size_t m, size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
+matrix<X,M,N> matrix<X,M,N>::Constant(X D)
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setConstant(D);
 
@@ -122,11 +133,11 @@ matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
+matrix<X,M,N> matrix<X,M,N>::Copy(const std::vector<X> &D)
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setCopy(D.begin(), D.end());
 
@@ -135,12 +146,12 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
+matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first)
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setCopy(first);
 
@@ -149,12 +160,12 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
+matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first, Iterator last)
 {
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setCopy(first,last);
 
@@ -165,14 +176,12 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 // named constructor: copy from dense storage
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first)
+matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first)
 {
-  assert( m == n );
-
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setCopyDense(first);
 
@@ -181,14 +190,12 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last)
+matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
 {
-  assert( m == n );
-
-  matrix<X> out(m,n);
+  matrix<X,M,N> out;
 
   out.setCopyDense(first,last);
 
@@ -196,64 +203,55 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last
 }
 
 // =================================================================================================
-// return plain storage as vector
+// copy constructor
 // =================================================================================================
 
-template<class X>
-inline
-std::vector<X> matrix<X>::asVector() const
+template<class X, size_t M, size_t N>
+inline matrix<X,M,N>::operator cppmat::diagonal::matrix<X> () const
 {
-  return mData;
+  return cppmat::diagonal::matrix<X>::Copy(N, N, begin(), end());
 }
 
 // =================================================================================================
-// resize
+// return plain storage as vector
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::resize(size_t m, size_t n)
+std::vector<X> matrix<X,M,N>::asVector() const
 {
-  assert( m == n );
+  std::vector<X> out(mSize);
 
-  // store old size
-  size_t size = mSize;
+  std::copy(begin(), end(), out.begin());
 
-  // copy to class member
-  N = m;
-
-  // set number of dimensions and total size
-  mSize = N;
-
-  // resize data container
-  if ( mSize != size ) mData.resize(mSize);
+  return out;
 }
 
 // =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::size() const
+size_t matrix<X,M,N>::size() const
 {
   return mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::rank() const
+size_t matrix<X,M,N>::rank() const
 {
   return mRank;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::shape(int i) const
+size_t matrix<X,M,N>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
   assert( i  <      static_cast<int>(mRank) );
@@ -265,9 +263,9 @@ size_t matrix<X>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::shape(size_t i) const
+size_t matrix<X,M,N>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
   assert( i < mRank );
@@ -278,9 +276,9 @@ size_t matrix<X>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-std::vector<size_t> matrix<X>::shape() const
+std::vector<size_t> matrix<X,M,N>::shape() const
 {
   std::vector<size_t> shape(mRank);
 
@@ -293,9 +291,9 @@ std::vector<size_t> matrix<X>::shape() const
 // index operators : operator[...]
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X& matrix<X>::operator[](size_t i)
+X& matrix<X,M,N>::operator[](size_t i)
 {
   assert( i < mSize );
 
@@ -304,9 +302,9 @@ X& matrix<X>::operator[](size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-const X& matrix<X>::operator[](size_t i) const
+const X& matrix<X,M,N>::operator[](size_t i) const
 {
   assert( i < mSize );
 
@@ -317,9 +315,9 @@ const X& matrix<X>::operator[](size_t i) const
 // index operators : operator(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X& matrix<X>::operator()(size_t a, size_t b)
+X& matrix<X,M,N>::operator()(size_t a, size_t b)
 {
   assert( a < N );
   assert( b < N );
@@ -330,9 +328,9 @@ X& matrix<X>::operator()(size_t a, size_t b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-const X& matrix<X>::operator()(size_t a, size_t b) const
+const X& matrix<X,M,N>::operator()(size_t a, size_t b) const
 {
   assert( a < N );
   assert( b < N );
@@ -345,9 +343,9 @@ const X& matrix<X>::operator()(size_t a, size_t b) const
 // index operators : compress(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::compress(size_t a, size_t b) const
+size_t matrix<X,M,N>::compress(size_t a, size_t b) const
 {
   assert( a < N  );
   assert( b < N  );
@@ -360,9 +358,9 @@ size_t matrix<X>::compress(size_t a, size_t b) const
 // index operators : decompress(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-std::vector<size_t> matrix<X>::decompress(size_t i) const
+std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 {
   // check input
   assert( i < mSize );
@@ -380,67 +378,67 @@ std::vector<size_t> matrix<X>::decompress(size_t i) const
 // pointer to data
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X* matrix<X>::data()
+X* matrix<X,M,N>::data()
 {
-  return mData.data();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-const X* matrix<X>::data() const
+const X* matrix<X,M,N>::data() const
 {
-  return mData.data();
+  return std::begin(mData);
 }
 
 // =================================================================================================
 // iterators : begin() and end()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::begin()
+auto matrix<X,M,N>::begin()
 {
-  return mData.begin();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::begin() const
+auto matrix<X,M,N>::begin() const
 {
-  return mData.begin();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::end()
+auto matrix<X,M,N>::end()
 {
-  return mData.end();
+  return std::begin(mData) + mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::end() const
+auto matrix<X,M,N>::end() const
 {
-  return mData.end();
+  return std::begin(mData) + mSize;
 }
 
 // =================================================================================================
 // iterators : index()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::index(size_t i)
+auto matrix<X,M,N>::index(size_t i)
 {
   assert( i < mSize );
 
@@ -449,9 +447,9 @@ auto matrix<X>::index(size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::index(size_t i) const
+auto matrix<X,M,N>::index(size_t i) const
 {
   assert( i < mSize );
 
@@ -462,9 +460,9 @@ auto matrix<X>::index(size_t i) const
 // iterators : item()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::item(size_t a, size_t b)
+auto matrix<X,M,N>::item(size_t a, size_t b)
 {
   assert( a < N  );
   assert( b < N  );
@@ -475,9 +473,9 @@ auto matrix<X>::item(size_t a, size_t b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-auto matrix<X>::item(size_t a, size_t b) const
+auto matrix<X,M,N>::item(size_t a, size_t b) const
 {
   assert( a < N  );
   assert( b < N  );
@@ -490,9 +488,9 @@ auto matrix<X>::item(size_t a, size_t b) const
 // initialize
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::setRandom(X lower, X upper)
+void matrix<X,M,N>::setRandom(X lower, X upper)
 {
   // type of random number distribution
   std::uniform_real_distribution<X> dist(lower, upper);
@@ -509,56 +507,56 @@ void matrix<X>::setRandom(X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::setArange()
+void matrix<X,M,N>::setArange()
 {
   std::iota(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::setZero()
+void matrix<X,M,N>::setZero()
 {
   std::fill(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::setOnes()
+void matrix<X,M,N>::setOnes()
 {
   std::fill(begin(), end(), static_cast<X>(1));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-void matrix<X>::setConstant(X D)
+void matrix<X,M,N>::setConstant(X D)
 {
   std::fill(begin(), end(), D);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::setCopy(Iterator first)
+void matrix<X,M,N>::setCopy(Iterator first)
 {
   std::copy(first, first+mSize, begin());
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::setCopy(Iterator first, Iterator last)
+void matrix<X,M,N>::setCopy(Iterator first, Iterator last)
 {
   assert( mSize == static_cast<size_t>(last-first) );
 
@@ -567,10 +565,10 @@ void matrix<X>::setCopy(Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-void matrix<X>::setCopyDense(Iterator first)
+void matrix<X,M,N>::setCopyDense(Iterator first)
 {
   // check the input to be diagonal
   #ifndef NDEBUG
@@ -587,10 +585,10 @@ void matrix<X>::setCopyDense(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<typename Iterator>
 inline
-void matrix<X>::setCopyDense(Iterator first, Iterator last)
+void matrix<X,M,N>::setCopyDense(Iterator first, Iterator last)
 {
   // avoid compiler warning
   UNUSED(last);
@@ -615,20 +613,20 @@ void matrix<X>::setCopyDense(Iterator first, Iterator last)
 // copy to target
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::copyTo(Iterator first) const
+void matrix<X,M,N>::copyTo(Iterator first) const
 {
   std::copy(begin(), end(), first);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::copyTo(Iterator first, Iterator last) const
+void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
 {
   assert( mSize == static_cast<size_t>(last-first) );
 
@@ -639,10 +637,10 @@ void matrix<X>::copyTo(Iterator first, Iterator last) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::copyToDense(Iterator first) const
+void matrix<X,M,N>::copyToDense(Iterator first) const
 {
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -654,10 +652,10 @@ void matrix<X>::copyToDense(Iterator first) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 template<class Iterator>
 inline
-void matrix<X>::copyToDense(Iterator first, Iterator last) const
+void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 {
   assert( N*N == static_cast<size_t>(last-first) );
 
@@ -675,11 +673,11 @@ void matrix<X>::copyToDense(Iterator first, Iterator last) const
 // sign change
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::operator- () const
+matrix<X,M,N> matrix<X,M,N>::operator- () const
 {
-  matrix<X> out(shape());
+  matrix<X,M,N> out(shape());
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = -mData[i];
@@ -689,11 +687,11 @@ matrix<X> matrix<X>::operator- () const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::operator+ () const
+matrix<X,M,N> matrix<X,M,N>::operator+ () const
 {
-  matrix<X> out(shape());
+  matrix<X,M,N> out(shape());
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = mData[i];
@@ -705,9 +703,9 @@ matrix<X> matrix<X>::operator+ () const
 // arithmetic operators
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
+matrix<X,M,N>& matrix<X,M,N>::operator*= (const matrix<X,M,N> &B)
 {
   assert( shape() == B.shape() );
   assert( rank () == B.rank () );
@@ -721,9 +719,9 @@ matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
+matrix<X,M,N>& matrix<X,M,N>::operator+= (const matrix<X,M,N> &B)
 {
   assert( shape() == B.shape() );
   assert( rank () == B.rank () );
@@ -737,9 +735,9 @@ matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
+matrix<X,M,N>& matrix<X,M,N>::operator-= (const matrix<X,M,N> &B)
 {
   assert( shape() == B.shape() );
   assert( rank () == B.rank () );
@@ -753,9 +751,9 @@ matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>& matrix<X>::operator*= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator*= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B;
@@ -765,9 +763,9 @@ matrix<X>& matrix<X>::operator*= (const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X>& matrix<X>::operator/= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator/= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B;
@@ -779,11 +777,11 @@ matrix<X>& matrix<X>::operator/= (const X &B)
 // absolute value
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> matrix<X>::abs() const
+matrix<X,M,N> matrix<X,M,N>::abs() const
 {
-  matrix<X> out(N, N);
+  matrix<X,M,N> out(N, N);
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = std::abs(mData[i]);
@@ -795,9 +793,9 @@ matrix<X> matrix<X>::abs() const
 // norm
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X matrix<X>::norm() const
+X matrix<X,M,N>::norm() const
 {
   X out = static_cast<X>(0);
 
@@ -811,29 +809,29 @@ X matrix<X>::norm() const
 // return the indices that would sort the matrix
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<size_t> matrix<X>::argsort(bool ascending) const
+matrix<size_t,M,N> matrix<X,M,N>::argsort(bool ascending) const
 {
-  return matrix<size_t>::Copy(N, N, cppmat::argsort(mData, ascending));
+  return matrix<size_t,M,N>::Copy(cppmat::argsort(mData, ascending));
 }
 
 // =================================================================================================
 // location of the minimum/maximum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::argmin() const
+size_t matrix<X,M,N>::argmin() const
 {
   return std::min_element(begin(), end()) - begin();
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-size_t matrix<X>::argmax() const
+size_t matrix<X,M,N>::argmax() const
 {
   return std::max_element(begin(), end()) - begin();
 }
@@ -842,9 +840,9 @@ size_t matrix<X>::argmax() const
 // minimum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X matrix<X>::min() const
+X matrix<X,M,N>::min() const
 {
   return *std::min_element(begin(),end());
 }
@@ -853,9 +851,9 @@ X matrix<X>::min() const
 // maximum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X matrix<X>::max() const
+X matrix<X,M,N>::max() const
 {
   return *std::max_element(begin(),end());
 }
@@ -864,9 +862,9 @@ X matrix<X>::max() const
 // sum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-X matrix<X>::sum() const
+X matrix<X,M,N>::sum() const
 {
   return std::accumulate(begin(), end(), static_cast<X>(0));
 }
@@ -875,9 +873,9 @@ X matrix<X>::sum() const
 // mean
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-double matrix<X>::mean() const
+double matrix<X,M,N>::mean() const
 {
   return static_cast<double>(sum())/static_cast<double>(N*N);
 }
@@ -886,9 +884,9 @@ double matrix<X>::mean() const
 // weighted average
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-double matrix<X>::average(const matrix<X> &weights, bool norm) const
+double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 {
   if ( norm ) return static_cast<double>((weights*(*this)).sum())/static_cast<double>(weights.sum());
   else        return static_cast<double>((weights*(*this)).sum());
@@ -898,9 +896,9 @@ double matrix<X>::average(const matrix<X> &weights, bool norm) const
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-std::vector<size_t> matrix<X>::where() const
+std::vector<size_t> matrix<X,M,N>::where() const
 {
   size_t nnz = 0;
 
@@ -926,9 +924,9 @@ std::vector<size_t> matrix<X>::where() const
 // find the plain storage indices of all entries equal to some constant
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-std::vector<size_t> matrix<X>::where(X D) const
+std::vector<size_t> matrix<X,M,N>::where(X D) const
 {
   size_t nnz = 0;
 
@@ -954,9 +952,9 @@ std::vector<size_t> matrix<X>::where(X D) const
 // formatted print
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-std::ostream& operator<<(std::ostream& out, const matrix<X>& src)
+std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -977,9 +975,9 @@ std::ostream& operator<<(std::ostream& out, const matrix<X>& src)
 // arithmetic operators: external
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator* (matrix<X> A, const matrix<X> &B)
+matrix<X,M,N> operator* (matrix<X,M,N> A, const matrix<X,M,N> &B)
 {
   A *= B;
 
@@ -988,9 +986,9 @@ matrix<X> operator* (matrix<X> A, const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator+ (matrix<X> A, const matrix<X> &B)
+matrix<X,M,N> operator+ (matrix<X,M,N> A, const matrix<X,M,N> &B)
 {
   A += B;
 
@@ -999,9 +997,9 @@ matrix<X> operator+ (matrix<X> A, const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator- (matrix<X> A, const matrix<X> &B)
+matrix<X,M,N> operator- (matrix<X,M,N> A, const matrix<X,M,N> &B)
 {
   A -= B;
 
@@ -1010,9 +1008,9 @@ matrix<X> operator- (matrix<X> A, const matrix<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator* (matrix<X> A, const X &B)
+matrix<X,M,N> operator* (matrix<X,M,N> A, const X &B)
 {
   A *= B;
 
@@ -1021,9 +1019,9 @@ matrix<X> operator* (matrix<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator/ (matrix<X> A, const X &B)
+matrix<X,M,N> operator/ (matrix<X,M,N> A, const X &B)
 {
   A /= B;
 
@@ -1032,9 +1030,9 @@ matrix<X> operator/ (matrix<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t M, size_t N>
 inline
-matrix<X> operator* (const X &A, matrix<X> B)
+matrix<X,M,N> operator* (const X &A, matrix<X,M,N> B)
 {
   B *= A;
 
@@ -1043,7 +1041,7 @@ matrix<X> operator* (const X &A, matrix<X> B)
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

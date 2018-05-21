@@ -203,10 +203,12 @@ namespace cartesian {
 #include "var_cartesian_tensor2s.h"
 #include "var_cartesian_tensor2d.h"
 #include "var_cartesian_vector.h"
+
 #include "fix_regular_array.h"
 #include "fix_regular_matrix.h"
 
 #include "fix_symmetric_matrix.h"
+#include "fix_diagonal_matrix.h"
 
 #include "map_regular_array.h"
 
@@ -226,10 +228,12 @@ namespace cartesian {
 #include "var_cartesian_tensor2s.cpp"
 #include "var_cartesian_tensor2d.cpp"
 #include "var_cartesian_vector.cpp"
+
 #include "fix_regular_array.cpp"
 #include "fix_regular_matrix.cpp"
 
 #include "fix_symmetric_matrix.cpp"
+#include "fix_diagonal_matrix.cpp"
 
 #include "map_regular_array.cpp"
 

@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_FIX_SYMMETRIC_MATRIX_H
-#define CPPMAT_FIX_SYMMETRIC_MATRIX_H
+#ifndef CPPMAT_FIX_DIAGONAL_MATRIX_H
+#define CPPMAT_FIX_DIAGONAL_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -15,10 +15,10 @@
 
 namespace cppmat {
 namespace tiny {
-namespace symmetric {
+namespace diagonal {
 
 // =================================================================================================
-// cppmat::symmetric::matrix
+// cppmat::diagonal::matrix
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -28,9 +28,10 @@ class matrix
 
 protected:
 
-  static const size_t mSize=(N+1)*N/2;  // total size == data.size()
-  static const size_t mRank=2;          // rank (number of axes)
-  X                   mData[(N+1)*N/2]; // data container
+  static const size_t mSize=N;   // total size == data.size()
+  static const size_t mRank=2;   // rank (number of axes)
+  X                   mData[N];  // data container
+  X                   mZero[1];  // pointer to a zero entry
 
 public:
 
@@ -41,11 +42,8 @@ public:
   matrix();
 
   // constructor: copy
-  matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A);
-  matrix(const cppmat::tiny::diagonal ::matrix<X,M,N> &A);
-  matrix(const cppmat::view::diagonal ::matrix<X,M,N> &A);
-  matrix(const cppmat::      diagonal ::matrix<X>     &A);
-  matrix(const cppmat::      symmetric::matrix<X>     &A);
+  matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A);
+  matrix(const cppmat::view::diagonal::matrix<X,M,N> &A);
 
   // named constructor: initialize
   static matrix<X,M,N> Random  (X lower=(X)0, X upper=(X)1);
@@ -64,7 +62,7 @@ public:
   template<typename Itr> static matrix<X,M,N> CopyDense(Itr first, Itr last);
 
   // copy constructor
-  operator cppmat::symmetric::matrix<X> () const;
+  operator cppmat::diagonal::matrix<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;
@@ -130,19 +128,17 @@ public:
   matrix<X,M,N> operator+ () const;
 
   // arithmetic operators
-  matrix<X,M,N>& operator*= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator/= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator+= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator-= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator*= (const                                 X      &B);
-  matrix<X,M,N>& operator/= (const                                 X      &B);
-  matrix<X,M,N>& operator+= (const                                 X      &B);
-  matrix<X,M,N>& operator-= (const                                 X      &B);
+  matrix<X,M,N>& operator*= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator+= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator-= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator*= (const                                X      &B);
+  matrix<X,M,N>& operator/= (const                                X      &B);
 
   // extra arithmetic operators
-  matrix<X,M,N>& operator*= (const cppmat::tiny::diagonal ::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator+= (const cppmat::tiny::diagonal ::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator-= (const cppmat::tiny::diagonal ::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator*= (const cppmat::tiny::           matrix<X,M,N> &B);
+  matrix<X,M,N>& operator/= (const cppmat::tiny::           matrix<X,M,N> &B);
+  matrix<X,M,N>& operator*= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator/= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
 
   // absolute value
   matrix<X,M,N> abs() const;
@@ -151,7 +147,7 @@ public:
   X norm() const;
 
   // return the indices that would sort the matrix
-  cppmat::tiny::symmetric::matrix<size_t,M,N> argsort(bool ascending=true) const;
+  cppmat::tiny::diagonal::matrix<size_t,M,N> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)
   size_t argmin() const;
@@ -170,7 +166,7 @@ public:
   double mean() const;
 
   // weighted average
-  double average(const cppmat::tiny::symmetric::matrix<X,M,N> &weights, bool norm=true) const;
+  double average(const cppmat::tiny::diagonal::matrix<X,M,N> &weights, bool norm=true) const;
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
@@ -186,108 +182,54 @@ public:
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator* (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator* (
+        cppmat::tiny::diagonal::matrix<X,M,N>  A,
+  const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator/ (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator+ (
+        cppmat::tiny::diagonal::matrix<X,M,N>  A,
+  const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator- (
+        cppmat::tiny::diagonal::matrix<X,M,N>  A,
+  const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator- (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator* (
+        cppmat::tiny::diagonal::matrix<X,M,N>  A,
+  const                                X      &B
 );
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator* (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const                                 X      &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator/ (
+        cppmat::tiny::diagonal::matrix<X,M,N>  A,
+  const                                X      &B
 );
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator/ (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const                                 X      &B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
-        cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const                                 X      &B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator- (
-  cppmat::tiny::symmetric::matrix<X,M,N>  A,
-  const                           X      &B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator* (
-  const                                 X      &A,
-        cppmat::tiny::symmetric::matrix<X,M,N>  B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator/ (
-  const                                 X      &A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
-  const                                 X      &A,
-        cppmat::tiny::symmetric::matrix<X,M,N>  B
-);
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-cppmat::tiny::symmetric::matrix<X,M,N> operator- (
-  const                                 X      &A,
-  const cppmat::tiny::symmetric::matrix<X,M,N> &B
+cppmat::tiny::diagonal::matrix<X,M,N> operator* (
+  const                                X      &A,
+        cppmat::tiny::diagonal::matrix<X,M,N>  B
 );
 
 // =================================================================================================
