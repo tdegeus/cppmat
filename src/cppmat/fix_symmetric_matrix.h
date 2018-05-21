@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_SYMMETRIC_MATRIX_H
-#define CPPMAT_VAR_SYMMETRIC_MATRIX_H
+#ifndef CPPMAT_FIX_SYMMETRIC_MATRIX_H
+#define CPPMAT_FIX_SYMMETRIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,55 +14,60 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace tiny {
 namespace symmetric {
 
 // =================================================================================================
 // cppmat::symmetric::matrix
 // =================================================================================================
 
-template<class X>
+template<class X, size_t M, size_t N>
 class matrix
 {
+  static_assert( N == M , "Must be square" );
+
 protected:
 
-  size_t              mSize=0;   // total size == data.size()
-  static const size_t mRank=2;   // rank (number of axes)
-  size_t              N=0;       // number of rows/columns
-  std::vector<X>      mData;     // data container
+  static const size_t mSize=(N+1)*N/2;  // total size == data.size()
+  static const size_t mRank=2;          // rank (number of axes)
+  X                   mData[(N+1)*N/2]; // data container
 
 public:
 
-  // constructor
-  matrix() = default;
+  // return size without constructing
+  static size_t Size();
 
   // constructor: allocate, don't initialize
-  matrix(size_t m, size_t n);
+  matrix();
 
   // constructor: copy
-  matrix(const                   matrix<X> &A);
-  matrix(const cppmat::diagonal::matrix<X> &A);
+  matrix(const                          matrix<X,M,N> &A);
+  matrix(const cppmat::tiny::diagonal ::matrix<X,M,N> &A);
+  matrix(const cppmat::view::diagonal ::matrix<X,M,N> &A);
+  matrix(const cppmat::      diagonal ::matrix<X>     &A);
+  matrix(const cppmat::      symmetric::matrix<X>     &A);
 
   // named constructor: initialize
-  static matrix<X> Random  (size_t m, size_t n, X lower=(X)0, X upper=(X)1);
-  static matrix<X> Arange  (size_t m, size_t n);
-  static matrix<X> Zero    (size_t m, size_t n);
-  static matrix<X> Ones    (size_t m, size_t n);
-  static matrix<X> Constant(size_t m, size_t n, X D);
+  static matrix<X,M,N> Random  (X lower=(X)0, X upper=(X)1);
+  static matrix<X,M,N> Arange  ();
+  static matrix<X,M,N> Zero    ();
+  static matrix<X,M,N> Ones    ();
+  static matrix<X,M,N> Constant(X D);
 
   // named constructor: copy
-  static matrix<X> Copy(size_t m, size_t n, const std::vector<X> &D);
+  static matrix<X,M,N> Copy(const std::vector<X> &D);
 
   // named constructor: copy
-  template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first);
-  template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first, Itr last);
-  template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first);
-  template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first, Itr last);
+  template<typename Itr> static matrix<X,M,N> Copy     (Itr first);
+  template<typename Itr> static matrix<X,M,N> Copy     (Itr first, Itr last);
+  template<typename Itr> static matrix<X,M,N> CopyDense(Itr first);
+  template<typename Itr> static matrix<X,M,N> CopyDense(Itr first, Itr last);
+
+  // copy constructor
+  operator cppmat::symmetric::matrix<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;
-
-  // resize
-  void resize(size_t m, size_t n);
 
   // get dimensions
   size_t size() const;
@@ -121,32 +126,32 @@ public:
   template<typename Iterator> void copyToDense(Iterator first, Iterator last) const;
 
   // sign change
-  matrix<X> operator- () const;
-  matrix<X> operator+ () const;
+  matrix<X,M,N> operator- () const;
+  matrix<X,M,N> operator+ () const;
 
   // arithmetic operators
-  matrix<X>& operator*= (const matrix<X> &B);
-  matrix<X>& operator/= (const matrix<X> &B);
-  matrix<X>& operator+= (const matrix<X> &B);
-  matrix<X>& operator-= (const matrix<X> &B);
-  matrix<X>& operator*= (const        X  &B);
-  matrix<X>& operator/= (const        X  &B);
-  matrix<X>& operator+= (const        X  &B);
-  matrix<X>& operator-= (const        X  &B);
+  matrix<X,M,N>& operator*= (const matrix<X,M,N> &B);
+  matrix<X,M,N>& operator/= (const matrix<X,M,N> &B);
+  matrix<X,M,N>& operator+= (const matrix<X,M,N> &B);
+  matrix<X,M,N>& operator-= (const matrix<X,M,N> &B);
+  matrix<X,M,N>& operator*= (const        X      &B);
+  matrix<X,M,N>& operator/= (const        X      &B);
+  matrix<X,M,N>& operator+= (const        X      &B);
+  matrix<X,M,N>& operator-= (const        X      &B);
 
   // extra arithmetic operators
-  matrix<X>& operator*= (const cppmat::diagonal::matrix<X> &B);
-  matrix<X>& operator+= (const cppmat::diagonal::matrix<X> &B);
-  matrix<X>& operator-= (const cppmat::diagonal::matrix<X> &B);
+  matrix<X,M,N>& operator*= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator+= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
+  matrix<X,M,N>& operator-= (const cppmat::tiny::diagonal::matrix<X,M,N> &B);
 
   // absolute value
-  matrix<X> abs() const;
+  matrix<X,M,N> abs() const;
 
   // norm (sum of absolute values)
   X norm() const;
 
   // return the indices that would sort the matrix
-  matrix<size_t> argsort(bool ascending=true) const;
+  matrix<size_t,M,N> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)
   size_t argmin() const;
@@ -165,7 +170,7 @@ public:
   double mean() const;
 
   // weighted average
-  double average(const matrix<X> &weights, bool norm=true) const;
+  double average(const matrix<X,M,N> &weights, bool norm=true) const;
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
@@ -176,22 +181,58 @@ public:
 };
 
 // external arithmetic operators
-template<class X> inline matrix<X> operator* (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator/ (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator- (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator* (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator/ (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator+ (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator- (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator* (const  X &A,       matrix<X>  B);
-template<class X> inline matrix<X> operator/ (const  X &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (const  X &A,       matrix<X>  B);
-template<class X> inline matrix<X> operator- (const  X &A, const matrix<X> &B);
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator* (matrix<X,M,N> A, const matrix<X,M,N> &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator/ (matrix<X,M,N> A, const matrix<X,M,N> &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator+ (matrix<X,M,N> A, const matrix<X,M,N> &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator- (matrix<X,M,N> A, const matrix<X,M,N> &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator* (matrix<X,M,N> A, const        X      &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator/ (matrix<X,M,N> A, const        X      &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator+ (matrix<X,M,N> A, const        X      &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator- (matrix<X,M,N> A, const        X      &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator* (const  X     &A,       matrix<X,M,N>  B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator/ (const  X     &A, const matrix<X,M,N> &B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator+ (const  X     &A,       matrix<X,M,N>  B);
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N> operator- (const  X     &A, const matrix<X,M,N> &B);
+
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

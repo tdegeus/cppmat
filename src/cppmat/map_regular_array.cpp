@@ -716,7 +716,7 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::argsort(bool ascending) const
 {
-  return cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N>(cppmat::argsort((*this).asVector(), ascending));
+  return cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N>::Copy(cppmat::argsort((*this).asVector(), ascending));
 }
 
 // =================================================================================================

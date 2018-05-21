@@ -44,7 +44,6 @@ matrix<X>::matrix(const matrix<X> &A)
   setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
 // =================================================================================================
 // named constructors
 // =================================================================================================
@@ -108,6 +107,19 @@ matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
   matrix<X> out(m,n);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
+{
+  matrix<X> out(m,n);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }
@@ -794,7 +806,7 @@ template<class X>
 inline
 matrix<size_t> matrix<X>::argsort(bool ascending) const
 {
-  return matrix<size_t>(N, N, cppmat::argsort(mData, ascending));
+  return matrix<size_t>::Copy(N, N, cppmat::argsort(mData, ascending));
 }
 
 // =================================================================================================

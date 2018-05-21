@@ -43,7 +43,9 @@ array<X,RANK,I,J,K,L,M,N>::array()
   mShape[5] = N;  mStrides[5] = 1;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy - current type
+// =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
@@ -59,7 +61,9 @@ array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
   setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy - other types
+// =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
@@ -1347,7 +1351,7 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 array<size_t,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::argsort(bool ascending) const
 {
-  return array<size_t,RANK,I,J,K,L,M,N>(cppmat::argsort((*this).asVector(), ascending));
+  return array<size_t,RANK,I,J,K,L,M,N>::Copy(cppmat::argsort((*this).asVector(), ascending));
 }
 
 // =================================================================================================

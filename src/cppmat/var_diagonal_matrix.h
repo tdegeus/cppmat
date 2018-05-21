@@ -25,7 +25,6 @@ class matrix
 {
 protected:
 
-  static const size_t MAX_DIM=2; // maximum number of dimensions
   size_t              mSize=0;   // total size == data.size()
   static const size_t mRank=2;   // rank (number of axes)
   size_t              N=0;       // number of rows/columns
@@ -49,6 +48,9 @@ public:
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);
   static matrix<X> Constant(size_t m, size_t n, X D);
+
+  // named constructor: copy
+  static matrix<X> Copy(size_t m, size_t n, const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first);

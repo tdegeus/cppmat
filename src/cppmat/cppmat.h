@@ -102,7 +102,7 @@ namespace tiny {
 
   template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
   template<class X, size_t M, size_t N> class matrix;
-  template<class X, size_t M, size_t N> class vector;
+  template<class X, size_t M> class vector;
 
 }}
 
@@ -112,7 +112,7 @@ namespace cppmat {
 namespace tiny {
 namespace symmetric {
 
-  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -122,7 +122,7 @@ namespace cppmat {
 namespace tiny {
 namespace diagonal {
 
-  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -146,10 +146,44 @@ namespace cppmat {
 namespace view {
 
   template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
-  // template<class X, size_t M, size_t N> class matrix;
-  // template<class X, size_t M, size_t N> class vector;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
 
 }}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace symmetric {
+
+  template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace diagonal {
+
+  template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace cartesian {
+
+  template<class X, size_t ND> class tensor4;
+  template<class X, size_t ND> class tensor2;
+  template<class X, size_t ND> class tensor2s;
+  template<class X, size_t ND> class tensor2d;
+  template<class X, size_t ND> class vector;
+
+}}}
 
 // =================================================================================================
 
@@ -172,6 +206,8 @@ namespace view {
 #include "fix_regular_array.h"
 #include "fix_regular_matrix.h"
 
+#include "fix_symmetric_matrix.h"
+
 #include "map_regular_array.h"
 
 #include "stl.cpp"
@@ -192,6 +228,8 @@ namespace view {
 #include "var_cartesian_vector.cpp"
 #include "fix_regular_array.cpp"
 #include "fix_regular_matrix.cpp"
+
+#include "fix_symmetric_matrix.cpp"
 
 #include "map_regular_array.cpp"
 

@@ -1366,7 +1366,7 @@ template<class X>
 inline
 array<size_t> array<X>::argsort(bool ascending) const
 {
-  return array<size_t>(shape(), cppmat::argsort(mData, ascending));
+  return array<size_t>::Copy(shape(), cppmat::argsort(mData, ascending));
 }
 
 // =================================================================================================
