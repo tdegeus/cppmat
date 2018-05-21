@@ -526,7 +526,7 @@ template<class X>
 inline
 void matrix<X>::setArange()
 {
-  std::iota(mData.begin(), mData.end(), static_cast<X>(0));
+  std::iota(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------

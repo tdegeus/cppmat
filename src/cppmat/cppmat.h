@@ -95,6 +95,51 @@ namespace cartesian {
 
 }}
 
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+
+  template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M, size_t N> class vector;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+namespace symmetric {
+
+  template<class X, size_t M, size_t N> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+namespace diagonal {
+
+  template<class X, size_t M, size_t N> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+namespace cartesian {
+
+  template<class X, size_t ND> class tensor4;
+  template<class X, size_t ND> class tensor2;
+  template<class X, size_t ND> class tensor2s;
+  template<class X, size_t ND> class tensor2d;
+  template<class X, size_t ND> class vector;
+
+}}}
+
 // =================================================================================================
 
 #include "stl.h"
@@ -113,6 +158,17 @@ namespace cartesian {
 #include "var_cartesian_tensor2s.h"
 #include "var_cartesian_tensor2d.h"
 #include "var_cartesian_vector.h"
+#include "fix_regular_array.h"
+#include "fix_regular_matrix.h"
+// #include "fix_regular_vector.h"
+// #include "fix_symmetric_matrix.h"
+// #include "fix_diagonal_matrix.h"
+// #include "fix_misc_matrix.h"
+// #include "fix_cartesian_tensor4.h"
+// #include "fix_cartesian_tensor2.h"
+// #include "fix_cartesian_tensor2s.h"
+// #include "fix_cartesian_tensor2d.h"
+// #include "fix_cartesian_vector.h"
 
 #include "stl.cpp"
 #include "private.cpp"
@@ -130,6 +186,17 @@ namespace cartesian {
 #include "var_cartesian_tensor2s.cpp"
 #include "var_cartesian_tensor2d.cpp"
 #include "var_cartesian_vector.cpp"
+#include "fix_regular_array.cpp"
+#include "fix_regular_matrix.cpp"
+// #include "fix_regular_vector.cpp"
+// #include "fix_symmetric_matrix.cpp"
+// #include "fix_diagonal_matrix.cpp"
+// #include "fix_misc_matrix.cpp"
+// #include "fix_cartesian_tensor4.cpp"
+// #include "fix_cartesian_tensor2.cpp"
+// #include "fix_cartesian_tensor2s.cpp"
+// #include "fix_cartesian_tensor2d.cpp"
+// #include "fix_cartesian_vector.cpp"
 
 // =================================================================================================
 

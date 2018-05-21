@@ -257,9 +257,9 @@ template<class X>
 inline
 auto matrix<X>::beginRow(size_t a)
 {
-  assert( a < this->mShape[0] );
+  assert( a < static_cast<size_t>(M) );
 
-  return this->begin() + a * this->mShape[1];
+  return this->begin() + a * static_cast<size_t>(N);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -268,9 +268,9 @@ template<class X>
 inline
 auto matrix<X>::beginRow(size_t a) const
 {
-  assert( a < this->mShape[0] );
+  assert( a < static_cast<size_t>(M) );
 
-  return this->begin() + a * this->mShape[1];
+  return this->begin() + a * static_cast<size_t>(N);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -279,9 +279,9 @@ template<class X>
 inline
 auto matrix<X>::endRow(size_t a)
 {
-  assert( a < this->mShape[0] );
+  assert( a < static_cast<size_t>(M) );
 
-  return this->begin() + (a+1) * this->mShape[1];
+  return this->begin() + (a+1) * static_cast<size_t>(N);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -290,9 +290,9 @@ template<class X>
 inline
 auto matrix<X>::endRow(size_t a) const
 {
-  assert( a < this->mShape[0] );
+  assert( a < static_cast<size_t>(M) );
 
-  return this->begin() + (a+1) * this->mShape[1];
+  return this->begin() + (a+1) * static_cast<size_t>(N);
 }
 
 // =================================================================================================

@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_ARRAY_H
-#define CPPMAT_VAR_REGULAR_ARRAY_H
+#ifndef CPPMAT_FIX_REGULAR_ARRAY_H
+#define CPPMAT_FIX_REGULAR_ARRAY_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,55 +14,56 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace tiny {
 
 // =================================================================================================
 // cppmat::array
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1>
 class array
 {
 protected:
 
-  static const size_t MAX_DIM=6;    // maximum number of dimensions
-  size_t         mSize=0;           // total size == data.size() == prod(shape)
-  size_t         mRank=0;           // rank (number of axes)
-  size_t         mShape  [MAX_DIM]; // number of entries along each axis
-  size_t         mStrides[MAX_DIM]; // stride length for each index
-  std::vector<X> mData;             // data container
+  static const size_t MAX_DIM=6;  // maximum number of dimensions
+  size_t mSize=I*J*K*L*M*N;       // total size == data.size() == prod(shape)
+  size_t mRank=RANK;              // rank (number of axes)
+  size_t mShape  [MAX_DIM];       // number of entries along each axis
+  size_t mStrides[MAX_DIM];       // stride length for each index
+  X      mData[I*J*K*L*M*N];      // data container
 
 public:
 
-  // constructor
-  array() = default;
+  // return size without constructing
+  static size_t Size();
 
   // constructor: allocate, don't initialize
-  array(const std::vector<size_t> &shape);
+  array();
 
   // constructor: copy
-  array(const array<X> &A);
+  array(const array<X,RANK,I,J,K,L,M,N> &A);
 
   // constructor: copy
-  array(const std::vector<size_t> &shape, const std::vector<X> &D);
+  array(const std::vector<X> &D);
 
   // constructor: initialize
-  static array<X> Random  (const std::vector<size_t> &shape, X lower=(X)0, X upper=(X)1);
-  static array<X> Arange  (const std::vector<size_t> &shape);
-  static array<X> Zero    (const std::vector<size_t> &shape);
-  static array<X> Ones    (const std::vector<size_t> &shape);
-  static array<X> Constant(const std::vector<size_t> &shape, X D);
+  static array<X,RANK,I,J,K,L,M,N> Random  (X lower=(X)0, X upper=(X)1);
+  static array<X,RANK,I,J,K,L,M,N> Arange  ();
+  static array<X,RANK,I,J,K,L,M,N> Zero    ();
+  static array<X,RANK,I,J,K,L,M,N> Ones    ();
+  static array<X,RANK,I,J,K,L,M,N> Constant(X D);
 
   // constructor: copy
-  template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first);
-  template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
+  template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first);
+  template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first, It last);
+
+  // copy constructor
+  #ifndef CPPMAT_NOCONVERT
+  operator cppmat::array<X> () const;
+  #endif
 
   // return plain storage as vector
   std::vector<X> asVector() const;
-
-  // resize
-  void resize (const std::vector<size_t> &shape);
-  void reshape(const std::vector<size_t> &shape);
-  void chrank (size_t rank);
 
   // get dimensions
   size_t size() const;
@@ -148,61 +149,46 @@ public:
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
 
   // sign change
-  array<X> operator- () const;
-  array<X> operator+ () const;
+  array<X,RANK,I,J,K,L,M,N> operator- () const;
+  array<X,RANK,I,J,K,L,M,N> operator+ () const;
 
   // arithmetic operators
-  array<X>& operator*= (const array<X> &B);
-  array<X>& operator/= (const array<X> &B);
-  array<X>& operator+= (const array<X> &B);
-  array<X>& operator-= (const array<X> &B);
-  array<X>& operator*= (const       X  &B);
-  array<X>& operator/= (const       X  &B);
-  array<X>& operator+= (const       X  &B);
-  array<X>& operator-= (const       X  &B);
+  array<X,RANK,I,J,K,L,M,N>& operator*= (const array<X,RANK,I,J,K,L,M,N> &B);
+  array<X,RANK,I,J,K,L,M,N>& operator/= (const array<X,RANK,I,J,K,L,M,N> &B);
+  array<X,RANK,I,J,K,L,M,N>& operator+= (const array<X,RANK,I,J,K,L,M,N> &B);
+  array<X,RANK,I,J,K,L,M,N>& operator-= (const array<X,RANK,I,J,K,L,M,N> &B);
+  array<X,RANK,I,J,K,L,M,N>& operator*= (const       X                   &B);
+  array<X,RANK,I,J,K,L,M,N>& operator/= (const       X                   &B);
+  array<X,RANK,I,J,K,L,M,N>& operator+= (const       X                   &B);
+  array<X,RANK,I,J,K,L,M,N>& operator-= (const       X                   &B);
 
   // absolute value
-  array<X> abs() const;
+  array<X,RANK,I,J,K,L,M,N> abs() const;
 
   // norm (sum of absolute values)
   X norm() const;
 
   // return the indices that would sort an array
-  array<size_t> argsort(bool ascending=true) const;
+  array<size_t,RANK,I,J,K,L,M,N> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)
   size_t argmin() const;
   size_t argmax() const;
 
   // minimum
-  X        min() const;
-  array<X> min(int    axis) const;
-  array<X> min(size_t axis) const;
-  array<X> min(const std::vector<int> &axes) const;
+  X min() const;
 
   // maximum
-  X        max() const;
-  array<X> max(int    axis) const;
-  array<X> max(size_t axis) const;
-  array<X> max(const std::vector<int> &axes) const;
+  X max() const;
 
   // sum
-  X        sum() const;
-  array<X> sum(int    axis) const;
-  array<X> sum(size_t axis) const;
-  array<X> sum(const std::vector<int> &axes) const;
+  X sum() const;
 
   // mean
-  double   mean() const;
-  array<X> mean(int    axis) const;
-  array<X> mean(size_t axis) const;
-  array<X> mean(const std::vector<int> &axes) const;
+  double mean() const;
 
   // weighted average
-  double   average(const array<X> &weights,                               bool norm=true) const;
-  array<X> average(const array<X> &weights, int    axis,                  bool norm=true) const;
-  array<X> average(const array<X> &weights, size_t axis,                  bool norm=true) const;
-  array<X> average(const array<X> &weights, const std::vector<int> &axes, bool norm=true) const;
+  double average(const array<X,RANK,I,J,K,L,M,N> &weights, bool norm=true) const;
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
@@ -213,22 +199,58 @@ public:
 };
 
 // external arithmetic operators
-template<class X> inline array<X> operator* (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator/ (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator+ (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator- (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator* (array<X> A, const       X  &B);
-template<class X> inline array<X> operator/ (array<X> A, const       X  &B);
-template<class X> inline array<X> operator+ (array<X> A, const       X  &B);
-template<class X> inline array<X> operator- (array<X> A, const       X  &B);
-template<class X> inline array<X> operator* (const X &A,       array<X>  B);
-template<class X> inline array<X> operator/ (const X &A, const array<X> &B);
-template<class X> inline array<X> operator+ (const X &A,       array<X>  B);
-template<class X> inline array<X> operator- (const X &A, const array<X> &B);
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const X &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator* (const X &A,       array<X,RANK,I,J,K,L,M,N>  B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator/ (const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator+ (const X &A,       array<X,RANK,I,J,K,L,M,N>  B);
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> operator- (const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
+
 
 // =================================================================================================
 
-} // namespace ...
+}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_ARRAY_CPP
-#define CPPMAT_VAR_REGULAR_ARRAY_CPP
+#ifndef CPPMAT_FIX_REGULAR_ARRAY_CPP
+#define CPPMAT_FIX_REGULAR_ARRAY_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,47 +14,74 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace tiny {
+
+// =================================================================================================
+// return size without constructing
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::Size()
+{
+  return I*J*K*L*M*N;
+}
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>::array(const std::vector<size_t> &shape)
+array<X,RANK,I,J,K,L,M,N>::array()
 {
-  resize(shape);
+  mShape[0] = I;  mStrides[0] = J*K*L*M*N;
+  mShape[1] = J;  mStrides[1] = K*L*M*N;
+  mShape[2] = K;  mStrides[2] = L*M*N;
+  mShape[3] = L;  mStrides[3] = M*N;
+  mShape[4] = M;  mStrides[4] = N;
+  mShape[5] = N;  mStrides[5] = 1;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>::array(const array<X> &A)
+array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
 {
-  resize(A.shape());
+  mShape[0] = I;  mStrides[0] = J*K*L*M*N;
+  mShape[1] = J;  mStrides[1] = K*L*M*N;
+  mShape[2] = K;  mStrides[2] = L*M*N;
+  mShape[3] = L;  mStrides[3] = M*N;
+  mShape[4] = M;  mStrides[4] = N;
+  mShape[5] = N;  mStrides[5] = 1;
 
   setCopy(A.begin(), A.end());
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>::array(const std::vector<size_t> &shape, const std::vector<X> &D)
+array<X,RANK,I,J,K,L,M,N>::array(const std::vector<X> &D)
 {
-  resize(shape);
+  mShape[0] = I;  mStrides[0] = J*K*L*M*N;
+  mShape[1] = J;  mStrides[1] = K*L*M*N;
+  mShape[2] = K;  mStrides[2] = L*M*N;
+  mShape[3] = L;  mStrides[3] = M*N;
+  mShape[4] = M;  mStrides[4] = N;
+  mShape[5] = N;  mStrides[5] = 1;
 
   setCopy(D.begin(), D.end());
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Random(X lower, X upper)
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setRandom(lower, upper);
 
@@ -63,11 +90,11 @@ array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::Arange(const std::vector<size_t> &shape)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Arange()
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setArange();
 
@@ -76,11 +103,11 @@ array<X> array<X>::Arange(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::Zero(const std::vector<size_t> &shape)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Zero()
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setZero();
 
@@ -89,11 +116,11 @@ array<X> array<X>::Zero(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::Ones(const std::vector<size_t> &shape)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Ones()
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setOnes();
 
@@ -102,11 +129,11 @@ array<X> array<X>::Ones(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Constant(X D)
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setConstant(D);
 
@@ -115,12 +142,12 @@ array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename Iterator>
 inline
-array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(Iterator first)
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setCopy(first);
 
@@ -129,12 +156,12 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename Iterator>
 inline
-array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(Iterator first, Iterator last)
 {
-  array<X> out(shape);
+  array<X,RANK,I,J,K,L,M,N> out;
 
   out.setCopy(first,last);
 
@@ -142,112 +169,58 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterat
 }
 
 // =================================================================================================
+// copy constructor
+// =================================================================================================
+
+#ifndef CPPMAT_NOCONVERT
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline array<X,RANK,I,J,K,L,M,N>::operator cppmat::array<X> () const
+{
+  return cppmat::array<X>::Copy(shape(), begin(), end());
+}
+#endif
+
+
+// =================================================================================================
 // return plain storage as vector
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<X> array<X>::asVector() const
+std::vector<X> array<X,RANK,I,J,K,L,M,N>::asVector() const
 {
-  return mData;
-}
+  std::vector<X> out(mSize);
 
-// =================================================================================================
-// resize
-// =================================================================================================
+  std::copy(begin(), end(), out.begin());
 
-template<class X>
-inline
-void array<X>::resize(const std::vector<size_t> &shape)
-{
-  assert( shape.size()  > 0       );
-  assert( shape.size() <= MAX_DIM );
-
-  // store old size
-  size_t size = mSize;
-
-  // update number of dimensions
-  mRank = shape.size();
-
-  // initialize shape/strides in all directions
-  std::fill(std::begin(mShape  )+mRank, std::begin(mShape  )+MAX_DIM, 1);
-  std::fill(std::begin(mStrides)      , std::begin(mStrides)+MAX_DIM, 1);
-
-  // copy shape from input
-  std::copy(shape.begin(), shape.end(), std::begin(mShape));
-
-  // get size
-  // - initialize
-  mSize = 1;
-  // - product of shape in all directions
-  for ( size_t i = 0 ; i < mRank ; ++i ) mSize *= shape[i];
-
-  // set storage strides
-  for ( size_t i = 0 ; i < mRank ; ++i )
-    for ( size_t j = i+1 ; j < mRank ; ++j )
-      mStrides[i] *= mShape[j];
-
-  // allocate data
-  if ( mSize != size ) mData.resize(mSize);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-void array<X>::reshape(const std::vector<size_t> &shape)
-{
-  // check that the size is unchanged
-  #ifndef NDEBUG
-    size_t n = 1;
-    for ( auto &i : shape ) n *= i;
-    assert( n == mSize );
-  #endif
-
-  // process change
-  resize(shape);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-void array<X>::chrank(size_t rank)
-{
-  // check that all removed dimensions are of shape 1
-  #ifndef NDEBUG
-    for ( size_t i = rank ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
-  #endif
-
-  // update number of dimensions
-  mRank = rank;
+  return out;
 }
 
 // =================================================================================================
 // get dimensions
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::size() const
+size_t array<X,RANK,I,J,K,L,M,N>::size() const
 {
   return mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::rank() const
+size_t array<X,RANK,I,J,K,L,M,N>::rank() const
 {
   return mRank;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::shape(int i) const
+size_t array<X,RANK,I,J,K,L,M,N>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
   assert( i  <      static_cast<int>(mRank) );
@@ -265,9 +238,9 @@ size_t array<X>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::shape(size_t i) const
+size_t array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
   assert( i < mRank );
@@ -278,9 +251,9 @@ size_t array<X>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<size_t> array<X>::shape() const
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::shape() const
 {
   std::vector<size_t> shape(mRank);
 
@@ -291,9 +264,9 @@ std::vector<size_t> array<X>::shape() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<size_t> array<X>::strides(bool bytes) const
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
 {
   std::vector<size_t> strides(mRank);
 
@@ -310,9 +283,9 @@ std::vector<size_t> array<X>::strides(bool bytes) const
 // index operators : operator[...]
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator[](size_t i)
+X& array<X,RANK,I,J,K,L,M,N>::operator[](size_t i)
 {
   assert( i < mSize );
 
@@ -321,9 +294,9 @@ X& array<X>::operator[](size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator[](size_t i) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator[](size_t i) const
 {
   assert( i < mSize );
 
@@ -334,9 +307,9 @@ const X& array<X>::operator[](size_t i) const
 // index operators : operator(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a)
 {
   assert( mRank >= 1 );
 
@@ -348,9 +321,9 @@ X& array<X>::operator()(size_t a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a) const
 {
   assert( mRank >= 1 );
 
@@ -362,9 +335,9 @@ const X& array<X>::operator()(size_t a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a, size_t b)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b)
 {
   assert( mRank >= 2 );
 
@@ -378,9 +351,9 @@ X& array<X>::operator()(size_t a, size_t b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a, size_t b) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b) const
 {
   assert( mRank >= 2 );
 
@@ -394,9 +367,9 @@ const X& array<X>::operator()(size_t a, size_t b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a, size_t b, size_t c)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c)
 {
   assert( mRank >= 3 );
 
@@ -412,9 +385,9 @@ X& array<X>::operator()(size_t a, size_t b, size_t c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a, size_t b, size_t c) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c) const
 {
   assert( mRank >= 3 );
 
@@ -430,9 +403,9 @@ const X& array<X>::operator()(size_t a, size_t b, size_t c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d)
 {
   assert( mRank >= 4 );
 
@@ -450,9 +423,9 @@ X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d) const
 {
   assert( mRank >= 4 );
 
@@ -470,9 +443,9 @@ const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
   assert( mRank >= 5 );
 
@@ -492,9 +465,9 @@ X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
   assert( mRank >= 5 );
 
@@ -514,9 +487,9 @@ const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) 
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
   assert( mRank >= 6 );
 
@@ -538,9 +511,9 @@ X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
   assert( mRank >= 6 );
 
@@ -564,10 +537,10 @@ const X& array<X>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, 
 // index operators : at(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-X& array<X>::at(Iterator first, Iterator last)
+X& array<X,RANK,I,J,K,L,M,N>::at(Iterator first, Iterator last)
 {
   // check input
   assert( static_cast<size_t>(last-first)  > 0     );
@@ -597,10 +570,10 @@ X& array<X>::at(Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-const X& array<X>::at(Iterator first, Iterator last) const
+const X& array<X,RANK,I,J,K,L,M,N>::at(Iterator first, Iterator last) const
 {
   // check input
   assert( static_cast<size_t>(last-first)  > 0     );
@@ -632,9 +605,9 @@ const X& array<X>::at(Iterator first, Iterator last) const
 // index operators : compress(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a) const
 {
   assert( mRank >= 1 );
 
@@ -645,9 +618,9 @@ size_t array<X>::compress(size_t a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a, size_t b) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b) const
 {
   assert( mRank >= 2 );
 
@@ -660,9 +633,9 @@ size_t array<X>::compress(size_t a, size_t b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a, size_t b, size_t c) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c) const
 {
   assert( mRank >= 3 );
 
@@ -677,9 +650,9 @@ size_t array<X>::compress(size_t a, size_t b, size_t c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d) const
 {
   assert( mRank >= 4 );
 
@@ -696,9 +669,9 @@ size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
   assert( mRank >= 5 );
 
@@ -717,9 +690,9 @@ size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
   assert( mRank >= 6 );
 
@@ -742,9 +715,9 @@ size_t array<X>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size
 // index operators : decompress(...)
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<size_t> array<X>::decompress(size_t i) const
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::decompress(size_t i) const
 {
   // check input
   assert( i < mSize );
@@ -765,67 +738,67 @@ std::vector<size_t> array<X>::decompress(size_t i) const
 // pointer to data
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X* array<X>::data()
+X* array<X,RANK,I,J,K,L,M,N>::data()
 {
-  return mData.data();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X* array<X>::data() const
+const X* array<X,RANK,I,J,K,L,M,N>::data() const
 {
-  return mData.data();
+  return std::begin(mData);
 }
 
 // =================================================================================================
 // iterators : begin() and end()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::begin()
+auto array<X,RANK,I,J,K,L,M,N>::begin()
 {
-  return mData.begin();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::begin() const
+auto array<X,RANK,I,J,K,L,M,N>::begin() const
 {
-  return mData.begin();
+  return std::begin(mData);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::end()
+auto array<X,RANK,I,J,K,L,M,N>::end()
 {
-  return mData.end();
+  return std::begin(mData) + mSize;
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::end() const
+auto array<X,RANK,I,J,K,L,M,N>::end() const
 {
-  return mData.end();
+  return std::begin(mData) + mSize;
 }
 
 // =================================================================================================
 // iterators : index()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::index(size_t i)
+auto array<X,RANK,I,J,K,L,M,N>::index(size_t i)
 {
   assert( i < mSize );
 
@@ -834,9 +807,9 @@ auto array<X>::index(size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::index(size_t i) const
+auto array<X,RANK,I,J,K,L,M,N>::index(size_t i) const
 {
   assert( i < mSize );
 
@@ -847,9 +820,9 @@ auto array<X>::index(size_t i) const
 // iterators : item()
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a)
 {
   assert( mRank >= 1 );
 
@@ -861,9 +834,9 @@ auto array<X>::item(size_t a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a) const
 {
   assert( mRank >= 1 );
 
@@ -875,9 +848,9 @@ auto array<X>::item(size_t a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b)
 {
   assert( mRank >= 2 );
 
@@ -891,9 +864,9 @@ auto array<X>::item(size_t a, size_t b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b) const
 {
   assert( mRank >= 2 );
 
@@ -907,9 +880,9 @@ auto array<X>::item(size_t a, size_t b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c)
 {
   assert( mRank >= 3 );
 
@@ -925,9 +898,9 @@ auto array<X>::item(size_t a, size_t b, size_t c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c) const
 {
   assert( mRank >= 3 );
 
@@ -943,9 +916,9 @@ auto array<X>::item(size_t a, size_t b, size_t c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d)
 {
   assert( mRank >= 4 );
 
@@ -963,9 +936,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d) const
 {
   assert( mRank >= 4 );
 
@@ -983,9 +956,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
   assert( mRank >= 5 );
 
@@ -1005,9 +978,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
   assert( mRank >= 5 );
 
@@ -1027,9 +1000,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
   assert( mRank >= 6 );
 
@@ -1051,9 +1024,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
   assert( mRank >= 6 );
 
@@ -1077,9 +1050,9 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) 
 // initialize
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-void array<X>::setRandom(X lower, X upper)
+void array<X,RANK,I,J,K,L,M,N>::setRandom(X lower, X upper)
 {
   // type of random number distribution
   std::uniform_real_distribution<X> dist(lower, upper);
@@ -1096,56 +1069,56 @@ void array<X>::setRandom(X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-void array<X>::setArange()
+void array<X,RANK,I,J,K,L,M,N>::setArange()
 {
   std::iota(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-void array<X>::setZero()
+void array<X,RANK,I,J,K,L,M,N>::setZero()
 {
   std::fill(begin(), end(), static_cast<X>(0));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-void array<X>::setOnes()
+void array<X,RANK,I,J,K,L,M,N>::setOnes()
 {
   std::fill(begin(), end(), static_cast<X>(1));
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-void array<X>::setConstant(X D)
+void array<X,RANK,I,J,K,L,M,N>::setConstant(X D)
 {
   std::fill(begin(), end(), D);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-void array<X>::setCopy(Iterator first)
+void array<X,RANK,I,J,K,L,M,N>::setCopy(Iterator first)
 {
   std::copy(first, first+mSize, begin());
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-void array<X>::setCopy(Iterator first, Iterator last)
+void array<X,RANK,I,J,K,L,M,N>::setCopy(Iterator first, Iterator last)
 {
   assert( mSize == static_cast<size_t>(last-first) );
 
@@ -1156,20 +1129,20 @@ void array<X>::setCopy(Iterator first, Iterator last)
 // copy to target
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-void array<X>::copyTo(Iterator first) const
+void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first) const
 {
   std::copy(begin(), end(), first);
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
-void array<X>::copyTo(Iterator first, Iterator last) const
+void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
 {
   assert( mSize == static_cast<size_t>(last-first) );
 
@@ -1182,11 +1155,11 @@ void array<X>::copyTo(Iterator first, Iterator last) const
 // sign change
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::operator- () const
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::operator- () const
 {
-  array<X> out(shape());
+  array<X,RANK,I,J,K,L,M,N> out(shape());
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = -mData[i];
@@ -1196,11 +1169,11 @@ array<X> array<X>::operator- () const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::operator+ () const
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::operator+ () const
 {
-  array<X> out(shape());
+  array<X,RANK,I,J,K,L,M,N> out(shape());
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = mData[i];
@@ -1212,14 +1185,10 @@ array<X> array<X>::operator+ () const
 // arithmetic operators
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator*= (const array<X> &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator*= (const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
-
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B[i];
 
@@ -1228,14 +1197,10 @@ array<X>& array<X>::operator*= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator/= (const array<X> &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator/= (const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
-
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B[i];
 
@@ -1244,14 +1209,10 @@ array<X>& array<X>::operator/= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator+= (const array<X> &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator+= (const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
-
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B[i];
 
@@ -1260,14 +1221,10 @@ array<X>& array<X>::operator+= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator-= (const array<X> &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator-= (const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
-
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B[i];
 
@@ -1276,9 +1233,9 @@ array<X>& array<X>::operator-= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator*= (const X &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator*= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B;
@@ -1288,9 +1245,9 @@ array<X>& array<X>::operator*= (const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator/= (const X &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator/= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B;
@@ -1300,9 +1257,9 @@ array<X>& array<X>::operator/= (const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator+= (const X &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator+= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B;
@@ -1312,9 +1269,9 @@ array<X>& array<X>::operator+= (const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X>& array<X>::operator-= (const X &B)
+array<X,RANK,I,J,K,L,M,N>& array<X,RANK,I,J,K,L,M,N>::operator-= (const X &B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B;
@@ -1326,11 +1283,11 @@ array<X>& array<X>::operator-= (const X &B)
 // absolute value
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> array<X>::abs() const
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::abs() const
 {
-  array<X> out(shape());
+  array<X,RANK,I,J,K,L,M,N> out;
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = std::abs(mData[i]);
@@ -1342,9 +1299,9 @@ array<X> array<X>::abs() const
 // norm
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X array<X>::norm() const
+X array<X,RANK,I,J,K,L,M,N>::norm() const
 {
   X out = static_cast<X>(0);
 
@@ -1358,29 +1315,29 @@ X array<X>::norm() const
 // return the indices that would sort the array
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<size_t> array<X>::argsort(bool ascending) const
+array<size_t,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::argsort(bool ascending) const
 {
-  return array<size_t>(shape(), cppmat::argsort(mData, ascending));
+  return array<size_t,RANK,I,J,K,L,M,N>(cppmat::argsort((*this).asVector(), ascending));
 }
 
 // =================================================================================================
 // location of the minimum/maximum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::argmin() const
+size_t array<X,RANK,I,J,K,L,M,N>::argmin() const
 {
   return std::min_element(begin(), end()) - begin();
 }
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X>::argmax() const
+size_t array<X,RANK,I,J,K,L,M,N>::argmax() const
 {
   return std::max_element(begin(), end()) - begin();
 }
@@ -1389,348 +1346,65 @@ size_t array<X>::argmax() const
 // minimum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X array<X>::min() const
+X array<X,RANK,I,J,K,L,M,N>::min() const
 {
   return *std::min_element(begin(),end());
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::min(size_t axis) const
-{
-  // check input
-  assert( axis < mRank );
-
-  // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(shape(),axis), max());
-
-  // extended strides
-  // - copy strides
-  std::vector<size_t> estrides = strides();
-  // - insert total size at the beginning
-  estrides.insert(estrides.begin(), mSize);
-
-  // extract sizes
-  size_t n = estrides[axis  ];
-  size_t m = estrides[axis+1];
-
-  // perform reduction
-  for ( size_t i = 0 ; i < mSize ; ++i )
-  {
-    // - get the new index
-    size_t ni = i/n*m + i%m;
-    // - store
-    out[ni] = std::min(out[ni], mData[i]);
-  }
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::min(int axis) const
-{
-  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
-
-  // get number of dimensions as integer
-  int n = static_cast<int>(mRank);
-
-  // correct periodic axis
-  axis = ( n + (axis%n) ) % n;
-
-  // compute
-  return min(static_cast<size_t>(axis));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::min(const std::vector<int> &axes_in) const
-{
-  // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
-
-  // copy array
-  array<X> out = (*this);
-
-  // loop to compute
-  for ( auto &axis : axes )
-    out = out.min(axis);
-
-  return out;
 }
 
 // =================================================================================================
 // maximum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X array<X>::max() const
+X array<X,RANK,I,J,K,L,M,N>::max() const
 {
   return *std::max_element(begin(),end());
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::max(size_t axis) const
-{
-  // check input
-  assert( axis < mRank );
-
-  // initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Constant(del(shape(),axis), min());
-
-  // extended strides
-  // - copy strides
-  std::vector<size_t> estrides = strides();
-  // - insert total size at the beginning
-  estrides.insert(estrides.begin(), mSize);
-
-  // extract sizes
-  size_t n = estrides[axis  ];
-  size_t m = estrides[axis+1];
-
-  // perform reduction
-  for ( size_t i = 0 ; i < mSize ; ++i )
-  {
-    // - get the new index
-    size_t ni = i/n*m + i%m;
-    // - store
-    out[ni] = std::max(out[ni], mData[i]);
-  }
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::max(int axis) const
-{
-  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
-
-  // get number of dimensions as integer
-  int n = static_cast<int>(mRank);
-
-  // correct periodic axis
-  axis = ( n + (axis%n) ) % n;
-
-  // compute
-  return max(static_cast<size_t>(axis));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::max(const std::vector<int> &axes_in) const
-{
-  // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
-
-  // copy array
-  array<X> out = (*this);
-
-  // loop to compute
-  for ( auto &axis : axes )
-    out = out.max(axis);
-
-  return out;
 }
 
 // =================================================================================================
 // sum
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-X array<X>::sum() const
+X array<X,RANK,I,J,K,L,M,N>::sum() const
 {
   return std::accumulate(begin(), end(), static_cast<X>(0));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::sum(size_t axis) const
-{
-  // zero-initialize output to the same shape as the input, with one axis removed
-  array<X> out = array<X>::Zero(del(shape(),axis));
-
-  // extended strides
-  // - copy strides
-  std::vector<size_t> estrides = strides();
-  // - insert total size at the beginning
-  estrides.insert(estrides.begin(), mSize);
-
-  // extract sizes
-  size_t n = estrides[axis  ];
-  size_t m = estrides[axis+1];
-
-  // perform reduction
-  for ( size_t i = 0 ; i < mSize ; ++i )
-  {
-    // - get the new index
-    size_t ni = i/n*m + i%m;
-    // - store
-    out[ni] += mData[i];
-  }
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::sum(int axis) const
-{
-  // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
-
-  // get number of dimensions as integer
-  int n = static_cast<int>(mRank);
-
-  // correct periodic axis
-  axis = ( n + (axis%n) ) % n;
-
-  // compute
-  return sum(static_cast<size_t>(axis));
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::sum(const std::vector<int> &axes_in) const
-{
-  // check rank
-  assert( axes_in.size() < mRank );
-
-  // correct for 'periodicity', sort from high to low
-  std::vector<int> axes = Private::sort_axes(axes_in, static_cast<int>(mRank), true);
-
-  // copy array
-  array<X> out = (*this);
-
-  // loop to compute
-  for ( auto &axis : axes )
-    out = out.sum(axis);
-
-  return out;
 }
 
 // =================================================================================================
 // mean
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-double array<X>::mean() const
+double array<X,RANK,I,J,K,L,M,N>::mean() const
 {
   return static_cast<double>(sum())/static_cast<double>(mSize);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::mean(size_t axis) const
-{
-  array<X> weights = array<X>::Ones(shape());
-
-  return (*this).sum(axis) / weights.sum(axis);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::mean(int axis) const
-{
-  array<X> weights = array<X>::Ones(shape());
-
-  return (*this).sum(axis) / weights.sum(axis);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::mean(const std::vector<int> &axes) const
-{
-  array<X> weights = array<X>::Ones(shape());
-
-  return (*this).sum(axes) / weights.sum(axes);
 }
 
 // =================================================================================================
 // weighted average
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-double array<X>::average(const array<X> &weights, bool norm) const
+double array<X,RANK,I,J,K,L,M,N>::average(const array<X,RANK,I,J,K,L,M,N> &weights, bool norm) const
 {
   if ( norm ) return static_cast<double>((weights*(*this)).sum())/static_cast<double>(weights.sum());
   else        return static_cast<double>((weights*(*this)).sum());
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::average(const array<X> &weights, size_t axis, bool norm) const
-{
-  if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
-  else        return (weights*(*this)).sum(axis);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::average(const array<X> &weights, int axis, bool norm) const
-{
-  if ( norm ) return (weights*(*this)).sum(axis) / weights.sum(axis);
-  else        return (weights*(*this)).sum(axis);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X> array<X>::average(
-  const array<X> &weights, const std::vector<int> &axes, bool norm) const
-{
-  if ( norm ) return (weights*(*this)).sum(axes) / weights.sum(axes);
-  else        return (weights*(*this)).sum(axes);
 }
 
 // =================================================================================================
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<size_t> array<X>::where() const
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where() const
 {
   size_t nnz = 0;
 
@@ -1756,9 +1430,9 @@ std::vector<size_t> array<X>::where() const
 // find the plain storage indices of all entries equal to some constant
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<size_t> array<X>::where(X D) const
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where(X D) const
 {
   size_t nnz = 0;
 
@@ -1784,9 +1458,9 @@ std::vector<size_t> array<X>::where(X D) const
 // formatted print
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::ostream& operator<<(std::ostream& out, const array<X>& src)
+std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src)
 {
   auto w = out.width();
   auto p = out.precision();
@@ -1829,9 +1503,9 @@ std::ostream& operator<<(std::ostream& out, const array<X>& src)
 // arithmetic operators: external
 // =================================================================================================
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator* (array<X> A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
   A *= B;
 
@@ -1840,9 +1514,9 @@ array<X> operator* (array<X> A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator/ (array<X> A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
   A /= B;
 
@@ -1851,9 +1525,9 @@ array<X> operator/ (array<X> A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator+ (array<X> A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
   A += B;
 
@@ -1862,9 +1536,9 @@ array<X> operator+ (array<X> A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator- (array<X> A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
   A -= B;
 
@@ -1873,9 +1547,9 @@ array<X> operator- (array<X> A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator* (array<X> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const X &B)
 {
   A *= B;
 
@@ -1884,9 +1558,9 @@ array<X> operator* (array<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator/ (array<X> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const X &B)
 {
   A /= B;
 
@@ -1895,9 +1569,9 @@ array<X> operator/ (array<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator+ (array<X> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const X &B)
 {
   A += B;
 
@@ -1906,9 +1580,9 @@ array<X> operator+ (array<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator- (array<X> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const X &B)
 {
   A -= B;
 
@@ -1917,9 +1591,9 @@ array<X> operator- (array<X> A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator* (const X &A, array<X> B)
+array<X,RANK,I,J,K,L,M,N> operator* (const X &A, array<X,RANK,I,J,K,L,M,N> B)
 {
   B *= A;
 
@@ -1928,11 +1602,11 @@ array<X> operator* (const X &A, array<X> B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator/ (const X &A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator/ (const X &A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  array<X> C(B.shape());
+  array<X,RANK,I,J,K,L,M,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -1942,9 +1616,9 @@ array<X> operator/ (const X &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator+ (const X &A, array<X> B)
+array<X,RANK,I,J,K,L,M,N> operator+ (const X &A, array<X,RANK,I,J,K,L,M,N> B)
 {
   B += A;
 
@@ -1953,11 +1627,11 @@ array<X> operator+ (const X &A, array<X> B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X> operator- (const X &A, const array<X> &B)
+array<X,RANK,I,J,K,L,M,N> operator- (const X &A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
-  array<X> C(B.shape());
+  array<X,RANK,I,J,K,L,M,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];
@@ -1967,7 +1641,7 @@ array<X> operator- (const X &A, const array<X> &B)
 
 // =================================================================================================
 
-} // namespace ...
+}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

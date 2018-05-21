@@ -11,7 +11,7 @@
 
 // -------------------------------------------------------------------------------------------------
 
-#define CPPMAT_NOCONVERT
+// #define CPPMAT_NOCONVERT
 // #include <cppmat/cppmat.h>
 #include "../src/cppmat/cppmat.h"
 
