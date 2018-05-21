@@ -44,20 +44,9 @@ array<X>::array(const cppmat::array<X> &A) : cppmat::array<X>(A)
     mStridesI[i] = static_cast<int>(this->mStrides[i]);
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X>::array(const std::vector<size_t> &shape, const std::vector<X> &D) : cppmat::array<X>(shape, D)
-{
-  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
-    mShapeI[i] = static_cast<int>(this->mShape[i]);
-
-  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
-    mStridesI[i] = static_cast<int>(this->mStrides[i]);
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -118,6 +107,19 @@ array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
   array<X> out(shape);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &D)
+{
+  array<X> out(shape);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }

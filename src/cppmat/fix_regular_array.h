@@ -42,25 +42,24 @@ public:
 
   // constructor: copy
   array(const array<X,RANK,I,J,K,L,M,N> &A);
+  array(const cppmat::array<X>          &A);
 
-  // constructor: copy
-  array(const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static array<X,RANK,I,J,K,L,M,N> Random  (X lower=(X)0, X upper=(X)1);
   static array<X,RANK,I,J,K,L,M,N> Arange  ();
   static array<X,RANK,I,J,K,L,M,N> Zero    ();
   static array<X,RANK,I,J,K,L,M,N> Ones    ();
   static array<X,RANK,I,J,K,L,M,N> Constant(X D);
 
-  // constructor: copy
+  // named constructor: copy
+  static array<X,RANK,I,J,K,L,M,N> Copy(const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first);
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first, It last);
 
   // copy constructor
-  #ifndef CPPMAT_NOCONVERT
   operator cppmat::array<X> () const;
-  #endif
 
   // return plain storage as vector
   std::vector<X> asVector() const;

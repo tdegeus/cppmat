@@ -36,19 +36,12 @@ public:
   tensor2(size_t nd);
 
   // constructor: copy
-  tensor2(const cppmat::array <X> &A);
-  tensor2(const cppmat::matrix<X> &A);
-
-  // constructor: copy
-  #ifndef CPPMAT_NOCONVERT
+  tensor2(const cppmat::           array <X> &A);
+  tensor2(const cppmat::           matrix<X> &A);
   tensor2(const cppmat::symmetric::matrix<X> &A);
   tensor2(const cppmat::diagonal ::matrix<X> &A);
-  #endif
 
-  // constructor: copy
-  tensor2(size_t nd, const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static tensor2<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2<X> Arange  (size_t nd);
   static tensor2<X> Zero    (size_t nd);
@@ -56,7 +49,10 @@ public:
   static tensor2<X> Constant(size_t nd, X D);
   static tensor2<X> I       (size_t nd);
 
-  // constructor: initialize by copying from external object
+  // named constructor: copy
+  static tensor2<X> Copy(size_t nd, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename Iterator> static tensor2<X> Copy(size_t nd, Iterator first);
   template<typename Iterator> static tensor2<X> Copy(size_t nd, Iterator first, Iterator last);
 

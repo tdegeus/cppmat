@@ -42,17 +42,17 @@ public:
   // constructor: copy
   array(const array<X> &A);
 
-  // constructor: copy
-  array(const std::vector<size_t> &shape, const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static array<X> Random  (const std::vector<size_t> &shape, X lower=(X)0, X upper=(X)1);
   static array<X> Arange  (const std::vector<size_t> &shape);
   static array<X> Zero    (const std::vector<size_t> &shape);
   static array<X> Ones    (const std::vector<size_t> &shape);
   static array<X> Constant(const std::vector<size_t> &shape, X D);
 
-  // constructor: copy
+  // named constructor: copy
+  static array<X> Copy(const std::vector<size_t> &shape, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first);
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
 

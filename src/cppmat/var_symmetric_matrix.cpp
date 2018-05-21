@@ -42,7 +42,6 @@ matrix<X>::matrix(const matrix<X> &A)
 
 // -------------------------------------------------------------------------------------------------
 
-#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
 matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A)
@@ -53,9 +52,10 @@ matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A)
     for ( size_t j = 0 ; j < N ; ++j )
       (*this)(i,j) = A(i,j);
 }
-#endif
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -149,18 +149,7 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 }
 
 // =================================================================================================
-// return plain storage as vector
-// =================================================================================================
-
-template<class X>
-inline
-std::vector<X> matrix<X>::asVector() const
-{
-  return mData;
-}
-
-// =================================================================================================
-// copy from dense storage
+// named constructor: copy from dense storage
 // =================================================================================================
 
 template<class X>
@@ -191,6 +180,17 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last
   out.setCopyDense(first,last);
 
   return out;
+}
+
+// =================================================================================================
+// return plain storage as vector
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<X> matrix<X>::asVector() const
+{
+  return mData;
 }
 
 // =================================================================================================
@@ -274,24 +274,6 @@ std::vector<size_t> matrix<X>::shape() const
   std::fill(shape.begin(), shape.end(), N);
 
   return shape;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-size_t matrix<X>::rows() const
-{
-  return N;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-size_t matrix<X>::cols() const
-{
-  return N;
 }
 
 // =================================================================================================

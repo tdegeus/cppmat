@@ -22,11 +22,6 @@ namespace cppmat {
 template<class X>
 class matrix : public cppmat::array<X>
 {
-protected:
-
-  size_t M=0; // number of rows
-  size_t N=0; // number of columns
-
 private:
 
   // hide functions
@@ -49,41 +44,27 @@ public:
   matrix(size_t m, size_t n);
 
   // constructor: copy
-  matrix(const cppmat::array<X> &A);
-
-  // constructor: copy
-  #ifndef CPPMAT_NOCONVERT
+  matrix(const cppmat::           array <X> &A);
   matrix(const cppmat::symmetric::matrix<X> &A);
   matrix(const cppmat::diagonal ::matrix<X> &A);
-  #endif
 
-  // constructor: copy
-  matrix(size_t m, size_t n, const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static matrix<X> Random  (size_t m, size_t n, X lower=(X)0, X upper=(X)1);
   static matrix<X> Arange  (size_t m, size_t n);
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);
   static matrix<X> Constant(size_t m, size_t n, X D);
 
-  // constructor: copy
+  // named constructor: copy
+  static matrix<X> Copy(size_t m, size_t n, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename Itr> static matrix<X> Copy(size_t m, size_t n, Itr first);
   template<typename Itr> static matrix<X> Copy(size_t m, size_t n, Itr first, Itr last);
 
   // resize
   void resize (size_t m, size_t n);
   void reshape(size_t m, size_t n);
-
-  // get dimensions
-  size_t rows() const;
-  size_t cols() const;
-
-  // iterator to the first and last entry of a row
-  auto beginRow(size_t i);
-  auto beginRow(size_t i) const;
-  auto endRow  (size_t i);
-  auto endRow  (size_t i) const;
 
   // extra arithmetic operators
   matrix<X>& operator*= (const cppmat::symmetric::matrix<X> &B);

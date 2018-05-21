@@ -4,7 +4,6 @@
 
 ================================================================================================= */
 
-
 #ifndef CPPMAT_VAR_CARTESIAN_TENSOR2S_CPP
 #define CPPMAT_VAR_CARTESIAN_TENSOR2S_CPP
 
@@ -39,16 +38,16 @@ tensor2s<X>::tensor2s(const cppmat::symmetric::matrix<X> &A) : cppmat::symmetric
 
 // -------------------------------------------------------------------------------------------------
 
-#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
 tensor2s<X>::tensor2s(const cppmat::diagonal::matrix<X> &A) : cppmat::symmetric::matrix<X>(A)
 {
   ND = this->N;
 }
-#endif
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline

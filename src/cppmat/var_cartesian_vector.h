@@ -38,18 +38,20 @@ public:
   // constructor: copy
   vector(const cppmat::array <X> &A);
   vector(const cppmat::vector<X> &A);
+  vector(const std   ::vector<X> &A);  
 
-  // constructor: copy
-  vector(const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static vector<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static vector<X> Arange  (size_t nd);
   static vector<X> Zero    (size_t nd);
   static vector<X> Ones    (size_t nd);
   static vector<X> Constant(size_t nd, X D);
 
-  // constructor: initialize by copying from external object
+  // named constructor: copy
+  static vector<X> Copy(           const std::vector<X> &D);
+  static vector<X> Copy(size_t nd, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first);
   template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first, Iterator last);
 

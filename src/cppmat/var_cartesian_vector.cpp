@@ -33,7 +33,7 @@ template<class X>
 inline
 vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
 {
-  ND = this->N;
+  ND = this->mShape[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ template<class X>
 inline
 vector<X>::vector(const cppmat::vector<X> &A) : cppmat::vector<X>(A)
 {
-  ND = this->N;
+  ND = this->mShape[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -51,10 +51,12 @@ template<class X>
 inline
 vector<X>::vector(const std::vector<X> &D) : cppmat::vector<X>(D)
 {
-  ND = this->N;
+  ND = this->mShape[0];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -115,6 +117,32 @@ vector<X> vector<X>::Constant(size_t nd, X D)
   vector<X> out(nd);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+vector<X> vector<X>::Copy(const std::vector<X> &D)
+{
+  vector<X> out(D.size());
+
+  out.setCopy(D.begin(), D.end());
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+vector<X> vector<X>::Copy(size_t nd, const std::vector<X> &D)
+{
+  vector<X> out(nd);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }

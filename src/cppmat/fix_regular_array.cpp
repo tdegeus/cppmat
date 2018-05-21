@@ -63,7 +63,7 @@ array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N>::array(const std::vector<X> &D)
+array<X,RANK,I,J,K,L,M,N>::array(const cppmat::array<X> &A)
 {
   mShape[0] = I;  mStrides[0] = J*K*L*M*N;
   mShape[1] = J;  mStrides[1] = K*L*M*N;
@@ -72,10 +72,12 @@ array<X,RANK,I,J,K,L,M,N>::array(const std::vector<X> &D)
   mShape[4] = M;  mStrides[4] = N;
   mShape[5] = N;  mStrides[5] = 1;
 
-  setCopy(D.begin(), D.end());
+  setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
@@ -143,6 +145,19 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Constant(X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(const std::vector<X> &D)
+{
+  array<X,RANK,I,J,K,L,M,N> out;
+
+  out.setCopy(D.begin(), D.end());
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename Iterator>
 inline
 array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(Iterator first)
@@ -172,13 +187,11 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(Iterator first, Iterat
 // copy constructor
 // =================================================================================================
 
-#ifndef CPPMAT_NOCONVERT
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline array<X,RANK,I,J,K,L,M,N>::operator cppmat::array<X> () const
 {
   return cppmat::array<X>::Copy(shape(), begin(), end());
 }
-#endif
 
 
 // =================================================================================================

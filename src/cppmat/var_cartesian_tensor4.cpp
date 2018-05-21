@@ -38,16 +38,9 @@ tensor4<X>::tensor4(const cppmat::array<X> &A) : cppmat::array<X>(A)
   ND = this->mShape[0];
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-tensor4<X>::tensor4(size_t nd, const std::vector<X> &D) : cppmat::array<X>({nd,nd,nd,nd}, D)
-{
-  ND = nd;
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -108,6 +101,19 @@ tensor4<X> tensor4<X>::Constant(size_t nd, X D)
   tensor4<X> out(nd);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+tensor4<X> tensor4<X>::Copy(size_t nd, const std::vector<X> &D)
+{
+  tensor4<X> out(nd);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }

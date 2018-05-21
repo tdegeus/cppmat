@@ -33,7 +33,7 @@ template<class X>
 inline
 tensor2<X>::tensor2(const cppmat::array<X> &A) : cppmat::matrix<X>(A)
 {
-  ND = this->M;
+  ND = this->mShape[0];
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -42,41 +42,30 @@ template<class X>
 inline
 tensor2<X>::tensor2(const cppmat::matrix<X> &A) : cppmat::matrix<X>(A)
 {
-  ND = this->M;
+  ND = this->mShape[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
 tensor2<X>::tensor2(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A)
 {
-  ND = this->M;
+  ND = this->mShape[0];
 }
-#endif
-
-// -------------------------------------------------------------------------------------------------
-
-#ifndef CPPMAT_NOCONVERT
-template<class X>
-inline
-tensor2<X>::tensor2(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A)
-{
-  ND = this->M;
-}
-#endif
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-tensor2<X>::tensor2(size_t nd, const std::vector<X> &D) : cppmat::matrix<X>(nd,nd, D)
+tensor2<X>::tensor2(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A)
 {
-  ND = nd;
+  ND = this->mShape[0];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -137,6 +126,19 @@ tensor2<X> tensor2<X>::Constant(size_t nd, X D)
   tensor2<X> out(nd);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+tensor2<X> tensor2<X>::Copy(size_t nd, const std::vector<X> &D)
+{
+  tensor2<X> out(nd);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }

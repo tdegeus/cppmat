@@ -23,8 +23,6 @@ template<class X>
 inline
 matrix<X>::matrix(size_t m, size_t n) : cppmat::array<X>({m,n})
 {
-  M = m;
-  N = n;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -34,48 +32,33 @@ inline
 matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 2 );
-
-  M = this->mShape[0];
-  N = this->mShape[1];
 }
 
 // -------------------------------------------------------------------------------------------------
 
-#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
 matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
 {
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
+  for ( size_t i = 0 ; i < A.shape(0) ; ++i )
+    for ( size_t j = 0 ; j < A.shape(1) ; ++j )
       (*this)(i,j) = A(i,j);
 }
-#endif
 
 // -------------------------------------------------------------------------------------------------
 
-#ifndef CPPMAT_NOCONVERT
 template<class X>
 inline
 matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
 {
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
+  for ( size_t i = 0 ; i < A.shape(0) ; ++i )
+    for ( size_t j = 0 ; j < A.shape(1) ; ++j )
       (*this)(i,j) = A(i,j);
 }
-#endif
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X>::matrix(size_t m, size_t n, const std::vector<X> &D) : cppmat::array<X>({m,n}, D)
-{
-  M = m;
-  N = n;
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -143,6 +126,19 @@ matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+inline
+matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
+{
+  matrix<X> out(m,n);
+
+  out.setCopy(D.begin(), D.end());
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
 template<typename Iterator>
 inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
@@ -176,9 +172,6 @@ template<class X>
 inline
 void matrix<X>::resize(size_t m, size_t n)
 {
-  M = m;
-  N = n;
-
   cppmat::array<X>::resize({m,n});
 }
 
@@ -188,78 +181,7 @@ template<class X>
 inline
 void matrix<X>::reshape(size_t m, size_t n)
 {
-  assert( m*n == this->mSize );
-
-  M = m;
-  N = n;
-
-  cppmat::array<X>::resize({m,n});
-}
-
-// =================================================================================================
-// get dimensions
-// =================================================================================================
-
-template<class X>
-inline
-size_t matrix<X>::rows() const
-{
-  return M;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-size_t matrix<X>::cols() const
-{
-  return N;
-}
-
-// =================================================================================================
-// iterators : beginRow() and endRow()
-// =================================================================================================
-
-template<class X>
-inline
-auto matrix<X>::beginRow(size_t a)
-{
-  assert( a < M );
-
-  return this->begin() + a * N;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-auto matrix<X>::beginRow(size_t a) const
-{
-  assert( a < M );
-
-  return this->begin() + a * N;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-auto matrix<X>::endRow(size_t a)
-{
-  assert( a < M );
-
-  return this->begin() + (a+1) * N;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-auto matrix<X>::endRow(size_t a) const
-{
-  assert( a < M );
-
-  return this->begin() + (a+1) * N;
+  cppmat::array<X>::reshape({m,n});
 }
 
 // =================================================================================================

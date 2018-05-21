@@ -43,10 +43,7 @@ public:
   // constructor: copy
   tensor4(const cppmat::array<X> &A);
 
-  // constructor: copy
-  tensor4(size_t nd, const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static tensor4<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor4<X> Arange  (size_t nd);
   static tensor4<X> Zero    (size_t nd);
@@ -59,7 +56,10 @@ public:
   static tensor4<X> Isd     (size_t nd);
   static tensor4<X> II      (size_t nd);
 
-  // constructor: initialize by copying from external object
+  // named constructor: copy
+  static tensor4<X> Copy(size_t nd, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename Iterator> static tensor4<X> Copy(size_t nd, Iterator first);
   template<typename Iterator> static tensor4<X> Copy(size_t nd, Iterator first, Iterator last);
 

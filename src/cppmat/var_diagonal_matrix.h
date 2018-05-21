@@ -43,14 +43,14 @@ public:
   // constructor: copy
   matrix(const matrix<X> &A);
 
-  // constructor: initialize
+  // named constructor: initialize
   static matrix<X> Random  (size_t m, size_t n, X lower=(X)0, X upper=(X)1);
   static matrix<X> Arange  (size_t m, size_t n);
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);
   static matrix<X> Constant(size_t m, size_t n, X D);
 
-  // constructor: copy
+  // named constructor: copy
   template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first);
   template<typename Itr> static matrix<X> Copy     (size_t m, size_t n, Itr first, Itr last);
   template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first);
@@ -65,8 +65,6 @@ public:
   // get dimensions
   size_t size() const;
   size_t rank() const;
-  size_t rows() const;
-  size_t cols() const;
   size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
@@ -132,8 +130,8 @@ public:
   matrix<X>& operator/= (const        X  &B);
 
   // extra arithmetic operators
-  matrix<X>& operator*= (const cppmat::matrix<X> &B);
-  matrix<X>& operator/= (const cppmat::matrix<X> &B);
+  matrix<X>& operator*= (const cppmat::           matrix<X> &B);
+  matrix<X>& operator/= (const cppmat::           matrix<X> &B);
   matrix<X>& operator*= (const cppmat::symmetric::matrix<X> &B);
   matrix<X>& operator/= (const cppmat::symmetric::matrix<X> &B);
 

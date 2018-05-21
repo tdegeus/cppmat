@@ -37,18 +37,9 @@ array<X>::array(const array<X> &A)
   setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-array<X>::array(const std::vector<size_t> &shape, const std::vector<X> &D)
-{
-  resize(shape);
-
-  setCopy(D.begin(), D.end());
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors
+// =================================================================================================
 
 template<class X>
 inline
@@ -109,6 +100,19 @@ array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
   array<X> out(shape);
 
   out.setConstant(D);
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &D)
+{
+  array<X> out(shape);
+
+  out.setCopy(D.begin(), D.end());
 
   return out;
 }

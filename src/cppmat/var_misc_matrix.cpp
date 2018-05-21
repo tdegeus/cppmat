@@ -21,6 +21,8 @@ cppmat::matrix<X>& cppmat::matrix<X>::operator*= (const cppmat::symmetric::matri
 {
   assert( this->shape() == B.shape() );
 
+  size_t N = this->mShape[0];
+
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
       // - extract value
@@ -41,6 +43,8 @@ inline
 cppmat::matrix<X>& cppmat::matrix<X>::operator/= (const cppmat::symmetric::matrix<X> &B)
 {
   assert( this->shape() == B.shape() );
+
+  size_t N = this->mShape[0];
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -63,6 +67,8 @@ cppmat::matrix<X>& cppmat::matrix<X>::operator+= (const cppmat::symmetric::matri
 {
   assert( this->shape() == B.shape() );
 
+  size_t N = this->mShape[0];
+
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
       // - extract value
@@ -83,6 +89,8 @@ inline
 cppmat::matrix<X>& cppmat::matrix<X>::operator-= (const cppmat::symmetric::matrix<X> &B)
 {
   assert( this->shape() == B.shape() );
+
+  size_t N = this->mShape[0];
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -105,6 +113,8 @@ cppmat::matrix<X>& cppmat::matrix<X>::operator*= (const cppmat::diagonal::matrix
 {
   assert( this->shape() == B.shape() );
 
+  size_t N = this->mShape[0];
+
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
       if ( i == j ) this->mData[i*N+i] *= B[i];
@@ -123,6 +133,8 @@ cppmat::matrix<X>& cppmat::matrix<X>::operator+= (const cppmat::diagonal::matrix
 {
   assert( this->shape() == B.shape() );
 
+  size_t N = this->mShape[0];
+
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N+i] += B[i];
 
@@ -136,6 +148,8 @@ inline
 cppmat::matrix<X>& cppmat::matrix<X>::operator-= (const cppmat::diagonal::matrix<X> &B)
 {
   assert( this->shape() == B.shape() );
+
+  size_t N = this->mShape[0];
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N+i] -= B[i];

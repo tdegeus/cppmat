@@ -38,7 +38,7 @@ public:
   // constructor: copy
   tensor2d(const cppmat::diagonal::matrix<X> &A);
 
-  // constructor: initialize
+  // named constructor: initialize
   static tensor2d<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2d<X> Arange  (size_t nd);
   static tensor2d<X> Zero    (size_t nd);
@@ -46,7 +46,7 @@ public:
   static tensor2d<X> Constant(size_t nd, X D);
   static tensor2d<X> I       (size_t nd);
 
-  // constructor: initialize by copying from external object
+  // named constructor: copy
   template<typename Iterator> static tensor2d<X> Copy     (size_t nd, Iterator first);
   template<typename Iterator> static tensor2d<X> Copy     (size_t nd, Iterator first, Iterator last);
   template<typename Iterator> static tensor2d<X> CopyDense(size_t nd, Iterator first);

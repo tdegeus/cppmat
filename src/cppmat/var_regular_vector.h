@@ -22,10 +22,6 @@ namespace cppmat {
 template<class X>
 class vector : public cppmat::array<X>
 {
-protected:
-
-  size_t N=0; // number of entries
-
 private:
 
   // hide functions
@@ -42,18 +38,20 @@ public:
 
   // constructor: copy
   vector(const cppmat::array<X> &A);
+  vector(const std::vector<X>   &A);
 
-  // constructor: copy
-  vector(const std::vector<X> &D);
-
-  // constructor: initialize
+  // named constructor: initialize
   static vector<X> Random  (size_t n, X lower=(X)0, X upper=(X)1);
   static vector<X> Arange  (size_t n);
   static vector<X> Zero    (size_t n);
   static vector<X> Ones    (size_t n);
   static vector<X> Constant(size_t n, X D);
 
-  // constructor: copy
+  // named constructor: copy
+  static vector<X> Copy(          const std::vector<X> &D);
+  static vector<X> Copy(size_t n, const std::vector<X> &D);
+
+  // named constructor: copy
   template<typename Itr> static vector<X> Copy(size_t n, Itr first);
   template<typename Itr> static vector<X> Copy(size_t n, Itr first, Itr last);
 
