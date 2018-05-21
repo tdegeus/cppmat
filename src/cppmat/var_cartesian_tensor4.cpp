@@ -146,7 +146,9 @@ tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first, Iterator last)
   return out;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors: identity tensors
+// =================================================================================================
 
 template<class X>
 inline
@@ -249,7 +251,7 @@ size_t tensor4<X>::ndim() const
 }
 
 // =================================================================================================
-// initialize
+// initialize: identity tensors
 // =================================================================================================
 
 template<class X>
@@ -333,19 +335,7 @@ template<class X>
 inline
 tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor4<X> C = tensor4<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          for ( size_t m = 0 ; m < ND ; ++m )
-            for ( size_t n = 0 ; n < ND ; ++n )
-              C(i,j,m,n) += (*this)(i,j,k,l) * B(l,k,m,n);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -354,17 +344,7 @@ template<class X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(i,j) += (*this)(i,j,k,l) * B(l,k);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -373,17 +353,7 @@ template<class X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(i,j) += (*this)(i,j,k,l) * B(l,k);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -392,16 +362,7 @@ template<class X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        C(i,j) += (*this)(i,j,k,k) * B(k,k);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // =================================================================================================
@@ -412,15 +373,7 @@ template<class X>
 inline
 tensor4<X> tensor4<X>::T() const
 {
-  tensor4<X> C(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(l,k,j,i) = (*this)(i,j,k,l);
-
-  return C;
+  return cppmat::cartesian::T(*this);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -429,15 +382,7 @@ template<class X>
 inline
 tensor4<X> tensor4<X>::RT() const
 {
-  tensor4<X> C(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(i,j,l,k) = (*this)(i,j,k,l);
-
-  return C;
+  return cppmat::cartesian::RT(*this);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -446,15 +391,7 @@ template<class X>
 inline
 tensor4<X> tensor4<X>::LT() const
 {
-  tensor4<X> C(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(j,i,k,l) = (*this)(i,j,k,l);
-
-  return C;
+  return cppmat::cartesian::LT(*this);
 }
 
 // =================================================================================================
