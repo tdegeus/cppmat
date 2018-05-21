@@ -209,6 +209,7 @@ namespace cartesian {
 
 #include "fix_symmetric_matrix.h"
 #include "fix_diagonal_matrix.h"
+#include "fix_misc_matrix.h"
 
 #include "map_regular_array.h"
 
@@ -234,6 +235,7 @@ namespace cartesian {
 
 #include "fix_symmetric_matrix.cpp"
 #include "fix_diagonal_matrix.cpp"
+#include "fix_misc_matrix.cpp"
 
 #include "map_regular_array.cpp"
 

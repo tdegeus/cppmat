@@ -46,4 +46,7 @@ add_executable(${PROJECT_NAME}
   var_cartesian_tensor2d.cpp
   var_cartesian_vector.cpp
   fix_regular_array.cpp
+  fix_symmetric_matrix.cpp
+  fix_diagonal_matrix.cpp
+  fix_misc_matrix.cpp
 )

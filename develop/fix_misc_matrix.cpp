@@ -4,13 +4,13 @@
 static const size_t M = 11;
 static const size_t N = 11;
 
-typedef cppmat::diagonal ::matrix<double> dMat;
-typedef cppmat::symmetric::matrix<double> sMat;
-typedef cppmat::           matrix<double> Mat;
+typedef cppmat::tiny::diagonal ::matrix<double,M,N> dMat;
+typedef cppmat::tiny::symmetric::matrix<double,M,N> sMat;
+typedef cppmat::tiny::           matrix<double,M,N> Mat;
 
 // =================================================================================================
 
-TEST_CASE("cppmat::misc::matrix", "matrix.h")
+TEST_CASE("cppmat::tiny::misc::matrix", "matrix.h")
 {
 
 // =================================================================================================
@@ -22,8 +22,8 @@ SECTION( "matrix *= symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -41,8 +41,8 @@ SECTION( "matrix /= symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -60,8 +60,8 @@ SECTION( "matrix += symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -79,8 +79,8 @@ SECTION( "matrix -= symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -98,8 +98,8 @@ SECTION( "matrix *= diagonal::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeDiagonal(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -117,8 +117,8 @@ SECTION( "matrix += diagonal::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeDiagonal(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -136,8 +136,8 @@ SECTION( "matrix -= diagonal::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeDiagonal(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -157,8 +157,8 @@ SECTION( "symmetric::matrix *= diagonal::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -176,8 +176,8 @@ SECTION( "symmetric::matrix += diagonal::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -195,8 +195,8 @@ SECTION( "symmetric::matrix -= diagonal::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -216,8 +216,8 @@ SECTION( "diagonal::matrix *= matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -235,8 +235,8 @@ SECTION( "diagonal::matrix /= matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N));
   MatD b = MatD::Random(M,N) + MatD::Ones(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -254,8 +254,8 @@ SECTION( "diagonal::matrix *= symmetric::matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N));
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -273,8 +273,8 @@ SECTION( "diagonal::matrix /= symmetric::matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N));
   MatD b = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
@@ -294,8 +294,8 @@ SECTION( "matrix * symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -315,8 +315,8 @@ SECTION( "matrix / symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -336,8 +336,8 @@ SECTION( "matrix + symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -357,8 +357,8 @@ SECTION( "matrix - symmetric::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -378,8 +378,8 @@ SECTION( "matrix + diagonal::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeDiagonal(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -399,8 +399,8 @@ SECTION( "matrix - diagonal::matrix" )
   MatD a = MatD::Random(M,N);
   MatD b = makeDiagonal(MatD::Random(M,N));
 
-   Mat A =  Mat::Copy     (M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+   Mat A =  Mat::Copy     (a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -420,8 +420,8 @@ SECTION( "symmetric::matrix * matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -441,8 +441,8 @@ SECTION( "symmetric::matrix / matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = MatD::Random(M,N);
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -462,8 +462,8 @@ SECTION( "symmetric::matrix + matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -483,8 +483,8 @@ SECTION( "symmetric::matrix - matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -504,8 +504,8 @@ SECTION( "diagonal::matrix + matrix" )
   MatD a = makeDiagonal(MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -525,8 +525,8 @@ SECTION( "diagonal::matrix - matrix" )
   MatD a = makeDiagonal(MatD::Random(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -548,8 +548,8 @@ SECTION( "symmetric::matrix + diagonal::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -569,8 +569,8 @@ SECTION( "symmetric::matrix - diagonal::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -590,7 +590,7 @@ SECTION( "diagonal::matrix + scalar" )
   MatD   a = makeDiagonal(MatD::Random(M,N));
   double b = a(0,0);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -610,7 +610,7 @@ SECTION( "diagonal::matrix - scalar" )
   MatD   a = makeDiagonal(MatD::Random(M,N));
   double b = a(0,0);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -630,8 +630,8 @@ SECTION( "diagonal::matrix + symmetric::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -651,8 +651,8 @@ SECTION( "diagonal::matrix - symmetric::matrix" )
   MatD a = makeSymmetric(MatD::Random(M,N));
   MatD b = makeDiagonal (MatD::Random(M,N));
 
-  sMat A = sMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  dMat B = dMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  sMat A = sMat::CopyDense(a.data(), a.data()+a.size());
+  dMat B = dMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -672,7 +672,7 @@ SECTION( "scalar + diagonal::matrix" )
   MatD   a = makeDiagonal(MatD::Random(M,N));
   double b = a(0,0);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -692,7 +692,7 @@ SECTION( "scalar - diagonal::matrix" )
   MatD   a = makeDiagonal(MatD::Random(M,N));
   double b = a(0,0);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -714,8 +714,8 @@ SECTION( "diagonal::matrix * matrix" )
   MatD a = makeDiagonal(MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -735,8 +735,8 @@ SECTION( "diagonal::matrix / matrix" )
   MatD a = makeDiagonal(MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -756,8 +756,8 @@ SECTION( "diagonal::matrix * symmetric::matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -777,8 +777,8 @@ SECTION( "diagonal::matrix / symmetric::matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -798,8 +798,8 @@ SECTION( "diagonal::matrix * matrix" )
   MatD a = makeDiagonal(MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = MatD::Random(M,N);
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-   Mat B =  Mat::Copy     (M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+   Mat B =  Mat::Copy     (b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 
@@ -819,8 +819,8 @@ SECTION( "diagonal::matrix * symmetric::matrix" )
   MatD a = makeDiagonal (MatD::Random(M,N) + MatD::Ones(M,N));
   MatD b = makeSymmetric(MatD::Random(M,N));
 
-  dMat A = dMat::CopyDense(M, N, a.data(), a.data()+a.size());
-  sMat B = sMat::CopyDense(M, N, b.data(), b.data()+b.size());
+  dMat A = dMat::CopyDense(a.data(), a.data()+a.size());
+  sMat B = sMat::CopyDense(b.data(), b.data()+b.size());
 
   MatD c = MatD::Zero(M,N);
 

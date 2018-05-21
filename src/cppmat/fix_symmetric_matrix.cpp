@@ -859,7 +859,7 @@ template<class X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::abs() const
 {
-  matrix<X,M,N> out(N, N);
+  matrix<X,M,N> out;
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = std::abs(mData[i]);
@@ -1165,7 +1165,7 @@ template<class X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator/ (const X &A, const matrix<X,M,N> &B)
 {
-  matrix<X,M,N> C(B.shape(0), B.shape(1));
+  matrix<X,M,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -1190,7 +1190,7 @@ template<class X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator- (const X &A, const matrix<X,M,N> &B)
 {
-  matrix<X,M,N> C(B.shape(0), B.shape(1));
+  matrix<X,M,N> C;
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];

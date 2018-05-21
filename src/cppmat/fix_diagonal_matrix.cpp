@@ -781,7 +781,7 @@ template<class X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::abs() const
 {
-  matrix<X,M,N> out(N, N);
+  matrix<X,M,N> out;
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     out[i] = std::abs(mData[i]);
