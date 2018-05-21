@@ -37,10 +37,13 @@ public:
   matrix();
 
   // constructor: copy
+  matrix(const cppmat::view::           array <X,2,M,N> &A);
   matrix(const cppmat::tiny::           array <X,2,M,N> &A);
   matrix(const cppmat::tiny::symmetric::matrix<X,  M,N> &A);
   matrix(const cppmat::tiny::diagonal ::matrix<X,  M,N> &A);
 
+  // copy constructor
+  operator cppmat::matrix<X> () const;
 
   // extra arithmetic operators
   matrix<X,M,N>& operator*= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);

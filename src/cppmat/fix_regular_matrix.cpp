@@ -30,6 +30,15 @@ matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
 
 template<class X, size_t M, size_t N>
 inline
+matrix<X,M,N>::matrix(const cppmat::view::array<X,2,M,N> &A)
+{
+  this->setCopy(A.begin(), A.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
 matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
 {
 }
@@ -54,6 +63,16 @@ matrix<X,M,N>::matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A) : cppmat::
   for ( size_t i = 0 ; i < M ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       (*this)(i,j) = A(i,j);
+}
+
+// =================================================================================================
+// copy constructor
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline matrix<X,M,N>::operator cppmat::matrix<X> () const
+{
+  return cppmat::matrix<X>::Copy(M, N, this->begin(), this->end());
 }
 
 // =================================================================================================

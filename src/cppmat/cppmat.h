@@ -100,7 +100,7 @@ namespace cartesian {
 namespace cppmat {
 namespace tiny {
 
-  template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N> class array;
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
   template<class X, size_t M, size_t N> class matrix;
   template<class X, size_t M, size_t N> class vector;
 
@@ -140,6 +140,17 @@ namespace cartesian {
 
 }}}
 
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  // template<class X, size_t M, size_t N> class matrix;
+  // template<class X, size_t M, size_t N> class vector;
+
+}}
+
 // =================================================================================================
 
 #include "stl.h"
@@ -160,15 +171,8 @@ namespace cartesian {
 #include "var_cartesian_vector.h"
 #include "fix_regular_array.h"
 #include "fix_regular_matrix.h"
-// #include "fix_regular_vector.h"
-// #include "fix_symmetric_matrix.h"
-// #include "fix_diagonal_matrix.h"
-// #include "fix_misc_matrix.h"
-// #include "fix_cartesian_tensor4.h"
-// #include "fix_cartesian_tensor2.h"
-// #include "fix_cartesian_tensor2s.h"
-// #include "fix_cartesian_tensor2d.h"
-// #include "fix_cartesian_vector.h"
+
+#include "map_regular_array.h"
 
 #include "stl.cpp"
 #include "private.cpp"
@@ -188,15 +192,9 @@ namespace cartesian {
 #include "var_cartesian_vector.cpp"
 #include "fix_regular_array.cpp"
 #include "fix_regular_matrix.cpp"
-// #include "fix_regular_vector.cpp"
-// #include "fix_symmetric_matrix.cpp"
-// #include "fix_diagonal_matrix.cpp"
-// #include "fix_misc_matrix.cpp"
-// #include "fix_cartesian_tensor4.cpp"
-// #include "fix_cartesian_tensor2.cpp"
-// #include "fix_cartesian_tensor2s.cpp"
-// #include "fix_cartesian_tensor2d.cpp"
-// #include "fix_cartesian_vector.cpp"
+
+#include "map_regular_array.cpp"
+
 
 // =================================================================================================
 

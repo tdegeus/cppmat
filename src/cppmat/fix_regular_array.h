@@ -20,7 +20,7 @@ namespace tiny {
 // cppmat::array
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 class array
 {
 protected:
@@ -41,8 +41,9 @@ public:
   array();
 
   // constructor: copy
-  array(const array<X,RANK,I,J,K,L,M,N> &A);
-  array(const cppmat::array<X>          &A);
+  array(const               array<X,RANK,I,J,K,L,M,N> &A);
+  array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A);
+  array(const cppmat::      array<X>                  &A);
 
   // named constructor: initialize
   static array<X,RANK,I,J,K,L,M,N> Random  (X lower=(X)0, X upper=(X)1);
