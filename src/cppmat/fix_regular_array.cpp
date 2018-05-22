@@ -1537,106 +1537,173 @@ std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator*
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  A *= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator/
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  A /= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator+
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  A += B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator-
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  A -= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator* (array<X,RANK,I,J,K,L,M,N> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator*
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const X &B
+)
 {
-  A *= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator/ (array<X,RANK,I,J,K,L,M,N> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator/
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const X &B
+)
 {
-  A /= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator+ (array<X,RANK,I,J,K,L,M,N> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator+
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const X &B
+)
 {
-  A += B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator- (array<X,RANK,I,J,K,L,M,N> A, const X &B)
+array<X,RANK,I,J,K,L,M,N> operator-
+(
+  const array<X,RANK,I,J,K,L,M,N> &A,
+  const X &B
+)
 {
-  A -= B;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator* (const X &A, array<X,RANK,I,J,K,L,M,N> B)
+array<X,RANK,I,J,K,L,M,N> operator*
+(
+  const X &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  B *= A;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator/ (const X &A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator/
+(
+  const X &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
   array<X,RANK,I,J,K,L,M,N> C;
 
@@ -1650,18 +1717,29 @@ array<X,RANK,I,J,K,L,M,N> operator/ (const X &A, const array<X,RANK,I,J,K,L,M,N>
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator+ (const X &A, array<X,RANK,I,J,K,L,M,N> B)
+array<X,RANK,I,J,K,L,M,N> operator+
+(
+  const X &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
-  B += A;
+  array<X,RANK,I,J,K,L,M,N> C;
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N> operator- (const X &A, const array<X,RANK,I,J,K,L,M,N> &B)
+array<X,RANK,I,J,K,L,M,N> operator-
+(
+  const X &A,
+  const array<X,RANK,I,J,K,L,M,N> &B
+)
 {
   array<X,RANK,I,J,K,L,M,N> C;
 

@@ -977,66 +977,84 @@ std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator* (matrix<X,M,N> A, const matrix<X,M,N> &B)
+matrix<X,M,N> operator* (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
-  A *= B;
+  matrix<X,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator+ (matrix<X,M,N> A, const matrix<X,M,N> &B)
+matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
-  A += B;
+  matrix<X,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator- (matrix<X,M,N> A, const matrix<X,M,N> &B)
+matrix<X,M,N> operator- (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
-  A -= B;
+  matrix<X,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator* (matrix<X,M,N> A, const X &B)
+matrix<X,M,N> operator* (const matrix<X,M,N> &A, const X &B)
 {
-  A *= B;
+  matrix<X,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator/ (matrix<X,M,N> A, const X &B)
+matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B)
 {
-  A /= B;
+  matrix<X,M,N> C;
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator* (const X &A, matrix<X,M,N> B)
+matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B)
 {
-  B *= A;
+  matrix<X,M,N> C;
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A * B[i];
+
+  return C;
 }
 
 // =================================================================================================

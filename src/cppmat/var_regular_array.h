@@ -213,18 +213,18 @@ public:
 };
 
 // external arithmetic operators
-template<class X> inline array<X> operator* (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator/ (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator+ (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator- (array<X> A, const array<X> &B);
-template<class X> inline array<X> operator* (array<X> A, const       X  &B);
-template<class X> inline array<X> operator/ (array<X> A, const       X  &B);
-template<class X> inline array<X> operator+ (array<X> A, const       X  &B);
-template<class X> inline array<X> operator- (array<X> A, const       X  &B);
-template<class X> inline array<X> operator* (const X &A,       array<X>  B);
-template<class X> inline array<X> operator/ (const X &A, const array<X> &B);
-template<class X> inline array<X> operator+ (const X &A,       array<X>  B);
-template<class X> inline array<X> operator- (const X &A, const array<X> &B);
+template<class X> inline array<X> operator* (const array<X> &A, const array<X> &B);
+template<class X> inline array<X> operator/ (const array<X> &A, const array<X> &B);
+template<class X> inline array<X> operator+ (const array<X> &A, const array<X> &B);
+template<class X> inline array<X> operator- (const array<X> &A, const array<X> &B);
+template<class X> inline array<X> operator* (const array<X> &A, const       X  &B);
+template<class X> inline array<X> operator/ (const array<X> &A, const       X  &B);
+template<class X> inline array<X> operator+ (const array<X> &A, const       X  &B);
+template<class X> inline array<X> operator- (const array<X> &A, const       X  &B);
+template<class X> inline array<X> operator* (const       X  &A, const array<X> &B);
+template<class X> inline array<X> operator/ (const       X  &A, const array<X> &B);
+template<class X> inline array<X> operator+ (const       X  &A, const array<X> &B);
+template<class X> inline array<X> operator- (const       X  &A, const array<X> &B);
 
 // =================================================================================================
 

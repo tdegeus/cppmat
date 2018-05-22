@@ -1030,99 +1030,142 @@ std::ostream& operator<<(std::ostream& out, const matrix<X>& src)
 
 template<class X>
 inline
-matrix<X> operator* (matrix<X> A, const matrix<X> &B)
+matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
 {
-  A *= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  matrix<X> C(A.shape(0),A.shape(1));
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator/ (matrix<X> A, const matrix<X> &B)
+matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B)
 {
-  A /= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  matrix<X> C(A.shape(0),A.shape(1));
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator+ (matrix<X> A, const matrix<X> &B)
+matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
 {
-  A += B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  matrix<X> C(A.shape(0),A.shape(1));
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator- (matrix<X> A, const matrix<X> &B)
+matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 {
-  A -= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  matrix<X> C(A.shape(0),A.shape(1));
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator* (matrix<X> A, const X &B)
+matrix<X> operator* (const matrix<X> &A, const X &B)
 {
-  A *= B;
+  matrix<X> C(A.shape(0),A.shape(1));
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator/ (matrix<X> A, const X &B)
+matrix<X> operator/ (const matrix<X> &A, const X &B)
 {
-  A /= B;
+  matrix<X> C(A.shape(0),A.shape(1));
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator+ (matrix<X> A, const X &B)
+matrix<X> operator+ (const matrix<X> &A, const X &B)
 {
-  A += B;
+  matrix<X> C(A.shape(0),A.shape(1));
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator- (matrix<X> A, const X &B)
+matrix<X> operator- (const matrix<X> &A, const X &B)
 {
-  A -= B;
+  matrix<X> C(A.shape(0),A.shape(1));
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-matrix<X> operator* (const X &A, matrix<X> B)
+matrix<X> operator* (const X &A, const matrix<X> &B)
 {
-  B *= A;
+  matrix<X> C(B.shape(0),B.shape(1));
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1131,7 +1174,7 @@ template<class X>
 inline
 matrix<X> operator/ (const X &A, const matrix<X> &B)
 {
-  matrix<X> C(B.shape(0), B.shape(1));
+  matrix<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A / B[i];
@@ -1143,11 +1186,14 @@ matrix<X> operator/ (const X &A, const matrix<X> &B)
 
 template<class X>
 inline
-matrix<X> operator+ (const X &A, matrix<X> B)
+matrix<X> operator+ (const X &A, const matrix<X> &B)
 {
-  B += A;
+  matrix<X> C(B.shape(0),B.shape(1));
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1156,7 +1202,7 @@ template<class X>
 inline
 matrix<X> operator- (const X &A, const matrix<X> &B)
 {
-  matrix<X> C(B.shape(0), B.shape(1));
+  matrix<X> C(B.shape(0),B.shape(1));
 
   for ( size_t i = 0 ; i < C.size() ; ++i )
     C[i] = A - B[i];

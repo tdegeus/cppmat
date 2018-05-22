@@ -1835,99 +1835,142 @@ std::ostream& operator<<(std::ostream& out, const array<X>& src)
 
 template<class X>
 inline
-array<X> operator* (array<X> A, const array<X> &B)
+array<X> operator* (const array<X> &A, const array<X> &B)
 {
-  A *= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator/ (array<X> A, const array<X> &B)
+array<X> operator/ (const array<X> &A, const array<X> &B)
 {
-  A /= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator+ (array<X> A, const array<X> &B)
+array<X> operator+ (const array<X> &A, const array<X> &B)
 {
-  A += B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator- (array<X> A, const array<X> &B)
+array<X> operator- (const array<X> &A, const array<X> &B)
 {
-  A -= B;
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
 
-  return A;
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator* (array<X> A, const X &B)
+array<X> operator* (const array<X> &A, const X &B)
 {
-  A *= B;
+  array<X> C(A.shape());
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] * B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator/ (array<X> A, const X &B)
+array<X> operator/ (const array<X> &A, const X &B)
 {
-  A /= B;
+  array<X> C(A.shape());
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] / B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator+ (array<X> A, const X &B)
+array<X> operator+ (const array<X> &A, const X &B)
 {
-  A += B;
+  array<X> C(A.shape());
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] + B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator- (array<X> A, const X &B)
+array<X> operator- (const array<X> &A, const X &B)
 {
-  A -= B;
+  array<X> C(A.shape());
 
-  return A;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A[i] - B;
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
 inline
-array<X> operator* (const X &A, array<X> B)
+array<X> operator* (const X &A, const array<X> &B)
 {
-  B *= A;
+  array<X> C(B.shape());
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A * B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1948,11 +1991,14 @@ array<X> operator/ (const X &A, const array<X> &B)
 
 template<class X>
 inline
-array<X> operator+ (const X &A, array<X> B)
+array<X> operator+ (const X &A, const array<X> &B)
 {
-  B += A;
+  array<X> C(B.shape());
 
-  return B;
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = A + B[i];
+
+  return C;
 }
 
 // -------------------------------------------------------------------------------------------------

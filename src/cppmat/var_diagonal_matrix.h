@@ -125,11 +125,11 @@ public:
   matrix<X> operator+ () const;
 
   // arithmetic operators
-  matrix<X>& operator*= (const matrix<X> &B);
-  matrix<X>& operator+= (const matrix<X> &B);
-  matrix<X>& operator-= (const matrix<X> &B);
-  matrix<X>& operator*= (const        X  &B);
-  matrix<X>& operator/= (const        X  &B);
+  matrix<X>& operator*= (const cppmat::diagonal ::matrix<X> &B);
+  matrix<X>& operator+= (const cppmat::diagonal ::matrix<X> &B);
+  matrix<X>& operator-= (const cppmat::diagonal ::matrix<X> &B);
+  matrix<X>& operator*= (const                           X  &B);
+  matrix<X>& operator/= (const                           X  &B);
 
   // extra arithmetic operators
   matrix<X>& operator*= (const cppmat::           matrix<X> &B);
@@ -173,13 +173,13 @@ public:
 
 };
 
-// external arithmetic operators
-template<class X> inline matrix<X> operator* (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator- (matrix<X> A, const matrix<X> &B);
-template<class X> inline matrix<X> operator* (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator/ (matrix<X> A, const        X  &B);
-template<class X> inline matrix<X> operator* (const  X &A,       matrix<X>  B);
+// external arithmetic operators (cppmat::diagonal)
+template<class X> inline matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
+template<class X> inline matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
+template<class X> inline matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
+template<class X> inline matrix<X> operator* (const matrix<X> &A, const        X  &B);
+template<class X> inline matrix<X> operator/ (const matrix<X> &A, const        X  &B);
+template<class X> inline matrix<X> operator* (const        X  &A, const matrix<X> &B);
 
 // =================================================================================================
 
