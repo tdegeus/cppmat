@@ -676,21 +676,6 @@ void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
   std::copy(begin(), end(), first);
 }
 
-// =================================================================================================
-// absolute value
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline
-cppmat::tiny::array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::abs() const
-{
-  cppmat::tiny::array<X,RANK,I,J,K,L,M,N> out;
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    out[i] = std::abs(mData[i]);
-
-  return out;
-}
 
 // =================================================================================================
 // norm
@@ -706,17 +691,6 @@ X array<X,RANK,I,J,K,L,M,N>::norm() const
     out += std::abs(mData[i]);
 
   return out;
-}
-
-// =================================================================================================
-// return the indices that would sort the array
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline
-cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::argsort(bool ascending) const
-{
-  return cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N>::Copy(cppmat::argsort((*this).asVector(), ascending));
 }
 
 // =================================================================================================

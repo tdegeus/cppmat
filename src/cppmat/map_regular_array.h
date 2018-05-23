@@ -47,7 +47,7 @@ public:
   static array<X,RANK,I,J,K,L,M,N> Map(const X *D);
 
   // copy constructor
-  operator cppmat::array<X>() const;
+  operator cppmat::array<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;
@@ -111,14 +111,9 @@ public:
   template<typename Iterator> void copyTo(Iterator first) const;
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
 
-  // absolute value
-  cppmat::tiny::array<X,RANK,I,J,K,L,M,N> abs() const;
 
   // norm (sum of absolute values)
   X norm() const;
-
-  // return the indices that would sort an array
-  cppmat::tiny::array<size_t,RANK,I,J,K,L,M,N> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)
   size_t argmin() const;
