@@ -168,7 +168,9 @@ tensor2s<X> tensor2s<X>::CopyDense(size_t nd, Iterator first, Iterator last)
   return out;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// named constructors: identity tensors
+// =================================================================================================
 
 template<class X>
 inline
@@ -206,7 +208,7 @@ size_t tensor2s<X>::ndim() const
 }
 
 // =================================================================================================
-// initialize
+// initialize: identity tensors
 // =================================================================================================
 
 template<class X>
@@ -227,17 +229,7 @@ template<class X>
 inline
 tensor2<X> tensor2s<X>::ddot(const tensor4<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(k,l) += (*this)(i,j) * B(j,i,k,l);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -246,15 +238,7 @@ template<class X>
 inline
 X tensor2s<X>::ddot(const tensor2<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C += (*this)(i,j) * B(j,i);
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -263,18 +247,7 @@ template<class X>
 inline
 X tensor2s<X>::ddot(const tensor2s<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    C += ( this->mData[i*ND-(i-1)*i/2] * B[i*ND-(i-1)*i/2] );
-
-  for ( size_t i = 0 ; i<ND ; ++i )
-    for ( size_t j = i+1 ; j<ND ; ++j )
-      C += ( static_cast<X>(2) * this->mData[i*ND-(i-1)*i/2+j-i] * B[i*ND-(i-1)*i/2+j-i] );
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -283,14 +256,7 @@ template<class X>
 inline
 X tensor2s<X>::ddot(const tensor2d<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    C += this->mData[i*ND-(i-1)*i/2]*B[i];
-
-  return C;
+  return cppmat::cartesian::ddot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -299,16 +265,7 @@ template<class X>
 inline
 tensor2<X> tensor2s<X>::dot(const tensor2<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        C(i,k) += (*this)(i,j) * B(j,k);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -317,16 +274,7 @@ template<class X>
 inline
 tensor2<X> tensor2s<X>::dot(const tensor2s<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        C(i,k) += (*this)(i,j) * B(j,k);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -335,15 +283,7 @@ template<class X>
 inline
 tensor2<X> tensor2s<X>::dot(const tensor2d<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C = tensor2<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C(i,j) += (*this)(i,j) * B(j,j);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -352,15 +292,7 @@ template<class X>
 inline
 vector<X> tensor2s<X>::dot(const vector<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  vector<X> C = vector<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C(i) += (*this)(i,j) * B(j);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -369,17 +301,7 @@ template<class X>
 inline
 tensor4<X> tensor2s<X>::dyadic(const tensor2<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor4<X> C = tensor4<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(i,j,k,l) += (*this)(i,j) * B(k,l);
-
-  return C;
+  return cppmat::cartesian::dyadic(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -388,17 +310,7 @@ template<class X>
 inline
 tensor4<X> tensor2s<X>::dyadic(const tensor2s<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor4<X> C = tensor4<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        for ( size_t l = 0 ; l < ND ; ++l )
-          C(i,j,k,l) += (*this)(i,j) * B(k,l);
-
-  return C;
+  return cppmat::cartesian::dyadic(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -407,16 +319,7 @@ template<class X>
 inline
 tensor4<X> tensor2s<X>::dyadic(const tensor2d<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor4<X> C = tensor4<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      for ( size_t k = 0 ; k < ND ; ++k )
-        C(i,j,k,k) += (*this)(i,j) * B(k,k);
-
-  return C;
+  return cppmat::cartesian::dyadic(*this, B);
 }
 
 // =================================================================================================
@@ -427,9 +330,7 @@ template<class X>
 inline
 tensor2s<X> tensor2s<X>::T() const
 {
-  tensor2s<X> C = (*this);
-
-  return C;
+  return cppmat::cartesian::T(*this);
 }
 
 // =================================================================================================
@@ -440,12 +341,7 @@ template<class X>
 inline
 X tensor2s<X>::trace() const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    C += (*this)(i,i);
-
-  return C;
+  return cppmat::cartesian::trace(*this);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -454,17 +350,7 @@ template<class X>
 inline
 X tensor2s<X>::det() const
 {
-  if ( ND==2 )
-   return this->mData[0] * this->mData[2] - this->mData[1] * this->mData[1];
-
-  if ( ND==3 )
-    return (                     this->mData[0] * this->mData[3] * this->mData[5] +
-             static_cast<X>(2) * this->mData[1] * this->mData[2] * this->mData[4] ) -
-           (                     this->mData[4] * this->mData[4] * this->mData[0] +
-                                 this->mData[2] * this->mData[2] * this->mData[3] +
-                                 this->mData[1] * this->mData[1] * this->mData[5] );
-
-  throw std::runtime_error("'det' only implemented in 2D/3D, use e.g. 'Eigen'");
+  return cppmat::cartesian::det(*this);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -473,34 +359,7 @@ template<class X>
 inline
 tensor2s<X> tensor2s<X>::inv() const
 {
-  // compute determinant
-  X D = det();
-
-  // allocate result
-  tensor2s<X> C(ND);
-
-  if ( ND==2 )
-  {
-    C[0] =                      this->mData[2] / D;
-    C[1] = static_cast<X>(-1) * this->mData[1] / D;
-    C[2] =                      this->mData[0] / D;
-
-    return C;
-  }
-
-  if ( ND==3 )
-  {
-    C[0] = (this->mData[3]*this->mData[5]-this->mData[4]*this->mData[4]) / D;
-    C[1] = (this->mData[2]*this->mData[4]-this->mData[1]*this->mData[5]) / D;
-    C[2] = (this->mData[1]*this->mData[4]-this->mData[2]*this->mData[3]) / D;
-    C[3] = (this->mData[0]*this->mData[5]-this->mData[2]*this->mData[2]) / D;
-    C[4] = (this->mData[2]*this->mData[1]-this->mData[0]*this->mData[4]) / D;
-    C[5] = (this->mData[0]*this->mData[3]-this->mData[1]*this->mData[1]) / D;
-
-    return C;
-  }
-
-  throw std::runtime_error("'inv' only implemented in 2D/3D, use e.g. 'Eigen'");
+  return cppmat::cartesian::inv(*this);
 }
 
 // =================================================================================================

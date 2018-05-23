@@ -25,11 +25,12 @@ class tensor2s : public cppmat::symmetric::matrix<X>
 {
 protected:
 
-  size_t ND=0;
+  // local variables
+  size_t ND=0; // number of dimensions (== mShape[0] == mShape[1])
 
 public:
 
-  // constructor
+  // constructor: default
   tensor2s() = default;
 
   // constructor: allocate, don't initialize
@@ -56,7 +57,7 @@ public:
   // resize
   void resize(size_t nd);
 
-  // number of dimensions (== shape[0]...)
+  // get dimensions
   size_t ndim() const;
 
   // initialize

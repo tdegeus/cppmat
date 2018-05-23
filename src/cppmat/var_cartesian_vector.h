@@ -25,11 +25,12 @@ class vector : public cppmat::vector<X>
 {
 protected:
 
-  size_t ND=0;
+  // local variables
+  size_t ND=0; // number of dimensions (== mShape[0] == mShape[1])
 
 public:
 
-  // constructor
+  // constructor: default
   vector() = default;
 
   // constructor: allocate, don't initialize
@@ -46,10 +47,8 @@ public:
   static vector<X> Zero    (size_t nd);
   static vector<X> Ones    (size_t nd);
   static vector<X> Constant(size_t nd, X D);
-
-  // named constructor: copy
-  static vector<X> Copy(           const std::vector<X> &D);
-  static vector<X> Copy(size_t nd, const std::vector<X> &D);
+  static vector<X> Copy    (size_t nd, const std::vector<X> &D);
+  static vector<X> Copy    (           const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Iterator> static vector<X> Copy(size_t nd, Iterator first);
@@ -58,7 +57,7 @@ public:
   // resize
   void resize(size_t nd);
 
-  // number of dimensions (== shape[0])
+  // get dimensions
   size_t ndim() const;
 
   // tensor products / operations

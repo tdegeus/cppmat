@@ -207,15 +207,7 @@ template<class X>
 inline
 vector<X> vector<X>::dot(const tensor2<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  vector<X> C = vector<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C(j) += (*this)(i) * B(i,j);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -224,15 +216,7 @@ template<class X>
 inline
 vector<X> vector<X>::dot(const tensor2s<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  vector<X> C = vector<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C(j) += (*this)(i) * B(i,j);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -241,14 +225,7 @@ template<class X>
 inline
 vector<X> vector<X>::dot(const tensor2d<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  vector<X> C = vector<X>::Zero(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    C(i) += (*this)(i) * B(i,i);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -257,14 +234,7 @@ template<class X>
 inline
 X vector<X>::dot(const vector<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    C += (*this)(i) * B(i);
-
-  return C;
+  return cppmat::cartesian::dot(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -273,15 +243,7 @@ template<class X>
 inline
 tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  tensor2<X> C(ND);
-
-  for ( size_t i = 0 ; i < ND ; ++i )
-    for ( size_t j = 0 ; j < ND ; ++j )
-      C(i,j) = (*this)(i) * B(j);
-
-  return C;
+  return cppmat::cartesian::dyadic(*this, B);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -290,18 +252,7 @@ template<class X>
 inline
 vector<X> vector<X>::cross(const vector<X> &B) const
 {
-  assert( ndim() == B.ndim() );
-
-  if ( ND != 3 )
-    throw std::runtime_error("'cross' only implemented in 3D");
-
-  vector<X> C(3);
-
-  C[0] =                     this->mData[1]*B[2]-B[1]*this->mData[2] ;
-  C[1] = static_cast<X>(-1)*(this->mData[0]*B[2]-B[0]*this->mData[2]);
-  C[2] =                     this->mData[0]*B[1]-B[0]*this->mData[1] ;
-
-  return C;
+  return cppmat::cartesian::cross(*this, B);
 }
 
 // =================================================================================================
@@ -312,12 +263,7 @@ template<class X>
 inline
 X vector<X>::length() const
 {
-  X C = static_cast<X>(0);
-
-  for ( size_t i = 0 ; i < this->mSize ; ++i )
-    C += std::pow(this->mData[i],2.);
-
-  return std::sqrt(C);
+  return cppmat::cartesian::length(*this);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -326,7 +272,7 @@ template<class X>
 inline
 void vector<X>::setUnitLength()
 {
-  X C = length();
+  X C = this->length();
 
   if ( C <= static_cast<X>(0) ) return;
 

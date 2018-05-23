@@ -62,6 +62,22 @@ cppmat::cartesian::tensor2<X> ddot(
 
 template<class X>
 inline
+cppmat::cartesian::tensor2<X> ddot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor4<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> ddot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor4<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 X ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2<X> &B
 );
@@ -80,6 +96,54 @@ template<class X>
 inline
 X ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X ddot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
 );
 
 // =================================================================================================
@@ -112,8 +176,104 @@ cppmat::cartesian::tensor2<X> dot(
 
 template<class X>
 inline
+cppmat::cartesian::tensor2<X> dot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> dot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> dot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> dot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> dot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2d<X> dot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::vector<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> dot(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::vector<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> dot(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::vector<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> dot(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> dot(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> dot(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X dot(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
 );
 
 // =================================================================================================
@@ -142,6 +302,72 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2d<X> &B
 );
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor4<X> dyadic(
+  const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
+);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2<X> dyadic(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
+);
+
+// =================================================================================================
+// cross (outer) product
+// =================================================================================================
+
+template<class X>
+inline
+cppmat::cartesian::vector<X> cross(
+  const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
+);
+
 // =================================================================================================
 // transpositions
 // =================================================================================================
@@ -168,6 +394,12 @@ template<class X>
 inline
 cppmat::cartesian::tensor2<X> T(const cppmat::cartesian::tensor2<X> &A);
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2d<X> T(const cppmat::cartesian::tensor2d<X> &A);
+
 // =================================================================================================
 // trace
 // =================================================================================================
@@ -175,6 +407,12 @@ cppmat::cartesian::tensor2<X> T(const cppmat::cartesian::tensor2<X> &A);
 template<class X>
 inline
 X trace(const cppmat::cartesian::tensor2<X> &A);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X trace(const cppmat::cartesian::tensor2d<X> &A);
 
 // =================================================================================================
 // determinant
@@ -184,6 +422,12 @@ template<class X>
 inline
 X det(const cppmat::cartesian::tensor2<X> &A);
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+X det(const cppmat::cartesian::tensor2d<X> &A);
+
 // =================================================================================================
 // inverse
 // =================================================================================================
@@ -191,6 +435,20 @@ X det(const cppmat::cartesian::tensor2<X> &A);
 template<class X>
 inline
 cppmat::cartesian::tensor2<X> inv(const cppmat::cartesian::tensor2<X> &A);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+cppmat::cartesian::tensor2d<X> inv(const cppmat::cartesian::tensor2d<X> &A);
+
+// =================================================================================================
+// miscellaneous tensor operations
+// =================================================================================================
+
+template<class X>
+inline
+X length(const cppmat::cartesian::vector<X> &A);
 
 // =================================================================================================
 
