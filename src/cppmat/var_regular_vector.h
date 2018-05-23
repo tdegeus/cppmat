@@ -30,15 +30,15 @@ private:
 
 public:
 
-  // constructor
+  // constructor: default
   vector() = default;
 
   // constructor: allocate, don't initialize
   vector(size_t n);
 
   // constructor: copy
-  vector(const cppmat::array<X> &A);
-  vector(const std::vector<X>   &A);
+  vector(const cppmat::array <X> &A);
+  vector(const std   ::vector<X> &A);
 
   // named constructor: initialize
   static vector<X> Random  (size_t n, X lower=(X)0, X upper=(X)1);
@@ -46,10 +46,8 @@ public:
   static vector<X> Zero    (size_t n);
   static vector<X> Ones    (size_t n);
   static vector<X> Constant(size_t n, X D);
-
-  // named constructor: copy
-  static vector<X> Copy(          const std::vector<X> &D);
-  static vector<X> Copy(size_t n, const std::vector<X> &D);
+  static vector<X> Copy    (size_t n, const std::vector<X> &D);
+  static vector<X> Copy    (          const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Itr> static vector<X> Copy(size_t n, Itr first);

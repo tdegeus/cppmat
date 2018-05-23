@@ -38,7 +38,7 @@ matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::array<X>(A)
 
 template<class X>
 inline
-matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
+matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::array<X>({A.shape(0),A.shape(1)})
 {
   for ( size_t i = 0 ; i < A.shape(0) ; ++i )
     for ( size_t j = 0 ; j < A.shape(1) ; ++j )
@@ -49,7 +49,7 @@ matrix<X>::matrix(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A.s
 
 template<class X>
 inline
-matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A.shape(0),A.shape(1))
+matrix<X>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::array<X>({A.shape(0),A.shape(1)})
 {
   for ( size_t i = 0 ; i < A.shape(0) ; ++i )
     for ( size_t j = 0 ; j < A.shape(1) ; ++j )

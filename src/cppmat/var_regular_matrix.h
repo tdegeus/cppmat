@@ -37,7 +37,7 @@ public:
 
 public:
 
-  // constructor
+  // constructor: default
   matrix() = default;
 
   // constructor: allocate, don't initialize
@@ -54,9 +54,7 @@ public:
   static matrix<X> Zero    (size_t m, size_t n);
   static matrix<X> Ones    (size_t m, size_t n);
   static matrix<X> Constant(size_t m, size_t n, X D);
-
-  // named constructor: copy
-  static matrix<X> Copy(size_t m, size_t n, const std::vector<X> &D);
+  static matrix<X> Copy    (size_t m, size_t n, const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Itr> static matrix<X> Copy(size_t m, size_t n, Itr first);

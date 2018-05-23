@@ -25,11 +25,12 @@ class tensor2 : public cppmat::matrix<X>
 {
 protected:
 
-  size_t ND=0;
+  // local variables
+  size_t ND=0; // number of dimensions (== mShape[0] == mShape[1])
 
 public:
 
-  // constructor
+  // constructor: default
   tensor2() = default;
 
   // constructor: allocate, don't initialize
@@ -47,10 +48,8 @@ public:
   static tensor2<X> Zero    (size_t nd);
   static tensor2<X> Ones    (size_t nd);
   static tensor2<X> Constant(size_t nd, X D);
+  static tensor2<X> Copy    (size_t nd, const std::vector<X> &D);
   static tensor2<X> I       (size_t nd);
-
-  // named constructor: copy
-  static tensor2<X> Copy(size_t nd, const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Iterator> static tensor2<X> Copy(size_t nd, Iterator first);
@@ -59,7 +58,7 @@ public:
   // resize
   void resize(size_t nd);
 
-  // number of dimensions (== shape[0]...)
+  // get dimensions
   size_t ndim() const;
 
   // initialize
