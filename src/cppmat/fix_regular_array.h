@@ -51,9 +51,7 @@ public:
   static array<X,RANK,I,J,K,L,M,N> Zero    ();
   static array<X,RANK,I,J,K,L,M,N> Ones    ();
   static array<X,RANK,I,J,K,L,M,N> Constant(X D);
-
-  // named constructor: copy
-  static array<X,RANK,I,J,K,L,M,N> Copy(const std::vector<X> &D);
+  static array<X,RANK,I,J,K,L,M,N> Copy    (const std::vector<X> &D);
 
   // named constructor: copy
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first);
