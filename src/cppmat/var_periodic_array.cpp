@@ -31,11 +31,58 @@ array<X>::array(const std::vector<size_t> &shape) : cppmat::array<X>(shape)
     mStridesI[i] = static_cast<int>(this->mStrides[i]);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy own class
+// =================================================================================================
+
+template<class X>
+inline
+array<X>::array(const cppmat::periodic::array<X> &A) : cppmat::array<X>(A)
+{
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mShapeI[i] = static_cast<int>(this->mShape[i]);
+
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mStridesI[i] = static_cast<int>(this->mStrides[i]);
+}
+
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
 array<X>::array(const cppmat::array<X> &A) : cppmat::array<X>(A)
+{
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mShapeI[i] = static_cast<int>(this->mShape[i]);
+
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mStridesI[i] = static_cast<int>(this->mStrides[i]);
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X>::array(const cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cppmat::array<X>(A)
+{
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mShapeI[i] = static_cast<int>(this->mShape[i]);
+
+  for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
+    mStridesI[i] = static_cast<int>(this->mStrides[i]);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X>::array(const cppmat::view::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cppmat::array<X>(A)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
     mShapeI[i] = static_cast<int>(this->mShape[i]);

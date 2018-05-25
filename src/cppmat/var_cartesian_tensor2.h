@@ -38,9 +38,12 @@ public:
 
   // constructor: copy
   tensor2(const cppmat::           array <X> &A);
-  tensor2(const cppmat::           matrix<X> &A);
   tensor2(const cppmat::symmetric::matrix<X> &A);
   tensor2(const cppmat::diagonal ::matrix<X> &A);
+
+  // constructor: copy
+  template<size_t nd> tensor2(const cppmat::tiny::cartesian::tensor2<X,nd> &A);
+  template<size_t nd> tensor2(const cppmat::view::cartesian::tensor2<X,nd> &A);
 
   // named constructor: initialize
   static tensor2<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);

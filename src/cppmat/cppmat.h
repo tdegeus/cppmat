@@ -130,6 +130,18 @@ namespace diagonal {
 
 namespace cppmat {
 namespace tiny {
+namespace periodic {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
 namespace cartesian {
 
   template<class X, size_t ND> class tensor4;
@@ -168,6 +180,18 @@ namespace view {
 namespace diagonal {
 
   template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace periodic {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
 
 }}}
 

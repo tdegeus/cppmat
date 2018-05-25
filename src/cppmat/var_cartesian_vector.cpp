@@ -27,7 +27,9 @@ vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
   ND = nd;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
@@ -36,11 +38,25 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
   ND = this->mShape[0];
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from other class
+// =================================================================================================
 
 template<class X>
 inline
-vector<X>::vector(const cppmat::vector<X> &A) : cppmat::vector<X>(A)
+vector<X>::vector(const std::vector<X> &D) : cppmat::vector<X>(D)
+{
+  ND = this->mShape[0];
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t nd>
+inline
+vector<X>::vector(const cppmat::tiny::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
 {
   ND = this->mShape[0];
 }
@@ -48,8 +64,9 @@ vector<X>::vector(const cppmat::vector<X> &A) : cppmat::vector<X>(A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
+template<size_t nd>
 inline
-vector<X>::vector(const std::vector<X> &D) : cppmat::vector<X>(D)
+vector<X>::vector(const cppmat::view::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
 {
   ND = this->mShape[0];
 }

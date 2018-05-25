@@ -27,7 +27,9 @@ tensor2s<X>::tensor2s(size_t nd) : cppmat::symmetric::matrix<X>(nd,nd)
   ND = nd;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
@@ -36,11 +38,35 @@ tensor2s<X>::tensor2s(const cppmat::symmetric::matrix<X> &A) : cppmat::symmetric
   ND = this->N;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from other class
+// =================================================================================================
 
 template<class X>
 inline
 tensor2s<X>::tensor2s(const cppmat::diagonal::matrix<X> &A) : cppmat::symmetric::matrix<X>(A)
+{
+  ND = this->N;
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t nd>
+inline
+tensor2s<X>::tensor2s(const cppmat::tiny::cartesian::tensor2s<X,nd> &A) : cppmat::symmetric::matrix<X>(A)
+{
+  ND = this->N;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t nd>
+inline
+tensor2s<X>::tensor2s(const cppmat::view::cartesian::tensor2s<X,nd> &A) : cppmat::symmetric::matrix<X>(A)
 {
   ND = this->N;
 }

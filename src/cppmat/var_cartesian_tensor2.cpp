@@ -27,7 +27,9 @@ tensor2<X>::tensor2(size_t nd) : cppmat::matrix<X>(nd,nd)
   ND = nd;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
@@ -36,16 +38,9 @@ tensor2<X>::tensor2(const cppmat::array<X> &A) : cppmat::matrix<X>(A)
   ND = this->mShape[0];
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-tensor2<X>::tensor2(const cppmat::matrix<X> &A) : cppmat::matrix<X>(A)
-{
-  ND = this->mShape[0];
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from other class
+// =================================================================================================
 
 template<class X>
 inline
@@ -59,6 +54,28 @@ tensor2<X>::tensor2(const cppmat::symmetric::matrix<X> &A) : cppmat::matrix<X>(A
 template<class X>
 inline
 tensor2<X>::tensor2(const cppmat::diagonal::matrix<X> &A) : cppmat::matrix<X>(A)
+{
+  ND = this->mShape[0];
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t nd>
+inline
+tensor2<X>::tensor2(const cppmat::tiny::cartesian::tensor2<X,nd> &A) : cppmat::matrix<X>(A)
+{
+  ND = this->mShape[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t nd>
+inline
+tensor2<X>::tensor2(const cppmat::view::cartesian::tensor2<X,nd> &A) : cppmat::matrix<X>(A)
 {
   ND = this->mShape[0];
 }

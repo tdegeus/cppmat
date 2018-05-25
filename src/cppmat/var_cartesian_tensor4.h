@@ -43,6 +43,10 @@ public:
   // constructor: copy
   tensor4(const cppmat::array<X> &A);
 
+  // constructor: copy
+  template<size_t nd> tensor4(const cppmat::tiny::cartesian::tensor4<X,nd> &A);
+  template<size_t nd> tensor4(const cppmat::view::cartesian::tensor4<X,nd> &A);
+
   // named constructor: initialize
   static tensor4<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor4<X> Arange  (size_t nd);

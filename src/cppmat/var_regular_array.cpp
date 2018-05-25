@@ -26,11 +26,39 @@ array<X>::array(const std::vector<size_t> &shape)
   resize(shape);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from own class
+// =================================================================================================
 
 template<class X>
 inline
 array<X>::array(const array<X> &A)
+{
+  resize(A.shape());
+
+  setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X>::array(const cppmat::tiny::array<X,RANK,I,J,K,L,M,N> &A)
+{
+  resize(A.shape());
+
+  setCopy(A.begin(), A.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A)
 {
   resize(A.shape());
 

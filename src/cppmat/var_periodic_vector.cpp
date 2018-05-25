@@ -26,16 +26,9 @@ vector<X>::vector(size_t n) : cppmat::periodic::array<X>({n})
 {
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X>::vector(const cppmat::periodic::array<X> &A) : cppmat::periodic::array<X>(A)
-{
-  assert( this->mRank == 1 );
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
@@ -44,11 +37,33 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
   assert( this->mRank == 1 );
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from other class
+// =================================================================================================
 
 template<class X>
 inline
 vector<X>::vector(const std::vector<X> &D) : cppmat::periodic::array<X>({D.size()}, D)
+{
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t n>
+inline
+vector<X>::vector(const cppmat::tiny::periodic::vector<X,n> &A) : cppmat::periodic::array<X>(A)
+{
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t n>
+inline
+vector<X>::vector(const cppmat::view::periodic::vector<X,n> &A) : cppmat::periodic::array<X>(A)
 {
 }
 

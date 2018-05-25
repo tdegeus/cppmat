@@ -44,7 +44,16 @@ public:
   array(const std::vector<size_t> &shape);
 
   // constructor: copy
-  array(const cppmat::array<X> &A);
+  array(const cppmat::          array<X> &A);
+  array(const cppmat::periodic::array<X> &A);
+
+  // constructor: copy
+  template<size_t rank, size_t i, size_t j, size_t k, size_t l, size_t m, size_t n>
+  array(const cppmat::tiny::periodic::array<X,rank,i,j,k,l,m,n> &A);
+
+  // constructor: copy
+  template<size_t rank, size_t i, size_t j, size_t k, size_t l, size_t m, size_t n>
+  array(const cppmat::view::periodic::array<X,rank,i,j,k,l,m,n> &A);
 
   // named constructor: initialize
   static array<X> Random  (const std::vector<size_t> &shape, X lower=(X)0, X upper=(X)1);

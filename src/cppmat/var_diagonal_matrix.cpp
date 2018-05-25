@@ -40,7 +40,9 @@ matrix<X>::matrix(size_t m, size_t n)
   resize(m,n);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from own class
+// =================================================================================================
 
 template<class X>
 inline
@@ -50,6 +52,29 @@ matrix<X>::matrix(const matrix<X> &A)
 
   resize(A.shape(0), A.shape(1));
 
+  setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+
+template<class X>
+template<size_t m, size_t n>
+inline
+matrix<X>::matrix(const cppmat::tiny::diagonal::matrix<X,m,n> &A) : cppmat::diagonal::matrix<X>(m,n)
+{
+  setCopy(A.begin(), A.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t m, size_t n>
+inline
+matrix<X>::matrix(const cppmat::view::diagonal::matrix<X,m,n> &A) : cppmat::diagonal::matrix<X>(m,n)
+{
   setCopy(A.begin(), A.end());
 }
 

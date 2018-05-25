@@ -27,7 +27,9 @@ tensor4<X>::tensor4(size_t nd) : cppmat::array<X>({nd,nd,nd,nd})
   ND = nd;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
@@ -35,6 +37,28 @@ tensor4<X>::tensor4(const cppmat::array<X> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 4 );
 
+  ND = this->mShape[0];
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t nd>
+inline
+tensor4<X>::tensor4(const cppmat::tiny::cartesian::tensor4<X,nd> &A) : cppmat::array<X>(A)
+{
+  ND = this->mShape[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t nd>
+inline
+tensor4<X>::tensor4(const cppmat::view::cartesian::tensor4<X,nd> &A) : cppmat::array<X>(A)
+{
   ND = this->mShape[0];
 }
 

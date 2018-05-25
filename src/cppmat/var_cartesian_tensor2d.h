@@ -39,6 +39,10 @@ public:
   // constructor: copy
   tensor2d(const cppmat::diagonal::matrix<X> &A);
 
+  // constructor: copy
+  template<size_t nd> tensor2d(const cppmat::tiny::cartesian::tensor2d<X,nd> &A);
+  template<size_t nd> tensor2d(const cppmat::view::cartesian::tensor2d<X,nd> &A);
+
   // named constructor: initialize
   static tensor2d<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);
   static tensor2d<X> Arange  (size_t nd);

@@ -35,11 +35,35 @@ tensor2d<X>::tensor2d(size_t nd) : cppmat::diagonal::matrix<X>(nd,nd)
   ND = nd;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
 tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<X> &A) : cppmat::diagonal::matrix<X>(A)
+{
+  ND = this->N;
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t nd>
+inline
+tensor2d<X>::tensor2d(const cppmat::tiny::cartesian::tensor2d<X,nd> &A) : cppmat::diagonal::matrix<X>(A)
+{
+  ND = this->N;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t nd>
+inline
+tensor2d<X>::tensor2d(const cppmat::view::cartesian::tensor2d<X,nd> &A) : cppmat::diagonal::matrix<X>(A)
 {
   ND = this->N;
 }

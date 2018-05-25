@@ -38,8 +38,11 @@ public:
 
   // constructor: copy
   vector(const cppmat::array <X> &A);
-  vector(const cppmat::vector<X> &A);
-  vector(const std   ::vector<X> &A);  
+  vector(const std   ::vector<X> &A);
+
+  // constructor: copy
+  template<size_t nd> vector(const cppmat::tiny::cartesian::vector<X,nd> &A);
+  template<size_t nd> vector(const cppmat::view::cartesian::vector<X,nd> &A);
 
   // named constructor: initialize
   static vector<X> Random  (size_t nd, X lower=(X)0, X upper=(X)1);

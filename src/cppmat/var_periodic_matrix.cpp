@@ -26,22 +26,35 @@ matrix<X>::matrix(size_t m, size_t n) : cppmat::periodic::array<X>({m,n})
 {
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-matrix<X>::matrix(const cppmat::periodic::array<X> &A) : cppmat::periodic::array<X>(A)
-{
-  assert( this->mRank == 2 );
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from parent
+// =================================================================================================
 
 template<class X>
 inline
 matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 {
   assert( this->mRank == 2 );
+}
+
+// =================================================================================================
+// constructors: copy from fixed size
+// =================================================================================================
+
+template<class X>
+template<size_t m, size_t n>
+inline
+matrix<X>::matrix(const cppmat::tiny::periodic::matrix<X,m,n> &A) : cppmat::periodic::array<X>(A)
+{
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<size_t m, size_t n>
+inline
+matrix<X>::matrix(const cppmat::view::periodic::matrix<X,m,n> &A) : cppmat::periodic::array<X>(A)
+{
 }
 
 // =================================================================================================

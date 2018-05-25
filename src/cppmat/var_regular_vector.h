@@ -40,6 +40,10 @@ public:
   vector(const cppmat::array <X> &A);
   vector(const std   ::vector<X> &A);
 
+  // constructor: copy
+  template<size_t n> vector(const cppmat::tiny::vector<X,n> &A);
+  template<size_t n> vector(const cppmat::view::vector<X,n> &A);
+
   // named constructor: initialize
   static vector<X> Random  (size_t n, X lower=(X)0, X upper=(X)1);
   static vector<X> Arange  (size_t n);
