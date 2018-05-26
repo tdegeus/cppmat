@@ -44,7 +44,7 @@ array<X,RANK,I,J,K,L,M,N>::array()
 }
 
 // =================================================================================================
-// constructors: copy - current type
+// constructors: copy from own class
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
@@ -62,12 +62,12 @@ array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
 }
 
 // =================================================================================================
-// constructors: copy - other types
+// constructors: copy from dynamic size
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A)
+array<X,RANK,I,J,K,L,M,N>::array(const cppmat::array<X> &A)
 {
   mShape[0] = I;  mStrides[0] = J*K*L*M*N;
   mShape[1] = J;  mStrides[1] = K*L*M*N;
@@ -76,14 +76,18 @@ array<X,RANK,I,J,K,L,M,N>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &
   mShape[4] = M;  mStrides[4] = N;
   mShape[5] = N;  mStrides[5] = 1;
 
+  assert( this->shape() == A.shape() );
+
   setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N>::array(const cppmat::array<X> &A)
+array<X,RANK,I,J,K,L,M,N>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A)
 {
   mShape[0] = I;  mStrides[0] = J*K*L*M*N;
   mShape[1] = J;  mStrides[1] = K*L*M*N;
@@ -201,16 +205,6 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Copy(Iterator first, Iterat
   out.setCopy(first,last);
 
   return out;
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline array<X,RANK,I,J,K,L,M,N>::operator cppmat::array<X> () const
-{
-  return cppmat::array<X>::Copy(shape(), begin(), end());
 }
 
 // =================================================================================================

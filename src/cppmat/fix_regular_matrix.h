@@ -17,7 +17,7 @@ namespace cppmat {
 namespace tiny {
 
 // =================================================================================================
-// cppmat::matrix
+// cppmat::tiny::matrix
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -36,16 +36,18 @@ public:
   // constructor: allocate, don't initialize
   matrix();
 
-  // constructor: copy
-  matrix(const cppmat::tiny::           array <X,2,M,N> &A);
-  matrix(const cppmat::tiny::symmetric::matrix<X,  M,N> &A);
-  matrix(const cppmat::tiny::diagonal ::matrix<X,  M,N> &A);
-  matrix(const cppmat::view::           array <X,2,M,N> &A);
-  matrix(const cppmat::view::symmetric::matrix<X,  M,N> &A);
-  matrix(const cppmat::view::diagonal ::matrix<X,  M,N> &A);
+  // constructor: copy from parent
+  matrix(const cppmat::tiny::array<X,2,M,N> &A);
 
-  // copy constructor
-  operator cppmat::matrix<X> () const;
+  // constructor: copy from other class
+  matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A);
+  matrix(const cppmat::tiny::diagonal ::matrix<X,M,N> &A);
+
+  // constructor: copy from dynamic size
+  matrix(const cppmat::matrix<X> &A);
+
+  // constructor: copy from view
+  matrix(const cppmat::view::matrix<X,M,N> &A);
 
   // extra arithmetic operators
   matrix<X,M,N>& operator*= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);

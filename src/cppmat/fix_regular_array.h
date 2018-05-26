@@ -17,7 +17,7 @@ namespace cppmat {
 namespace tiny {
 
 // =================================================================================================
-// cppmat::array
+// cppmat::tiny::array
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
@@ -40,10 +40,14 @@ public:
   // constructor: allocate, don't initialize
   array();
 
-  // constructor: copy
-  array(const               array<X,RANK,I,J,K,L,M,N> &A);
+  // constructor: copy from own class
+  array(const array<X,RANK,I,J,K,L,M,N> &A);
+
+  // constructor: copy from dynamic size
+  array(const cppmat::array<X> &A);
+
+  // constructor: copy from view
   array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A);
-  array(const cppmat::      array<X>                  &A);
 
   // named constructor: initialize
   static array<X,RANK,I,J,K,L,M,N> Random  (X lower=(X)0, X upper=(X)1);
@@ -56,9 +60,6 @@ public:
   // named constructor: copy
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first);
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first, It last);
-
-  // copy constructor
-  operator cppmat::array<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;

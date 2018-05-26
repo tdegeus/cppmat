@@ -42,7 +42,7 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::array<X>(A)
 
 template<class X>
 inline
-vector<X>::vector(const std::vector<X> &D) : cppmat::array<X>({D.size()}, D)
+vector<X>::vector(const std::vector<X> &D) : cppmat::array<X>::Copy({D.size()}, D)
 {
 }
 

@@ -39,7 +39,7 @@ matrix<X,M,N>::matrix()
 }
 
 // =================================================================================================
-// constructors: copy - current type
+// constructors: copy from own class
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -50,7 +50,7 @@ matrix<X,M,N>::matrix(const matrix<X,M,N> &A)
 }
 
 // =================================================================================================
-// constructors: copy - other types
+// constructors: copy from other class
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -62,32 +62,9 @@ matrix<X,M,N>::matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A)
       (*this)(i,j) = A(i,j);
 }
 
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A)
-{
-  for ( size_t i = 0 ; i < N ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-matrix<X,M,N>::matrix(const cppmat::diagonal::matrix<X> &A)
-{
-  assert( N == A.shape(0) );
-  assert( N == A.shape(1) );
-
-  for ( size_t i = 0 ; i < N ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
-}
-
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from dynamic size
+// =================================================================================================
 
 template<class X, size_t M, size_t N>
 inline
@@ -96,8 +73,18 @@ matrix<X,M,N>::matrix(const cppmat::symmetric::matrix<X> &A)
   assert( N == A.shape(0) );
   assert( N == A.shape(1) );
 
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    mData[i] = A[i];
+  setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N>::matrix(const cppmat::view::symmetric::matrix<X,M,N> &A)
+{
+  setCopy(A.begin(), A.end());
 }
 
 // =================================================================================================
@@ -236,16 +223,6 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
   out.setCopyDense(first,last);
 
   return out;
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t M, size_t N>
-inline matrix<X,M,N>::operator cppmat::symmetric::matrix<X> () const
-{
-  return cppmat::symmetric::matrix<X>::Copy(N, N, begin(), end());
 }
 
 // =================================================================================================

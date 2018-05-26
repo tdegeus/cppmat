@@ -213,6 +213,7 @@ namespace cartesian {
 
 #include "stl.h"
 #include "private.h"
+
 #include "var_regular_array.h"
 #include "var_regular_matrix.h"
 #include "var_regular_vector.h"
@@ -231,15 +232,25 @@ namespace cartesian {
 
 #include "fix_regular_array.h"
 #include "fix_regular_matrix.h"
-
+#include "fix_regular_vector.h"
 #include "fix_symmetric_matrix.h"
 #include "fix_diagonal_matrix.h"
 #include "fix_misc_matrix.h"
+// #include "fix_periodic_array.h"
+// #include "fix_periodic_matrix.h"
+// #include "fix_periodic_vector.h"
+// #include "fix_cartesian.h"
+// #include "fix_cartesian_tensor4.h"
+// #include "fix_cartesian_tensor2.h"
+// #include "fix_cartesian_tensor2s.h"
+// #include "fix_cartesian_tensor2d.h"
+// #include "fix_cartesian_vector.h"
 
 #include "map_regular_array.h"
 
 #include "stl.cpp"
 #include "private.cpp"
+
 #include "var_regular_array.cpp"
 #include "var_regular_matrix.cpp"
 #include "var_regular_vector.cpp"
@@ -258,10 +269,19 @@ namespace cartesian {
 
 #include "fix_regular_array.cpp"
 #include "fix_regular_matrix.cpp"
-
+#include "fix_regular_vector.cpp"
 #include "fix_symmetric_matrix.cpp"
 #include "fix_diagonal_matrix.cpp"
 #include "fix_misc_matrix.cpp"
+// #include "fix_periodic_array.cpp"
+// #include "fix_periodic_matrix.cpp"
+// #include "fix_periodic_vector.cpp"
+// #include "fix_cartesian.cpp"
+// #include "fix_cartesian_tensor4.cpp"
+// #include "fix_cartesian_tensor2.cpp"
+// #include "fix_cartesian_tensor2s.cpp"
+// #include "fix_cartesian_tensor2d.cpp"
+// #include "fix_cartesian_vector.cpp"
 
 #include "map_regular_array.cpp"
 

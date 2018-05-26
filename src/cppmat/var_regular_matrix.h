@@ -44,7 +44,7 @@ public:
   matrix(size_t m, size_t n);
 
   // constructor: copy from parent
-  matrix(const cppmat::array <X> &A);
+  matrix(const cppmat::array<X> &A);
 
   // constructor: copy from other class
   matrix(const cppmat::symmetric::matrix<X> &A);

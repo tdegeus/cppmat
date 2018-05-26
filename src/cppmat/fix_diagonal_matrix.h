@@ -18,7 +18,7 @@ namespace tiny {
 namespace diagonal {
 
 // =================================================================================================
-// cppmat::diagonal::matrix
+// cppmat::tiny::diagonal::matrix
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -41,8 +41,13 @@ public:
   // constructor: allocate, don't initialize
   matrix();
 
-  // constructor: copy
+  // constructor: copy from own class
   matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A);
+
+  // constructor: copy from dynamic size
+  matrix(const cppmat::diagonal::matrix<X> &A);
+
+  // constructor: copy from view
   matrix(const cppmat::view::diagonal::matrix<X,M,N> &A);
 
   // named constructor: initialize
@@ -51,18 +56,13 @@ public:
   static matrix<X,M,N> Zero    ();
   static matrix<X,M,N> Ones    ();
   static matrix<X,M,N> Constant(X D);
-
-  // named constructor: copy
-  static matrix<X,M,N> Copy(const std::vector<X> &D);
+  static matrix<X,M,N> Copy    (const std::vector<X> &D);
 
   // named constructor: copy
   template<typename Itr> static matrix<X,M,N> Copy     (Itr first);
   template<typename Itr> static matrix<X,M,N> Copy     (Itr first, Itr last);
   template<typename Itr> static matrix<X,M,N> CopyDense(Itr first);
   template<typename Itr> static matrix<X,M,N> CopyDense(Itr first, Itr last);
-
-  // copy constructor
-  operator cppmat::diagonal::matrix<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;
@@ -147,7 +147,7 @@ public:
   X norm() const;
 
   // return the indices that would sort the matrix
-  cppmat::tiny::diagonal::matrix<size_t,M,N> argsort(bool ascending=true) const;
+  matrix<size_t,M,N> argsort(bool ascending=true) const;
 
   // location of the minimum/maximum: plain storage (use decompress to convert to indices)
   size_t argmin() const;
@@ -166,7 +166,7 @@ public:
   double mean() const;
 
   // weighted average
-  double average(const cppmat::tiny::diagonal::matrix<X,M,N> &weights, bool norm=true) const;
+  double average(const matrix<X,M,N> &weights, bool norm=true) const;
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
@@ -212,8 +212,7 @@ matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B);
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B
-);
+matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B);
 
 // =================================================================================================
 

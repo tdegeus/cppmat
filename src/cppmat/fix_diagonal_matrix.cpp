@@ -40,7 +40,7 @@ matrix<X,M,N>::matrix()
 }
 
 // =================================================================================================
-// constructors: copy - current type
+// constructors: copy from own class
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
@@ -53,15 +53,28 @@ matrix<X,M,N>::matrix(const matrix<X,M,N> &A)
 }
 
 // =================================================================================================
-// constructors: copy - other types
+// constructors: copy from dynamic size
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A)
+matrix<X,M,N>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::tiny::diagonal::matrix<X,M,N>()
 {
-  for ( size_t i = 0 ; i < N ; ++i )
-    mData[i] = A[i];
+  assert( N == A.shape(0) );
+  assert( N == A.shape(1) );
+
+  setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A) : cppmat::tiny::diagonal::matrix<X,M,N>()
+{
+  setCopy(A.begin(), A.end());
 }
 
 // =================================================================================================
@@ -200,16 +213,6 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
   out.setCopyDense(first,last);
 
   return out;
-}
-
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t M, size_t N>
-inline matrix<X,M,N>::operator cppmat::diagonal::matrix<X> () const
-{
-  return cppmat::diagonal::matrix<X>::Copy(N, N, begin(), end());
 }
 
 // =================================================================================================

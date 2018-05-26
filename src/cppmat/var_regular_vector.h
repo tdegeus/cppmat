@@ -37,7 +37,7 @@ public:
   vector(size_t n);
 
   // constructor: copy from parent
-  vector(const cppmat::array <X> &A);
+  vector(const cppmat::array<X> &A);
 
   // constructor: copy from other class
   vector(const std::vector<X> &A);

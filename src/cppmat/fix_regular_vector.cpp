@@ -20,170 +20,64 @@ namespace tiny {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<class X, size_t N>
 inline
-vector<X>::vector(size_t n) : cppmat::array<X>({n})
-{
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X>::vector(const cppmat::array<X> &A) : cppmat::array<X>(A)
-{
-  assert( this->mRank == 1 );
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X>::vector(const std::vector<X> &D) : cppmat::array<X>({D.size()}, D)
+vector<X,N>::vector() : cppmat::tiny::array<X,1,N>()
 {
 }
 
 // =================================================================================================
-// named constructors
+// constructors: copy from parent
 // =================================================================================================
 
-template<class X>
+template<class X, size_t N>
 inline
-vector<X> vector<X>::Random(size_t n, X lower, X upper)
+vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::array<X,1,N>(A)
 {
-  vector<X> out(n);
-
-  out.setRandom(lower, upper);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Arange(size_t n)
-{
-  vector<X> out(n);
-
-  out.setArange();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Zero(size_t n)
-{
-  vector<X> out(n);
-
-  out.setZero();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Ones(size_t n)
-{
-  vector<X> out(n);
-
-  out.setOnes();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Constant(size_t n, X D)
-{
-  vector<X> out(n);
-
-  out.setConstant(D);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Copy(const std::vector<X> &D)
-{
-  vector<X> out(D.size());
-
-  out.setCopy(D.begin(), D.end());
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
-{
-  vector<X> out(n);
-
-  out.setCopy(D.begin(), D.end());
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-template<typename Iterator>
-inline
-vector<X> vector<X>::Copy(size_t n, Iterator first)
-{
-  vector<X> out(n);
-
-  out.setCopy(first);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-template<typename Iterator>
-inline
-vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
-{
-  vector<X> out(n);
-
-  out.setCopy(first,last);
-
-  return out;
 }
 
 // =================================================================================================
-// resize
+// constructors: copy from other class
 // =================================================================================================
 
-template<class X>
+template<class X, size_t N>
 inline
-void vector<X>::resize(size_t n)
+vector<X,N>::vector(const std::vector<X> &D) : cppmat::tiny::array<X,1,N>::Copy(D)
 {
-  cppmat::array<X>::resize({n});
+}
+
+// =================================================================================================
+// constructors: copy from dynamic size
+// =================================================================================================
+
+template<class X, size_t N>
+inline
+vector<X,N>::vector(const cppmat::vector<X> &A)
+{
+  assert( N == A.size() );
+
+  this->setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
+
+template<class X, size_t N>
+inline
+vector<X,N>::vector(const cppmat::view::vector<X,N> &A) : cppmat::tiny::array<X,1,N>(A)
+{
 }
 
 // =================================================================================================
 // finite difference
 // =================================================================================================
 
-template<class X>
+template<class X, size_t N>
 inline
-vector<X> vector<X>::diff() const
+vector<X,N> vector<X,N>::diff() const
 {
-  vector<X> out(this->mSize);
+  vector<X,N> out;
 
   std::adjacent_difference(this->begin(), this->end(), out.begin());
 
