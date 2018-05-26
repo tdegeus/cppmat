@@ -1,7 +1,7 @@
 
 #include "support.h"
 
-static const size_t ND = 11;
+static const size_t ND = 2;
 
 typedef cppmat::tiny::cartesian::tensor4 <double,ND> T4;
 typedef cppmat::tiny::cartesian::tensor2 <double,ND> T2;
@@ -11,7 +11,7 @@ typedef cppmat::tiny::cartesian::vector  <double,ND> V;
 
 // =================================================================================================
 
-TEST_CASE("cppmat::tiny::cartesian::tensor2s", "var_cartesian_tensor2s.h")
+TEST_CASE("cppmat::tiny::cartesian::tensor2s<2>", "var_cartesian_tensor2s.h")
 {
 
 // =================================================================================================
@@ -179,6 +179,36 @@ SECTION( "T" )
   for ( size_t i = 0 ; i < B.ndim() ; ++i )
     for ( size_t j = 0 ; j < B.ndim() ; ++j )
       EQ( B(i,j), A(j,i) );
+}
+
+// =================================================================================================
+// determinant
+// =================================================================================================
+
+SECTION("T2s.det()")
+{
+  MatD   a = makeSymmetric(MatD::Random(2,2));
+  double c = a.determinant();
+
+  T2s    A = T2s::CopyDense(a.data(), a.data()+a.size());
+  double C = A.det();
+
+  EQ(C, c);
+}
+
+// =================================================================================================
+// inverse
+// =================================================================================================
+
+SECTION("T2s.inv()")
+{
+  MatD a = makeSymmetric(MatD::Random(2,2));
+  MatD c = a.inverse();
+
+  T2s A = T2s::CopyDense(a.data(), a.data()+a.size());
+  T2s C = A.inv();
+
+  Equal(C, c);
 }
 
 // =================================================================================================

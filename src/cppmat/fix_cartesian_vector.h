@@ -24,6 +24,8 @@ namespace cartesian {
 template<class X, size_t ND>
 class vector : public cppmat::tiny::vector<X,ND>
 {
+  static_assert( ND > 0, "Number of dimensions must positive" );
+
 public:
 
   // constructor: allocate, don't initialize

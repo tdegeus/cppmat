@@ -277,6 +277,8 @@ namespace cartesian {
 #include "fix_periodic_matrix.cpp"
 #include "fix_periodic_vector.cpp"
 #include "fix_cartesian.cpp"
+#include "fix_cartesian_2.cpp"
+#include "fix_cartesian_3.cpp"
 #include "fix_cartesian_tensor4.cpp"
 #include "fix_cartesian_tensor2.cpp"
 #include "fix_cartesian_tensor2s.cpp"

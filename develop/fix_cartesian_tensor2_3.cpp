@@ -1,7 +1,7 @@
 
 #include "support.h"
 
-static const size_t ND = 11;
+static const size_t ND = 3;
 
 typedef cppmat::tiny::cartesian::tensor4 <double,ND> T4;
 typedef cppmat::tiny::cartesian::tensor2 <double,ND> T2;
@@ -11,17 +11,17 @@ typedef cppmat::tiny::cartesian::vector  <double,ND> V;
 
 // =================================================================================================
 
-TEST_CASE("cppmat::tiny::cartesian::tensor2s", "var_cartesian_tensor2s.h")
+TEST_CASE("cppmat::tiny::cartesian::tensor2<3>", "var_cartesian_tensor2.h")
 {
 
 // =================================================================================================
 // unit tensors
 // =================================================================================================
 
-SECTION( "I, T2s.dot(T2)" )
+SECTION( "I, T2.dot(T2)" )
 {
-  T2s I = T2s::I();
-  T2  A = T2 ::Random();
+  T2  I = T2::I();
+  T2  A = T2::Random();
 
   T2  B = I.dot(A);
 
@@ -30,9 +30,9 @@ SECTION( "I, T2s.dot(T2)" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "I, T2s.dot(T2s)" )
+SECTION( "I, T2.dot(T2s)" )
 {
-  T2s I = T2s::I();
+  T2  I = T2 ::I();
   T2s A = T2s::Random();
 
   T2  B = I.dot(A);
@@ -42,9 +42,9 @@ SECTION( "I, T2s.dot(T2s)" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "I, T2s.dot(T2d)" )
+SECTION( "I, T2.dot(T2d)" )
 {
-  T2s I = T2s::I();
+  T2  I = T2 ::I();
   T2d A = T2d::Random();
 
   T2  B = I.dot(A);
@@ -54,10 +54,10 @@ SECTION( "I, T2s.dot(T2d)" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "I, T2s.dot(V)" )
+SECTION( "I, T2.dot(V)" )
 {
-  T2s I = T2s::I();
-  V   A = V  ::Random();
+  T2  I = T2::I();
+  V   A = V ::Random();
 
   V   B = I.dot(A);
 
@@ -68,10 +68,10 @@ SECTION( "I, T2s.dot(V)" )
 // tensor products
 // =================================================================================================
 
-SECTION( "I, T2s.dot(T4)" )
+SECTION( "I, T2.dot(T4)" )
 {
-  T2s A = T2s::Random();
-  T4  I = T4 ::I();
+  T2  A = T2::Random();
+  T4  I = T4::I();
 
   T2  B = A.ddot(I);
 
@@ -82,10 +82,10 @@ SECTION( "I, T2s.dot(T4)" )
 // tensor products
 // =================================================================================================
 
-SECTION( "T2s.ddot(T2), T2s.dot(T2), T2s.trace()" )
+SECTION( "T2.ddot(T2), T2.dot(T2), T2.trace()" )
 {
-  T2s A = T2s::Random();
-  T2  B = T2 ::Random();
+  T2 A = T2::Random();
+  T2 B = T2::Random();
 
   double C = A.ddot(B);
 
@@ -96,9 +96,9 @@ SECTION( "T2s.ddot(T2), T2s.dot(T2), T2s.trace()" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "T2s.ddot(T2s), T2s.dot(T2s), T2s.trace()" )
+SECTION( "T2.ddot(T2s), T2.dot(T2s), T2.trace()" )
 {
-  T2s A = T2s::Random();
+  T2  A = T2 ::Random();
   T2s B = T2s::Random();
 
   double C = A.ddot(B);
@@ -110,9 +110,9 @@ SECTION( "T2s.ddot(T2s), T2s.dot(T2s), T2s.trace()" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "T2s.ddot(T2d), T2s.dot(T2d), T2s.trace()" )
+SECTION( "T2.ddot(T2d), T2.dot(T2d), T2.trace()" )
 {
-  T2s A = T2s::Random();
+  T2  A = T2 ::Random();
   T2d B = T2d::Random();
 
   double C = A.ddot(B);
@@ -126,10 +126,10 @@ SECTION( "T2s.ddot(T2d), T2s.dot(T2d), T2s.trace()" )
 // tensor products
 // =================================================================================================
 
-SECTION( "T2s.dyadic(T2)" )
+SECTION( "T2.dyadic(T2)" )
 {
-  T2s A = T2s::I();
-  T2  B = T2 ::I();
+  T2  A = T2::I();
+  T2  B = T2::I();
 
   T4  C = A.dyadic(B);
 
@@ -140,9 +140,9 @@ SECTION( "T2s.dyadic(T2)" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "T2s.dyadic(T2s)" )
+SECTION( "T2.dyadic(T2s)" )
 {
-  T2s A = T2s::I();
+  T2  A = T2 ::I();
   T2s B = T2s::I();
 
   T4  C = A.dyadic(B);
@@ -154,9 +154,9 @@ SECTION( "T2s.dyadic(T2s)" )
 
 // -------------------------------------------------------------------------------------------------
 
-SECTION( "T2s.dyadic(T2d)" )
+SECTION( "T2.dyadic(T2d)" )
 {
-  T2s A = T2s::I();
+  T2  A = T2 ::I();
   T2d B = T2d::I();
 
   T4  C = A.dyadic(B);
@@ -172,13 +172,43 @@ SECTION( "T2s.dyadic(T2d)" )
 
 SECTION( "T" )
 {
-  T2s A = T2s::Random();
+  T2 A = T2::Random();
 
-  T2s B = A.T();
+  T2 B = A.T();
 
   for ( size_t i = 0 ; i < B.ndim() ; ++i )
     for ( size_t j = 0 ; j < B.ndim() ; ++j )
       EQ( B(i,j), A(j,i) );
+}
+
+// =================================================================================================
+// determinant
+// =================================================================================================
+
+SECTION("T2.det() -- 3D")
+{
+  MatD   a = MatD::Random(3,3);
+  double c = a.determinant();
+
+  T2     A = T2::Copy(a.data());
+  double C = A.det();
+
+  EQ(C, c);
+}
+
+// =================================================================================================
+// inverse
+// =================================================================================================
+
+SECTION("T2.inv() -- 3D")
+{
+  MatD a = MatD::Random(3,3);
+  MatD c = a.inverse();
+
+  T2 A = T2::Copy(a.data());
+  T2 C = A.inv();
+
+  Equal(C, c);
 }
 
 // =================================================================================================

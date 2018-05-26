@@ -751,7 +751,7 @@ cppmat::tiny::cartesian::tensor2<X,ND> dyadic(
   const cppmat::tiny::cartesian::vector<X,ND> &A, const cppmat::tiny::cartesian::vector<X,ND> &B
 )
 {
-  cppmat::tiny::cartesian::tensor2<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor2<X,ND> C;
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -770,17 +770,11 @@ cppmat::tiny::cartesian::vector<X,ND> cross(
   const cppmat::tiny::cartesian::vector<X,ND> &A, const cppmat::tiny::cartesian::vector<X,ND> &B
 )
 {
+  assert( false );
 
-  if ( ND != 3 )
-    throw std::runtime_error("'cross' only implemented in 3D");
+  UNUSED(B);
 
-  cppmat::tiny::cartesian::vector<X,ND> C(3);
-
-  C[0] =                     A[1]*B[2]-B[1]*A[2] ;
-  C[1] = static_cast<X>(-1)*(A[0]*B[2]-B[0]*A[2]);
-  C[2] =                     A[0]*B[1]-B[0]*A[1] ;
-
-  return C;
+  return A;
 }
 
 // =================================================================================================
@@ -791,7 +785,7 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor4<X,ND> T(const cppmat::tiny::cartesian::tensor4<X,ND> &A)
 {
-  cppmat::tiny::cartesian::tensor4<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor4<X,ND> C;
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -808,7 +802,7 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor4<X,ND> RT(const cppmat::tiny::cartesian::tensor4<X,ND> &A)
 {
-  cppmat::tiny::cartesian::tensor4<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor4<X,ND> C;
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -825,7 +819,7 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor4<X,ND> LT(const cppmat::tiny::cartesian::tensor4<X,ND> &A)
 {
-  cppmat::tiny::cartesian::tensor4<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor4<X,ND> C;
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -842,7 +836,7 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2<X,ND> T(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
-  cppmat::tiny::cartesian::tensor2<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor2<X,ND> C;
 
   for ( size_t i = 0 ; i < ND ; ++i )
     for ( size_t j = 0 ; j < ND ; ++j )
@@ -877,9 +871,9 @@ template<class X, size_t ND>
 inline
 X trace(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
-  X C = static_cast<X>(0);
+  X C = A[0];
 
-  for ( size_t i = 0 ; i < ND ; ++i )
+  for ( size_t i = 1 ; i < ND ; ++i )
     C += A(i,i);
 
   return C;
@@ -891,9 +885,9 @@ template<class X, size_t ND>
 inline
 X trace(const cppmat::tiny::cartesian::tensor2s<X,ND> &A)
 {
-  X C = static_cast<X>(0);
+  X C = A[0];
 
-  for ( size_t i = 0 ; i < ND ; ++i )
+  for ( size_t i = 1 ; i < ND ; ++i )
     C += A(i,i);
 
   return C;
@@ -905,9 +899,9 @@ template<class X, size_t ND>
 inline
 X trace(const cppmat::tiny::cartesian::tensor2d<X,ND> &A)
 {
-  X C = static_cast<X>(0);
+  X C = A[0];
 
-  for ( size_t i = 0 ; i < ND ; ++i )
+  for ( size_t i = 1 ; i < ND ; ++i )
     C += A[i];
 
   return C;
@@ -921,19 +915,11 @@ template<class X, size_t ND>
 inline
 X det(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
+  assert( false );
 
-  if ( ND == 2 )
-   return A[0] * A[3] - A[1] * A[2];
+  UNUSED(A);
 
-  if ( ND == 3 )
-    return ( A[0] * A[4] * A[8] +
-             A[1] * A[5] * A[6] +
-             A[2] * A[3] * A[7] ) -
-           ( A[2] * A[4] * A[6] +
-             A[1] * A[3] * A[8] +
-             A[0] * A[5] * A[7] );
-
-  throw std::runtime_error("'det' only implemented in 2D/3D");
+  return static_cast<X>(0);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -942,18 +928,11 @@ template<class X, size_t ND>
 inline
 X det(const cppmat::tiny::cartesian::tensor2s<X,ND> &A)
 {
+  assert( false );
 
-  if ( ND == 2 )
-   return A[0] * A[2] - A[1] * A[1];
+  UNUSED(A);
 
-  if ( ND == 3 )
-    return (                     A[0] * A[3] * A[5] +
-             static_cast<X>(2) * A[1] * A[2] * A[4] ) -
-           (                     A[4] * A[4] * A[0] +
-                                 A[2] * A[2] * A[3] +
-                                 A[1] * A[1] * A[5] );
-
-  throw std::runtime_error("'det' only implemented in 2D/3D");
+  return static_cast<X>(0);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -962,9 +941,9 @@ template<class X, size_t ND>
 inline
 X det(const cppmat::tiny::cartesian::tensor2d<X,ND> &A)
 {
-  X C = static_cast<X>(1);
+  X C = A[0];
 
-  for ( size_t i = 0 ; i < ND ; ++i )
+  for ( size_t i = 1 ; i < ND ; ++i )
     C *= A[i];
 
   return C;
@@ -978,39 +957,9 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2<X,ND> inv(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
+  assert(false);
 
-  // compute determinant
-  X det = A.det();
-
-  // allocate result
-  cppmat::tiny::cartesian::tensor2<X,ND> C(ND);
-
-  if ( ND == 2 )
-  {
-    C[0] =                      A[3] / det;
-    C[1] = static_cast<X>(-1) * A[1] / det;
-    C[2] = static_cast<X>(-1) * A[2] / det;
-    C[3] =                      A[0] / det;
-
-    return C;
-  }
-
-  if ( ND == 3 )
-  {
-    C[0] = (A[4]*A[8]-A[5]*A[7]) / det;
-    C[1] = (A[2]*A[7]-A[1]*A[8]) / det;
-    C[2] = (A[1]*A[5]-A[2]*A[4]) / det;
-    C[3] = (A[5]*A[6]-A[3]*A[8]) / det;
-    C[4] = (A[0]*A[8]-A[2]*A[6]) / det;
-    C[5] = (A[2]*A[3]-A[0]*A[5]) / det;
-    C[6] = (A[3]*A[7]-A[4]*A[6]) / det;
-    C[7] = (A[1]*A[6]-A[0]*A[7]) / det;
-    C[8] = (A[0]*A[4]-A[1]*A[3]) / det;
-
-    return C;
-  }
-
-  throw std::runtime_error("'inv' only implemented in 2D/3D");
+  return A;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1019,35 +968,9 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2s<X,ND> inv(const cppmat::tiny::cartesian::tensor2s<X,ND> &A)
 {
+  assert(false);
 
-  // compute determinant
-  X det = A.det();
-
-  // allocate result
-  cppmat::tiny::cartesian::tensor2s<X,ND> C(ND);
-
-  if ( ND==2 )
-  {
-    C[0] =                      A[2] / det;
-    C[1] = static_cast<X>(-1) * A[1] / det;
-    C[2] =                      A[0] / det;
-
-    return C;
-  }
-
-  if ( ND==3 )
-  {
-    C[0] = (A[3]*A[5]-A[4]*A[4]) / det;
-    C[1] = (A[2]*A[4]-A[1]*A[5]) / det;
-    C[2] = (A[1]*A[4]-A[2]*A[3]) / det;
-    C[3] = (A[0]*A[5]-A[2]*A[2]) / det;
-    C[4] = (A[2]*A[1]-A[0]*A[4]) / det;
-    C[5] = (A[0]*A[3]-A[1]*A[1]) / det;
-
-    return C;
-  }
-
-  throw std::runtime_error("'inv' only implemented in 2D/3D");
+  return A;
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -1056,7 +979,7 @@ template<class X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2d<X,ND> inv(const cppmat::tiny::cartesian::tensor2d<X,ND> &A)
 {
-  cppmat::tiny::cartesian::tensor2d<X,ND> C(ND);
+  cppmat::tiny::cartesian::tensor2d<X,ND> C;
 
   for ( size_t i = 0; i < ND ; ++i )
     C[i] = static_cast<X>(1) / A[i];
@@ -1072,9 +995,9 @@ template<class X, size_t ND>
 inline
 X length(const cppmat::tiny::cartesian::vector<X,ND> &A)
 {
-  X C = static_cast<X>(0);
+  X C = std::pow(A[0],2.);
 
-  for ( size_t i = 0 ; i < ND ; ++i )
+  for ( size_t i = 1 ; i < ND ; ++i )
     C += std::pow(A[i],2.);
 
   return std::sqrt(C);

@@ -54,4 +54,14 @@ add_executable(${PROJECT_NAME}
   fix_cartesian_tensor2s.cpp
   fix_cartesian_tensor2d.cpp
   fix_cartesian_vector.cpp
+  fix_cartesian_tensor4_2.cpp
+  fix_cartesian_tensor2_2.cpp
+  fix_cartesian_tensor2s_2.cpp
+  fix_cartesian_tensor2d_2.cpp
+  fix_cartesian_vector_2.cpp
+  fix_cartesian_tensor4_3.cpp
+  fix_cartesian_tensor2_3.cpp
+  fix_cartesian_tensor2s_3.cpp
+  fix_cartesian_tensor2d_3.cpp
+  fix_cartesian_vector_3.cpp
 )
