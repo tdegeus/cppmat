@@ -17,7 +17,7 @@ namespace cppmat {
 namespace view {
 
 // =================================================================================================
-// cppmat::array
+// cppmat::view::array
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
@@ -25,12 +25,12 @@ class array
 {
 protected:
 
-  static const size_t MAX_DIM=6;  // maximum number of dimensions
-  size_t mSize=I*J*K*L*M*N;       // total size == data.size() == prod(shape)
-  size_t mRank=RANK;              // rank (number of axes)
-  size_t mShape  [MAX_DIM];       // number of entries along each axis
-  size_t mStrides[MAX_DIM];       // stride length for each index
-  const X *mData;                 // data container
+  static const size_t MAX_DIM=6;         // maximum number of dimensions
+  static const size_t mSize=I*J*K*L*M*N; // total size == data.size() == prod(shape)
+  static const size_t mRank=RANK;        // rank (number of axes)
+  size_t mShape  [MAX_DIM];              // number of entries along each axis
+  size_t mStrides[MAX_DIM];              // stride length for each index
+  const X *mData;                        // data container
 
 public:
 
@@ -45,9 +45,6 @@ public:
 
   // named constructor: map external pointer
   static array<X,RANK,I,J,K,L,M,N> Map(const X *D);
-
-  // copy constructor
-  operator cppmat::array<X> () const;
 
   // return plain storage as vector
   std::vector<X> asVector() const;

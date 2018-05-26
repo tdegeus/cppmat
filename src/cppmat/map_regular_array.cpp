@@ -43,7 +43,9 @@ array<X,RANK,I,J,K,L,M,N>::array()
   mShape[5] = N;  mStrides[5] = 1;
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: map external pointer
+// =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
@@ -74,15 +76,6 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
   return out;
 }
 
-// =================================================================================================
-// copy constructor
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline array<X,RANK,I,J,K,L,M,N>::operator cppmat::array<X> () const
-{
-  return cppmat::array<X>::Copy(shape(), begin(), end());
-}
 
 // =================================================================================================
 // return plain storage as vector
