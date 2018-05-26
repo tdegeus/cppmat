@@ -188,7 +188,7 @@ template<class X, size_t ND>
 inline
 void tensor4<X,ND>::setIs()
 {
-  (*this) = ( tensor4<X,ND>::I(ND) + tensor4<X,ND>::Irt(ND) ) / static_cast<X>(2);
+  (*this) = ( tensor4<X,ND>::I() + tensor4<X,ND>::Irt() ) / static_cast<X>(2);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -197,7 +197,7 @@ template<class X, size_t ND>
 inline
 void tensor4<X,ND>::setId()
 {
-  (*this) = tensor4<X,ND>::I(ND) - tensor4<X,ND>::II(ND)/static_cast<X>(ND);
+  (*this) = tensor4<X,ND>::I() - tensor4<X,ND>::II()/static_cast<X>(ND);
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ template<class X, size_t ND>
 inline
 void tensor4<X,ND>::setIsd()
 {
-  (*this) = tensor4<X,ND>::Is(ND) - tensor4<X,ND>::II(ND)/static_cast<X>(ND);
+  (*this) = tensor4<X,ND>::Is() - tensor4<X,ND>::II()/static_cast<X>(ND);
 }
 
 // -------------------------------------------------------------------------------------------------

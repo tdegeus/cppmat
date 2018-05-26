@@ -49,4 +49,9 @@ add_executable(${PROJECT_NAME}
   fix_symmetric_matrix.cpp
   fix_diagonal_matrix.cpp
   fix_misc_matrix.cpp
+  fix_cartesian_tensor4.cpp
+  fix_cartesian_tensor2.cpp
+  fix_cartesian_tensor2s.cpp
+  fix_cartesian_tensor2d.cpp
+  fix_cartesian_vector.cpp
 )

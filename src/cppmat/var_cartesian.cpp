@@ -614,7 +614,7 @@ cppmat::cartesian::vector<X> dot(
 
   size_t ND = A.ndim();
 
-  cppmat::cartesian::vector<X> C = vector<X>::Zero(ND);
+  cppmat::cartesian::vector<X> C = cppmat::cartesian::vector<X>::Zero(ND);
 
   for ( size_t i = 0 ; i < ND ; ++i )
     C(i) += A[i] * B(i);
