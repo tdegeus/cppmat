@@ -36,13 +36,17 @@ public:
   // constructor: allocate, don't initialize
   tensor2(size_t nd);
 
-  // constructor: copy
-  tensor2(const cppmat::           array <X> &A);
+  // constructor: copy from parent
+  tensor2(const cppmat::array<X> &A);
+
+  // constructor: copy from other classes
   tensor2(const cppmat::symmetric::matrix<X> &A);
   tensor2(const cppmat::diagonal ::matrix<X> &A);
 
-  // constructor: copy
+  // constructor: copy from fixed size
   template<size_t nd> tensor2(const cppmat::tiny::cartesian::tensor2<X,nd> &A);
+
+  // constructor: copy from view
   template<size_t nd> tensor2(const cppmat::view::cartesian::tensor2<X,nd> &A);
 
   // named constructor: initialize

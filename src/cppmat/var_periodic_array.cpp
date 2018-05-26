@@ -32,7 +32,7 @@ array<X>::array(const std::vector<size_t> &shape) : cppmat::array<X>(shape)
 }
 
 // =================================================================================================
-// constructors: copy own class
+// constructors: copy from own class
 // =================================================================================================
 
 template<class X>
@@ -77,7 +77,9 @@ array<X>::array(const cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cp
     mStridesI[i] = static_cast<int>(this->mStrides[i]);
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
 
 template<class X>
 template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>

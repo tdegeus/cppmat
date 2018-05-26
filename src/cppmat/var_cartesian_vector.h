@@ -36,12 +36,16 @@ public:
   // constructor: allocate, don't initialize
   vector(size_t nd);
 
-  // constructor: copy
-  vector(const cppmat::array <X> &A);
-  vector(const std   ::vector<X> &A);
+  // constructor: copy from parent
+  vector(const cppmat::array<X> &A);
 
-  // constructor: copy
+  // constructor: copy from other classes
+  vector(const std::vector<X> &A);
+
+  // constructor: copy from fixed size
   template<size_t nd> vector(const cppmat::tiny::cartesian::vector<X,nd> &A);
+
+  // constructor: copy from view
   template<size_t nd> vector(const cppmat::view::cartesian::vector<X,nd> &A);
 
   // named constructor: initialize

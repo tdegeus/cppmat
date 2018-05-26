@@ -25,7 +25,8 @@ class tensor4 : public cppmat::array<X>
 {
 protected:
 
-  size_t ND=0;
+  // local variables
+  size_t ND=0; // number of dimensions (== mShape[0] == mShape[1] == ...)
 
 private:
 
@@ -34,17 +35,19 @@ private:
 
 public:
 
-  // constructor
+  // constructor: default
   tensor4() = default;
 
   // constructor: allocate, don't initialize
   tensor4(size_t nd);
 
-  // constructor: copy
+  // constructor: copy from parent
   tensor4(const cppmat::array<X> &A);
 
-  // constructor: copy
+  // constructor: copy from fixed size
   template<size_t nd> tensor4(const cppmat::tiny::cartesian::tensor4<X,nd> &A);
+
+  // constructor: copy from view
   template<size_t nd> tensor4(const cppmat::view::cartesian::tensor4<X,nd> &A);
 
   // named constructor: initialize
@@ -53,6 +56,7 @@ public:
   static tensor4<X> Zero    (size_t nd);
   static tensor4<X> Ones    (size_t nd);
   static tensor4<X> Constant(size_t nd, X D);
+  static tensor4<X> Copy    (size_t nd, const std::vector<X> &D);
   static tensor4<X> I       (size_t nd);
   static tensor4<X> Irt     (size_t nd);
   static tensor4<X> Id      (size_t nd);
@@ -61,16 +65,13 @@ public:
   static tensor4<X> II      (size_t nd);
 
   // named constructor: copy
-  static tensor4<X> Copy(size_t nd, const std::vector<X> &D);
-
-  // named constructor: copy
   template<typename Iterator> static tensor4<X> Copy(size_t nd, Iterator first);
   template<typename Iterator> static tensor4<X> Copy(size_t nd, Iterator first, Iterator last);
 
   // resize
   void resize(size_t nd);
 
-  // number of dimensions (== shape[0]...)
+  // get dimensions
   size_t ndim() const;
 
   // initialize

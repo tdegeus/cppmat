@@ -59,7 +59,6 @@ matrix<X>::matrix(const matrix<X> &A)
 // constructors: copy from fixed size
 // =================================================================================================
 
-
 template<class X>
 template<size_t m, size_t n>
 inline
@@ -68,7 +67,9 @@ matrix<X>::matrix(const cppmat::tiny::diagonal::matrix<X,m,n> &A) : cppmat::diag
   setCopy(A.begin(), A.end());
 }
 
-// -------------------------------------------------------------------------------------------------
+// =================================================================================================
+// constructors: copy from view
+// =================================================================================================
 
 template<class X>
 template<size_t m, size_t n>
