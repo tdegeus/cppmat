@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_FIX_REGULAR_MATRIX_CPP
-#define CPPMAT_FIX_REGULAR_MATRIX_CPP
+#ifndef CPPMAT_FIX_PERIODIC_VECTOR_CPP
+#define CPPMAT_FIX_PERIODIC_VECTOR_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -15,14 +15,15 @@
 
 namespace cppmat {
 namespace tiny {
+namespace periodic {
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<class X, size_t N>
 inline
-matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
+vector<X,N>::vector() : cppmat::tiny::periodic::array<X,1,N>()
 {
 }
 
@@ -30,9 +31,9 @@ matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
 // constructors: copy from parent
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<class X, size_t N>
 inline
-matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
+vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
 
@@ -40,33 +41,19 @@ matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::arr
 // constructors: copy from other class
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<class X, size_t N>
 inline
-matrix<X,M,N>::matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A) : cppmat::tiny::matrix<X,M,N>()
+vector<X,N>::vector(const std::vector<X> &D) : cppmat::tiny::periodic::array<X,1,N>::Copy(D)
 {
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X, size_t M, size_t N>
-inline
-matrix<X,M,N>::matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A) : cppmat::tiny::matrix<X,M,N>()
-{
-  for ( size_t i = 0 ; i < M ; ++i )
-    for ( size_t j = 0 ; j < N ; ++j )
-      (*this)(i,j) = A(i,j);
 }
 
 // =================================================================================================
 // constructors: copy from dynamic size
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<class X, size_t N>
 inline
-matrix<X,M,N>::matrix(const cppmat::matrix<X> &A) : cppmat::tiny::array<X,2,M,N>(A)
+vector<X,N>::vector(const cppmat::periodic::vector<X> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
 
@@ -74,15 +61,30 @@ matrix<X,M,N>::matrix(const cppmat::matrix<X> &A) : cppmat::tiny::array<X,2,M,N>
 // constructors: copy from view
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<class X, size_t N>
 inline
-matrix<X,M,N>::matrix(const cppmat::view::matrix<X,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
+vector<X,N>::vector(const cppmat::view::periodic::vector<X,N> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
 
 // =================================================================================================
+// finite difference
+// =================================================================================================
 
-}} // namespace ...
+template<class X, size_t N>
+inline
+vector<X,N> vector<X,N>::diff() const
+{
+  vector<X,N> out;
+
+  std::adjacent_difference(this->begin(), this->end(), out.begin());
+
+  return out;
+}
+
+// =================================================================================================
+
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

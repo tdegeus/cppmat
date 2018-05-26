@@ -52,11 +52,8 @@ vector<X,N>::vector(const std::vector<X> &D) : cppmat::tiny::array<X,1,N>::Copy(
 
 template<class X, size_t N>
 inline
-vector<X,N>::vector(const cppmat::vector<X> &A)
+vector<X,N>::vector(const cppmat::vector<X> &A) : cppmat::tiny::array<X,1,N>(A)
 {
-  assert( N == A.size() );
-
-  this->setCopy(A.begin(), A.end());
 }
 
 // =================================================================================================
