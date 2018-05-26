@@ -240,7 +240,7 @@ template<class X>
 inline
 void tensor2d<X>::setI()
 {
-  cppmat::diagonal::matrix<X>::setZero();
+  this->setZero();
 
   for ( size_t i = 0 ; i < ND ; ++i )
     this->mData[i] = static_cast<X>(1);

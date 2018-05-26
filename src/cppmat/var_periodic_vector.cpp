@@ -43,7 +43,7 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 
 template<class X>
 inline
-vector<X>::vector(const std::vector<X> &D) : cppmat::periodic::array<X>({D.size()}, D)
+vector<X>::vector(const std::vector<X> &A) : cppmat::periodic::array<X>({A.size()}, A)
 {
 }
 

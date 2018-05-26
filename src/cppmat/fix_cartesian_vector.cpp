@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_REGULAR_VECTOR_CPP
-#define CPPMAT_VAR_REGULAR_VECTOR_CPP
+#ifndef CPPMAT_FIX_CARTESIAN_VECTOR_CPP
+#define CPPMAT_FIX_CARTESIAN_VECTOR_CPP
 
 // -------------------------------------------------------------------------------------------------
 
@@ -14,14 +14,16 @@
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace tiny {
+namespace cartesian {
 
 // =================================================================================================
 // constructors
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-vector<X>::vector(size_t n) : cppmat::array<X>({n})
+vector<X,ND>::vector() : cppmat::tiny::vector<X,ND>()
 {
 }
 
@@ -29,31 +31,29 @@ vector<X>::vector(size_t n) : cppmat::array<X>({n})
 // constructors: copy from parent
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-vector<X>::vector(const cppmat::array<X> &A) : cppmat::array<X>(A)
+vector<X,ND>::vector(const cppmat::tiny::array<X,1,ND> &A) : cppmat::tiny::vector<X,ND>(A)
 {
-  assert( this->mRank == 1 );
 }
 
 // =================================================================================================
 // constructors: copy from other class
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-vector<X>::vector(const std::vector<X> &A) : cppmat::array<X>::Copy({A.size()}, A)
+vector<X,ND>::vector(const std::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
 
 // =================================================================================================
-// constructors: copy from fixed size
+// constructors: copy from dynamic size
 // =================================================================================================
 
-template<class X>
-template<size_t n>
+template<class X, size_t ND>
 inline
-vector<X>::vector(const cppmat::tiny::vector<X,n> &A) : cppmat::array<X>(A)
+vector<X,ND>::vector(const cppmat::cartesian::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
 
@@ -61,165 +61,107 @@ vector<X>::vector(const cppmat::tiny::vector<X,n> &A) : cppmat::array<X>(A)
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
-template<size_t n>
+template<class X, size_t ND>
 inline
-vector<X>::vector(const cppmat::view::vector<X,n> &A) : cppmat::array<X>(A)
+vector<X,ND>::vector(const cppmat::view::cartesian::vector<X,ND> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
 
 // =================================================================================================
-// named constructors
+// dimensions
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-vector<X> vector<X>::Random(size_t n, X lower, X upper)
+size_t vector<X,ND>::ndim() const
 {
-  vector<X> out(n);
-
-  out.setRandom(lower, upper);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Arange(size_t n)
-{
-  vector<X> out(n);
-
-  out.setArange();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Zero(size_t n)
-{
-  vector<X> out(n);
-
-  out.setZero();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Ones(size_t n)
-{
-  vector<X> out(n);
-
-  out.setOnes();
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Constant(size_t n, X D)
-{
-  vector<X> out(n);
-
-  out.setConstant(D);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Copy(const std::vector<X> &D)
-{
-  vector<X> out(D.size());
-
-  out.setCopy(D.begin(), D.end());
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-inline
-vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
-{
-  vector<X> out(n);
-
-  out.setCopy(D.begin(), D.end());
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-template<typename Iterator>
-inline
-vector<X> vector<X>::Copy(size_t n, Iterator first)
-{
-  vector<X> out(n);
-
-  out.setCopy(first);
-
-  return out;
-}
-
-// -------------------------------------------------------------------------------------------------
-
-template<class X>
-template<typename Iterator>
-inline
-vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
-{
-  vector<X> out(n);
-
-  out.setCopy(first,last);
-
-  return out;
+  return ND;
 }
 
 // =================================================================================================
-// resize
+// tensor products
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-void vector<X>::resize(size_t n)
+vector<X,ND> vector<X,ND>::dot(const tensor2<X,ND> &B) const
 {
-  cppmat::array<X>::resize({n});
+  return cppmat::cartesian::dot(*this, B);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t ND>
+inline
+vector<X,ND> vector<X,ND>::dot(const tensor2s<X,ND> &B) const
+{
+  return cppmat::cartesian::dot(*this, B);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t ND>
+inline
+vector<X,ND> vector<X,ND>::dot(const tensor2d<X,ND> &B) const
+{
+  return cppmat::cartesian::dot(*this, B);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t ND>
+inline
+X vector<X,ND>::dot(const vector<X,ND> &B) const
+{
+  return cppmat::cartesian::dot(*this, B);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t ND>
+inline
+tensor2<X,ND> vector<X,ND>::dyadic(const vector<X,ND> &B) const
+{
+  return cppmat::cartesian::dyadic(*this, B);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t ND>
+inline
+vector<X,ND> vector<X,ND>::cross(const vector<X,ND> &B) const
+{
+  return cppmat::cartesian::cross(*this, B);
 }
 
 // =================================================================================================
-// finite difference
+// miscellaneous tensor operations
 // =================================================================================================
 
-template<class X>
+template<class X, size_t ND>
 inline
-vector<X> vector<X>::diff() const
+X vector<X,ND>::length() const
 {
-  vector<X> out(this->mSize);
+  return cppmat::cartesian::length(*this);
+}
 
-  std::adjacent_difference(this->begin(), this->end(), out.begin());
+// -------------------------------------------------------------------------------------------------
 
-  return out;
+template<class X, size_t ND>
+inline
+void vector<X,ND>::setUnitLength()
+{
+  X C = this->length();
+
+  if ( C <= static_cast<X>(0) ) return;
+
+  for ( size_t i = 0 ; i < this->mSize ; ++i )
+    this->mData[i] /= C;
 }
 
 // =================================================================================================
 
-} // namespace ...
-
-// -------------------------------------------------------------------------------------------------
+}}} // namespace ...
 
 #endif
 

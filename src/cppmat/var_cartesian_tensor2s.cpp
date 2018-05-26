@@ -243,7 +243,7 @@ template<class X>
 inline
 void tensor2s<X>::setI()
 {
-  cppmat::symmetric::matrix<X>::setZero();
+  this->setZero();
 
   for ( size_t i = 0 ; i < ND ; ++i )
     (*this)(i,i) = static_cast<X>(1);

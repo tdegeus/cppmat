@@ -44,7 +44,7 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
 
 template<class X>
 inline
-vector<X>::vector(const std::vector<X> &D) : cppmat::vector<X>(D)
+vector<X>::vector(const std::vector<X> &A) : cppmat::vector<X>(A)
 {
   ND = this->mShape[0];
 }

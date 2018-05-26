@@ -43,7 +43,7 @@ vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::periodi
 
 template<class X, size_t N>
 inline
-vector<X,N>::vector(const std::vector<X> &D) : cppmat::tiny::periodic::array<X,1,N>::Copy(D)
+vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::periodic::array<X,1,N>::Copy(A)
 {
 }
 
