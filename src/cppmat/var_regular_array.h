@@ -39,14 +39,14 @@ public:
   // constructor: allocate, don't initialize
   array(const std::vector<size_t> &shape);
 
-  // constructor: copy
+  // constructor: copy from own class
   array(const cppmat::array<X> &A);
 
-  // constructor: copy
+  // constructor: copy from fixed size
   template<size_t rank, size_t i, size_t j, size_t k, size_t l, size_t m, size_t n>
   array(const cppmat::tiny::array<X,rank,i,j,k,l,m,n> &A);
 
-  // constructor: copy
+  // constructor: copy from view
   template<size_t rank, size_t i, size_t j, size_t k, size_t l, size_t m, size_t n>
   array(const cppmat::view::array<X,rank,i,j,k,l,m,n> &A);
 

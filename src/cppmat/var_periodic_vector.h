@@ -37,12 +37,16 @@ public:
   // constructor: allocate, don't initialize
   vector(size_t n);
 
-  // constructor: copy
-  vector(const cppmat::array <X> &A);
-  vector(const std   ::vector<X> &A);
+  // constructor: copy from parent
+  vector(const cppmat::array<X> &A);
 
-  // constructor: copy
+  // constructor: copy from other class
+  vector(const std::vector<X> &A);
+
+  // constructor: copy from fixed size
   template<size_t n> vector(const cppmat::tiny::periodic::vector<X,n> &A);
+
+  // constructor: copy from view
   template<size_t n> vector(const cppmat::view::periodic::vector<X,n> &A);
 
   // named constructor: initialize

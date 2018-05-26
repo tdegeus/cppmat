@@ -43,13 +43,17 @@ public:
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);
 
-  // constructor: copy
-  matrix(const cppmat::           array <X> &A);
+  // constructor: copy from parent
+  matrix(const cppmat::array <X> &A);
+
+  // constructor: copy from other class
   matrix(const cppmat::symmetric::matrix<X> &A);
   matrix(const cppmat::diagonal ::matrix<X> &A);
 
-  // constructor: copy
+  // constructor: copy from fixed size
   template<size_t m, size_t n> matrix(const cppmat::tiny::matrix<X,m,n> &A);
+
+  // constructor: copy from view
   template<size_t m, size_t n> matrix(const cppmat::view::matrix<X,m,n> &A);
 
   // named constructor: initialize

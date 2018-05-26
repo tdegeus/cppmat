@@ -36,11 +36,13 @@ public:
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);
 
-  // constructor: copy
+  // constructor: copy from parent
   matrix(const cppmat::array<X> &A);
 
-  // constructor: copy
+  // constructor: copy from fixed size
   template<size_t m, size_t n> matrix(const cppmat::tiny::periodic::matrix<X,m,n> &A);
+
+  // constructor: copy from view
   template<size_t m, size_t n> matrix(const cppmat::view::periodic::matrix<X,m,n> &A);
 
   // named constructor: initialize
