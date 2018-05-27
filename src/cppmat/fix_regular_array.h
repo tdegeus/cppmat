@@ -23,6 +23,13 @@ namespace tiny {
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 class array
 {
+  static_assert( RANK >= 1 or I == 1, "Insufficient rank" );
+  static_assert( RANK >= 2 or J == 1, "Insufficient rank" );
+  static_assert( RANK >= 3 or K == 1, "Insufficient rank" );
+  static_assert( RANK >= 4 or L == 1, "Insufficient rank" );
+  static_assert( RANK >= 5 or M == 1, "Insufficient rank" );
+  static_assert( RANK >= 6 or N == 1, "Insufficient rank" );
+
 protected:
 
   static const size_t MAX_DIM=6;         // maximum number of dimensions
