@@ -22,7 +22,9 @@ template<class X, size_t ND> struct type_caster<cppmat::tiny::cartesian::tensor2
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tiny::cartesian::tensor2d<X,ND>, _("cppmat::tiny::cartesian::tensor2d<X,ND>"));
+  using Arr = cppmat::tiny::cartesian::tensor2d<X,ND>;
+
+  PYBIND11_TYPE_CASTER(Arr, _("cppmat::tiny::cartesian::tensor2d<X,ND>"));
 
   // Python -> C++
   // -------------

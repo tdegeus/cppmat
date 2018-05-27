@@ -18,11 +18,13 @@ namespace detail {
 // type caster: cppmat::tiny::periodic::array <-> NumPy-array
 // =================================================================================================
 
-template<class X, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N> struct type_caster<cppmat::tiny::periodic::array<X,I,J,K,L,M,N>>
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N> struct type_caster<cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tiny::periodic::array<X,I,J,K,L,M,N>, _("cppmat::tiny::periodic::array<X,I,J,K,L,M,N>"));
+  using Arr = cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N>;
+
+  PYBIND11_TYPE_CASTER(Arr, _("cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N>"));
 
   // Python -> C++
   // -------------
@@ -49,7 +51,7 @@ public:
     if ( static_cast<size_t>(buf.shape()[5]) != N and RANK > 5 ) return false;
 
     // - all checks passed : create the proper C++ variable
-    value = cppmat::tiny::periodic::array<X,I,J,K,L,M,N>::Copy(buf.data(), buf.data()+buf.size());
+    value = cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N>::Copy(buf.data(), buf.data()+buf.size());
 
     // - signal successful variable creation
     return true;
@@ -59,7 +61,7 @@ public:
   // -------------
 
   static py::handle cast(
-    const cppmat::tiny::periodic::array<X,I,J,K,L,M,N>& src, py::return_value_policy policy, py::handle parent
+    const cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N>& src, py::return_value_policy policy, py::handle parent
   )
   {
     // - create Python variable (all variables are copied)

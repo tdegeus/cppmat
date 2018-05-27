@@ -22,7 +22,9 @@ template<class X, size_t M, size_t N> struct type_caster<cppmat::tiny::symmetric
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tiny::symmetric::matrix<X,M,N>, _("cppmat::tiny::symmetric::matrix<X,M,N>"));
+  using Arr = cppmat::tiny::symmetric::matrix<X,M,N>;
+
+  PYBIND11_TYPE_CASTER(Arr, _("cppmat::tiny::symmetric::matrix<X,M,N>"));
 
   // Python -> C++
   // -------------

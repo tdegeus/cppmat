@@ -31,6 +31,9 @@ public:
   // constructor: map external pointer
   matrix(const X *A);
 
+  // named constructor: map external pointer
+  static matrix<X,M,N> Map(const X *D);
+
 };
 
 // =================================================================================================

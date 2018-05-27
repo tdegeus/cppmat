@@ -34,6 +34,9 @@ public:
   // constructor: map external pointer
   tensor4(const X *A);
 
+  // named constructor: map external pointer
+  static tensor4<X,ND> Map(const X *D);
+
   // get dimensions
   size_t ndim() const;
 

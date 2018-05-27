@@ -44,6 +44,9 @@ public:
   // constructor: map external pointer
   array(const X *A);
 
+  // named constructor: map external pointer
+  static array<X,RANK,I,J,K,L,M,N> Map(const X *D);
+
   // index operators: access using array-indices
   const X& operator()(int a) const;
   const X& operator()(int a, int b) const;

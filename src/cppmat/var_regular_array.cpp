@@ -194,7 +194,6 @@ template<class X>
 inline
 void array<X>::resize(const std::vector<size_t> &shape)
 {
-  assert( shape.size()  > 0       );
   assert( shape.size() <= MAX_DIM );
 
   // store old size
@@ -220,6 +219,9 @@ void array<X>::resize(const std::vector<size_t> &shape)
   for ( size_t i = 0 ; i < mRank ; ++i )
     for ( size_t j = i+1 ; j < mRank ; ++j )
       mStrides[i] *= mShape[j];
+
+  // set empty
+  if ( shape.size() == 0 ) mSize = 0;
 
   // allocate data
   if ( mSize != size ) mData.resize(mSize);

@@ -60,6 +60,7 @@ public:
   // named constructor: copy
   template<typename Itr> static vector<X> Copy(size_t n, Itr first);
   template<typename Itr> static vector<X> Copy(size_t n, Itr first, Itr last);
+  template<typename Itr> static vector<X> Copy(          Itr first, Itr last);
 
   // resize
   void resize(size_t n);

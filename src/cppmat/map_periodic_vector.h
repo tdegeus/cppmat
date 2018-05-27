@@ -32,6 +32,9 @@ public:
   // constructor: map external pointer
   vector(const X *A);
 
+  // named constructor: map external pointer
+  static vector<X,N> Map(const X *D);
+
 };
 
 // =================================================================================================

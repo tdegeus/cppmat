@@ -22,7 +22,9 @@ template<class X, size_t N> struct type_caster<cppmat::tiny::vector<X,N>>
 {
 public:
 
-  PYBIND11_TYPE_CASTER(cppmat::tiny::vector<X,N>, _("cppmat::tiny::vector<X,N>"));
+  using Arr = cppmat::tiny::vector<X,N>;
+
+  PYBIND11_TYPE_CASTER(Arr, _("cppmat::tiny::vector<X,N>"));
 
   // Python -> C++
   // -------------

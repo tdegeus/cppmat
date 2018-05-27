@@ -48,6 +48,21 @@ array<X,RANK,I,J,K,L,M,N>::array(const X *A) : cppmat::view::array<X,RANK,I,J,K,
 }
 
 // =================================================================================================
+// named constructors
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
+{
+  array<X,RANK,I,J,K,L,M,N> out;
+
+  out.setMap(D);
+
+  return out;
+}
+
+// =================================================================================================
 // index operators : operator(...)
 // =================================================================================================
 

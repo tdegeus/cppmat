@@ -190,6 +190,20 @@ vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
   return out;
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename Iterator>
+inline
+vector<X> vector<X>::Copy(Iterator first, Iterator last)
+{
+  vector<X> out(last-first);
+
+  out.setCopy(first,last);
+
+  return out;
+}
+
 // =================================================================================================
 // resize
 // =================================================================================================
