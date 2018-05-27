@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 tensor4<X,ND>::tensor4() : cppmat::view::array<X,4,ND,ND,ND,ND>()
 {
 }
@@ -32,7 +32,7 @@ tensor4<X,ND>::tensor4() : cppmat::view::array<X,4,ND,ND,ND,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 tensor4<X,ND>::tensor4(const X *A) : cppmat::view::array<X,4,ND,ND,ND,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ tensor4<X,ND>::tensor4(const X *A) : cppmat::view::array<X,4,ND,ND,ND,ND>(A)
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 tensor4<X,ND> tensor4<X,ND>::Map(const X *D)
 {
   tensor4<X,ND> out;
@@ -57,7 +57,7 @@ tensor4<X,ND> tensor4<X,ND>::Map(const X *D)
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 size_t tensor4<X,ND>::ndim() const
 {
   return ND;

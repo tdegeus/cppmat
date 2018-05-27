@@ -22,7 +22,7 @@ namespace symmetric {
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::Size()
 {
   return (N+1)*N/2;
@@ -33,7 +33,7 @@ size_t matrix<X,M,N>::Size()
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 matrix<X,M,N>::matrix()
 {
 }
@@ -43,7 +43,7 @@ matrix<X,M,N>::matrix()
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 matrix<X,M,N>::matrix(const X *A)
 {
   mData = A;
@@ -54,7 +54,7 @@ matrix<X,M,N>::matrix(const X *A)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 matrix<X,M,N> matrix<X,M,N>::Map(const X *D)
 {
   matrix<X,M,N> out;
@@ -69,7 +69,7 @@ matrix<X,M,N> matrix<X,M,N>::Map(const X *D)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::vector<X> matrix<X,M,N>::asVector() const
 {
   std::vector<X> out(mSize);
@@ -84,7 +84,7 @@ std::vector<X> matrix<X,M,N>::asVector() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::size() const
 {
   return mSize;
@@ -93,7 +93,7 @@ size_t matrix<X,M,N>::size() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::rank() const
 {
   return mRank;
@@ -102,7 +102,7 @@ size_t matrix<X,M,N>::rank() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
@@ -116,7 +116,7 @@ size_t matrix<X,M,N>::shape(int i) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
@@ -129,7 +129,7 @@ size_t matrix<X,M,N>::shape(size_t i) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::vector<size_t> matrix<X,M,N>::shape() const
 {
   std::vector<size_t> shape(mRank);
@@ -144,7 +144,7 @@ std::vector<size_t> matrix<X,M,N>::shape() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 const X& matrix<X,M,N>::operator[](size_t i) const
 {
   assert( i < mSize );
@@ -157,7 +157,7 @@ const X& matrix<X,M,N>::operator[](size_t i) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 const X& matrix<X,M,N>::operator()(size_t a, size_t b) const
 {
   assert( a < N );
@@ -172,7 +172,7 @@ const X& matrix<X,M,N>::operator()(size_t a, size_t b) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::compress(size_t a, size_t b) const
 {
   assert( a < N );
@@ -187,7 +187,7 @@ size_t matrix<X,M,N>::compress(size_t a, size_t b) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 {
   // check input
@@ -215,7 +215,7 @@ std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 const X* matrix<X,M,N>::data() const
 {
   return mData;
@@ -226,7 +226,7 @@ const X* matrix<X,M,N>::data() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 auto matrix<X,M,N>::begin() const
 {
   return mData;
@@ -235,7 +235,7 @@ auto matrix<X,M,N>::begin() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 auto matrix<X,M,N>::end() const
 {
   return mData + mSize;
@@ -246,7 +246,7 @@ auto matrix<X,M,N>::end() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 auto matrix<X,M,N>::index(size_t i) const
 {
   assert( i < mSize );
@@ -259,7 +259,7 @@ auto matrix<X,M,N>::index(size_t i) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 auto matrix<X,M,N>::item(size_t a, size_t b) const
 {
   assert( a < N );
@@ -274,7 +274,7 @@ auto matrix<X,M,N>::item(size_t a, size_t b) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 void matrix<X,M,N>::setMap(const X *D)
 {
   mData = D;
@@ -286,7 +286,7 @@ void matrix<X,M,N>::setMap(const X *D)
 
 template<class X, size_t M, size_t N>
 template<class Iterator>
-inline
+CPPMAT_INLINE
 void matrix<X,M,N>::copyTo(Iterator first) const
 {
   std::copy(begin(), end(), first);
@@ -296,7 +296,7 @@ void matrix<X,M,N>::copyTo(Iterator first) const
 
 template<class X, size_t M, size_t N>
 template<class Iterator>
-inline
+CPPMAT_INLINE
 void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
 {
   assert( mSize == static_cast<size_t>(last-first) );
@@ -310,7 +310,7 @@ void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
 
 template<class X, size_t M, size_t N>
 template<class Iterator>
-inline
+CPPMAT_INLINE
 void matrix<X,M,N>::copyToDense(Iterator first) const
 {
   for ( size_t i = 0 ; i < N ; ++i )
@@ -322,7 +322,7 @@ void matrix<X,M,N>::copyToDense(Iterator first) const
 
 template<class X, size_t M, size_t N>
 template<class Iterator>
-inline
+CPPMAT_INLINE
 void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 {
   assert( N*N == static_cast<size_t>(last-first) );
@@ -339,7 +339,7 @@ void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 X matrix<X,M,N>::norm() const
 {
   X out = static_cast<X>(0);
@@ -355,7 +355,7 @@ X matrix<X,M,N>::norm() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::argmin() const
 {
   return std::min_element(begin(), end()) - begin();
@@ -364,7 +364,7 @@ size_t matrix<X,M,N>::argmin() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 size_t matrix<X,M,N>::argmax() const
 {
   return std::max_element(begin(), end()) - begin();
@@ -375,7 +375,7 @@ size_t matrix<X,M,N>::argmax() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 X matrix<X,M,N>::min() const
 {
   return *std::min_element(begin(),end());
@@ -386,7 +386,7 @@ X matrix<X,M,N>::min() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 X matrix<X,M,N>::max() const
 {
   return *std::max_element(begin(),end());
@@ -397,7 +397,7 @@ X matrix<X,M,N>::max() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 X matrix<X,M,N>::sum() const
 {
   X out = static_cast<X>(0);
@@ -417,7 +417,7 @@ X matrix<X,M,N>::sum() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 double matrix<X,M,N>::mean() const
 {
   return static_cast<double>(sum())/static_cast<double>(N*N);
@@ -428,7 +428,7 @@ double matrix<X,M,N>::mean() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 {
   if ( norm ) return static_cast<double>((weights*(*this)).sum())/static_cast<double>(weights.sum());
@@ -440,7 +440,7 @@ double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::vector<size_t> matrix<X,M,N>::where() const
 {
   size_t nnz = 0;
@@ -468,7 +468,7 @@ std::vector<size_t> matrix<X,M,N>::where() const
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::vector<size_t> matrix<X,M,N>::where(X D) const
 {
   size_t nnz = 0;
@@ -492,11 +492,11 @@ std::vector<size_t> matrix<X,M,N>::where(X D) const
 }
 
 // =================================================================================================
-// formatted print
+// print operator
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 {
   auto w = out.width();

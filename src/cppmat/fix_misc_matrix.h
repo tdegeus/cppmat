@@ -16,84 +16,84 @@
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator* (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator/ (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator* (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator/ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
@@ -104,56 +104,56 @@ cppmat::tiny::matrix<X,M,N> operator- (
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const X &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const X &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const X &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const X &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
@@ -164,42 +164,42 @@ cppmat::tiny::symmetric::matrix<X,M,N> operator- (
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator/ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator/ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &A,
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 );
 
 template<class X, size_t M, size_t N>
-inline
+CPPMAT_INLINE
 cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::symmetric::matrix<X,M,N> &A,
   const cppmat::tiny::diagonal::matrix<X,M,N> &B

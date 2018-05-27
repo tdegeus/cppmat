@@ -22,6 +22,14 @@
 #include <ctime>
 #include <iso646.h> // to fix a Microsoft Visual Studio error on "and" and "or"
 
+// ==================== switch to behave like a header-only or regular library =====================
+
+#ifdef CPPMAT_NO_HEADER_ONLY
+  #define CPPMAT_INLINE inline
+#else
+  #define CPPMAT_INLINE
+#endif
+
 // =================================================================================================
 
 #define CPPMAT_WORLD_VERSION 0
@@ -260,56 +268,60 @@ namespace cartesian {
 #include "map_cartesian_tensor2d.h"
 #include "map_cartesian_vector.h"
 
-#include "stl.cpp"
-#include "private.cpp"
+#ifndef CPPMAT_NO_HEADER_ONLY
 
-#include "var_regular_array.cpp"
-#include "var_regular_matrix.cpp"
-#include "var_regular_vector.cpp"
-#include "var_symmetric_matrix.cpp"
-#include "var_diagonal_matrix.cpp"
-#include "var_misc_matrix.cpp"
-#include "var_periodic_array.cpp"
-#include "var_periodic_matrix.cpp"
-#include "var_periodic_vector.cpp"
-#include "var_cartesian.cpp"
-#include "var_cartesian_tensor4.cpp"
-#include "var_cartesian_tensor2.cpp"
-#include "var_cartesian_tensor2s.cpp"
-#include "var_cartesian_tensor2d.cpp"
-#include "var_cartesian_vector.cpp"
+  #include "stl.cpp"
+  #include "private.cpp"
 
-#include "fix_regular_array.cpp"
-#include "fix_regular_matrix.cpp"
-#include "fix_regular_vector.cpp"
-#include "fix_symmetric_matrix.cpp"
-#include "fix_diagonal_matrix.cpp"
-#include "fix_misc_matrix.cpp"
-#include "fix_periodic_array.cpp"
-#include "fix_periodic_matrix.cpp"
-#include "fix_periodic_vector.cpp"
-#include "fix_cartesian.cpp"
-#include "fix_cartesian_2.cpp"
-#include "fix_cartesian_3.cpp"
-#include "fix_cartesian_tensor4.cpp"
-#include "fix_cartesian_tensor2.cpp"
-#include "fix_cartesian_tensor2s.cpp"
-#include "fix_cartesian_tensor2d.cpp"
-#include "fix_cartesian_vector.cpp"
+  #include "var_regular_array.cpp"
+  #include "var_regular_matrix.cpp"
+  #include "var_regular_vector.cpp"
+  #include "var_symmetric_matrix.cpp"
+  #include "var_diagonal_matrix.cpp"
+  #include "var_misc_matrix.cpp"
+  #include "var_periodic_array.cpp"
+  #include "var_periodic_matrix.cpp"
+  #include "var_periodic_vector.cpp"
+  #include "var_cartesian.cpp"
+  #include "var_cartesian_tensor4.cpp"
+  #include "var_cartesian_tensor2.cpp"
+  #include "var_cartesian_tensor2s.cpp"
+  #include "var_cartesian_tensor2d.cpp"
+  #include "var_cartesian_vector.cpp"
 
-#include "map_regular_array.cpp"
-#include "map_regular_matrix.cpp"
-#include "map_regular_vector.cpp"
-#include "map_symmetric_matrix.cpp"
-#include "map_diagonal_matrix.cpp"
-#include "map_periodic_array.cpp"
-#include "map_periodic_matrix.cpp"
-#include "map_periodic_vector.cpp"
-#include "map_cartesian_tensor4.cpp"
-#include "map_cartesian_tensor2.cpp"
-#include "map_cartesian_tensor2s.cpp"
-#include "map_cartesian_tensor2d.cpp"
-#include "map_cartesian_vector.cpp"
+  #include "fix_regular_array.cpp"
+  #include "fix_regular_matrix.cpp"
+  #include "fix_regular_vector.cpp"
+  #include "fix_symmetric_matrix.cpp"
+  #include "fix_diagonal_matrix.cpp"
+  #include "fix_misc_matrix.cpp"
+  #include "fix_periodic_array.cpp"
+  #include "fix_periodic_matrix.cpp"
+  #include "fix_periodic_vector.cpp"
+  #include "fix_cartesian.cpp"
+  #include "fix_cartesian_2.cpp"
+  #include "fix_cartesian_3.cpp"
+  #include "fix_cartesian_tensor4.cpp"
+  #include "fix_cartesian_tensor2.cpp"
+  #include "fix_cartesian_tensor2s.cpp"
+  #include "fix_cartesian_tensor2d.cpp"
+  #include "fix_cartesian_vector.cpp"
+
+  #include "map_regular_array.cpp"
+  #include "map_regular_matrix.cpp"
+  #include "map_regular_vector.cpp"
+  #include "map_symmetric_matrix.cpp"
+  #include "map_diagonal_matrix.cpp"
+  #include "map_periodic_array.cpp"
+  #include "map_periodic_matrix.cpp"
+  #include "map_periodic_vector.cpp"
+  #include "map_cartesian_tensor4.cpp"
+  #include "map_cartesian_tensor2.cpp"
+  #include "map_cartesian_tensor2s.cpp"
+  #include "map_cartesian_tensor2d.cpp"
+  #include "map_cartesian_vector.cpp"
+
+#endif
 
 // =================================================================================================
 

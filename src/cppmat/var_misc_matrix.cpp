@@ -16,7 +16,7 @@
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator*= (
   const cppmat::symmetric::matrix<X> &B
@@ -42,7 +42,7 @@ cppmat::matrix<X>::operator*= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator/= (
   const cppmat::symmetric::matrix<X> &B
@@ -68,7 +68,7 @@ cppmat::matrix<X>::operator/= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator+= (
   const cppmat::symmetric::matrix<X> &B
@@ -94,7 +94,7 @@ cppmat::matrix<X>::operator+= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator-= (
   const cppmat::symmetric::matrix<X> &B
@@ -120,7 +120,7 @@ cppmat::matrix<X>::operator-= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator*= (
   const cppmat::diagonal::matrix<X> &B
@@ -143,7 +143,7 @@ cppmat::matrix<X>::operator*= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator+= (
   const cppmat::diagonal::matrix<X> &B
@@ -162,7 +162,7 @@ cppmat::matrix<X>::operator+= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator-= (
   const cppmat::diagonal::matrix<X> &B
@@ -183,7 +183,7 @@ cppmat::matrix<X>::operator-= (
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator*= (
   const cppmat::diagonal::matrix<X> &B
@@ -204,7 +204,7 @@ cppmat::symmetric::matrix<X>::operator*= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator+= (
   const cppmat::diagonal::matrix<X> &B
@@ -221,7 +221,7 @@ cppmat::symmetric::matrix<X>::operator+= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator-= (
   const cppmat::diagonal::matrix<X> &B
@@ -240,7 +240,7 @@ cppmat::symmetric::matrix<X>::operator-= (
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator*= (
   const cppmat::matrix<X> &B
@@ -257,7 +257,7 @@ cppmat::diagonal::matrix<X>::operator*= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator/= (
   const cppmat::matrix<X> &B
@@ -274,7 +274,7 @@ cppmat::diagonal::matrix<X>::operator/= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator*= (
   const cppmat::symmetric::matrix<X> &B
@@ -291,7 +291,7 @@ cppmat::diagonal::matrix<X>::operator*= (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator/= (
   const cppmat::symmetric::matrix<X> &B
@@ -310,7 +310,7 @@ cppmat::diagonal::matrix<X>::operator/= (
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator* (
   const cppmat::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -338,7 +338,7 @@ cppmat::matrix<X> operator* (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator/ (
   const cppmat::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -366,7 +366,7 @@ cppmat::matrix<X> operator/ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator+ (
   const cppmat::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -394,7 +394,7 @@ cppmat::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator- (
   const cppmat::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -422,7 +422,7 @@ cppmat::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator+ (
   const cppmat::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B
@@ -447,7 +447,7 @@ cppmat::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator- (
   const cppmat::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B
@@ -472,7 +472,7 @@ cppmat::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator* (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -500,7 +500,7 @@ cppmat::matrix<X> operator* (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator/ (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -528,7 +528,7 @@ cppmat::matrix<X> operator/ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator+ (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -556,7 +556,7 @@ cppmat::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator- (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -584,7 +584,7 @@ cppmat::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -609,7 +609,7 @@ cppmat::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -636,7 +636,7 @@ cppmat::matrix<X> operator- (
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B
@@ -661,7 +661,7 @@ cppmat::symmetric::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B
@@ -686,7 +686,7 @@ cppmat::symmetric::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
   const X &B
@@ -709,7 +709,7 @@ cppmat::symmetric::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
   const X &B
@@ -732,7 +732,7 @@ cppmat::symmetric::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -757,7 +757,7 @@ cppmat::symmetric::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -782,7 +782,7 @@ cppmat::symmetric::matrix<X> operator- (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator+ (
   const X &A,
   const cppmat::diagonal::matrix<X> &B
@@ -805,7 +805,7 @@ cppmat::symmetric::matrix<X> operator+ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::symmetric::matrix<X> operator- (
   const X &A,
   const cppmat::diagonal::matrix<X> &B
@@ -830,7 +830,7 @@ cppmat::symmetric::matrix<X> operator- (
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -851,7 +851,7 @@ cppmat::diagonal::matrix<X> operator* (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator/ (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::matrix<X> &B
@@ -872,7 +872,7 @@ cppmat::diagonal::matrix<X> operator/ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -893,7 +893,7 @@ cppmat::diagonal::matrix<X> operator* (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator/ (
   const cppmat::diagonal::matrix<X> &A,
   const cppmat::symmetric::matrix<X> &B
@@ -914,7 +914,7 @@ cppmat::diagonal::matrix<X> operator/ (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B
@@ -935,7 +935,7 @@ cppmat::diagonal::matrix<X> operator* (
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::symmetric::matrix<X> &A,
   const cppmat::diagonal::matrix<X> &B

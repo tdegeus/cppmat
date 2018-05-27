@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector() : cppmat::view::vector<X,ND>()
 {
 }
@@ -32,7 +32,7 @@ vector<X,ND>::vector() : cppmat::view::vector<X,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector(const X *A) : cppmat::view::vector<X,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ vector<X,ND>::vector(const X *A) : cppmat::view::vector<X,ND>(A)
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND> vector<X,ND>::Map(const X *D)
 {
   vector<X,ND> out;
@@ -57,7 +57,7 @@ vector<X,ND> vector<X,ND>::Map(const X *D)
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 size_t vector<X,ND>::ndim() const
 {
   return ND;

@@ -21,7 +21,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
 {
   ND = nd;
@@ -32,7 +32,7 @@ vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
 {
   ND = this->mShape[0];
@@ -43,7 +43,7 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const std::vector<X> &A) : cppmat::vector<X>(A)
 {
   ND = this->mShape[0];
@@ -55,7 +55,7 @@ vector<X>::vector(const std::vector<X> &A) : cppmat::vector<X>(A)
 
 template<class X>
 template<size_t nd>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::tiny::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
 {
   ND = this->mShape[0];
@@ -67,7 +67,7 @@ vector<X>::vector(const cppmat::tiny::cartesian::vector<X,nd> &A) : cppmat::arra
 
 template<class X>
 template<size_t nd>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::view::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
 {
   ND = this->mShape[0];
@@ -78,7 +78,7 @@ vector<X>::vector(const cppmat::view::cartesian::vector<X,nd> &A) : cppmat::arra
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Random(size_t nd, X lower, X upper)
 {
   vector<X> out(nd);
@@ -91,7 +91,7 @@ vector<X> vector<X>::Random(size_t nd, X lower, X upper)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Arange(size_t nd)
 {
   vector<X> out(nd);
@@ -104,7 +104,7 @@ vector<X> vector<X>::Arange(size_t nd)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Zero(size_t nd)
 {
   vector<X> out(nd);
@@ -117,7 +117,7 @@ vector<X> vector<X>::Zero(size_t nd)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Ones(size_t nd)
 {
   vector<X> out(nd);
@@ -130,7 +130,7 @@ vector<X> vector<X>::Ones(size_t nd)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Constant(size_t nd, X D)
 {
   vector<X> out(nd);
@@ -143,7 +143,7 @@ vector<X> vector<X>::Constant(size_t nd, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(const std::vector<X> &D)
 {
   vector<X> out(D.size());
@@ -156,7 +156,7 @@ vector<X> vector<X>::Copy(const std::vector<X> &D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t nd, const std::vector<X> &D)
 {
   vector<X> out(nd);
@@ -170,7 +170,7 @@ vector<X> vector<X>::Copy(size_t nd, const std::vector<X> &D)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t nd, Iterator first)
 {
   vector<X> out(nd);
@@ -184,7 +184,7 @@ vector<X> vector<X>::Copy(size_t nd, Iterator first)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t nd, Iterator first, Iterator last)
 {
   vector<X> out(nd);
@@ -198,7 +198,7 @@ vector<X> vector<X>::Copy(size_t nd, Iterator first, Iterator last)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(Iterator first, Iterator last)
 {
   vector<X> out(last-first);
@@ -213,7 +213,7 @@ vector<X> vector<X>::Copy(Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 void vector<X>::resize(size_t nd)
 {
   ND = nd;
@@ -226,7 +226,7 @@ void vector<X>::resize(size_t nd)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 size_t vector<X>::ndim() const
 {
   return ND;
@@ -237,7 +237,7 @@ size_t vector<X>::ndim() const
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::dot(const tensor2<X> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -246,7 +246,7 @@ vector<X> vector<X>::dot(const tensor2<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::dot(const tensor2s<X> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -255,7 +255,7 @@ vector<X> vector<X>::dot(const tensor2s<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::dot(const tensor2d<X> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -264,7 +264,7 @@ vector<X> vector<X>::dot(const tensor2d<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X vector<X>::dot(const vector<X> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -273,7 +273,7 @@ X vector<X>::dot(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 {
   return cppmat::cartesian::dyadic(*this, B);
@@ -282,7 +282,7 @@ tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::cross(const vector<X> &B) const
 {
   return cppmat::cartesian::cross(*this, B);
@@ -293,7 +293,7 @@ vector<X> vector<X>::cross(const vector<X> &B) const
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 X vector<X>::length() const
 {
   return cppmat::cartesian::length(*this);
@@ -302,7 +302,7 @@ X vector<X>::length() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 void vector<X>::setUnitLength()
 {
   X C = this->length();

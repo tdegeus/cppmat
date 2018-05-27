@@ -21,7 +21,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(size_t n) : cppmat::periodic::array<X>({n})
 {
 }
@@ -31,7 +31,7 @@ vector<X>::vector(size_t n) : cppmat::periodic::array<X>({n})
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 {
   assert( this->mRank == 1 );
@@ -42,7 +42,7 @@ vector<X>::vector(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const std::vector<X> &A) : cppmat::periodic::array<X>({A.size()}, A)
 {
 }
@@ -53,7 +53,7 @@ vector<X>::vector(const std::vector<X> &A) : cppmat::periodic::array<X>({A.size(
 
 template<class X>
 template<size_t n>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::tiny::periodic::vector<X,n> &A) : cppmat::periodic::array<X>(A)
 {
 }
@@ -64,7 +64,7 @@ vector<X>::vector(const cppmat::tiny::periodic::vector<X,n> &A) : cppmat::period
 
 template<class X>
 template<size_t n>
-inline
+CPPMAT_INLINE
 vector<X>::vector(const cppmat::view::periodic::vector<X,n> &A) : cppmat::periodic::array<X>(A)
 {
 }
@@ -74,7 +74,7 @@ vector<X>::vector(const cppmat::view::periodic::vector<X,n> &A) : cppmat::period
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Random(size_t n, X lower, X upper)
 {
   vector<X> out(n);
@@ -87,7 +87,7 @@ vector<X> vector<X>::Random(size_t n, X lower, X upper)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Arange(size_t n)
 {
   vector<X> out(n);
@@ -100,7 +100,7 @@ vector<X> vector<X>::Arange(size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Zero(size_t n)
 {
   vector<X> out(n);
@@ -113,7 +113,7 @@ vector<X> vector<X>::Zero(size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Ones(size_t n)
 {
   vector<X> out(n);
@@ -126,7 +126,7 @@ vector<X> vector<X>::Ones(size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Constant(size_t n, X D)
 {
   vector<X> out(n);
@@ -139,7 +139,7 @@ vector<X> vector<X>::Constant(size_t n, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(const std::vector<X> &D)
 {
   vector<X> out(D.size());
@@ -152,7 +152,7 @@ vector<X> vector<X>::Copy(const std::vector<X> &D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
 {
   vector<X> out(n);
@@ -166,7 +166,7 @@ vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t n, Iterator first)
 {
   vector<X> out(n);
@@ -180,7 +180,7 @@ vector<X> vector<X>::Copy(size_t n, Iterator first)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
 {
   vector<X> out(n);
@@ -194,7 +194,7 @@ vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
 
 template<class X>
 template<typename Iterator>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::Copy(Iterator first, Iterator last)
 {
   vector<X> out(last-first);
@@ -209,7 +209,7 @@ vector<X> vector<X>::Copy(Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 void vector<X>::resize(size_t n)
 {
   cppmat::periodic::array<X>::resize({n});
@@ -220,7 +220,7 @@ void vector<X>::resize(size_t n)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 vector<X> vector<X>::diff() const
 {
   vector<X> out(this->mSize);

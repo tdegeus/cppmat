@@ -21,7 +21,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2<X,2> &A, const cppmat::tiny::cartesian::tensor2d<X,2> &B
 )
@@ -32,7 +32,7 @@ X ddot(
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2s<X,2> &A, const cppmat::tiny::cartesian::tensor2s<X,2> &B
 )
@@ -49,7 +49,7 @@ X ddot(
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2s<X,2> &A, const cppmat::tiny::cartesian::tensor2d<X,2> &B
 )
@@ -60,7 +60,7 @@ X ddot(
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2d<X,2> &A, const cppmat::tiny::cartesian::tensor2<X,2> &B
 )
@@ -71,7 +71,7 @@ X ddot(
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2d<X,2> &A, const cppmat::tiny::cartesian::tensor2s<X,2> &B
 )
@@ -82,7 +82,7 @@ X ddot(
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X ddot(
   const cppmat::tiny::cartesian::tensor2d<X,2> &A, const cppmat::tiny::cartesian::tensor2d<X,2> &B
 )
@@ -95,7 +95,7 @@ X ddot(
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 X det(const cppmat::tiny::cartesian::tensor2<X,2> &A)
 {
  return A[0] * A[3] - A[1] * A[2];
@@ -104,7 +104,7 @@ X det(const cppmat::tiny::cartesian::tensor2<X,2> &A)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 X det(const cppmat::tiny::cartesian::tensor2s<X,2> &A)
 {
  return A[0] * A[2] - A[1] * A[1];
@@ -115,7 +115,7 @@ X det(const cppmat::tiny::cartesian::tensor2s<X,2> &A)
 // =================================================================================================
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::tiny::cartesian::tensor2<X,2> inv(const cppmat::tiny::cartesian::tensor2<X,2> &A)
 {
   // compute determinant
@@ -136,7 +136,7 @@ cppmat::tiny::cartesian::tensor2<X,2> inv(const cppmat::tiny::cartesian::tensor2
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-inline
+CPPMAT_INLINE
 cppmat::tiny::cartesian::tensor2s<X,2> inv(const cppmat::tiny::cartesian::tensor2s<X,2> &A)
 {
   // compute determinant

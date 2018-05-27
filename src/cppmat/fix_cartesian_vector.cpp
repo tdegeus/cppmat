@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector() : cppmat::tiny::vector<X,ND>()
 {
 }
@@ -32,7 +32,7 @@ vector<X,ND>::vector() : cppmat::tiny::vector<X,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector(const cppmat::tiny::array<X,1,ND> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ vector<X,ND>::vector(const cppmat::tiny::array<X,1,ND> &A) : cppmat::tiny::vecto
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector(const std::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
@@ -52,7 +52,7 @@ vector<X,ND>::vector(const std::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector(const cppmat::cartesian::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
@@ -62,7 +62,7 @@ vector<X,ND>::vector(const cppmat::cartesian::vector<X> &A) : cppmat::tiny::vect
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND>::vector(const cppmat::view::cartesian::vector<X,ND> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
@@ -72,7 +72,7 @@ vector<X,ND>::vector(const cppmat::view::cartesian::vector<X,ND> &A) : cppmat::t
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 size_t vector<X,ND>::ndim() const
 {
   return ND;
@@ -83,7 +83,7 @@ size_t vector<X,ND>::ndim() const
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND> vector<X,ND>::dot(const tensor2<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -92,7 +92,7 @@ vector<X,ND> vector<X,ND>::dot(const tensor2<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND> vector<X,ND>::dot(const tensor2s<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -101,7 +101,7 @@ vector<X,ND> vector<X,ND>::dot(const tensor2s<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND> vector<X,ND>::dot(const tensor2d<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -110,7 +110,7 @@ vector<X,ND> vector<X,ND>::dot(const tensor2d<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 X vector<X,ND>::dot(const vector<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -119,7 +119,7 @@ X vector<X,ND>::dot(const vector<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 tensor2<X,ND> vector<X,ND>::dyadic(const vector<X,ND> &B) const
 {
   return cppmat::cartesian::dyadic(*this, B);
@@ -128,7 +128,7 @@ tensor2<X,ND> vector<X,ND>::dyadic(const vector<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 vector<X,ND> vector<X,ND>::cross(const vector<X,ND> &B) const
 {
   return cppmat::cartesian::cross(*this, B);
@@ -139,7 +139,7 @@ vector<X,ND> vector<X,ND>::cross(const vector<X,ND> &B) const
 // =================================================================================================
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 X vector<X,ND>::length() const
 {
   return cppmat::cartesian::length(*this);
@@ -148,7 +148,7 @@ X vector<X,ND>::length() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-inline
+CPPMAT_INLINE
 void vector<X,ND>::setUnitLength()
 {
   X C = this->length();

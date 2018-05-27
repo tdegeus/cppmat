@@ -181,19 +181,65 @@ public:
 
 };
 
+// =================================================================================================
 // external arithmetic operators (cppmat::symmetric::matrix)
-template<class X> inline matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator* (const matrix<X> &A, const        X  &B);
-template<class X> inline matrix<X> operator/ (const matrix<X> &A, const        X  &B);
-template<class X> inline matrix<X> operator+ (const matrix<X> &A, const        X  &B);
-template<class X> inline matrix<X> operator- (const matrix<X> &A, const        X  &B);
-template<class X> inline matrix<X> operator* (const        X  &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator/ (const        X  &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator+ (const        X  &A, const matrix<X> &B);
-template<class X> inline matrix<X> operator- (const        X  &A, const matrix<X> &B);
+// =================================================================================================
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator* (const matrix<X> &A, const        X  &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator/ (const matrix<X> &A, const        X  &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator+ (const matrix<X> &A, const        X  &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator- (const matrix<X> &A, const        X  &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator* (const        X  &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator/ (const        X  &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator+ (const        X  &A, const matrix<X> &B);
+
+template<class X>
+CPPMAT_INLINE
+matrix<X> operator- (const        X  &A, const matrix<X> &B);
+
+// =================================================================================================
+// print operator
+// =================================================================================================
+
+template<class X>
+CPPMAT_INLINE
+std::ostream& operator<<(std::ostream& out, const matrix<X>& src);
 
 // =================================================================================================
 

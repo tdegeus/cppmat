@@ -22,7 +22,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X, size_t N>
-inline
+CPPMAT_INLINE
 vector<X,N>::vector() : cppmat::tiny::periodic::array<X,1,N>()
 {
 }
@@ -32,7 +32,7 @@ vector<X,N>::vector() : cppmat::tiny::periodic::array<X,1,N>()
 // =================================================================================================
 
 template<class X, size_t N>
-inline
+CPPMAT_INLINE
 vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
@@ -42,9 +42,10 @@ vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::periodi
 // =================================================================================================
 
 template<class X, size_t N>
-inline
-vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::periodic::array<X,1,N>::Copy(A)
+CPPMAT_INLINE
+vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::periodic::array<X,1,N>()
 {
+  this->setCopy(A.begin(), A.end());
 }
 
 // =================================================================================================
@@ -52,7 +53,7 @@ vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::periodic::array<X,1
 // =================================================================================================
 
 template<class X, size_t N>
-inline
+CPPMAT_INLINE
 vector<X,N>::vector(const cppmat::periodic::vector<X> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
@@ -62,7 +63,7 @@ vector<X,N>::vector(const cppmat::periodic::vector<X> &A) : cppmat::tiny::period
 // =================================================================================================
 
 template<class X, size_t N>
-inline
+CPPMAT_INLINE
 vector<X,N>::vector(const cppmat::view::periodic::vector<X,N> &A) : cppmat::tiny::periodic::array<X,1,N>(A)
 {
 }
@@ -72,7 +73,7 @@ vector<X,N>::vector(const cppmat::view::periodic::vector<X,N> &A) : cppmat::tiny
 // =================================================================================================
 
 template<class X, size_t N>
-inline
+CPPMAT_INLINE
 vector<X,N> vector<X,N>::diff() const
 {
   vector<X,N> out;
