@@ -157,5 +157,7 @@ cppmat::tiny::cartesian::tensor2s<X,2> inv(const cppmat::tiny::cartesian::tensor
 
 }} // namespace ...
 
+// -------------------------------------------------------------------------------------------------
+
 #endif
 

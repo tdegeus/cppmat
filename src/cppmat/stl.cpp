@@ -93,5 +93,7 @@ inline std::string to_string(const std::vector<X> &A, std::string join)
 
 } // namespace ...
 
+// -------------------------------------------------------------------------------------------------
+
 #endif
 

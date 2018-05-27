@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_MAP_REGULAR_ARRAY_H
-#define CPPMAT_MAP_REGULAR_ARRAY_H
+#ifndef CPPMAT_MAP_SYMMETRIC_MATRIX_H
+#define CPPMAT_MAP_SYMMETRIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
@@ -15,22 +15,22 @@
 
 namespace cppmat {
 namespace view {
+namespace symmetric {
 
 // =================================================================================================
-// cppmat::view::array
+// cppmat::view::symmetric::matrix
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-class array
+template<class X, size_t M, size_t N>
+class matrix
 {
+  static_assert( N == M , "Must be square" );
+
 protected:
 
-  static const size_t MAX_DIM=6;         // maximum number of dimensions
-  static const size_t mSize=I*J*K*L*M*N; // total size == data.size() == prod(shape)
-  static const size_t mRank=RANK;        // rank (number of axes)
-  size_t mShape  [MAX_DIM];              // number of entries along each axis
-  size_t mStrides[MAX_DIM];              // stride length for each index
-  const X *mData;                        // data container
+  static const size_t mSize=(N+1)*N/2;  // total size == data.size()
+  static const size_t mRank=2;          // rank (number of axes)
+  const X            *mData;            // data container
 
 public:
 
@@ -38,13 +38,13 @@ public:
   static size_t Size();
 
   // constructor: allocate, don't initialize
-  array();
+  matrix();
 
   // constructor: map external pointer
-  array(const X *A);
+  matrix(const X *A);
 
   // named constructor: map external pointer
-  static array<X,RANK,I,J,K,L,M,N> Map(const X *D);
+  static matrix<X,M,N> Map(const X *D);
 
   // return plain storage as vector
   std::vector<X> asVector() const;
@@ -55,32 +55,17 @@ public:
   size_t shape(int    i) const;
   size_t shape(size_t i) const;
   std::vector<size_t> shape() const;
-  std::vector<size_t> strides(bool bytes=false) const;
 
   // index operators: access plain storage
   const X& operator[](size_t i) const;
 
-  // index operators: access using array-indices
-  const X& operator()(size_t a) const;
+  // index operators: access using matrix-indices
   const X& operator()(size_t a, size_t b) const;
-  const X& operator()(size_t a, size_t b, size_t c) const;
-  const X& operator()(size_t a, size_t b, size_t c, size_t d) const;
-  const X& operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  const X& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
-  // index operators: access using iterator
-  // N.B. the iterator points to list of array-indices (a,b,c,...)
-  template<class Iterator> const X& at(Iterator first, Iterator last) const;
-
-  // index operators: array-indices -> plain storage (a,b,c,... -> i)
-  size_t compress(size_t a) const;
+  // index operators: matrix-indices -> plain storage (a,b -> i)
   size_t compress(size_t a, size_t b) const;
-  size_t compress(size_t a, size_t b, size_t c) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
-  // index operators: plain storage -> array-indices (i -> a,b,c,...)
+  // index operators: plain storage -> matrix-indices (i -> a,b)
   std::vector<size_t> decompress(size_t i) const;
 
   // pointer to data
@@ -93,21 +78,17 @@ public:
   // iterator to specific entry: access plain storage
   auto index(size_t i) const;
 
-  // iterator to specific entry: access using array-indices
-  auto item(size_t a) const;
+  // iterator to specific entry: access using matrix-indices
   auto item(size_t a, size_t b) const;
-  auto item(size_t a, size_t b, size_t c) const;
-  auto item(size_t a, size_t b, size_t c, size_t d) const;
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
   // initialization
   void setMap(const X *D);
 
   // copy to target
-  template<typename Iterator> void copyTo(Iterator first) const;
-  template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
-
+  template<typename Iterator> void copyTo     (Iterator first) const;
+  template<typename Iterator> void copyTo     (Iterator first, Iterator last) const;
+  template<typename Iterator> void copyToDense(Iterator first) const;
+  template<typename Iterator> void copyToDense(Iterator first, Iterator last) const;
 
   // norm (sum of absolute values)
   X norm() const;
@@ -129,7 +110,7 @@ public:
   double mean() const;
 
   // weighted average
-  double average(const array<X,RANK,I,J,K,L,M,N> &weights, bool norm=true) const;
+  double average(const matrix<X,M,N> &weights, bool norm=true) const;
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
@@ -141,7 +122,7 @@ public:
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

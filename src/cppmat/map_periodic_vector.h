@@ -4,41 +4,39 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PRIVATE_CPP
-#define CPPMAT_PRIVATE_CPP
+#ifndef CPPMAT_MAP_PERIODIC_VECTOR_H
+#define CPPMAT_MAP_PERIODIC_VECTOR_H
 
 // -------------------------------------------------------------------------------------------------
 
-#include "private.h"
+#include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace Private {
+namespace view {
+namespace periodic {
 
 // =================================================================================================
+// cppmat::view::vector
+// =================================================================================================
 
-template<class X>
-inline std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
+template<class X, size_t N>
+class vector : public cppmat::view::periodic::array<X,1,N>
 {
-  std::vector<X> out = in;
+public:
 
-  // take the modulo (e.g. to correct for 'periodicity')
-  for ( auto &i : out )
-    i = (n + (i%n)) % n;
+  // constructor: allocate, don't initialize
+  vector();
 
-  // sort
-  std::sort(out.begin(),out.end());
+  // constructor: map external pointer
+  vector(const X *A);
 
-  // reverse order
-  if ( reverse ) std::reverse(out.begin(), out.end());
-
-  return out;
-}
+};
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

@@ -49,7 +49,7 @@ array<X,RANK,I,J,K,L,M,N>::array()
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-array<X,RANK,I,J,K,L,M,N>::array(const X *D)
+array<X,RANK,I,J,K,L,M,N>::array(const X *A)
 {
   mShape[0] = I;  mStrides[0] = J*K*L*M*N;
   mShape[1] = J;  mStrides[1] = K*L*M*N;
@@ -58,7 +58,7 @@ array<X,RANK,I,J,K,L,M,N>::array(const X *D)
   mShape[4] = M;  mStrides[4] = N;
   mShape[5] = N;  mStrides[5] = 1;
 
-  mData = D;
+  mData = A;
 }
 
 // =================================================================================================
@@ -75,7 +75,6 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
 
   return out;
 }
-
 
 // =================================================================================================
 // return plain storage as vector
@@ -668,7 +667,6 @@ void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
 
   std::copy(begin(), end(), first);
 }
-
 
 // =================================================================================================
 // norm

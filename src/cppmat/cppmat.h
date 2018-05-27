@@ -247,6 +247,18 @@ namespace cartesian {
 #include "fix_cartesian_vector.h"
 
 #include "map_regular_array.h"
+#include "map_regular_matrix.h"
+#include "map_regular_vector.h"
+#include "map_symmetric_matrix.h"
+#include "map_diagonal_matrix.h"
+#include "map_periodic_array.h"
+#include "map_periodic_matrix.h"
+#include "map_periodic_vector.h"
+#include "map_cartesian_tensor4.h"
+#include "map_cartesian_tensor2.h"
+#include "map_cartesian_tensor2s.h"
+#include "map_cartesian_tensor2d.h"
+#include "map_cartesian_vector.h"
 
 #include "stl.cpp"
 #include "private.cpp"
@@ -286,7 +298,18 @@ namespace cartesian {
 #include "fix_cartesian_vector.cpp"
 
 #include "map_regular_array.cpp"
-
+#include "map_regular_matrix.cpp"
+#include "map_regular_vector.cpp"
+#include "map_symmetric_matrix.cpp"
+#include "map_diagonal_matrix.cpp"
+#include "map_periodic_array.cpp"
+#include "map_periodic_matrix.cpp"
+#include "map_periodic_vector.cpp"
+#include "map_cartesian_tensor4.cpp"
+#include "map_cartesian_tensor2.cpp"
+#include "map_cartesian_tensor2s.cpp"
+#include "map_cartesian_tensor2d.cpp"
+#include "map_cartesian_vector.cpp"
 
 // =================================================================================================
 
