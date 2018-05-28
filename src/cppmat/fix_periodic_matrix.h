@@ -4,42 +4,45 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PRIVATE_CPP
-#define CPPMAT_PRIVATE_CPP
+#ifndef CPPMAT_FIX_PERIODIC_MATRIX_H
+#define CPPMAT_FIX_PERIODIC_MATRIX_H
 
 // -------------------------------------------------------------------------------------------------
 
-#include "private.h"
+#include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace Private {
+namespace tiny {
+namespace periodic {
 
 // =================================================================================================
+// cppmat::tiny::matrix
+// =================================================================================================
 
-template<class X>
-inline
-std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
+template<class X, size_t M, size_t N>
+class matrix : public cppmat::tiny::periodic::array<X,2,M,N>
 {
-  std::vector<X> out = in;
+public:
 
-  // take the modulo (e.g. to correct for 'periodicity')
-  for ( auto &i : out )
-    i = (n + (i%n)) % n;
+  // constructor: allocate, don't initialize
+  matrix();
 
-  // sort
-  std::sort(out.begin(),out.end());
+  // constructor: copy from parent
+  matrix(const cppmat::tiny::array<X,2,M,N> &A);
 
-  // reverse order
-  if ( reverse ) std::reverse(out.begin(), out.end());
+  // constructor: copy from dynamic size
+  matrix(const cppmat::periodic::matrix<X> &A);
 
-  return out;
-}
+  // constructor: copy from view
+  matrix(const cppmat::view::periodic::matrix<X,M,N> &A);
+
+};
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

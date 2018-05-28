@@ -4,42 +4,47 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PRIVATE_CPP
-#define CPPMAT_PRIVATE_CPP
+#ifndef CPPMAT_MAP_CARTESIAN_TENSOR2_H
+#define CPPMAT_MAP_CARTESIAN_TENSOR2_H
 
 // -------------------------------------------------------------------------------------------------
 
-#include "private.h"
+#include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace Private {
+namespace view {
+namespace cartesian {
 
 // =================================================================================================
+// cppmat::view::cartesian::tensor2
+// =================================================================================================
 
-template<class X>
-inline
-std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
+template<class X, size_t ND>
+class tensor2 : public cppmat::view::matrix<X,ND,ND>
 {
-  std::vector<X> out = in;
+  static_assert( ND > 0, "Number of dimensions must positive" );
 
-  // take the modulo (e.g. to correct for 'periodicity')
-  for ( auto &i : out )
-    i = (n + (i%n)) % n;
+public:
 
-  // sort
-  std::sort(out.begin(),out.end());
+  // constructor: allocate, don't initialize
+  tensor2();
 
-  // reverse order
-  if ( reverse ) std::reverse(out.begin(), out.end());
+  // constructor: map external pointer
+  tensor2(const X *A);
 
-  return out;
-}
+  // named constructor: map external pointer
+  static tensor2<X,ND> Map(const X *D);
+
+  // get dimensions
+  size_t ndim() const;
+
+};
 
 // =================================================================================================
 
-}} // namespace ...
+}}} // namespace ...
 
 // -------------------------------------------------------------------------------------------------
 

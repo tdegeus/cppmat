@@ -4,38 +4,46 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_PRIVATE_CPP
-#define CPPMAT_PRIVATE_CPP
+#ifndef CPPMAT_FIX_REGULAR_VECTOR_H
+#define CPPMAT_FIX_REGULAR_VECTOR_H
 
 // -------------------------------------------------------------------------------------------------
 
-#include "private.h"
+#include "cppmat.h"
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace Private {
+namespace tiny {
 
 // =================================================================================================
+// cppmat::tiny::vector
+// =================================================================================================
 
-template<class X>
-inline
-std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
+template<class X, size_t N>
+class vector : public cppmat::tiny::array<X,1,N>
 {
-  std::vector<X> out = in;
+public:
 
-  // take the modulo (e.g. to correct for 'periodicity')
-  for ( auto &i : out )
-    i = (n + (i%n)) % n;
+  // constructor: allocate, don't initialize
+  vector();
 
-  // sort
-  std::sort(out.begin(),out.end());
+  // constructor: copy from parent
+  vector(const cppmat::tiny::array<X,1,N> &A);
 
-  // reverse order
-  if ( reverse ) std::reverse(out.begin(), out.end());
+  // constructor: copy from other class
+  vector(const std::vector<X> &A);
 
-  return out;
-}
+  // constructor: copy from dynamic size
+  vector(const cppmat::vector<X> &A);
+
+  // constructor: copy from view
+  vector(const cppmat::view::vector<X,N> &A);
+
+  // forward difference (x0, x1-x0, x2-x1, ...)
+  vector<X,N> diff() const;
+
+};
 
 // =================================================================================================
 

@@ -36,15 +36,32 @@ include_directories(${EIGEN3_INCLUDE_DIRS})
 # create executable
 add_executable(${PROJECT_NAME}
   main.cpp
-  regular_array.cpp
-  regular_matrix.cpp
-  regular_vector.cpp
-  periodic_array.cpp
-  periodic_matrix.cpp
-  periodic_vector.cpp
-  tiny_matrix.cpp
-  tiny_vector.cpp
-  tensor.cpp
-  tensor2.cpp
-  tensor3.cpp
+  var_regular_array.cpp
+  var_symmetric_matrix.cpp
+  var_diagonal_matrix.cpp
+  var_misc_matrix.cpp
+  var_cartesian_tensor4.cpp
+  var_cartesian_tensor2.cpp
+  var_cartesian_tensor2s.cpp
+  var_cartesian_tensor2d.cpp
+  var_cartesian_vector.cpp
+  fix_regular_array.cpp
+  fix_symmetric_matrix.cpp
+  fix_diagonal_matrix.cpp
+  fix_misc_matrix.cpp
+  fix_cartesian_tensor4.cpp
+  fix_cartesian_tensor2.cpp
+  fix_cartesian_tensor2s.cpp
+  fix_cartesian_tensor2d.cpp
+  fix_cartesian_vector.cpp
+  fix_cartesian_tensor4_2.cpp
+  fix_cartesian_tensor2_2.cpp
+  fix_cartesian_tensor2s_2.cpp
+  fix_cartesian_tensor2d_2.cpp
+  fix_cartesian_vector_2.cpp
+  fix_cartesian_tensor4_3.cpp
+  fix_cartesian_tensor2_3.cpp
+  fix_cartesian_tensor2s_3.cpp
+  fix_cartesian_tensor2d_3.cpp
+  fix_cartesian_vector_3.cpp
 )
