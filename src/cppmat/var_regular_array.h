@@ -218,65 +218,22 @@ public:
 
 };
 
-// =================================================================================================
 // external arithmetic operators
-// =================================================================================================
+template<class X> array<X> operator* (const array<X> &A, const array<X> &B);
+template<class X> array<X> operator/ (const array<X> &A, const array<X> &B);
+template<class X> array<X> operator+ (const array<X> &A, const array<X> &B);
+template<class X> array<X> operator- (const array<X> &A, const array<X> &B);
+template<class X> array<X> operator* (const array<X> &A, const       X  &B);
+template<class X> array<X> operator/ (const array<X> &A, const       X  &B);
+template<class X> array<X> operator+ (const array<X> &A, const       X  &B);
+template<class X> array<X> operator- (const array<X> &A, const       X  &B);
+template<class X> array<X> operator* (const       X  &A, const array<X> &B);
+template<class X> array<X> operator/ (const       X  &A, const array<X> &B);
+template<class X> array<X> operator+ (const       X  &A, const array<X> &B);
+template<class X> array<X> operator- (const       X  &A, const array<X> &B);
 
-template<class X>
-CPPMAT_INLINE
-array<X> operator* (const array<X> &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator/ (const array<X> &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator+ (const array<X> &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator- (const array<X> &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator* (const array<X> &A, const       X  &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator/ (const array<X> &A, const       X  &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator+ (const array<X> &A, const       X  &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator- (const array<X> &A, const       X  &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator* (const       X  &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator/ (const       X  &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator+ (const       X  &A, const array<X> &B);
-
-template<class X>
-CPPMAT_INLINE
-array<X> operator- (const       X  &A, const array<X> &B);
-
-// =================================================================================================
 // print operator
-// =================================================================================================
-
-template<class X>
-CPPMAT_INLINE
-std::ostream& operator<<(std::ostream& out, const array<X>& src);
+template<class X> std::ostream& operator<<(std::ostream& out, const array<X>& src);
 
 // =================================================================================================
 

@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND>::tensor4() : cppmat::tiny::array<X,4,ND,ND,ND,ND>()
 {
 }
@@ -32,7 +32,7 @@ tensor4<X,ND>::tensor4() : cppmat::tiny::array<X,4,ND,ND,ND,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND>::tensor4(const cppmat::tiny::array<X,4,ND,ND,ND,ND> &A) : cppmat::tiny::array<X,4,ND,ND,ND,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ tensor4<X,ND>::tensor4(const cppmat::tiny::array<X,4,ND,ND,ND,ND> &A) : cppmat::
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND>::tensor4(const cppmat::cartesian::tensor4<X> &A) : cppmat::tiny::array<X,4,ND,ND,ND,ND>(A)
 {
 }
@@ -52,7 +52,7 @@ tensor4<X,ND>::tensor4(const cppmat::cartesian::tensor4<X> &A) : cppmat::tiny::a
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND>::tensor4(const cppmat::view::cartesian::tensor4<X,ND> &A) : cppmat::tiny::array<X,4,ND,ND,ND,ND>(A)
 {
 }
@@ -62,7 +62,7 @@ tensor4<X,ND>::tensor4(const cppmat::view::cartesian::tensor4<X,ND> &A) : cppmat
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::I()
 {
   tensor4<X,ND> out;
@@ -75,7 +75,7 @@ tensor4<X,ND> tensor4<X,ND>::I()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::Irt()
 {
   tensor4<X,ND> out;
@@ -88,7 +88,7 @@ tensor4<X,ND> tensor4<X,ND>::Irt()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::Id()
 {
   tensor4<X,ND> out;
@@ -101,7 +101,7 @@ tensor4<X,ND> tensor4<X,ND>::Id()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::Is()
 {
   tensor4<X,ND> out;
@@ -114,7 +114,7 @@ tensor4<X,ND> tensor4<X,ND>::Is()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::Isd()
 {
   tensor4<X,ND> out;
@@ -127,7 +127,7 @@ tensor4<X,ND> tensor4<X,ND>::Isd()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::II()
 {
   tensor4<X,ND> out;
@@ -142,7 +142,7 @@ tensor4<X,ND> tensor4<X,ND>::II()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 size_t tensor4<X,ND>::ndim() const
 {
   return ND;
@@ -153,7 +153,7 @@ size_t tensor4<X,ND>::ndim() const
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setI()
 {
   this->setZero();
@@ -169,7 +169,7 @@ void tensor4<X,ND>::setI()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setIrt()
 {
   this->setZero();
@@ -185,7 +185,7 @@ void tensor4<X,ND>::setIrt()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setIs()
 {
   (*this) = ( tensor4<X,ND>::I() + tensor4<X,ND>::Irt() ) / static_cast<X>(2);
@@ -194,7 +194,7 @@ void tensor4<X,ND>::setIs()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setId()
 {
   (*this) = tensor4<X,ND>::I() - tensor4<X,ND>::II()/static_cast<X>(ND);
@@ -203,7 +203,7 @@ void tensor4<X,ND>::setId()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setIsd()
 {
   (*this) = tensor4<X,ND>::Is() - tensor4<X,ND>::II()/static_cast<X>(ND);
@@ -212,7 +212,7 @@ void tensor4<X,ND>::setIsd()
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor4<X,ND>::setII()
 {
   this->setZero();
@@ -230,7 +230,7 @@ void tensor4<X,ND>::setII()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::ddot(const tensor4<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -239,7 +239,7 @@ tensor4<X,ND> tensor4<X,ND>::ddot(const tensor4<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -248,7 +248,7 @@ tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2s<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -257,7 +257,7 @@ tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2s<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2d<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -268,7 +268,7 @@ tensor2<X,ND> tensor4<X,ND>::ddot(const tensor2d<X,ND> &B) const
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::T() const
 {
   return cppmat::cartesian::T(*this);
@@ -277,7 +277,7 @@ tensor4<X,ND> tensor4<X,ND>::T() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::RT() const
 {
   return cppmat::cartesian::RT(*this);
@@ -286,7 +286,7 @@ tensor4<X,ND> tensor4<X,ND>::RT() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor4<X,ND>::LT() const
 {
   return cppmat::cartesian::LT(*this);

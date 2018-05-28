@@ -21,7 +21,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X>::array(const std::vector<size_t> &shape) : cppmat::array<X>(shape)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
@@ -36,7 +36,7 @@ array<X>::array(const std::vector<size_t> &shape) : cppmat::array<X>(shape)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X>::array(const cppmat::periodic::array<X> &A) : cppmat::array<X>(A)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
@@ -51,7 +51,7 @@ array<X>::array(const cppmat::periodic::array<X> &A) : cppmat::array<X>(A)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X>::array(const cppmat::array<X> &A) : cppmat::array<X>(A)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
@@ -67,7 +67,7 @@ array<X>::array(const cppmat::array<X> &A) : cppmat::array<X>(A)
 
 template<class X>
 template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 array<X>::array(const cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cppmat::array<X>(A)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
@@ -83,7 +83,7 @@ array<X>::array(const cppmat::tiny::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cp
 
 template<class X>
 template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 array<X>::array(const cppmat::view::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cppmat::array<X>(A)
 {
   for ( size_t i = 0 ; i < this->MAX_DIM ; ++i )
@@ -98,7 +98,7 @@ array<X>::array(const cppmat::view::periodic::array<X,RANK,I,J,K,L,M,N> &A) : cp
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
 {
   array<X> out(shape);
@@ -111,7 +111,7 @@ array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Arange(const std::vector<size_t> &shape)
 {
   array<X> out(shape);
@@ -124,7 +124,7 @@ array<X> array<X>::Arange(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Zero(const std::vector<size_t> &shape)
 {
   array<X> out(shape);
@@ -137,7 +137,7 @@ array<X> array<X>::Zero(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Ones(const std::vector<size_t> &shape)
 {
   array<X> out(shape);
@@ -150,7 +150,7 @@ array<X> array<X>::Ones(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 {
   array<X> out(shape);
@@ -163,7 +163,7 @@ array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &D)
 {
   array<X> out(shape);
@@ -177,7 +177,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &
 
 template<class X>
 template<typename Iterator>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
 {
   array<X> out(shape);
@@ -191,7 +191,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
 
 template<class X>
 template<typename Iterator>
-CPPMAT_INLINE
+inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
 {
   array<X> out(shape);
@@ -206,7 +206,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterat
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 void array<X>::resize(const std::vector<size_t> &shape)
 {
   cppmat::array<X>::resize(shape);
@@ -221,7 +221,7 @@ void array<X>::resize(const std::vector<size_t> &shape)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 void array<X>::reshape(const std::vector<size_t> &shape)
 {
   cppmat::array<X>::reshape(shape);
@@ -238,7 +238,7 @@ void array<X>::reshape(const std::vector<size_t> &shape)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a)
 {
   assert( this->mRank >= 1 );
@@ -252,7 +252,7 @@ X& array<X>::operator()(int a)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a) const
 {
   assert( this->mRank >= 1 );
@@ -266,7 +266,7 @@ const X& array<X>::operator()(int a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a, int b)
 {
   assert( this->mRank >= 2 );
@@ -282,7 +282,7 @@ X& array<X>::operator()(int a, int b)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a, int b) const
 {
   assert( this->mRank >= 2 );
@@ -298,7 +298,7 @@ const X& array<X>::operator()(int a, int b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a, int b, int c)
 {
   assert( this->mRank >= 3 );
@@ -316,7 +316,7 @@ X& array<X>::operator()(int a, int b, int c)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a, int b, int c) const
 {
   assert( this->mRank >= 3 );
@@ -334,7 +334,7 @@ const X& array<X>::operator()(int a, int b, int c) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a, int b, int c, int d)
 {
   assert( this->mRank >= 4 );
@@ -354,7 +354,7 @@ X& array<X>::operator()(int a, int b, int c, int d)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a, int b, int c, int d) const
 {
   assert( this->mRank >= 4 );
@@ -374,7 +374,7 @@ const X& array<X>::operator()(int a, int b, int c, int d) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a, int b, int c, int d, int e)
 {
   assert( this->mRank >= 5 );
@@ -396,7 +396,7 @@ X& array<X>::operator()(int a, int b, int c, int d, int e)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 {
   assert( this->mRank >= 5 );
@@ -418,7 +418,7 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 {
   assert( this->mRank >= 6 );
@@ -442,7 +442,7 @@ X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
 {
   assert( this->mRank >= 6 );
@@ -468,7 +468,7 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a) const
 {
   assert( this->mRank >= 1 );
@@ -482,7 +482,7 @@ size_t array<X>::compress(int a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a, int b) const
 {
   assert( this->mRank >= 2 );
@@ -498,7 +498,7 @@ size_t array<X>::compress(int a, int b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a, int b, int c) const
 {
   assert( this->mRank >= 3 );
@@ -516,7 +516,7 @@ size_t array<X>::compress(int a, int b, int c) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a, int b, int c, int d) const
 {
   assert( this->mRank >= 4 );
@@ -536,7 +536,7 @@ size_t array<X>::compress(int a, int b, int c, int d) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a, int b, int c, int d, int e) const
 {
   assert( this->mRank >= 5 );
@@ -558,7 +558,7 @@ size_t array<X>::compress(int a, int b, int c, int d, int e) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
 {
   assert( this->mRank >= 6 );
@@ -585,7 +585,7 @@ size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
 
 template<class X>
 template<class Iterator>
-CPPMAT_INLINE
+inline
 X& array<X>::at(Iterator first, Iterator last)
 {
   // check input
@@ -622,7 +622,7 @@ X& array<X>::at(Iterator first, Iterator last)
 
 template<class X>
 template<class Iterator>
-CPPMAT_INLINE
+inline
 const X& array<X>::at(Iterator first, Iterator last) const
 {
   // check input
@@ -660,7 +660,7 @@ const X& array<X>::at(Iterator first, Iterator last) const
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a)
 {
   assert( this->mRank >= 1 );
@@ -674,7 +674,7 @@ auto array<X>::item(int a)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a) const
 {
   assert( this->mRank >= 1 );
@@ -688,7 +688,7 @@ auto array<X>::item(int a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b)
 {
   assert( this->mRank >= 2 );
@@ -704,7 +704,7 @@ auto array<X>::item(int a, int b)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b) const
 {
   assert( this->mRank >= 2 );
@@ -720,7 +720,7 @@ auto array<X>::item(int a, int b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c)
 {
   assert( this->mRank >= 3 );
@@ -738,7 +738,7 @@ auto array<X>::item(int a, int b, int c)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c) const
 {
   assert( this->mRank >= 3 );
@@ -756,7 +756,7 @@ auto array<X>::item(int a, int b, int c) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d)
 {
   assert( this->mRank >= 4 );
@@ -776,7 +776,7 @@ auto array<X>::item(int a, int b, int c, int d)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d) const
 {
   assert( this->mRank >= 4 );
@@ -796,7 +796,7 @@ auto array<X>::item(int a, int b, int c, int d) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d, int e)
 {
   assert( this->mRank >= 5 );
@@ -818,7 +818,7 @@ auto array<X>::item(int a, int b, int c, int d, int e)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d, int e) const
 {
   assert( this->mRank >= 5 );
@@ -840,7 +840,7 @@ auto array<X>::item(int a, int b, int c, int d, int e) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d, int e, int f)
 {
   assert( this->mRank >= 6 );
@@ -864,7 +864,7 @@ auto array<X>::item(int a, int b, int c, int d, int e, int f)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 auto array<X>::item(int a, int b, int c, int d, int e, int f) const
 {
   assert( this->mRank >= 6 );

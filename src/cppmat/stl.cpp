@@ -18,7 +18,7 @@ namespace cppmat {
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 std::vector<X> del(const std::vector<X> &A, int idx)
 {
   int n = static_cast<int>(A.size());
@@ -38,7 +38,7 @@ std::vector<X> del(const std::vector<X> &A, int idx)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 std::vector<X> del(const std::vector<X> &A, size_t idx)
 {
   assert( idx < A.size() );
@@ -53,7 +53,7 @@ std::vector<X> del(const std::vector<X> &A, size_t idx)
 // =================================================================================================
 
 template <typename X>
-CPPMAT_INLINE
+inline
 std::vector<size_t> argsort(const std::vector<X> &v, bool ascending)
 {
   // initialize original index locations
@@ -80,7 +80,7 @@ std::vector<size_t> argsort(const std::vector<X> &v, bool ascending)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 std::string to_string(const std::vector<X> &A, std::string join)
 {
   std::string out = "";

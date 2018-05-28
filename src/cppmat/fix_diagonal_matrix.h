@@ -181,37 +181,31 @@ public:
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator- (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B);
 
 // =================================================================================================
@@ -219,7 +213,6 @@ matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B);
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
 std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src);
 
 // =================================================================================================

@@ -19,7 +19,7 @@ namespace Private {
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
 {
   std::vector<X> out = in;

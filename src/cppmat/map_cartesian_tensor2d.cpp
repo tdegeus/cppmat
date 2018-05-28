@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2d<X,ND>::tensor2d() : cppmat::view::diagonal::matrix<X,ND,ND>()
 {
 }
@@ -32,7 +32,7 @@ tensor2d<X,ND>::tensor2d() : cppmat::view::diagonal::matrix<X,ND,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2d<X,ND>::tensor2d(const X *A) : cppmat::view::diagonal::matrix<X,ND,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ tensor2d<X,ND>::tensor2d(const X *A) : cppmat::view::diagonal::matrix<X,ND,ND>(A
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2d<X,ND> tensor2d<X,ND>::Map(const X *D)
 {
   tensor2d<X,ND> out;
@@ -57,7 +57,7 @@ tensor2d<X,ND> tensor2d<X,ND>::Map(const X *D)
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 size_t tensor2d<X,ND>::ndim() const
 {
   return ND;

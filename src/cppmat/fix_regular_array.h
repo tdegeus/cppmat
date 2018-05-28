@@ -209,129 +209,80 @@ public:
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator*
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator* (
+  const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator/
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator/ (
+  const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator+
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator+ (
+  const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator-
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator- (
+  const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator*
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const X &B
-);
+array<X,RANK,I,J,K,L,M,N> operator* (
+  const array<X,RANK,I,J,K,L,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator/
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const X &B
-);
+array<X,RANK,I,J,K,L,M,N> operator/ (
+  const array<X,RANK,I,J,K,L,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator+
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const X &B
-);
+array<X,RANK,I,J,K,L,M,N> operator+ (
+  const array<X,RANK,I,J,K,L,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator-
-(
-  const array<X,RANK,I,J,K,L,M,N> &A,
-  const X &B
-);
+array<X,RANK,I,J,K,L,M,N> operator- (
+  const array<X,RANK,I,J,K,L,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator*
-(
-  const X &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator* (
+  const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator/
-(
-  const X &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator/ (
+  const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator+
-(
-  const X &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator+ (
+  const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
-array<X,RANK,I,J,K,L,M,N> operator-
-(
-  const X &A,
-  const array<X,RANK,I,J,K,L,M,N> &B
-);
+array<X,RANK,I,J,K,L,M,N> operator- (
+  const X &A, const array<X,RANK,I,J,K,L,M,N> &B);
 
 // =================================================================================================
 // print operator
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-CPPMAT_INLINE
 std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src);
 
 // =================================================================================================

@@ -22,7 +22,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix() : cppmat::tiny::periodic::array<X,2,M,N>()
 {
 }
@@ -32,7 +32,7 @@ matrix<X,M,N>::matrix() : cppmat::tiny::periodic::array<X,2,M,N>()
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::periodic::array<X,2,M,N>(A)
 {
 }
@@ -42,7 +42,7 @@ matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::per
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::periodic::matrix<X> &A) : cppmat::tiny::periodic::array<X,2,M,N>(A)
 {
 }
@@ -52,7 +52,7 @@ matrix<X,M,N>::matrix(const cppmat::periodic::matrix<X> &A) : cppmat::tiny::peri
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::view::periodic::matrix<X,M,N> &A) : cppmat::tiny::periodic::array<X,2,M,N>(A)
 {
 }

@@ -22,7 +22,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix() : cppmat::view::periodic::array<X,2,M,N>()
 {
 }
@@ -32,7 +32,7 @@ matrix<X,M,N>::matrix() : cppmat::view::periodic::array<X,2,M,N>()
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const X *A) : cppmat::view::periodic::array<X,2,M,N>(A)
 {
 }
@@ -42,7 +42,7 @@ matrix<X,M,N>::matrix(const X *A) : cppmat::view::periodic::array<X,2,M,N>(A)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N> matrix<X,M,N>::Map(const X *D)
 {
   matrix<X,M,N> out;

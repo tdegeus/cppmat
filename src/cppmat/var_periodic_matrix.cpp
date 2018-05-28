@@ -21,7 +21,7 @@ namespace periodic {
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X>::matrix(size_t m, size_t n) : cppmat::periodic::array<X>({m,n})
 {
 }
@@ -31,7 +31,7 @@ matrix<X>::matrix(size_t m, size_t n) : cppmat::periodic::array<X>({m,n})
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 {
   assert( this->mRank == 2 );
@@ -43,7 +43,7 @@ matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::periodic::array<X>(A)
 
 template<class X>
 template<size_t m, size_t n>
-CPPMAT_INLINE
+inline
 matrix<X>::matrix(const cppmat::tiny::periodic::matrix<X,m,n> &A) : cppmat::periodic::array<X>(A)
 {
 }
@@ -54,7 +54,7 @@ matrix<X>::matrix(const cppmat::tiny::periodic::matrix<X,m,n> &A) : cppmat::peri
 
 template<class X>
 template<size_t m, size_t n>
-CPPMAT_INLINE
+inline
 matrix<X>::matrix(const cppmat::view::periodic::matrix<X,m,n> &A) : cppmat::periodic::array<X>(A)
 {
 }
@@ -64,7 +64,7 @@ matrix<X>::matrix(const cppmat::view::periodic::matrix<X,m,n> &A) : cppmat::peri
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
 {
   matrix<X> out(m,n);
@@ -77,7 +77,7 @@ matrix<X> matrix<X>::Random(size_t m, size_t n, X lower, X upper)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Arange(size_t m, size_t n)
 {
   matrix<X> out(m,n);
@@ -90,7 +90,7 @@ matrix<X> matrix<X>::Arange(size_t m, size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Zero(size_t m, size_t n)
 {
   matrix<X> out(m,n);
@@ -103,7 +103,7 @@ matrix<X> matrix<X>::Zero(size_t m, size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Ones(size_t m, size_t n)
 {
   matrix<X> out(m,n);
@@ -116,7 +116,7 @@ matrix<X> matrix<X>::Ones(size_t m, size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 {
   matrix<X> out(m,n);
@@ -129,7 +129,7 @@ matrix<X> matrix<X>::Constant(size_t m, size_t n, X D)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
 {
   matrix<X> out(m,n);
@@ -143,7 +143,7 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, const std::vector<X> &D)
 
 template<class X>
 template<typename Iterator>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
 {
   matrix<X> out(m,n);
@@ -157,7 +157,7 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first)
 
 template<class X>
 template<typename Iterator>
-CPPMAT_INLINE
+inline
 matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 {
   matrix<X> out(m,n);
@@ -172,7 +172,7 @@ matrix<X> matrix<X>::Copy(size_t m, size_t n, Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X>
-CPPMAT_INLINE
+inline
 void matrix<X>::resize(size_t m, size_t n)
 {
   cppmat::periodic::array<X>::resize({m,n});
@@ -181,7 +181,7 @@ void matrix<X>::resize(size_t m, size_t n)
 // -------------------------------------------------------------------------------------------------
 
 template<class X>
-CPPMAT_INLINE
+inline
 void matrix<X>::reshape(size_t m, size_t n)
 {
   cppmat::periodic::array<X>::reshape({m,n});

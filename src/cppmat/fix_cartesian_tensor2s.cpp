@@ -22,7 +22,7 @@ namespace cartesian {
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND>::tensor2s() : cppmat::tiny::symmetric::matrix<X,ND,ND>()
 {
 }
@@ -32,7 +32,7 @@ tensor2s<X,ND>::tensor2s() : cppmat::tiny::symmetric::matrix<X,ND,ND>()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND>::tensor2s(const cppmat::tiny::symmetric::matrix<X,ND,ND> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
 {
 }
@@ -42,7 +42,7 @@ tensor2s<X,ND>::tensor2s(const cppmat::tiny::symmetric::matrix<X,ND,ND> &A) : cp
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND>::tensor2s(const cppmat::tiny::diagonal::matrix<X,ND,ND> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
 {
 }
@@ -52,7 +52,7 @@ tensor2s<X,ND>::tensor2s(const cppmat::tiny::diagonal::matrix<X,ND,ND> &A) : cpp
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND>::tensor2s(const cppmat::cartesian::tensor2s<X> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
 {
 }
@@ -62,7 +62,7 @@ tensor2s<X,ND>::tensor2s(const cppmat::cartesian::tensor2s<X> &A) : cppmat::tiny
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND>::tensor2s(const cppmat::view::cartesian::tensor2s<X,ND> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
 {
 }
@@ -72,7 +72,7 @@ tensor2s<X,ND>::tensor2s(const cppmat::view::cartesian::tensor2s<X,ND> &A) : cpp
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND> tensor2s<X,ND>::I()
 {
   tensor2s<X,ND> out;
@@ -87,7 +87,7 @@ tensor2s<X,ND> tensor2s<X,ND>::I()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 size_t tensor2s<X,ND>::ndim() const
 {
   return ND;
@@ -98,7 +98,7 @@ size_t tensor2s<X,ND>::ndim() const
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 void tensor2s<X,ND>::setI()
 {
   this->setZero();
@@ -112,7 +112,7 @@ void tensor2s<X,ND>::setI()
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor2s<X,ND>::ddot(const tensor4<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -121,7 +121,7 @@ tensor2<X,ND> tensor2s<X,ND>::ddot(const tensor4<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 X tensor2s<X,ND>::ddot(const tensor2<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -130,7 +130,7 @@ X tensor2s<X,ND>::ddot(const tensor2<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 X tensor2s<X,ND>::ddot(const tensor2s<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -139,7 +139,7 @@ X tensor2s<X,ND>::ddot(const tensor2s<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 X tensor2s<X,ND>::ddot(const tensor2d<X,ND> &B) const
 {
   return cppmat::cartesian::ddot(*this, B);
@@ -148,7 +148,7 @@ X tensor2s<X,ND>::ddot(const tensor2d<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -157,7 +157,7 @@ tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2s<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -166,7 +166,7 @@ tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2s<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2d<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -175,7 +175,7 @@ tensor2<X,ND> tensor2s<X,ND>::dot(const tensor2d<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 vector<X,ND> tensor2s<X,ND>::dot(const vector<X,ND> &B) const
 {
   return cppmat::cartesian::dot(*this, B);
@@ -184,7 +184,7 @@ vector<X,ND> tensor2s<X,ND>::dot(const vector<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2<X,ND> &B) const
 {
   return cppmat::cartesian::dyadic(*this, B);
@@ -193,7 +193,7 @@ tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2s<X,ND> &B) const
 {
   return cppmat::cartesian::dyadic(*this, B);
@@ -202,7 +202,7 @@ tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2s<X,ND> &B) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2d<X,ND> &B) const
 {
   return cppmat::cartesian::dyadic(*this, B);
@@ -213,7 +213,7 @@ tensor4<X,ND> tensor2s<X,ND>::dyadic(const tensor2d<X,ND> &B) const
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND> tensor2s<X,ND>::T() const
 {
   return cppmat::cartesian::T(*this);
@@ -224,7 +224,7 @@ tensor2s<X,ND> tensor2s<X,ND>::T() const
 // =================================================================================================
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 X tensor2s<X,ND>::trace() const
 {
   return cppmat::cartesian::trace(*this);
@@ -233,7 +233,7 @@ X tensor2s<X,ND>::trace() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 X tensor2s<X,ND>::det() const
 {
   return cppmat::cartesian::det(*this);
@@ -242,7 +242,7 @@ X tensor2s<X,ND>::det() const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t ND>
-CPPMAT_INLINE
+inline
 tensor2s<X,ND> tensor2s<X,ND>::inv() const
 {
   return cppmat::cartesian::inv(*this);

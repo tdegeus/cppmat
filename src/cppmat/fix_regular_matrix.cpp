@@ -21,7 +21,7 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
 {
 }
@@ -31,7 +31,7 @@ matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
 {
 }
@@ -41,7 +41,7 @@ matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::arr
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A) : cppmat::tiny::matrix<X,M,N>()
 {
   for ( size_t i = 0 ; i < M ; ++i )
@@ -52,7 +52,7 @@ matrix<X,M,N>::matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A) : cppmat:
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A) : cppmat::tiny::matrix<X,M,N>()
 {
   for ( size_t i = 0 ; i < M ; ++i )
@@ -65,7 +65,7 @@ matrix<X,M,N>::matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A) : cppmat::
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::matrix<X> &A) : cppmat::tiny::array<X,2,M,N>(A)
 {
 }
@@ -75,7 +75,7 @@ matrix<X,M,N>::matrix(const cppmat::matrix<X> &A) : cppmat::tiny::array<X,2,M,N>
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
-CPPMAT_INLINE
+inline
 matrix<X,M,N>::matrix(const cppmat::view::matrix<X,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
 {
 }

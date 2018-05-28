@@ -21,7 +21,7 @@ namespace view {
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector() : cppmat::view::array<X,1,N>()
 {
 }
@@ -31,7 +31,7 @@ vector<X,N>::vector() : cppmat::view::array<X,1,N>()
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector(const X *A) : cppmat::view::array<X,1,N>(A)
 {
 }
@@ -41,7 +41,7 @@ vector<X,N>::vector(const X *A) : cppmat::view::array<X,1,N>(A)
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N> vector<X,N>::Map(const X *D)
 {
   vector<X,N> out;

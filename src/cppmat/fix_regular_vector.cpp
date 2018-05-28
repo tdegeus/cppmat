@@ -21,7 +21,7 @@ namespace tiny {
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector() : cppmat::tiny::array<X,1,N>()
 {
 }
@@ -31,7 +31,7 @@ vector<X,N>::vector() : cppmat::tiny::array<X,1,N>()
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::array<X,1,N>(A)
 {
 }
@@ -41,7 +41,7 @@ vector<X,N>::vector(const cppmat::tiny::array<X,1,N> &A) : cppmat::tiny::array<X
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::array<X,1,N>::Copy(A)
 {
 }
@@ -51,7 +51,7 @@ vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::array<X,1,N>::Copy(
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector(const cppmat::vector<X> &A) : cppmat::tiny::array<X,1,N>(A)
 {
 }
@@ -61,7 +61,7 @@ vector<X,N>::vector(const cppmat::vector<X> &A) : cppmat::tiny::array<X,1,N>(A)
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N>::vector(const cppmat::view::vector<X,N> &A) : cppmat::tiny::array<X,1,N>(A)
 {
 }
@@ -71,7 +71,7 @@ vector<X,N>::vector(const cppmat::view::vector<X,N> &A) : cppmat::tiny::array<X,
 // =================================================================================================
 
 template<class X, size_t N>
-CPPMAT_INLINE
+inline
 vector<X,N> vector<X,N>::diff() const
 {
   vector<X,N> out;
