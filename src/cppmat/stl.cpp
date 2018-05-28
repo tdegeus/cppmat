@@ -18,7 +18,8 @@ namespace cppmat {
 // =================================================================================================
 
 template<class X>
-inline std::vector<X> del(const std::vector<X> &A, int idx)
+inline
+std::vector<X> del(const std::vector<X> &A, int idx)
 {
   int n = static_cast<int>(A.size());
 
@@ -37,7 +38,8 @@ inline std::vector<X> del(const std::vector<X> &A, int idx)
 // =================================================================================================
 
 template<class X>
-inline std::vector<X> del(const std::vector<X> &A, size_t idx)
+inline
+std::vector<X> del(const std::vector<X> &A, size_t idx)
 {
   assert( idx < A.size() );
 
@@ -50,32 +52,18 @@ inline std::vector<X> del(const std::vector<X> &A, size_t idx)
 
 // =================================================================================================
 
-template<class X>
-inline std::string to_string(const std::vector<X> &A)
-{
-  std::string out = "(";
-
-  for ( size_t i = 0 ; i < A.size()-1 ; ++i )
-    out += std::to_string(A[i]) + ", ";
-
-  out += std::to_string(A[A.size()-1]) + ")";
-
-  return out;
-}
-
-// =================================================================================================
-
 template <typename X>
-std::vector<size_t> argsort(const std::vector<X> &v, bool ascending) {
-
+inline
+std::vector<size_t> argsort(const std::vector<X> &v, bool ascending)
+{
   // initialize original index locations
   // - allocate
   std::vector<size_t> idx(v.size());
   // - fill
-  iota(idx.begin(), idx.end(), 0);
+  std::iota(idx.begin(), idx.end(), 0);
 
   // sort indexes based on comparing values in "v"
-  sort(idx.begin(), idx.end(), [&v](size_t i, size_t j) {return v[i] < v[j];});
+  std::sort(idx.begin(), idx.end(), [&v](size_t i, size_t j) {return v[i] < v[j];});
 
   // no reversing of order
   if ( ascending ) return idx;
@@ -92,129 +80,15 @@ std::vector<size_t> argsort(const std::vector<X> &v, bool ascending) {
 // =================================================================================================
 
 template<class X>
-inline array<X> abs(const array<X> &A)
+inline
+std::string to_string(const std::vector<X> &A, std::string join)
 {
-  array<X> out = A;
+  std::string out = "";
 
-  for ( auto &i : out )
-    i = std::abs(i);
+  for ( size_t i = 0 ; i < A.size()-1 ; ++i )
+    out += std::to_string(A[i]) + join;
 
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline matrix<X> abs(const matrix<X> &A)
-{
-  matrix<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline vector<X> abs(const vector<X> &A)
-{
-  vector<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline periodic::array<X> abs(const periodic::array<X> &A)
-{
-  periodic::array<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline periodic::matrix<X> abs(const periodic::matrix<X> &A)
-{
-  periodic::matrix<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline periodic::vector<X> abs(const periodic::vector<X> &A)
-{
-  periodic::vector<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X, size_t m, size_t n>
-inline tiny::matrix<X,m,n> abs(const tiny::matrix<X,m,n> &A)
-{
-  tiny::matrix<X,m,n> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X, size_t n>
-inline tiny::vector<X,n> abs(const tiny::vector<X,n> &A)
-{
-  tiny::vector<X,n> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline cartesian2d::tensor2<X> abs(const cartesian2d::tensor2<X> &A)
-{
-  cartesian2d::tensor2<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
-
-  return out;
-}
-
-// =================================================================================================
-
-template<class X>
-inline cartesian2d::tensor2s<X> abs(const cartesian2d::tensor2s<X> &A)
-{
-  cartesian2d::tensor2s<X> out = A;
-
-  for ( auto &i : out )
-    i = std::abs(i);
+  out += std::to_string(A[A.size()-1]);
 
   return out;
 }
@@ -222,6 +96,8 @@ inline cartesian2d::tensor2s<X> abs(const cartesian2d::tensor2s<X> &A)
 // =================================================================================================
 
 } // namespace ...
+
+// -------------------------------------------------------------------------------------------------
 
 #endif
 

@@ -18,13 +18,15 @@
 #include <string>
 #include <vector>
 #include <numeric>
+#include <random>
+#include <ctime>
 #include <iso646.h> // to fix a Microsoft Visual Studio error on "and" and "or"
 
 // =================================================================================================
 
-#define CPPMAT_WORLD_VERSION 0
-#define CPPMAT_MAJOR_VERSION 6
-#define CPPMAT_MINOR_VERSION 6
+#define CPPMAT_WORLD_VERSION 1
+#define CPPMAT_MAJOR_VERSION 0
+#define CPPMAT_MINOR_VERSION 0
 
 #define CPPMAT_VERSION_AT_LEAST(x,y,z) \
   (CPPMAT_WORLD_VERSION>x || (CPPMAT_WORLD_VERSION>=x && \
@@ -54,6 +56,24 @@ namespace cppmat {
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
+namespace symmetric {
+
+  template<class X> class matrix;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace diagonal {
+
+  template<class X> class matrix;
+
+}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
 namespace periodic {
 
   template<class X> class array;
@@ -78,40 +98,68 @@ namespace cartesian {
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace cartesian2d {
+namespace tiny {
 
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
 
 }}
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace view {
-namespace cartesian2d {
+namespace tiny {
+namespace symmetric {
 
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
+  template<class X, size_t M, size_t N=M> class matrix;
 
 }}}
 
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace cartesian3d {
+namespace tiny {
+namespace diagonal {
 
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
+  template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+namespace periodic {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace tiny {
+namespace cartesian {
+
+  template<class X, size_t ND> class tensor4;
+  template<class X, size_t ND> class tensor2;
+  template<class X, size_t ND> class tensor2s;
+  template<class X, size_t ND> class tensor2d;
+  template<class X, size_t ND> class vector;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
 
 }}
 
@@ -119,53 +167,149 @@ namespace cartesian3d {
 
 namespace cppmat {
 namespace view {
-namespace cartesian3d {
+namespace symmetric {
 
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
+  template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace diagonal {
+
+  template<class X, size_t M, size_t N=M> class matrix;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace periodic {
+
+  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<class X, size_t M, size_t N> class matrix;
+  template<class X, size_t M> class vector;
+
+}}}
+
+// -------------------------------------------------------------------------------------------------
+
+namespace cppmat {
+namespace view {
+namespace cartesian {
+
+  template<class X, size_t ND> class tensor4;
+  template<class X, size_t ND> class tensor2;
+  template<class X, size_t ND> class tensor2s;
+  template<class X, size_t ND> class tensor2d;
+  template<class X, size_t ND> class vector;
 
 }}}
 
 // =================================================================================================
 
-#include "private.h"
-#include "regular_array.h"
-#include "regular_matrix.h"
-#include "regular_vector.h"
-#include "periodic_array.h"
-#include "periodic_matrix.h"
-#include "periodic_vector.h"
-#include "tiny_matrix.h"
-#include "tiny_vector.h"
-#include "tensor.h"
-#include "tensor2.h"
-#include "tensor3.h"
-#include "view_tiny_matrix.h"
-#include "view_tiny_vector.h"
-#include "view_tensor2.h"
-#include "view_tensor3.h"
 #include "stl.h"
+#include "private.h"
 
-#include "private.cpp"
-#include "regular_array.cpp"
-#include "regular_matrix.cpp"
-#include "regular_vector.cpp"
-#include "periodic_array.cpp"
-#include "periodic_matrix.cpp"
-#include "periodic_vector.cpp"
-#include "tiny_matrix.cpp"
-#include "tiny_vector.cpp"
-#include "tensor.cpp"
-#include "tensor2.cpp"
-#include "tensor3.cpp"
-#include "view_tiny_matrix.cpp"
-#include "view_tiny_vector.cpp"
-#include "view_tensor2.cpp"
-#include "view_tensor3.cpp"
+#include "var_regular_array.h"
+#include "var_regular_matrix.h"
+#include "var_regular_vector.h"
+#include "var_symmetric_matrix.h"
+#include "var_diagonal_matrix.h"
+#include "var_misc_matrix.h"
+#include "var_periodic_array.h"
+#include "var_periodic_matrix.h"
+#include "var_periodic_vector.h"
+#include "var_cartesian.h"
+#include "var_cartesian_tensor4.h"
+#include "var_cartesian_tensor2.h"
+#include "var_cartesian_tensor2s.h"
+#include "var_cartesian_tensor2d.h"
+#include "var_cartesian_vector.h"
+
+#include "fix_regular_array.h"
+#include "fix_regular_matrix.h"
+#include "fix_regular_vector.h"
+#include "fix_symmetric_matrix.h"
+#include "fix_diagonal_matrix.h"
+#include "fix_misc_matrix.h"
+#include "fix_periodic_array.h"
+#include "fix_periodic_matrix.h"
+#include "fix_periodic_vector.h"
+#include "fix_cartesian.h"
+#include "fix_cartesian_tensor4.h"
+#include "fix_cartesian_tensor2.h"
+#include "fix_cartesian_tensor2s.h"
+#include "fix_cartesian_tensor2d.h"
+#include "fix_cartesian_vector.h"
+
+#include "map_regular_array.h"
+#include "map_regular_matrix.h"
+#include "map_regular_vector.h"
+#include "map_symmetric_matrix.h"
+#include "map_diagonal_matrix.h"
+#include "map_periodic_array.h"
+#include "map_periodic_matrix.h"
+#include "map_periodic_vector.h"
+#include "map_cartesian_tensor4.h"
+#include "map_cartesian_tensor2.h"
+#include "map_cartesian_tensor2s.h"
+#include "map_cartesian_tensor2d.h"
+#include "map_cartesian_vector.h"
+
 #include "stl.cpp"
+#include "private.cpp"
+
+#include "var_regular_array.cpp"
+#include "var_regular_matrix.cpp"
+#include "var_regular_vector.cpp"
+#include "var_symmetric_matrix.cpp"
+#include "var_diagonal_matrix.cpp"
+#include "var_misc_matrix.cpp"
+#include "var_periodic_array.cpp"
+#include "var_periodic_matrix.cpp"
+#include "var_periodic_vector.cpp"
+#include "var_cartesian.cpp"
+#include "var_cartesian_tensor4.cpp"
+#include "var_cartesian_tensor2.cpp"
+#include "var_cartesian_tensor2s.cpp"
+#include "var_cartesian_tensor2d.cpp"
+#include "var_cartesian_vector.cpp"
+
+#include "fix_regular_array.cpp"
+#include "fix_regular_matrix.cpp"
+#include "fix_regular_vector.cpp"
+#include "fix_symmetric_matrix.cpp"
+#include "fix_diagonal_matrix.cpp"
+#include "fix_misc_matrix.cpp"
+#include "fix_periodic_array.cpp"
+#include "fix_periodic_matrix.cpp"
+#include "fix_periodic_vector.cpp"
+#include "fix_cartesian.cpp"
+#include "fix_cartesian_2.cpp"
+#include "fix_cartesian_3.cpp"
+#include "fix_cartesian_tensor4.cpp"
+#include "fix_cartesian_tensor2.cpp"
+#include "fix_cartesian_tensor2s.cpp"
+#include "fix_cartesian_tensor2d.cpp"
+#include "fix_cartesian_vector.cpp"
+
+#include "map_regular_array.cpp"
+#include "map_regular_matrix.cpp"
+#include "map_regular_vector.cpp"
+#include "map_symmetric_matrix.cpp"
+#include "map_diagonal_matrix.cpp"
+#include "map_periodic_array.cpp"
+#include "map_periodic_matrix.cpp"
+#include "map_periodic_vector.cpp"
+#include "map_cartesian_tensor4.cpp"
+#include "map_cartesian_tensor2.cpp"
+#include "map_cartesian_tensor2s.cpp"
+#include "map_cartesian_tensor2d.cpp"
+#include "map_cartesian_vector.cpp"
 
 // =================================================================================================
 
