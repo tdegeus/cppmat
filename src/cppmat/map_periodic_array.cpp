@@ -70,8 +70,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a) const
 {
-  assert( this->mRank >= 1 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
   return this->mData[\
@@ -84,8 +82,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b) const
 {
-  assert( this->mRank >= 2 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
@@ -100,8 +96,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c) const
 {
-  assert( this->mRank >= 3 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -118,8 +112,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d) const
 {
-  assert( this->mRank >= 4 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -138,8 +130,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e) const
 {
-  assert( this->mRank >= 5 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -160,8 +150,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e, int f) const
 {
-  assert( this->mRank >= 6 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -186,8 +174,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a) const
 {
-  assert( this->mRank >= 1 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
   return static_cast<size_t>(
@@ -200,8 +186,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b) const
 {
-  assert( this->mRank >= 2 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
@@ -216,8 +200,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c) const
 {
-  assert( this->mRank >= 3 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -234,8 +216,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d) const
 {
-  assert( this->mRank >= 4 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -254,8 +234,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e) const
 {
-  assert( this->mRank >= 5 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -276,8 +254,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e, int f) const
 {
-  assert( this->mRank >= 6 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -341,8 +317,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a) const
 {
-  assert( this->mRank >= 1 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
 
   return this->begin() + \
@@ -355,8 +329,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b) const
 {
-  assert( this->mRank >= 2 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
 
@@ -371,8 +343,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c) const
 {
-  assert( this->mRank >= 3 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -389,8 +359,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d) const
 {
-  assert( this->mRank >= 4 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -409,8 +377,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e) const
 {
-  assert( this->mRank >= 5 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];
@@ -431,8 +397,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f) const
 {
-  assert( this->mRank >= 6 );
-
   a = ( mShapeI[0] + (a % mShapeI[0]) ) % mShapeI[0];
   b = ( mShapeI[1] + (b % mShapeI[1]) ) % mShapeI[1];
   c = ( mShapeI[2] + (c % mShapeI[2]) ) % mShapeI[2];

@@ -339,8 +339,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a)
 {
-  assert( mRank >= 1 );
-
   assert( a < mShape[0] );
 
   return mData[\
@@ -353,8 +351,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a) const
 {
-  assert( mRank >= 1 );
-
   assert( a < mShape[0] );
 
   return mData[\
@@ -367,8 +363,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b)
 {
-  assert( mRank >= 2 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
@@ -383,8 +377,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b) const
 {
-  assert( mRank >= 2 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
@@ -399,8 +391,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c)
 {
-  assert( mRank >= 3 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -417,8 +407,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c) const
 {
-  assert( mRank >= 3 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -435,8 +423,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d)
 {
-  assert( mRank >= 4 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -455,8 +441,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mRank >= 4 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -475,8 +459,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
-  assert( mRank >= 5 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -497,8 +479,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mRank >= 5 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -519,8 +499,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
-  assert( mRank >= 6 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -543,8 +521,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mRank >= 6 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -637,8 +613,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a) const
 {
-  assert( mRank >= 1 );
-
   assert( a < mShape[0] );
 
   return a * mStrides[0];
@@ -650,8 +624,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b) const
 {
-  assert( mRank >= 2 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
@@ -665,8 +637,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c) const
 {
-  assert( mRank >= 3 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -682,8 +652,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mRank >= 4 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -701,8 +669,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mRank >= 5 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -722,8 +688,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mRank >= 6 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -852,8 +816,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a)
 {
-  assert( mRank >= 1 );
-
   assert( a < mShape[0] );
 
   return begin() + \
@@ -866,8 +828,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a) const
 {
-  assert( mRank >= 1 );
-
   assert( a < mShape[0] );
 
   return begin() + \
@@ -880,8 +840,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b)
 {
-  assert( mRank >= 2 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
@@ -896,8 +854,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b) const
 {
-  assert( mRank >= 2 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
@@ -912,8 +868,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c)
 {
-  assert( mRank >= 3 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -930,8 +884,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c) const
 {
-  assert( mRank >= 3 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -948,8 +900,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d)
 {
-  assert( mRank >= 4 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -968,8 +918,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d) const
 {
-  assert( mRank >= 4 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -988,8 +936,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e)
 {
-  assert( mRank >= 5 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -1010,8 +956,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
 {
-  assert( mRank >= 5 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -1032,8 +976,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f)
 {
-  assert( mRank >= 6 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
@@ -1056,8 +998,6 @@ template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M,
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
 {
-  assert( mRank >= 6 );
-
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
