@@ -140,6 +140,21 @@ public:
   auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f);
   auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
 
+  // slice
+  // - allowing negative index
+  template<typename T, typename=typename std::enable_if<std::is_integral<T>::value,void>::type>
+  array<X> slice(
+    const std::vector<T> &a=std::vector<T>(), const std::vector<T> &b=std::vector<T>(),
+    const std::vector<T> &c=std::vector<T>(), const std::vector<T> &d=std::vector<T>(),
+    const std::vector<T> &e=std::vector<T>(), const std::vector<T> &f=std::vector<T>()
+  ) const;
+  // - only positive indices
+  array<X> slice(
+    const std::vector<int> &a=std::vector<int>(), const std::vector<int> &b=std::vector<int>(),
+    const std::vector<int> &c=std::vector<int>(), const std::vector<int> &d=std::vector<int>(),
+    const std::vector<int> &e=std::vector<int>(), const std::vector<int> &f=std::vector<int>()
+  ) const;
+
   // initialization
   void setRandom(X lower=(X)0, X upper=(X)1);
   void setArange();

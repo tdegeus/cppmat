@@ -1050,6 +1050,205 @@ auto array<X>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) 
 }
 
 // =================================================================================================
+// slice
+// =================================================================================================
+
+template<class X>
+inline
+array<X> array<X>::slice(
+  const std::vector<int> &a, const std::vector<int> &b, const std::vector<int> &c,
+  const std::vector<int> &d, const std::vector<int> &e, const std::vector<int> &f
+) const
+{
+  // allocate copies of input lists
+  std::vector<size_t> A(a.size());
+  std::vector<size_t> B(b.size());
+  std::vector<size_t> C(c.size());
+  std::vector<size_t> D(d.size());
+  std::vector<size_t> E(e.size());
+  std::vector<size_t> F(f.size());
+
+  // shape in each direction (as integer)
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+  int nf = static_cast<int>(mShape[5]);
+
+  // check size
+  #ifndef NDEBUG
+    for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] > -na+1 ); }
+    for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] > -nb+1 ); }
+    for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] > -nc+1 ); }
+    for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] > -nd+1 ); }
+    for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] > -ne+1 ); }
+    for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] > -nf+1 ); }
+  #endif
+
+  // copy index from input list: apply periodicity
+  for ( size_t i = 0 ; i < a.size() ; ++i ) { A[i] = static_cast<size_t>((na+(a[i]%na))%na); }
+  for ( size_t i = 0 ; i < b.size() ; ++i ) { B[i] = static_cast<size_t>((nb+(b[i]%nb))%nb); }
+  for ( size_t i = 0 ; i < c.size() ; ++i ) { C[i] = static_cast<size_t>((nc+(c[i]%nc))%nc); }
+  for ( size_t i = 0 ; i < d.size() ; ++i ) { D[i] = static_cast<size_t>((nd+(d[i]%nd))%nd); }
+  for ( size_t i = 0 ; i < e.size() ; ++i ) { E[i] = static_cast<size_t>((ne+(e[i]%ne))%ne); }
+  for ( size_t i = 0 ; i < f.size() ; ++i ) { F[i] = static_cast<size_t>((nf+(f[i]%nf))%nf); }
+
+  // empty list: select all indices
+  if ( A.size() == 0 ) { A.resize(mShape[0]); std::iota(A.begin(), A.end(), 0); }
+  if ( B.size() == 0 ) { B.resize(mShape[1]); std::iota(B.begin(), B.end(), 0); }
+  if ( C.size() == 0 ) { C.resize(mShape[2]); std::iota(C.begin(), C.end(), 0); }
+  if ( D.size() == 0 ) { D.resize(mShape[3]); std::iota(D.begin(), D.end(), 0); }
+  if ( E.size() == 0 ) { E.resize(mShape[4]); std::iota(E.begin(), E.end(), 0); }
+  if ( F.size() == 0 ) { F.resize(mShape[5]); std::iota(F.begin(), F.end(), 0); }
+
+  // shape of the output, without contraction
+  // - allocate
+  std::vector<size_t> fullshape;
+  // - fill
+  fullshape.push_back(A.size());
+  fullshape.push_back(B.size());
+  fullshape.push_back(C.size());
+  fullshape.push_back(D.size());
+  fullshape.push_back(E.size());
+  fullshape.push_back(F.size());
+
+  // allocate output
+  array<X> out(fullshape);
+
+  // copy based on selected indices
+  for ( size_t i = 0 ; i < A.size() ; ++i )
+    for ( size_t j = 0 ; j < B.size() ; ++j )
+      for ( size_t k = 0 ; k < C.size() ; ++k )
+        for ( size_t l = 0 ; l < D.size() ; ++l )
+          for ( size_t m = 0 ; m < E.size() ; ++m )
+            for ( size_t n = 0 ; n < F.size() ; ++n )
+              out(i,j,k,l,m,n) = (*this)(A[i],B[j],C[k],D[l],E[m],F[n]);
+
+  // shape with contraction
+  // - allocate
+  std::vector<size_t> shape;
+  // - fill
+  if ( A.size() > 1 and mRank > 0 ) shape.push_back(A.size());
+  if ( B.size() > 1 and mRank > 1 ) shape.push_back(B.size());
+  if ( C.size() > 1 and mRank > 2 ) shape.push_back(C.size());
+  if ( D.size() > 1 and mRank > 3 ) shape.push_back(D.size());
+  if ( E.size() > 1 and mRank > 4 ) shape.push_back(E.size());
+  if ( F.size() > 1 and mRank > 5 ) shape.push_back(F.size());
+
+  // contract
+  out.resize(shape);
+
+  // return output
+  return out;
+}
+
+// =================================================================================================
+
+template<class X>
+template<typename T, typename S>
+inline
+array<X> array<X>::slice(
+  const std::vector<T> &a, const std::vector<T> &b, const std::vector<T> &c,
+  const std::vector<T> &d, const std::vector<T> &e, const std::vector<T> &f
+) const
+{
+  // allocate copies of input lists
+  std::vector<size_t> A(a.size());
+  std::vector<size_t> B(b.size());
+  std::vector<size_t> C(c.size());
+  std::vector<size_t> D(d.size());
+  std::vector<size_t> E(e.size());
+  std::vector<size_t> F(f.size());
+
+  // shape in each direction (as integer)
+  T na = static_cast<T>(mShape[0]);
+  T nb = static_cast<T>(mShape[1]);
+  T nc = static_cast<T>(mShape[2]);
+  T nd = static_cast<T>(mShape[3]);
+  T ne = static_cast<T>(mShape[4]);
+  T nf = static_cast<T>(mShape[5]);
+
+  // check size
+  #ifndef NDEBUG
+    if ( std::numeric_limits<T>::is_signed )
+    {
+      for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] > -na+1 ); }
+      for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] > -nb+1 ); }
+      for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] > -nc+1 ); }
+      for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] > -nd+1 ); }
+      for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] > -ne+1 ); }
+      for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] > -nf+1 ); }
+    }
+    else
+    {
+      for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] >= 0 ); }
+      for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] >= 0 ); }
+      for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] >= 0 ); }
+      for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] >= 0 ); }
+      for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] >= 0 ); }
+      for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] >= 0 ); }
+    }
+  #endif
+
+  // copy index from input list: apply periodicity
+  for ( size_t i = 0 ; i < a.size() ; ++i ) { A[i] = static_cast<size_t>((na+(a[i]%na))%na); }
+  for ( size_t i = 0 ; i < b.size() ; ++i ) { B[i] = static_cast<size_t>((nb+(b[i]%nb))%nb); }
+  for ( size_t i = 0 ; i < c.size() ; ++i ) { C[i] = static_cast<size_t>((nc+(c[i]%nc))%nc); }
+  for ( size_t i = 0 ; i < d.size() ; ++i ) { D[i] = static_cast<size_t>((nd+(d[i]%nd))%nd); }
+  for ( size_t i = 0 ; i < e.size() ; ++i ) { E[i] = static_cast<size_t>((ne+(e[i]%ne))%ne); }
+  for ( size_t i = 0 ; i < f.size() ; ++i ) { F[i] = static_cast<size_t>((nf+(f[i]%nf))%nf); }
+
+  // empty list: select all indices
+  if ( A.size() == 0 ) { A.resize(mShape[0]); std::iota(A.begin(), A.end(), 0); }
+  if ( B.size() == 0 ) { B.resize(mShape[1]); std::iota(B.begin(), B.end(), 0); }
+  if ( C.size() == 0 ) { C.resize(mShape[2]); std::iota(C.begin(), C.end(), 0); }
+  if ( D.size() == 0 ) { D.resize(mShape[3]); std::iota(D.begin(), D.end(), 0); }
+  if ( E.size() == 0 ) { E.resize(mShape[4]); std::iota(E.begin(), E.end(), 0); }
+  if ( F.size() == 0 ) { F.resize(mShape[5]); std::iota(F.begin(), F.end(), 0); }
+
+  // shape of the output, without contraction
+  // - allocate
+  std::vector<size_t> fullshape;
+  // - fill
+  fullshape.push_back(A.size());
+  fullshape.push_back(B.size());
+  fullshape.push_back(C.size());
+  fullshape.push_back(D.size());
+  fullshape.push_back(E.size());
+  fullshape.push_back(F.size());
+
+  // allocate output
+  array<X> out(fullshape);
+
+  // copy based on selected indices
+  for ( size_t i = 0 ; i < A.size() ; ++i )
+    for ( size_t j = 0 ; j < B.size() ; ++j )
+      for ( size_t k = 0 ; k < C.size() ; ++k )
+        for ( size_t l = 0 ; l < D.size() ; ++l )
+          for ( size_t m = 0 ; m < E.size() ; ++m )
+            for ( size_t n = 0 ; n < F.size() ; ++n )
+              out(i,j,k,l,m,n) = (*this)(A[i],B[j],C[k],D[l],E[m],F[n]);
+
+  // shape with contraction
+  // - allocate
+  std::vector<size_t> shape;
+  // - fill
+  if ( A.size() > 1 and mRank > 0 ) shape.push_back(A.size());
+  if ( B.size() > 1 and mRank > 1 ) shape.push_back(B.size());
+  if ( C.size() > 1 and mRank > 2 ) shape.push_back(C.size());
+  if ( D.size() > 1 and mRank > 3 ) shape.push_back(D.size());
+  if ( E.size() > 1 and mRank > 4 ) shape.push_back(E.size());
+  if ( F.size() > 1 and mRank > 5 ) shape.push_back(F.size());
+
+  // contract
+  out.resize(shape);
+
+  // return output
+  return out;
+}
+
+// =================================================================================================
 // initialize
 // =================================================================================================
 
