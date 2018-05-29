@@ -74,17 +74,6 @@ namespace diagonal {
 // -------------------------------------------------------------------------------------------------
 
 namespace cppmat {
-namespace periodic {
-
-  template<class X> class array;
-  template<class X> class matrix;
-  template<class X> class vector;
-
-}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
 namespace cartesian {
 
   template<class X> class tensor4;
@@ -130,18 +119,6 @@ namespace diagonal {
 
 namespace cppmat {
 namespace tiny {
-namespace periodic {
-
-  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
-  template<class X, size_t M, size_t N> class matrix;
-  template<class X, size_t M> class vector;
-
-}}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace tiny {
 namespace cartesian {
 
   template<class X, size_t ND> class tensor4;
@@ -187,18 +164,6 @@ namespace diagonal {
 
 namespace cppmat {
 namespace view {
-namespace periodic {
-
-  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
-  template<class X, size_t M, size_t N> class matrix;
-  template<class X, size_t M> class vector;
-
-}}}
-
-// -------------------------------------------------------------------------------------------------
-
-namespace cppmat {
-namespace view {
 namespace cartesian {
 
   template<class X, size_t ND> class tensor4;
@@ -220,9 +185,6 @@ namespace cartesian {
 #include "var_symmetric_matrix.h"
 #include "var_diagonal_matrix.h"
 #include "var_misc_matrix.h"
-#include "var_periodic_array.h"
-#include "var_periodic_matrix.h"
-#include "var_periodic_vector.h"
 #include "var_cartesian.h"
 #include "var_cartesian_tensor4.h"
 #include "var_cartesian_tensor2.h"
@@ -236,9 +198,6 @@ namespace cartesian {
 #include "fix_symmetric_matrix.h"
 #include "fix_diagonal_matrix.h"
 #include "fix_misc_matrix.h"
-#include "fix_periodic_array.h"
-#include "fix_periodic_matrix.h"
-#include "fix_periodic_vector.h"
 #include "fix_cartesian.h"
 #include "fix_cartesian_tensor4.h"
 #include "fix_cartesian_tensor2.h"
@@ -251,9 +210,6 @@ namespace cartesian {
 #include "map_regular_vector.h"
 #include "map_symmetric_matrix.h"
 #include "map_diagonal_matrix.h"
-#include "map_periodic_array.h"
-#include "map_periodic_matrix.h"
-#include "map_periodic_vector.h"
 #include "map_cartesian_tensor4.h"
 #include "map_cartesian_tensor2.h"
 #include "map_cartesian_tensor2s.h"
@@ -269,9 +225,6 @@ namespace cartesian {
 #include "var_symmetric_matrix.cpp"
 #include "var_diagonal_matrix.cpp"
 #include "var_misc_matrix.cpp"
-#include "var_periodic_array.cpp"
-#include "var_periodic_matrix.cpp"
-#include "var_periodic_vector.cpp"
 #include "var_cartesian.cpp"
 #include "var_cartesian_tensor4.cpp"
 #include "var_cartesian_tensor2.cpp"
@@ -285,9 +238,6 @@ namespace cartesian {
 #include "fix_symmetric_matrix.cpp"
 #include "fix_diagonal_matrix.cpp"
 #include "fix_misc_matrix.cpp"
-#include "fix_periodic_array.cpp"
-#include "fix_periodic_matrix.cpp"
-#include "fix_periodic_vector.cpp"
 #include "fix_cartesian.cpp"
 #include "fix_cartesian_2.cpp"
 #include "fix_cartesian_3.cpp"
@@ -302,9 +252,6 @@ namespace cartesian {
 #include "map_regular_vector.cpp"
 #include "map_symmetric_matrix.cpp"
 #include "map_diagonal_matrix.cpp"
-#include "map_periodic_array.cpp"
-#include "map_periodic_matrix.cpp"
-#include "map_periodic_vector.cpp"
 #include "map_cartesian_tensor4.cpp"
 #include "map_cartesian_tensor2.cpp"
 #include "map_cartesian_tensor2s.cpp"
