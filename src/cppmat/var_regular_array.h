@@ -63,7 +63,7 @@ public:
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
 
   // return plain storage as vector
-  std::vector<X> asVector() const;
+  operator std::vector<X> () const;
 
   // resize
   void resize (const std::vector<size_t> &shape);
@@ -83,18 +83,56 @@ public:
   const X& operator[](size_t i) const;
 
   // index operators: access using array-indices
-  X&       operator()(size_t a);
-  const X& operator()(size_t a) const;
-  X&       operator()(size_t a, size_t b);
-  const X& operator()(size_t a, size_t b) const;
-  X&       operator()(size_t a, size_t b, size_t c);
-  const X& operator()(size_t a, size_t b, size_t c) const;
-  X&       operator()(size_t a, size_t b, size_t c, size_t d);
-  const X& operator()(size_t a, size_t b, size_t c, size_t d) const;
-  X&       operator()(size_t a, size_t b, size_t c, size_t d, size_t e);
-  const X& operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  X&       operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f);
-  const X& operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
+  X&       operator()(int a);
+  const X& operator()(int a) const;
+  X&       operator()(int a, int b);
+  const X& operator()(int a, int b) const;
+  X&       operator()(int a, int b, int c);
+  const X& operator()(int a, int b, int c) const;
+  X&       operator()(int a, int b, int c, int d);
+  const X& operator()(int a, int b, int c, int d) const;
+  X&       operator()(int a, int b, int c, int d, int e);
+  const X& operator()(int a, int b, int c, int d, int e) const;
+  X&       operator()(int a, int b, int c, int d, int e, int f);
+  const X& operator()(int a, int b, int c, int d, int e, int f) const;
+
+  // index operators: access using array-indices
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b, T c);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b, T c) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b, T c, T d);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b, T c, T d) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b, T c, T d, T e);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b, T c, T d, T e) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b, T c, T d, T e, T f);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b, T c, T d, T e, T f) const;
+
 
   // index operators: access using iterator
   // N.B. the iterator points to list of array-indices (a,b,c,...)
@@ -102,12 +140,32 @@ public:
   template<class Iterator> const X& at(Iterator first, Iterator last) const;
 
   // index operators: array-indices -> plain storage (a,b,c,... -> i)
-  size_t compress(size_t a) const;
-  size_t compress(size_t a, size_t b) const;
-  size_t compress(size_t a, size_t b, size_t c) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  size_t compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
+  size_t compress(int a) const;
+  size_t compress(int a, int b) const;
+  size_t compress(int a, int b, int c) const;
+  size_t compress(int a, int b, int c, int d) const;
+  size_t compress(int a, int b, int c, int d, int e) const;
+  size_t compress(int a, int b, int c, int d, int e, int f) const;
+
+  // index operators: array-indices -> plain storage (a,b,c,... -> i)
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b, T c) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b, T c, T d) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b, T c, T d, T e) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b, T c, T d, T e, T f) const;
+
 
   // index operators: plain storage -> array-indices (i -> a,b,c,...)
   std::vector<size_t> decompress(size_t i) const;
@@ -127,18 +185,55 @@ public:
   auto index(size_t i) const;
 
   // iterator to specific entry: access using array-indices
-  auto item(size_t a);
-  auto item(size_t a) const;
-  auto item(size_t a, size_t b);
-  auto item(size_t a, size_t b) const;
-  auto item(size_t a, size_t b, size_t c);
-  auto item(size_t a, size_t b, size_t c) const;
-  auto item(size_t a, size_t b, size_t c, size_t d);
-  auto item(size_t a, size_t b, size_t c, size_t d) const;
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e);
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e) const;
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f);
-  auto item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const;
+  auto item(int a);
+  auto item(int a) const;
+  auto item(int a, int b);
+  auto item(int a, int b) const;
+  auto item(int a, int b, int c);
+  auto item(int a, int b, int c) const;
+  auto item(int a, int b, int c, int d);
+  auto item(int a, int b, int c, int d) const;
+  auto item(int a, int b, int c, int d, int e);
+  auto item(int a, int b, int c, int d, int e) const;
+  auto item(int a, int b, int c, int d, int e, int f);
+  auto item(int a, int b, int c, int d, int e, int f) const;
+
+  // iterator to specific entry: access using array-indices
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d, T e);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d, T e) const;
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d, T e, T f);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b, T c, T d, T e, T f) const;
 
   // slice
   // - allowing negative index

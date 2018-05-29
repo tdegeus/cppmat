@@ -82,7 +82,7 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-std::vector<X> array<X,RANK,I,J,K,L,M,N>::asVector() const
+array<X,RANK,I,J,K,L,M,N>::operator std::vector<X> () const
 {
   std::vector<X> out(mSize);
 
@@ -193,7 +193,164 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator[](size_t i) const
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a) const
+{
+  int na = static_cast<int>(mShape[0]);
+
+  assert( a < na && a >= -na );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+
+  return mData[\
+    A * mStrides[0]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+
+  return mData[\
+    A * mStrides[0] +\
+    B * mStrides[1]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+
+  return mData[\
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+
+  return mData[\
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+
+  return mData[\
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3] +\
+    E * mStrides[4]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e, int f) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+  int nf = static_cast<int>(mShape[5]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+  assert( f < nf && f >= -nf );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+  size_t F = static_cast<size_t>( (nf+(f%nf)) % nf );
+
+  return mData[\
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3] +\
+    E * mStrides[4] +\
+    F * mStrides[5]];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
+inline
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a) const
 {
   assert( a < mShape[0] );
 
@@ -204,8 +361,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -218,8 +376,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -234,8 +393,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c) con
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -252,8 +412,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, siz
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -272,8 +433,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, siz
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& array<X,RANK,I,J,K,L,M,N>::operator()(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e, T f) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -332,7 +494,158 @@ const X& array<X,RANK,I,J,K,L,M,N>::at(Iterator first, Iterator last) const
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a) const
+{
+  int na = static_cast<int>(mShape[0]);
+
+  assert( a < na && a >= -na );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+
+  return A * mStrides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+
+  return A * mStrides[0] +\
+         B * mStrides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+
+  return A * mStrides[0] +\
+         B * mStrides[1] +\
+         C * mStrides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+
+  return A * mStrides[0] +\
+         B * mStrides[1] +\
+         C * mStrides[2] +\
+         D * mStrides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+
+  return A * mStrides[0] +\
+         B * mStrides[1] +\
+         C * mStrides[2] +\
+         D * mStrides[3] +\
+         E * mStrides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e, int f) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+  int nf = static_cast<int>(mShape[5]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+  assert( f < nf && f >= -nf );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+  size_t F = static_cast<size_t>( (nf+(f%nf)) % nf );
+
+  return A * mStrides[0] +\
+         B * mStrides[1] +\
+         C * mStrides[2] +\
+         D * mStrides[3] +\
+         E * mStrides[4] +\
+         F * mStrides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a) const
 {
   assert( a < mShape[0] );
 
@@ -342,8 +655,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -355,8 +669,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -370,8 +685,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -387,8 +703,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -406,8 +723,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-size_t array<X,RANK,I,J,K,L,M,N>::compress(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e, T f) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -497,24 +815,182 @@ auto array<X,RANK,I,J,K,L,M,N>::index(size_t i) const
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a) const
+auto array<X,RANK,I,J,K,L,M,N>::item(int a) const
 {
-  assert( a < mShape[0] );
+  int na = static_cast<int>(mShape[0]);
 
-  return begin() + \
-    a * mStrides[0];
+  assert( a < na && a >= -na );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+
+  return begin() +
+    A * mStrides[0];
 }
 
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b) const
+auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+
+  return begin() +
+    A * mStrides[0] +\
+    B * mStrides[1];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+
+  return begin() +
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+
+  return begin() +
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+
+  return begin() +
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3] +\
+    E * mStrides[4];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f) const
+{
+  int na = static_cast<int>(mShape[0]);
+  int nb = static_cast<int>(mShape[1]);
+  int nc = static_cast<int>(mShape[2]);
+  int nd = static_cast<int>(mShape[3]);
+  int ne = static_cast<int>(mShape[4]);
+  int nf = static_cast<int>(mShape[5]);
+
+  assert( a < na && a >= -na );
+  assert( b < nb && b >= -nb );
+  assert( c < nc && c >= -nc );
+  assert( d < nd && d >= -nd );
+  assert( e < ne && e >= -ne );
+  assert( f < nf && f >= -nf );
+
+  size_t A = static_cast<size_t>( (na+(a%na)) % na );
+  size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
+  size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
+  size_t D = static_cast<size_t>( (nd+(d%nd)) % nd );
+  size_t E = static_cast<size_t>( (ne+(e%ne)) % ne );
+  size_t F = static_cast<size_t>( (nf+(f%nf)) % nf );
+
+  return begin() +
+    A * mStrides[0] +\
+    B * mStrides[1] +\
+    C * mStrides[2] +\
+    D * mStrides[3] +\
+    E * mStrides[4] +\
+    F * mStrides[5];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(T a) const
+{
+  assert( a < mShape[0] );
+
+  return begin() +
+    a * mStrides[0];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
+inline
+auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
 
-  return begin() + \
+  return begin() +
     a * mStrides[0] + \
     b * mStrides[1];
 }
@@ -522,14 +998,15 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c) const
+auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
 
-  return begin() + \
+  return begin() +
     a * mStrides[0] + \
     b * mStrides[1] + \
     c * mStrides[2];
@@ -538,15 +1015,16 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c) const
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d) const
+auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
   assert( c < mShape[2] );
   assert( d < mShape[3] );
 
-  return begin() + \
+  return begin() +
     a * mStrides[0] + \
     b * mStrides[1] + \
     c * mStrides[2] + \
@@ -556,8 +1034,9 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d) con
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e) const
+auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -565,7 +1044,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, siz
   assert( d < mShape[3] );
   assert( e < mShape[4] );
 
-  return begin() + \
+  return begin() +
     a * mStrides[0] + \
     b * mStrides[1] + \
     c * mStrides[2] + \
@@ -576,8 +1055,9 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, siz
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T, typename S>
 inline
-auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, size_t e, size_t f) const
+auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e, T f) const
 {
   assert( a < mShape[0] );
   assert( b < mShape[1] );
@@ -586,7 +1066,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(size_t a, size_t b, size_t c, size_t d, siz
   assert( e < mShape[4] );
   assert( f < mShape[5] );
 
-  return begin() + \
+  return begin() +
     a * mStrides[0] + \
     b * mStrides[1] + \
     c * mStrides[2] + \
