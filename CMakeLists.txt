@@ -40,12 +40,6 @@ set(headers
   src/${PROJECT_NAME}/fix_diagonal_matrix.h
   src/${PROJECT_NAME}/fix_misc_matrix.cpp
   src/${PROJECT_NAME}/fix_misc_matrix.h
-  src/${PROJECT_NAME}/fix_periodic_array.cpp
-  src/${PROJECT_NAME}/fix_periodic_array.h
-  src/${PROJECT_NAME}/fix_periodic_matrix.cpp
-  src/${PROJECT_NAME}/fix_periodic_matrix.h
-  src/${PROJECT_NAME}/fix_periodic_vector.cpp
-  src/${PROJECT_NAME}/fix_periodic_vector.h
   src/${PROJECT_NAME}/fix_regular_array.cpp
   src/${PROJECT_NAME}/fix_regular_array.h
   src/${PROJECT_NAME}/fix_regular_matrix.cpp
@@ -66,12 +60,6 @@ set(headers
   src/${PROJECT_NAME}/map_cartesian_vector.h
   src/${PROJECT_NAME}/map_diagonal_matrix.cpp
   src/${PROJECT_NAME}/map_diagonal_matrix.h
-  src/${PROJECT_NAME}/map_periodic_array.cpp
-  src/${PROJECT_NAME}/map_periodic_array.h
-  src/${PROJECT_NAME}/map_periodic_matrix.cpp
-  src/${PROJECT_NAME}/map_periodic_matrix.h
-  src/${PROJECT_NAME}/map_periodic_vector.cpp
-  src/${PROJECT_NAME}/map_periodic_vector.h
   src/${PROJECT_NAME}/map_regular_array.cpp
   src/${PROJECT_NAME}/map_regular_array.h
   src/${PROJECT_NAME}/map_regular_matrix.cpp
@@ -96,12 +84,6 @@ set(headers
   src/${PROJECT_NAME}/var_diagonal_matrix.h
   src/${PROJECT_NAME}/var_misc_matrix.cpp
   src/${PROJECT_NAME}/var_misc_matrix.h
-  src/${PROJECT_NAME}/var_periodic_array.cpp
-  src/${PROJECT_NAME}/var_periodic_array.h
-  src/${PROJECT_NAME}/var_periodic_matrix.cpp
-  src/${PROJECT_NAME}/var_periodic_matrix.h
-  src/${PROJECT_NAME}/var_periodic_vector.cpp
-  src/${PROJECT_NAME}/var_periodic_vector.h
   src/${PROJECT_NAME}/var_regular_array.cpp
   src/${PROJECT_NAME}/var_regular_array.h
   src/${PROJECT_NAME}/var_regular_matrix.cpp
@@ -117,9 +99,6 @@ set(headers
   src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor4.h
   src/${PROJECT_NAME}/pybind11_fix_cartesian_vector.h
   src/${PROJECT_NAME}/pybind11_fix_diagonal_matrix.h
-  src/${PROJECT_NAME}/pybind11_fix_periodic_array.h
-  src/${PROJECT_NAME}/pybind11_fix_periodic_matrix.h
-  src/${PROJECT_NAME}/pybind11_fix_periodic_vector.h
   src/${PROJECT_NAME}/pybind11_fix_regular_array.h
   src/${PROJECT_NAME}/pybind11_fix_regular_matrix.h
   src/${PROJECT_NAME}/pybind11_fix_regular_vector.h
@@ -130,9 +109,6 @@ set(headers
   src/${PROJECT_NAME}/pybind11_var_cartesian_tensor4.h
   src/${PROJECT_NAME}/pybind11_var_cartesian_vector.h
   src/${PROJECT_NAME}/pybind11_var_diagonal_matrix.h
-  src/${PROJECT_NAME}/pybind11_var_periodic_array.h
-  src/${PROJECT_NAME}/pybind11_var_periodic_matrix.h
-  src/${PROJECT_NAME}/pybind11_var_periodic_vector.h
   src/${PROJECT_NAME}/pybind11_var_regular_array.h
   src/${PROJECT_NAME}/pybind11_var_regular_matrix.h
   src/${PROJECT_NAME}/pybind11_var_regular_vector.h
