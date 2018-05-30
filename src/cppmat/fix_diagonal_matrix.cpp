@@ -221,13 +221,24 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
 
 template<class X, size_t M, size_t N>
 inline
-std::vector<X> matrix<X,M,N>::asVector() const
+matrix<X,M,N>::operator std::vector<X> () const
 {
   std::vector<X> out(mSize);
 
   std::copy(begin(), end(), out.begin());
 
   return out;
+}
+
+// =================================================================================================
+// modify bounds check
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+void matrix<X,M,N>::setPeriodic(bool periodic)
+{
+  mPeriodic = periodic;
 }
 
 // =================================================================================================
@@ -320,7 +331,44 @@ const X& matrix<X,M,N>::operator[](size_t i) const
 
 template<class X, size_t M, size_t N>
 inline
-X& matrix<X,M,N>::operator()(size_t a, size_t b)
+X& matrix<X,M,N>::operator()(int a, int b)
+{
+  int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+  assert( ( b < n && b >= -n ) or mPeriodic );
+
+  if ( a != b ) return mZero[0];
+
+  size_t A = static_cast<size_t>( (n+(a%n)) % n );
+
+  return mData[A];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+const X& matrix<X,M,N>::operator()(int a, int b) const
+{
+  int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+  assert( ( b < n && b >= -n ) or mPeriodic );
+
+  if ( a != b ) return mZero[0];
+
+  size_t A = static_cast<size_t>( (n+(a%n)) % n );
+
+  return mData[A];
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+template<typename T, typename S>
+inline
+X& matrix<X,M,N>::operator()(T a, T b)
 {
   assert( a < N );
   assert( b < N );
@@ -332,8 +380,9 @@ X& matrix<X,M,N>::operator()(size_t a, size_t b)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
+template<typename T, typename S>
 inline
-const X& matrix<X,M,N>::operator()(size_t a, size_t b) const
+const X& matrix<X,M,N>::operator()(T a, T b) const
 {
   assert( a < N );
   assert( b < N );
@@ -348,7 +397,25 @@ const X& matrix<X,M,N>::operator()(size_t a, size_t b) const
 
 template<class X, size_t M, size_t N>
 inline
-size_t matrix<X,M,N>::compress(size_t a, size_t b) const
+size_t matrix<X,M,N>::compress(int a, int b) const
+{
+  assert( a == b );
+
+  int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+
+  size_t A = static_cast<size_t>( (n+(a%n)) % n );
+
+  return A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+template<typename T, typename S>
+inline
+size_t matrix<X,M,N>::compress(T a, T b) const
 {
   assert( a < N  );
   assert( b < N  );
@@ -465,7 +532,42 @@ auto matrix<X,M,N>::index(size_t i) const
 
 template<class X, size_t M, size_t N>
 inline
-auto matrix<X,M,N>::item(size_t a, size_t b)
+auto matrix<X,M,N>::item(int a, int b)
+{
+  assert( a == b );
+
+  int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+
+  size_t A = static_cast<size_t>( (n+(a%n)) % n );
+
+  return this->begin() + A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+auto matrix<X,M,N>::item(int a, int b) const
+{
+  assert( a == b );
+
+  int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+
+  size_t A = static_cast<size_t>( (n+(a%n)) % n );
+
+  return this->begin() + A;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+template<typename T, typename S>
+inline
+auto matrix<X,M,N>::item(T a, T b)
 {
   assert( a < N  );
   assert( b < N  );
@@ -477,8 +579,9 @@ auto matrix<X,M,N>::item(size_t a, size_t b)
 // -------------------------------------------------------------------------------------------------
 
 template<class X, size_t M, size_t N>
+template<typename T, typename S>
 inline
-auto matrix<X,M,N>::item(size_t a, size_t b) const
+auto matrix<X,M,N>::item(T a, T b) const
 {
   assert( a < N  );
   assert( b < N  );

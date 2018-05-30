@@ -28,10 +28,11 @@ class matrix
 
 protected:
 
-  static const size_t mSize=N;   // total size == data.size()
-  static const size_t mRank=2;   // rank (number of axes)
-  X                   mData[N];  // data container
-  X                   mZero[1];  // pointer to a zero entry
+  static const size_t mSize=N;          // total size == data.size()
+  static const size_t mRank=2;          // rank (number of axes)
+  X                   mData[N];         // data container
+  X                   mZero[1];         // pointer to a zero entry
+  bool                mPeriodic=false;  // if true: disable bounds-check where possible
 
 public:
 
@@ -65,7 +66,10 @@ public:
   template<typename Itr> static matrix<X,M,N> CopyDense(Itr first, Itr last);
 
   // return plain storage as vector
-  std::vector<X> asVector() const;
+  operator std::vector<X> () const;
+
+  // modify bounds-checks
+  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;
@@ -79,11 +83,22 @@ public:
   const X& operator[](size_t i) const;
 
   // index operators: access using matrix-indices
-  X&       operator()(size_t a, size_t b);
-  const X& operator()(size_t a, size_t b) const;
+  X&       operator()(int a, int b);
+  const X& operator()(int a, int b) const;
+
+  // index operators: access using matrix-indices
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  X&       operator()(T a, T b);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  const X& operator()(T a, T b) const;
 
   // index operators: matrix-indices -> plain storage (a,b -> i)
-  size_t compress(size_t a, size_t b) const;
+  size_t compress(int a, int b) const;
+
+  // index operators: matrix-indices -> plain storage (a,b -> i)
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  size_t compress(T a, T b) const;
 
   // index operators: plain storage -> matrix-indices (i -> a,b)
   std::vector<size_t> decompress(size_t i) const;
@@ -103,8 +118,15 @@ public:
   auto index(size_t i) const;
 
   // iterator to specific entry: access using matrix-indices
-  auto item(size_t a, size_t b);
-  auto item(size_t a, size_t b) const;
+  auto item(int a, int b);
+  auto item(int a, int b) const;
+
+  // iterator to specific entry: access using matrix-indices
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b);
+
+  template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
+  auto item(T a, T b) const;
 
   // initialization
   void setRandom(X lower=(X)0, X upper=(X)1);
