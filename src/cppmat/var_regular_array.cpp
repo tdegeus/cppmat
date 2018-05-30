@@ -1950,6 +1950,8 @@ array<X> array<X>::slice(
   if ( D.size() > 1 and mRank > 3 ) shape.push_back(D.size());
   if ( E.size() > 1 and mRank > 4 ) shape.push_back(E.size());
   if ( F.size() > 1 and mRank > 5 ) shape.push_back(F.size());
+  // - correct for edge case
+  if ( shape.size() == 0 ) shape.push_back(1);
 
   // contract
   out.resize(shape);
@@ -2055,6 +2057,8 @@ array<X> array<X>::slice(
   if ( D.size() > 1 and mRank > 3 ) shape.push_back(D.size());
   if ( E.size() > 1 and mRank > 4 ) shape.push_back(E.size());
   if ( F.size() > 1 and mRank > 5 ) shape.push_back(F.size());
+  // - correct for edge case
+  if ( shape.size() == 0 ) shape.push_back(1);
 
   // contract
   out.resize(shape);
