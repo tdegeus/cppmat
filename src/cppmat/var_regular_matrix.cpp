@@ -26,12 +26,13 @@ matrix<X>::matrix(size_t m, size_t n) : cppmat::array<X>({m,n})
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-matrix<X>::matrix(const cppmat::array<X> &A) : cppmat::array<X>(A)
+matrix<X>::matrix(const cppmat::array<U> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 2 );
 }

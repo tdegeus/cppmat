@@ -40,16 +40,18 @@ matrix<X,M,N>::matrix()
 }
 
 // =================================================================================================
-// constructors: copy from own class
+// constructors: copy from own class (with different type)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
+template<typename U, typename V>
 inline
-matrix<X,M,N>::matrix(const matrix<X,M,N> &A)
+matrix<X,M,N>::matrix(const matrix<U,M,N> &A)
 {
   mZero[0] = static_cast<X>(0);
 
-  setCopy(A.begin(), A.end());
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] = static_cast<X>(A[i]);
 }
 
 // =================================================================================================
@@ -999,6 +1001,188 @@ double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 }
 
 // =================================================================================================
+// return array of booleans, based on condition
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::equal(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::not_equal(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::greater(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::greater_equal(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::less(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::less_equal(const X &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::equal(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::not_equal(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::greater(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::greater_equal(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::less(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+matrix<int,M,N> matrix<X,M,N>::less_equal(const matrix<X,M,N> &D) const
+{
+  matrix<int,M,N> out = matrix<int,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// =================================================================================================
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
@@ -1018,34 +1202,6 @@ std::vector<size_t> matrix<X,M,N>::where() const
 
   for ( size_t i = 0 ; i < mSize ; ++i ) {
     if ( mData[i] ) {
-      out[j] = i;
-      ++j;
-    }
-  }
-
-  return out;
-}
-
-// =================================================================================================
-// find the plain storage indices of all entries equal to some constant
-// =================================================================================================
-
-template<class X, size_t M, size_t N>
-inline
-std::vector<size_t> matrix<X,M,N>::where(X D) const
-{
-  size_t nnz = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    if ( mData[i] == D )
-      ++nnz;
-
-  std::vector<size_t> out(nnz);
-
-  size_t j = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i ) {
-    if ( mData[i] == D ) {
       out[j] = i;
       ++j;
     }

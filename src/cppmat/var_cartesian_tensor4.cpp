@@ -28,12 +28,13 @@ tensor4<X>::tensor4(size_t nd) : cppmat::array<X>({nd,nd,nd,nd})
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-tensor4<X>::tensor4(const cppmat::array<X> &A) : cppmat::array<X>(A)
+tensor4<X>::tensor4(const cppmat::array<U> &A) : cppmat::array<X>(A)
 {
   assert( this->mRank == 4 );
 

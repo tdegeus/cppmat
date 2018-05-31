@@ -44,12 +44,13 @@ array<X,RANK,I,J,K,L,M,N>::array()
 }
 
 // =================================================================================================
-// constructors: copy from own class
+// constructors: copy from own class (with different type)
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U, typename V>
 inline
-array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
+array<X,RANK,I,J,K,L,M,N>::array(const array<U,RANK,I,J,K,L,M,N> &A)
 {
   mShape[0] = I;  mStrides[0] = J*K*L*M*N;
   mShape[1] = J;  mStrides[1] = K*L*M*N;
@@ -58,7 +59,8 @@ array<X,RANK,I,J,K,L,M,N>::array(const array<X,RANK,I,J,K,L,M,N> &A)
   mShape[4] = M;  mStrides[4] = N;
   mShape[5] = N;  mStrides[5] = 1;
 
-  setCopy(A.begin(), A.end());
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] = static_cast<X>(A[i]);
 }
 
 // =================================================================================================
@@ -2182,6 +2184,188 @@ double array<X,RANK,I,J,K,L,M,N>::average(const array<X,RANK,I,J,K,L,M,N> &weigh
 }
 
 // =================================================================================================
+// return array of booleans, based on condition
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::equal(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::not_equal(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::greater(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::greater_equal(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::less(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::less_equal(const X &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::equal(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::not_equal(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::greater(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::greater_equal(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::less(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<int,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::less_equal(const array<X,RANK,I,J,K,L,M,N> &D) const
+{
+  array<int,RANK,I,J,K,L,M,N> out = array<int,RANK,I,J,K,L,M,N>::Zero();
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// =================================================================================================
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
@@ -2201,34 +2385,6 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where() const
 
   for ( size_t i = 0 ; i < mSize ; ++i ) {
     if ( mData[i] ) {
-      out[j] = i;
-      ++j;
-    }
-  }
-
-  return out;
-}
-
-// =================================================================================================
-// find the plain storage indices of all entries equal to some constant
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline
-std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where(X D) const
-{
-  size_t nnz = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    if ( mData[i] == D )
-      ++nnz;
-
-  std::vector<size_t> out(nnz);
-
-  size_t j = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i ) {
-    if ( mData[i] == D ) {
       out[j] = i;
       ++j;
     }

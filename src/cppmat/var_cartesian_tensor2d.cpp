@@ -36,12 +36,13 @@ tensor2d<X>::tensor2d(size_t nd) : cppmat::diagonal::matrix<X>(nd,nd)
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<X> &A) : cppmat::diagonal::matrix<X>(A)
+tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<U> &A) : cppmat::diagonal::matrix<X>(A)
 {
   ND = this->N;
 }

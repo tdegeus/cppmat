@@ -40,8 +40,9 @@ public:
   // constructor: allocate, don't initialize
   array(const std::vector<size_t> &shape);
 
-  // constructor: copy from own class
-  array(const cppmat::array<X> &A);
+  // constructor: copy from own class (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  array(const cppmat::array<U> &A);
 
   // constructor: copy from fixed size
   template<size_t rank, size_t i, size_t j, size_t k, size_t l, size_t m, size_t n>
@@ -65,6 +66,10 @@ public:
 
   // return plain storage as vector
   operator std::vector<X> () const;
+
+  // change type
+  // template<typename U, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
+  // operator array<U> () const;
 
   // resize
   void resize (const std::vector<size_t> &shape);
@@ -323,11 +328,22 @@ public:
   array<X> average(const array<X> &weights, size_t axis,                  bool norm=true) const;
   array<X> average(const array<X> &weights, const std::vector<int> &axes, bool norm=true) const;
 
+  // return array of booleans, based on condition
+  array<int> equal        (const       X  &D) const;
+  array<int> not_equal    (const       X  &D) const;
+  array<int> greater      (const       X  &D) const;
+  array<int> greater_equal(const       X  &D) const;
+  array<int> less         (const       X  &D) const;
+  array<int> less_equal   (const       X  &D) const;
+  array<int> equal        (const array<X> &D) const;
+  array<int> not_equal    (const array<X> &D) const;
+  array<int> greater      (const array<X> &D) const;
+  array<int> greater_equal(const array<X> &D) const;
+  array<int> less         (const array<X> &D) const;
+  array<int> less_equal   (const array<X> &D) const;
+
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
-
-  // find the plain storage indices of all entries equal to some constant
-  std::vector<size_t> where(X D) const;
 
 };
 

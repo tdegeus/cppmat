@@ -28,12 +28,13 @@ tensor2<X,ND>::tensor2() : cppmat::tiny::matrix<X,ND,ND>()
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X, size_t ND>
+template<typename U, typename V>
 inline
-tensor2<X,ND>::tensor2(const cppmat::tiny::array<X,2,ND,ND> &A) : cppmat::tiny::matrix<X,ND,ND>(A)
+tensor2<X,ND>::tensor2(const cppmat::tiny::array<U,2,ND,ND> &A) : cppmat::tiny::matrix<X,ND,ND>(A)
 {
 }
 

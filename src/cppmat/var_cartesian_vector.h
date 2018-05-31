@@ -36,8 +36,9 @@ public:
   // constructor: allocate, don't initialize
   vector(size_t nd);
 
-  // constructor: copy from parent
-  vector(const cppmat::array<X> &A);
+  // constructor: copy from parent (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  vector(const cppmat::array<U> &A);
 
   // constructor: copy from other classes
   vector(const std::vector<X> &A);

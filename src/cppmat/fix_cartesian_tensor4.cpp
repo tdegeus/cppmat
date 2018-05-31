@@ -28,12 +28,13 @@ tensor4<X,ND>::tensor4() : cppmat::tiny::array<X,4,ND,ND,ND,ND>()
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X, size_t ND>
+template<typename U, typename V>
 inline
-tensor4<X,ND>::tensor4(const cppmat::tiny::array<X,4,ND,ND,ND,ND> &A) : cppmat::tiny::array<X,4,ND,ND,ND,ND>(A)
+tensor4<X,ND>::tensor4(const cppmat::tiny::array<U,4,ND,ND,ND,ND> &A) : cppmat::tiny::array<X,4,ND,ND,ND,ND>(A)
 {
 }
 

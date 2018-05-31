@@ -28,12 +28,13 @@ vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-vector<X>::vector(const cppmat::array<X> &A) : cppmat::vector<X>(A)
+vector<X>::vector(const cppmat::array<U> &A) : cppmat::vector<X>(A)
 {
   ND = this->mShape[0];
 }

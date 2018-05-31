@@ -48,8 +48,9 @@ public:
   // constructor: allocate, don't initialize
   array();
 
-  // constructor: copy from own class
-  array(const array<X,RANK,I,J,K,L,M,N> &A);
+  // constructor: copy from own class (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  array(const array<U,RANK,I,J,K,L,M,N> &A);
 
   // constructor: copy from dynamic size
   array(const cppmat::array<X> &A);
@@ -295,11 +296,22 @@ public:
   // weighted average
   double average(const array<X,RANK,I,J,K,L,M,N> &weights, bool norm=true) const;
 
+  // return array of booleans, based on condition
+  array<int,RANK,I,J,K,L,M,N> equal        (const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> not_equal    (const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> greater      (const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> greater_equal(const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> less         (const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> less_equal   (const       X                   &D) const;
+  array<int,RANK,I,J,K,L,M,N> equal        (const array<X,RANK,I,J,K,L,M,N> &D) const;
+  array<int,RANK,I,J,K,L,M,N> not_equal    (const array<X,RANK,I,J,K,L,M,N> &D) const;
+  array<int,RANK,I,J,K,L,M,N> greater      (const array<X,RANK,I,J,K,L,M,N> &D) const;
+  array<int,RANK,I,J,K,L,M,N> greater_equal(const array<X,RANK,I,J,K,L,M,N> &D) const;
+  array<int,RANK,I,J,K,L,M,N> less         (const array<X,RANK,I,J,K,L,M,N> &D) const;
+  array<int,RANK,I,J,K,L,M,N> less_equal   (const array<X,RANK,I,J,K,L,M,N> &D) const;
+
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
-
-  // find the plain storage indices of all entries equal to some constant
-  std::vector<size_t> where(X D) const;
 
 };
 

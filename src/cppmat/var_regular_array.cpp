@@ -27,16 +27,18 @@ array<X>::array(const std::vector<size_t> &shape)
 }
 
 // =================================================================================================
-// constructors: copy from own class
+// constructors: copy from own class (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-array<X>::array(const array<X> &A)
+array<X>::array(const array<U> &A)
 {
   resize(A.shape());
 
-  setCopy(A.begin(), A.end());
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    mData[i] = static_cast<X>(A[i]);
 }
 
 // =================================================================================================
@@ -2719,6 +2721,206 @@ array<X> array<X>::average(
 }
 
 // =================================================================================================
+// return array of booleans, based on condition
+// =================================================================================================
+
+template<class X>
+inline
+array<int> array<X>::equal(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::not_equal(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::greater(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::greater_equal(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::less(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::less_equal(const X &D) const
+{
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::equal(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] == D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::not_equal(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] != D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::greater(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] > D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::greater_equal(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] >= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::less(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] < D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+array<int> array<X>::less_equal(const array<X> &D) const
+{
+  assert( shape() == D.shape() );
+  assert( size () == D.size () );
+
+  array<int> out = array<int>::Zero(shape());
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] <= D[i] )
+      out[i] = 1;
+
+  return out;
+}
+
+// =================================================================================================
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
@@ -2738,34 +2940,6 @@ std::vector<size_t> array<X>::where() const
 
   for ( size_t i = 0 ; i < mSize ; ++i ) {
     if ( mData[i] ) {
-      out[j] = i;
-      ++j;
-    }
-  }
-
-  return out;
-}
-
-// =================================================================================================
-// find the plain storage indices of all entries equal to some constant
-// =================================================================================================
-
-template<class X>
-inline
-std::vector<size_t> array<X>::where(X D) const
-{
-  size_t nnz = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    if ( mData[i] == D )
-      ++nnz;
-
-  std::vector<size_t> out(nnz);
-
-  size_t j = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i ) {
-    if ( mData[i] == D ) {
       out[j] = i;
       ++j;
     }

@@ -28,12 +28,13 @@ tensor2s<X,ND>::tensor2s() : cppmat::tiny::symmetric::matrix<X,ND,ND>()
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X, size_t ND>
+template<typename U, typename V>
 inline
-tensor2s<X,ND>::tensor2s(const cppmat::tiny::symmetric::matrix<X,ND,ND> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
+tensor2s<X,ND>::tensor2s(const cppmat::tiny::symmetric::matrix<U,ND,ND> &A) : cppmat::tiny::symmetric::matrix<X,ND,ND>(A)
 {
 }
 

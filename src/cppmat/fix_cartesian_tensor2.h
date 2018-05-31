@@ -31,8 +31,9 @@ public:
   // constructor: allocate, don't initialize
   tensor2();
 
-  // constructor: copy from parent
-  tensor2(const cppmat::tiny::array<X,2,ND,ND> &A);
+  // constructor: copy from parent (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  tensor2(const cppmat::tiny::array<U,2,ND,ND> &A);
 
   // constructor: copy from other classes
   tensor2(const cppmat::tiny::symmetric::matrix<X,ND,ND> &A);

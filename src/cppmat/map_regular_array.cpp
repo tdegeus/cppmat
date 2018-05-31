@@ -1244,34 +1244,6 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where() const
 }
 
 // =================================================================================================
-// find the plain storage indices of all entries equal to some constant
-// =================================================================================================
-
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
-inline
-std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where(X D) const
-{
-  size_t nnz = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i )
-    if ( mData[i] == D )
-      ++nnz;
-
-  std::vector<size_t> out(nnz);
-
-  size_t j = 0;
-
-  for ( size_t i = 0 ; i < mSize ; ++i ) {
-    if ( mData[i] == D ) {
-      out[j] = i;
-      ++j;
-    }
-  }
-
-  return out;
-}
-
-// =================================================================================================
 // print operator
 // =================================================================================================
 

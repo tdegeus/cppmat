@@ -132,9 +132,6 @@ public:
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
 
-  // find the plain storage indices of all entries equal to some constant
-  std::vector<size_t> where(X D) const;
-
 };
 
 // print operator

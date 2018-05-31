@@ -43,8 +43,9 @@ public:
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);
 
-  // constructor: copy from parent
-  matrix(const cppmat::array<X> &A);
+  // constructor: copy from parent (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  matrix(const cppmat::array<U> &A);
 
   // constructor: copy from other class
   matrix(const cppmat::symmetric::matrix<X> &A);

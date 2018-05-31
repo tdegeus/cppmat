@@ -31,8 +31,9 @@ public:
   // constructor: allocate, don't initialize
   tensor2d();
 
-  // constructor: copy from parent
-  tensor2d(const cppmat::tiny::diagonal::matrix<X,ND,ND> &A);
+  // constructor: copy from parent (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  tensor2d(const cppmat::tiny::diagonal::matrix<U,ND,ND> &A);
 
   // constructor: copy from dynamic size
   tensor2d(const cppmat::cartesian::tensor2d<X> &A);

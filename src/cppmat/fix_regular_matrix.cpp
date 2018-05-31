@@ -27,12 +27,13 @@ matrix<X,M,N>::matrix() : cppmat::tiny::array<X,2,M,N>()
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
+template<typename U, typename V>
 inline
-matrix<X,M,N>::matrix(const cppmat::tiny::array<X,2,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
+matrix<X,M,N>::matrix(const cppmat::tiny::array<U,2,M,N> &A) : cppmat::tiny::array<X,2,M,N>(A)
 {
 }
 

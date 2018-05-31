@@ -31,8 +31,9 @@ public:
   // constructor: allocate, don't initialize
   tensor4();
 
-  // constructor: copy from parent
-  tensor4(const cppmat::tiny::array<X,4,ND,ND,ND,ND> &A);
+  // constructor: copy from parent (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  tensor4(const cppmat::tiny::array<U,4,ND,ND,ND,ND> &A);
 
   // constructor: copy from dynamic size
   tensor4(const cppmat::cartesian::tensor4<X> &A);

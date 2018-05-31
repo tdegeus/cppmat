@@ -40,8 +40,9 @@ public:
   // constructor: allocate, don't initialize
   matrix(size_t m, size_t n);
 
-  // constructor: copy from own class
-  matrix(const cppmat::diagonal::matrix<X> &A);
+  // constructor: copy from own class (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  matrix(const cppmat::diagonal::matrix<U> &A);
 
   // constructor: copy from fixed size
   template<size_t m, size_t n> matrix(const cppmat::tiny::diagonal::matrix<X,m,n> &A);
@@ -191,11 +192,22 @@ public:
   // weighted average
   double average(const matrix<X> &weights, bool norm=true) const;
 
+  // return matrix of booleans, based on condition
+  matrix<int> equal        (const        X  &D) const;
+  matrix<int> not_equal    (const        X  &D) const;
+  matrix<int> greater      (const        X  &D) const;
+  matrix<int> greater_equal(const        X  &D) const;
+  matrix<int> less         (const        X  &D) const;
+  matrix<int> less_equal   (const        X  &D) const;
+  matrix<int> equal        (const matrix<X> &D) const;
+  matrix<int> not_equal    (const matrix<X> &D) const;
+  matrix<int> greater      (const matrix<X> &D) const;
+  matrix<int> greater_equal(const matrix<X> &D) const;
+  matrix<int> less         (const matrix<X> &D) const;
+  matrix<int> less_equal   (const matrix<X> &D) const;
+
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
-
-  // find the plain storage indices of all entries equal to some constant
-  std::vector<size_t> where(X D) const;
 
 };
 

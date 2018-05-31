@@ -41,8 +41,9 @@ public:
   // constructor: allocate, don't initialize
   matrix();
 
-  // constructor: copy from own class
-  matrix(const cppmat::tiny::symmetric::matrix<X,M,N> &A);
+  // constructor: copy from own class (with different type)
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  matrix(const cppmat::tiny::symmetric::matrix<U,M,N> &A);
 
   // constructor: copy from other class
   matrix(const cppmat::tiny::diagonal::matrix<X,M,N> &A);
@@ -194,11 +195,22 @@ public:
   // weighted average
   double average(const matrix<X,M,N> &weights, bool norm=true) const;
 
+  // return matrix of booleans, based on condition
+  matrix<int,M,N> equal        (const        X      &D) const;
+  matrix<int,M,N> not_equal    (const        X      &D) const;
+  matrix<int,M,N> greater      (const        X      &D) const;
+  matrix<int,M,N> greater_equal(const        X      &D) const;
+  matrix<int,M,N> less         (const        X      &D) const;
+  matrix<int,M,N> less_equal   (const        X      &D) const;
+  matrix<int,M,N> equal        (const matrix<X,M,N> &D) const;
+  matrix<int,M,N> not_equal    (const matrix<X,M,N> &D) const;
+  matrix<int,M,N> greater      (const matrix<X,M,N> &D) const;
+  matrix<int,M,N> greater_equal(const matrix<X,M,N> &D) const;
+  matrix<int,M,N> less         (const matrix<X,M,N> &D) const;
+  matrix<int,M,N> less_equal   (const matrix<X,M,N> &D) const;
+
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
-
-  // find the plain storage indices of all entries equal to some constant
-  std::vector<size_t> where(X D) const;
 
 };
 

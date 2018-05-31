@@ -28,12 +28,13 @@ tensor2<X>::tensor2(size_t nd) : cppmat::matrix<X>(nd,nd)
 }
 
 // =================================================================================================
-// constructors: copy from parent
+// constructors: copy from parent (with different type)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-tensor2<X>::tensor2(const cppmat::array<X> &A) : cppmat::matrix<X>(A)
+tensor2<X>::tensor2(const cppmat::array<U> &A) : cppmat::matrix<X>(A)
 {
   ND = this->mShape[0];
 }
