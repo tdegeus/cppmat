@@ -251,6 +251,8 @@ template<class X>
 inline
 vector<X> vector<X>::diff() const
 {
+  assert( this->mSize > 0 );
+
   vector<X> out(this->mSize-1);
 
   for ( size_t i = 0 ; i < this->mSize-1 ; ++i )
