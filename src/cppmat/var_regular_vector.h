@@ -66,7 +66,11 @@ public:
   // resize
   void resize(size_t n);
 
-  // forward difference (x0, x1-x0, x2-x1, ...)
+  // inset item
+  void push_back(const X &D);
+  void append(const cppmat::array<X> &A);
+
+  // discrete difference (x1-x0, x2-x1, ...)
   vector<X> diff() const;
 
 };

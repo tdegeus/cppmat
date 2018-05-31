@@ -217,16 +217,44 @@ void vector<X>::resize(size_t n)
 }
 
 // =================================================================================================
-// finite difference
+// extend
+// =================================================================================================
+
+template<class X>
+inline
+void vector<X>::push_back(const X &D)
+{
+  this->mData.push_back(D);
+  this->mShape[0]++;
+  this->mSize++;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+void vector<X>::append(const cppmat::array<X> &A)
+{
+  assert( A.rank() == 1 );
+
+  this->mData.insert(this->end(), A.begin(), A.end());
+
+  this->mShape[0] += A.size();
+  this->mSize     += A.size();
+}
+
+// =================================================================================================
+// discrete difference (x1-x0, x2-x1, ...)
 // =================================================================================================
 
 template<class X>
 inline
 vector<X> vector<X>::diff() const
 {
-  vector<X> out(this->mSize);
+  vector<X> out(this->mSize-1);
 
-  std::adjacent_difference(this->begin(), this->end(), out.begin());
+  for ( size_t i = 0 ; i < this->mSize-1 ; ++i )
+    out[i] = this->mData[i+1] - this->mData[i];
 
   return out;
 }
