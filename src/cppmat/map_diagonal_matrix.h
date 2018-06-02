@@ -28,11 +28,10 @@ class matrix
 
 protected:
 
-  static const size_t mSize=N;          // total size == data.size()
-  static const size_t mRank=2;          // rank (number of axes)
-  const X            *mData;            // data container
-  X                   mZero[1];         // pointer to a zero entry
-  bool                mPeriodic=false;  // if true: disable bounds-check where possible
+  static const size_t mSize=N;  // total size == data.size()
+  static const size_t mRank=2;  // rank (number of axes)
+  const X            *mData;    // data container
+  X                   mZero[1]; // pointer to a zero entry
 
 public:
 
@@ -50,9 +49,6 @@ public:
 
   // return plain storage as vector
   operator std::vector<X> () const;
-
-  // modify bounds-checks
-  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;

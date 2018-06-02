@@ -243,17 +243,6 @@ matrix<X,M,N>::operator std::vector<X> () const
 }
 
 // =================================================================================================
-// modify bounds check
-// =================================================================================================
-
-template<class X, size_t M, size_t N>
-inline
-void matrix<X,M,N>::setPeriodic(bool periodic)
-{
-  mPeriodic = periodic;
-}
-
-// =================================================================================================
 // get dimensions
 // =================================================================================================
 
@@ -347,9 +336,6 @@ X& matrix<X,M,N>::operator()(int a, int b)
 {
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
-
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
   size_t B = static_cast<size_t>( (n+(b%n)) % n );
 
@@ -364,9 +350,6 @@ inline
 const X& matrix<X,M,N>::operator()(int a, int b) const
 {
   int n = static_cast<int>(N);
-
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
   size_t B = static_cast<size_t>( (n+(b%n)) % n );
@@ -412,9 +395,6 @@ inline
 size_t matrix<X,M,N>::compress(int a, int b) const
 {
   int n = static_cast<int>(N);
-
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
   size_t B = static_cast<size_t>( (n+(b%n)) % n );
@@ -557,9 +537,6 @@ auto matrix<X,M,N>::item(int a, int b)
 {
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
-
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
   size_t B = static_cast<size_t>( (n+(b%n)) % n );
 
@@ -574,9 +551,6 @@ inline
 auto matrix<X,M,N>::item(int a, int b) const
 {
   int n = static_cast<int>(N);
-
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
   size_t B = static_cast<size_t>( (n+(b%n)) % n );

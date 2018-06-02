@@ -25,12 +25,11 @@ class matrix
 {
 protected:
 
-  size_t              mSize=0;          // total size == data.size()
-  static const size_t mRank=2;          // rank (number of axes)
-  size_t              N=0;              // number of rows/columns
-  std::vector<X>      mData;            // data container
-  X                   mZero[1];         // pointer to a zero entry
-  bool                mPeriodic=false;  // if true: disable bounds-check where possible
+  size_t              mSize=0;  // total size == data.size()
+  static const size_t mRank=2;  // rank (number of axes)
+  size_t              N=0;      // number of rows/columns
+  std::vector<X>      mData;    // data container
+  X                   mZero[1]; // pointer to a zero entry
 
 public:
 
@@ -69,9 +68,6 @@ public:
 
   // resize
   void resize(size_t m, size_t n);
-
-  // modify bounds-checks
-  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;
