@@ -37,6 +37,8 @@ A C++ class for dynamically sized n-d arrays. For example, a rank 3 array is all
 
   *  If your array is part of an external array (for example a bigger array) which you want to just read from, consider using :ref:`map_regular_array`.
 
+  *  To format the print use the regular C++ mechanism, e.g. ``std::cout << std::setw(5) << std::setprecision(3) << A << std::endl;``
+
 Methods
 -------
 
