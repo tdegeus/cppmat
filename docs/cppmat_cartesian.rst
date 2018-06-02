@@ -1,13 +1,11 @@
 
-.. _cartesian:
+.. _var_cartesian:
 
 *****************
 cppmat::cartesian
 *****************
 
-[:download:`tensor.h <../src/cppmat/tensor.h>`, :download:`tensor.cpp <../src/cppmat/tensor.cpp>`]
-
-Provides classes for 4th- and 2nd order tensors and vectors (the latter essentially coincide with ``std::vector``, but with special methods). For example, a fourth order identity tensor in 3-D is obtained as follows:
+Provides classes for 4th- and 2nd order tensors and vectors. For example, a fourth order identity tensor in 3-D is obtained as follows:
 
 .. code-block:: cpp
 
@@ -19,18 +17,16 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 
     ...
 
+    std::cout << A << std::endl;
+
     return 0;
   }
 
-.. note:: **Tip**
+.. tip::
 
-  To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
+  If you know that you will work in a fixed (and small) number of dimensions (e.g. 2 or 3), please consider using :ref:`fix_cartesian` instead of :ref:`var_cartesian`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed size and relatively small. Also several loops are unrolled.
 
-.. note:: **Tip**
-
-  If you know that you will work exclusively in 2 or 3 dimensions, please consider using :ref:`cartesian2d` or :ref:`cartesian3d` instead of :ref:`cartesian`. This is generally more efficient as it can take advantage of the knowledge that the arrays are fixed size and relatively small. Also several loops are unrolled.
-
-.. note:: **Tip**
+.. tip::
 
   The notation can be shortened to:
 
@@ -52,10 +48,12 @@ Provides classes for 4th- and 2nd order tensors and vectors (the latter essentia
 Classes
 =======
 
-.. _cartesian_tensor4:
+.. _var_cartesian_tensor4:
 
 ``cppmat::cartesian::tensor4``
 ------------------------------
+
+[:download:`var_cartesian_tensor4.h <../src/cppmat/var_cartesian_tensor4.h>`, :download:`var_cartesian_tensor4.cpp <../src/cppmat/var_cartesian_tensor4.cpp>`]
 
 4th-order tensor (rank 4 tensor) of arbitrary dimension.
 
@@ -65,10 +63,12 @@ Classes
 
   A(0,0,0,0) = ...
 
-.. _cartesian_tensor2:
+.. _var_cartesian_tensor2:
 
 ``cppmat::cartesian::tensor2``
 ------------------------------
+
+[:download:`var_cartesian_tensor2.h <../src/cppmat/var_cartesian_tensor2.h>`, :download:`var_cartesian_tensor2.cpp <../src/cppmat/var_cartesian_tensor2.cpp>`]
 
 2nd-order tensor (rank 2 tensor) of arbitrary dimension.
 
@@ -78,10 +78,12 @@ Classes
 
   A(0,0) = ...
 
-.. _cartesian_tensor2s:
+.. _var_cartesian_tensor2s:
 
 ``cppmat::cartesian::tensor2s``
 -------------------------------
+
+[:download:`var_cartesian_tensor2s.h <../src/cppmat/var_cartesian_tensor2s.h>`, :download:`var_cartesian_tensor2s.cpp <../src/cppmat/var_cartesian_tensor2s.cpp>`]
 
 Symmetric 2nd-order tensor.
 
@@ -101,10 +103,12 @@ For example, for the case of 3 dimensions, the following components are stored:
 
 *The remaining components are inferred from symmetry*.
 
-.. _cartesian_tensor2d:
+.. _var_cartesian_tensor2d:
 
 ``cppmat::cartesian::tensor2d``
 -------------------------------
+
+[:download:`var_cartesian_tensor2d.h <../src/cppmat/var_cartesian_tensor2d.h>`, :download:`var_cartesian_tensor2d.cpp <../src/cppmat/var_cartesian_tensor2d.cpp>`]
 
 diagonal 2nd-order tensor.
 
@@ -124,10 +128,12 @@ For example, for the case of 3 dimensions, the following components are stored:
 
 *The remaining components are imposed to be zero*.
 
-.. _cartesian_vector:
+.. _var_cartesian_vector:
 
 ``cppmat::cartesian::vector``
 -----------------------------
+
+[:download:`var_cartesian_vector.h <../src/cppmat/var_cartesian_vector.h>`, :download:`var_cartesian_vector.cpp <../src/cppmat/var_cartesian_vector.cpp>`]
 
 Vector (rank 1 tensor) of arbitrary dimension. For example:
 
@@ -194,7 +200,7 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 Methods
 =======
 
-For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``*``,``/=``, ``/``,``+=``, ``+``,``-=``, ``-``, and the comparison operator ``==`` are available. Also, one can use ``.setZero()``, ``.setOnes()``, or ``.setConstant(...)`` to initialize all components to zero, one, or some constant. Furthermore, the following methods are available.
+All the methods of :ref:`var_regular_array` (or :ref:`var_regular_matrix`, :ref:`var_symmetric_matrix`, :ref:`var_symmetric_matrix`, or :ref:`var_regular_vector`) are overloaded. In addition the following tensor algebra is available.
 
 .. note::
 
@@ -290,5 +296,5 @@ For each class the index operator ``(...)``, the arithmetic operators ``*=``, ``
 
 .. note::
 
-  One can also call the methods as functions using ``cppmmat::ddot(A,B)``, ``cppmmat::dot(A,B)``, ``cppmmat::dyadic(A,B)``, ``cppmmat::cross(A,B)``, ``cppmmat::transpose(A)``, ``cppmmat::transposeR(A)``, ``cppmmat::transposeL(A)``, ``cppmmat::inv(A)``, ``cppmmat::det(A)``, and ``cppmmat::trace(A)``, These methods are just a front end for the class methods described above.
+  One can also call the methods as functions using ``cppmmat::ddot(A,B)``, ``cppmmat::dot(A,B)``, ``cppmmat::dyadic(A,B)``, ``cppmmat::cross(A,B)``, ``cppmmat::T(A)``, ``cppmmat::RT(A)``, ``cppmmat::LT(A)``, ``cppmmat::inv(A)``, ``cppmmat::det(A)``, and ``cppmmat::trace(A)``, These methods are just a front end for the class methods described above.
 

@@ -1,18 +1,16 @@
 
-.. _cppmat:
-
 ******
 cppmat
 ******
 
-.. _regular_array:
+.. _var_regular_array:
 
 cppmat::array
 =============
 
-[:download:`regular_array.h <../src/cppmat/regular_array.h>`, :download:`regular_array.cpp <../src/cppmat/regular_array.cpp>`]
+[:download:`var_regular_array.h <../src/cppmat/var_regular_array.h>`, :download:`var_regular_array.cpp <../src/cppmat/var_regular_array.cpp>`]
 
-Header-only module that provides a C++ class for n-d matrices. For example, a rank 3 matrix is allocated as follows:
+A C++ class for dynamically sized n-d arrays. For example, a rank 3 array is allocated as follows:
 
 .. code-block:: cpp
 
@@ -26,39 +24,55 @@ Header-only module that provides a C++ class for n-d matrices. For example, a ra
 
       ...
 
+      std::cout << A << std::endl;
+
       return 0;
   }
 
 .. tip::
 
-  If you know that you will work exclusively with a 2-dimensional matrix, please consider using :ref:`regular_matrix` instead of :ref:`regular_array`. This is generally more efficient. If, on top of that, you want to use only a small matrix, please use the fixed sized :ref:`tiny_matrix`. It doesn't need dynamic memory allocation, and can therefore be considerably faster. For the sake of generality there exist also the classes :ref:`regular_vector` and :ref:`tiny_vector`, which have many similarities to the standard C++ ``std::vector``.
+  *  If you know that you will work exclusively with a rank 1 or 2 array (i.e. a vector or a matrix), consider using :ref:`var_regular_vector`, :ref:`var_regular_matrix`, :ref:`var_symmetric_matrix`, and , :ref:`var_diagonal_matrix`. This can enhance readability and/or efficiency.
+
+  *  If your array is not very big and its size is known at compile time consider using :ref:`fix_regular_array` (or the fixed size equivalents of the other classes). This avoids dynamic memory allocation, and usually speeds-up your code.
+
+  *  If your array is part of an external array (for example a bigger array) which you want to just read from, consider using :ref:`map_regular_array`.
 
 Methods
 -------
 
 *   ``A(i,j,k)``
 
-    Return the entry at ``(i,j,k)``. The number of indices (i.e. ``A(i)``, ``A(i,j)``, ``A(i,j,k)``, ...) generally corresponds to the number of dimensions (see :ref:`matrix-index` for additional directives).
+    Returns the entry at ``(i,j,k)``. Use this to read or write.
+
+    If the indices are input as ``int`` a negative may also be used, which counts from the last index along that axis. This implies some extra operations, so if you do not use this feature input the indices as ``size_t``.
+
+    The number of indices (i.e. ``A(i)``, ``A(i,j)``, ``A(i,j,k)``, ...) may be lower or equal to the rank, all 'omitted' indices are assumed to be zero.
+
+    See :ref:`array-index` for additional directives.
 
 *   ``A[i]``
 
-    Returns the ``i``-th entry in the matrix viewed as a list.
+    Returns the ``i``-th entry of the plain storage. Use this to read or write.
 
 *   ``A.at(first, last)``
 
-    Returns the entry ``{i,j,k}``, which are stored in a list. The function takes an iterator to the first and the last index of this list. See :ref:`matrix-index-advanced`.
+    Returns the entry ``{i,j,k}``, which are stored in a list. The function takes an iterator to the first and the last index of this list. See :ref:`array-index-advanced`.
 
 *   ``A.item(i,j,k)``
 
-    Return an iterator to the entry at ``(i,j,k)``.
+    Returns an iterator to the entry at ``(i,j,k)``.
+
+*   ``A.index(i)``
+
+    Returns an iterator to the ``i``-th entry of the plain storage.
 
 *   ``A.data()``, ``A.begin()``, ``A.end()``
 
     Return an iterator to the data, the first, or the last entry of the matrix.
 
-*   ``A.ndim()``
+*   ``A.rank()``
 
-    Returns the number of dimensions of the matrix.
+    Returns the ranks of the array (i.e. the number of axes).
 
 *   ``A.size()``
 
@@ -66,7 +80,7 @@ Methods
 
 *   ``A.shape(i)``
 
-    Returns the shape along dimension ``i``.
+    Returns the shape along dimension ``i`` (a negative number may be used that counts down from the last axis, e.g. ``A.shape(-1)`` is the same as ``A.shape(A.rank()-1)``.
 
 *   ``A.shape()``
 
@@ -80,35 +94,35 @@ Methods
 
     Change the shape of the matrix. It is required that the total number of entries does not change.
 
-*   ``A.chdim(N)``
+*   ``A.chrank(N)``
 
-    Change the number of dimensions to ``N``. This affects the outputted ``shape``. For example:
+    Change the rank to ``N`` (with shape 1 along the added axes). A reduction of rank is only allowed if the shape is 1 along the reduced axes.
 
-    .. code-block:: cpp
+*   ``A.setZero()``, ``A.setOnes()``, ``A.setConstant(D)``, ``A.setArange()``, ``A.setRandom([start, end])``
 
-      cppmat::array<double> A({10,10});
+    Set all entries to zero or one, a constant, the index in the flat storage, or a random value.
 
-      A.chdim(3);
-
-    Has the result that ``A.shape() == {10,10,1}``.
-
-*   ``A.setZero()``, ``A.setOnes()``, ``A.setConstant(...)``, ``A.setArange()``
-
-    Set all entries to zero or one, a constant, or the index in the flat storage.
-
-*   ``A.setCopy(first, last)``
+*   ``A.setCopy(first[, last])``
 
     Copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
 
+*   ``A.copyTo(first[, last])``
+
+    Copy the individual entries to an external iterator.
+
+*   ``A.abs()``
+
+    Returns an array with the absolute values of each entry.
+
+*   ``A.norm()``
+
+    Returns the norm (sum of absolute values).
+
 *   ``A.argmin()``, ``A.argmax()``
 
-    Return the array-indices of the minimum/maximum.
+    Return the plain storage index of the minimum/maximum.
 
-*   ``A.argminIndex()``, ``A.argmaxIndex()``
-
-    Return the plain store index of the minimum/maximum.
-
-*   ``A.minCoeff([axis])``, ``A.maxCoeff([axis])``
+*   ``A.min([axis])``, ``A.max([axis])``
 
     Return the minimum or the maximum entry.
 
@@ -120,16 +134,32 @@ Methods
 
     Return the mean of all entries, or along one or more axes.
 
-*   ``A.average(weights[, axis][, normalize])``
+*   ``A.average(weights[, axis, normalize])``
 
     Compute the weighted average of all entries, or along one or more axes. See `NumPy <https://docs.scipy.org/doc/numpy/reference/generated/numpy.average.html>`_  and `Wikipedia <https://en.wikipedia.org/wiki/Weighted_arithmetic_mean>`_. Optionally the result can be returned without normalization.
+
+*   ``A.where()``
+
+    Returns a vector with the plain storage indices of all non-zero entries.
+
+*   ``A.equal(D)``, ``A.not_equal(D)``, ``A.greater(D)``, ``A.greater_equal(D)``, ``A.less(D)``, ``A.less_equal(D)``
+
+    Return array of booleans, based on the condition.
+
+*    ``A.slice(...)``
+
+     Returns a slice of the array. The input are ``std::vector<size_t>`` with the indices to select along that axis (these vectors can be also inputted using the ``{...}`` syntax). An empty vector (or simply ``{}``) implies that all indices along that axis are selected.
 
 (Named) constructors
 --------------------
 
 *   ``cppmat::array<double>(shape)``
 
-    Allocate to a certain shape, nothing is initialized.
+    Allocate to a certain shape, nothing is initialized. The ``shape`` has to be specified as a ``std::vector<size_t>``, from which the rank is automatically deduced. Alternatively the ``{...}`` notation can be used, to avoid a separate variable.
+
+*   ``cppmat::array<double>::Random(shape[, start, end])``
+
+    Allocate to a certain shape, set entries to a random value.
 
 *   ``cppmat::array<double>::Arange(shape)``
 
@@ -147,16 +177,16 @@ Methods
 *
     Allocate to a certain shape, set all entries to a certain constant.
 
-*   ``cppmat::array<double>::Copy(shape, first, last)``
+*   ``cppmat::array<double>::Copy(shape, first[, last])``
 *
     Allocate to a certain shape, copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
 
-.. _matrix-index:
+.. _array-index:
 
 Indexing
 --------
 
-In principle the number of indices should match the dimensions of the matrix (i.e. ``A.ndim()``). Though one can:
+In principle the number of indices should match the rank of the array (i.e. ``A.rank()``). Though one can:
 
 *   Reference to a certain index using a higher-dimensional equivalent. For example:
 
@@ -170,43 +200,13 @@ In principle the number of indices should match the dimensions of the matrix (i.
 
 *   Refer to the beginning of a block (e.g. a row) by omitting the trailing zero indices. For example, a pointer to the beginning of the second row of the above matrix is obtained by ``&A(1)`` (which is fully equivalent to ``&A(1,0)``).
 
-.. _matrix-iterators:
+.. tip::
 
-Iterators
----------
+  If the indices are input as ``int`` a negative may also be used, which counts from the last index along that axis. To input any *periodic* index (i.e. to turn-off the bound-checks) use ``.setPeriodic(true)`` on the array object.
 
-One can obtain iterators to:
+  Note that this all does cost extra operations. So, if you do not use this feature, input the indices as ``size_t``.
 
-*   The beginning of the matrix:
-
-    .. code-block:: cpp
-
-      A.begin()
-
-*   The end of the matrix:
-
-    .. code-block:: cpp
-
-      A.end()
-
-*   A specific point in the matrix
-
-    .. code-block:: cpp
-
-      A.item(i,j,k)
-
-*   The data:
-
-    .. code-block:: cpp
-
-      A.data()
-
-View
-----
-
-To print, use the common C++ ``std::cout << A << std::endl;``. To customize formatting use the more classic C syntax ``A.printf("%16.8e");``
-
-.. _matrix-index-advanced:
+.. _array-index-advanced:
 
 Advanced indexing
 -----------------
@@ -292,12 +292,12 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
     6
     1, 2,
 
-.. _regular_matrix:
+.. _var_regular_matrix:
 
 cppmat::matrix
 ==============
 
-[:download:`regular_matrix.h <../src/cppmat/regular_matrix.h>`, :download:`regular_matrix.cpp <../src/cppmat/regular_matrix.cpp>`]
+[:download:`var_regular_matrix.h <../src/cppmat/var_regular_matrix.h>`, :download:`var_regular_matrix.cpp <../src/cppmat/var_regular_matrix.cpp>`]
 
 Class for 2-d matrices. For example:
 
@@ -316,16 +316,14 @@ Class for 2-d matrices. For example:
       return 0;
   }
 
-.. note::
+The entire interface is the same as for :ref:`var_regular_array`, though there is obviously no ``chrank`` method.
 
-  The entire interface is the same as for :ref:`regular_array`, though there is obviously no ``chdim`` method.
-
-.. _regular_vector:
+.. _var_regular_vector:
 
 cppmat::vector
 ==============
 
-[:download:`regular_vector.h <../src/cppmat/regular_vector.h>`, :download:`regular_vector.cpp <../src/cppmat/regular_vector.cpp>`]
+[:download:`var_regular_vector.h <../src/cppmat/var_regular_vector.h>`, :download:`var_regular_vector.cpp <../src/cppmat/var_regular_vector.cpp>`]
 
 Class for 1-d matrices (a.k.a. vectors). For example:
 
@@ -344,11 +342,12 @@ Class for 1-d matrices (a.k.a. vectors). For example:
       return 0;
   }
 
-.. note::
+The entire interface is the same as for :ref:`var_regular_array`, though there is obviously no ``chrank`` method.
 
-  The entire interface is the same as for :ref:`regular_array`, though there is obviously no ``chdim`` method.
+.. tip::
 
-.. note::
+  One can almost seamlessly switch between ``std::vector`` and ``cppmat::vector``. For example the following would work:
 
-  Compared to ``std::vector`` this class is not much difference. The only exception that it provides indexing also with round brackets, and automated printing of entries.
+  .. code-block:: cpp
 
+    std::vector<double> A = cppmat::vector<double>::Random(10);
