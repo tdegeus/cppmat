@@ -18,101 +18,101 @@ set(parse_version src/${PROJECT_NAME}/${PROJECT_NAME}.h)
 # header files
 set(headers
   src/${PROJECT_NAME}/cppmat.h
-  src/${PROJECT_NAME}/private.cpp
+  src/${PROJECT_NAME}/private.hpp
   src/${PROJECT_NAME}/private.h
-  src/${PROJECT_NAME}/stl.cpp
+  src/${PROJECT_NAME}/stl.hpp
   src/${PROJECT_NAME}/stl.h
-  src/${PROJECT_NAME}/fix_cartesian.cpp
+  src/${PROJECT_NAME}/fix_cartesian.hpp
   src/${PROJECT_NAME}/fix_cartesian.h
-  src/${PROJECT_NAME}/fix_cartesian_2.cpp
-  src/${PROJECT_NAME}/fix_cartesian_3.cpp
-  src/${PROJECT_NAME}/fix_cartesian_tensor2.cpp
+  src/${PROJECT_NAME}/fix_cartesian_2.hpp
+  src/${PROJECT_NAME}/fix_cartesian_3.hpp
+  src/${PROJECT_NAME}/fix_cartesian_tensor2.hpp
   src/${PROJECT_NAME}/fix_cartesian_tensor2.h
-  src/${PROJECT_NAME}/fix_cartesian_tensor2d.cpp
+  src/${PROJECT_NAME}/fix_cartesian_tensor2d.hpp
   src/${PROJECT_NAME}/fix_cartesian_tensor2d.h
-  src/${PROJECT_NAME}/fix_cartesian_tensor2s.cpp
+  src/${PROJECT_NAME}/fix_cartesian_tensor2s.hpp
   src/${PROJECT_NAME}/fix_cartesian_tensor2s.h
-  src/${PROJECT_NAME}/fix_cartesian_tensor4.cpp
+  src/${PROJECT_NAME}/fix_cartesian_tensor4.hpp
   src/${PROJECT_NAME}/fix_cartesian_tensor4.h
-  src/${PROJECT_NAME}/fix_cartesian_vector.cpp
+  src/${PROJECT_NAME}/fix_cartesian_vector.hpp
   src/${PROJECT_NAME}/fix_cartesian_vector.h
-  src/${PROJECT_NAME}/fix_diagonal_matrix.cpp
+  src/${PROJECT_NAME}/fix_diagonal_matrix.hpp
   src/${PROJECT_NAME}/fix_diagonal_matrix.h
-  src/${PROJECT_NAME}/fix_misc_matrix.cpp
+  src/${PROJECT_NAME}/fix_misc_matrix.hpp
   src/${PROJECT_NAME}/fix_misc_matrix.h
-  src/${PROJECT_NAME}/fix_regular_array.cpp
+  src/${PROJECT_NAME}/fix_regular_array.hpp
   src/${PROJECT_NAME}/fix_regular_array.h
-  src/${PROJECT_NAME}/fix_regular_matrix.cpp
+  src/${PROJECT_NAME}/fix_regular_matrix.hpp
   src/${PROJECT_NAME}/fix_regular_matrix.h
-  src/${PROJECT_NAME}/fix_regular_vector.cpp
+  src/${PROJECT_NAME}/fix_regular_vector.hpp
   src/${PROJECT_NAME}/fix_regular_vector.h
-  src/${PROJECT_NAME}/fix_symmetric_matrix.cpp
+  src/${PROJECT_NAME}/fix_symmetric_matrix.hpp
   src/${PROJECT_NAME}/fix_symmetric_matrix.h
-  src/${PROJECT_NAME}/map_cartesian_tensor2.cpp
+  src/${PROJECT_NAME}/map_cartesian_tensor2.hpp
   src/${PROJECT_NAME}/map_cartesian_tensor2.h
-  src/${PROJECT_NAME}/map_cartesian_tensor2d.cpp
+  src/${PROJECT_NAME}/map_cartesian_tensor2d.hpp
   src/${PROJECT_NAME}/map_cartesian_tensor2d.h
-  src/${PROJECT_NAME}/map_cartesian_tensor2s.cpp
+  src/${PROJECT_NAME}/map_cartesian_tensor2s.hpp
   src/${PROJECT_NAME}/map_cartesian_tensor2s.h
-  src/${PROJECT_NAME}/map_cartesian_tensor4.cpp
+  src/${PROJECT_NAME}/map_cartesian_tensor4.hpp
   src/${PROJECT_NAME}/map_cartesian_tensor4.h
-  src/${PROJECT_NAME}/map_cartesian_vector.cpp
+  src/${PROJECT_NAME}/map_cartesian_vector.hpp
   src/${PROJECT_NAME}/map_cartesian_vector.h
-  src/${PROJECT_NAME}/map_diagonal_matrix.cpp
+  src/${PROJECT_NAME}/map_diagonal_matrix.hpp
   src/${PROJECT_NAME}/map_diagonal_matrix.h
-  src/${PROJECT_NAME}/map_regular_array.cpp
+  src/${PROJECT_NAME}/map_regular_array.hpp
   src/${PROJECT_NAME}/map_regular_array.h
-  src/${PROJECT_NAME}/map_regular_matrix.cpp
+  src/${PROJECT_NAME}/map_regular_matrix.hpp
   src/${PROJECT_NAME}/map_regular_matrix.h
-  src/${PROJECT_NAME}/map_regular_vector.cpp
+  src/${PROJECT_NAME}/map_regular_vector.hpp
   src/${PROJECT_NAME}/map_regular_vector.h
-  src/${PROJECT_NAME}/map_symmetric_matrix.cpp
+  src/${PROJECT_NAME}/map_symmetric_matrix.hpp
   src/${PROJECT_NAME}/map_symmetric_matrix.h
-  src/${PROJECT_NAME}/var_cartesian.cpp
+  src/${PROJECT_NAME}/var_cartesian.hpp
   src/${PROJECT_NAME}/var_cartesian.h
-  src/${PROJECT_NAME}/var_cartesian_tensor2.cpp
+  src/${PROJECT_NAME}/var_cartesian_tensor2.hpp
   src/${PROJECT_NAME}/var_cartesian_tensor2.h
-  src/${PROJECT_NAME}/var_cartesian_tensor2d.cpp
+  src/${PROJECT_NAME}/var_cartesian_tensor2d.hpp
   src/${PROJECT_NAME}/var_cartesian_tensor2d.h
-  src/${PROJECT_NAME}/var_cartesian_tensor2s.cpp
+  src/${PROJECT_NAME}/var_cartesian_tensor2s.hpp
   src/${PROJECT_NAME}/var_cartesian_tensor2s.h
-  src/${PROJECT_NAME}/var_cartesian_tensor4.cpp
+  src/${PROJECT_NAME}/var_cartesian_tensor4.hpp
   src/${PROJECT_NAME}/var_cartesian_tensor4.h
-  src/${PROJECT_NAME}/var_cartesian_vector.cpp
+  src/${PROJECT_NAME}/var_cartesian_vector.hpp
   src/${PROJECT_NAME}/var_cartesian_vector.h
-  src/${PROJECT_NAME}/var_diagonal_matrix.cpp
+  src/${PROJECT_NAME}/var_diagonal_matrix.hpp
   src/${PROJECT_NAME}/var_diagonal_matrix.h
-  src/${PROJECT_NAME}/var_misc_matrix.cpp
+  src/${PROJECT_NAME}/var_misc_matrix.hpp
   src/${PROJECT_NAME}/var_misc_matrix.h
-  src/${PROJECT_NAME}/var_regular_array.cpp
+  src/${PROJECT_NAME}/var_regular_array.hpp
   src/${PROJECT_NAME}/var_regular_array.h
-  src/${PROJECT_NAME}/var_regular_matrix.cpp
+  src/${PROJECT_NAME}/var_regular_matrix.hpp
   src/${PROJECT_NAME}/var_regular_matrix.h
-  src/${PROJECT_NAME}/var_regular_vector.cpp
+  src/${PROJECT_NAME}/var_regular_vector.hpp
   src/${PROJECT_NAME}/var_regular_vector.h
-  src/${PROJECT_NAME}/var_symmetric_matrix.cpp
+  src/${PROJECT_NAME}/var_symmetric_matrix.hpp
   src/${PROJECT_NAME}/var_symmetric_matrix.h
   src/${PROJECT_NAME}/pybind11.h
-  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2.h
-  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2d.h
-  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2s.h
-  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor4.h
-  src/${PROJECT_NAME}/pybind11_fix_cartesian_vector.h
-  src/${PROJECT_NAME}/pybind11_fix_diagonal_matrix.h
-  src/${PROJECT_NAME}/pybind11_fix_regular_array.h
-  src/${PROJECT_NAME}/pybind11_fix_regular_matrix.h
-  src/${PROJECT_NAME}/pybind11_fix_regular_vector.h
-  src/${PROJECT_NAME}/pybind11_fix_symmetric_matrix.h
-  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2.h
-  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2d.h
-  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2s.h
-  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor4.h
-  src/${PROJECT_NAME}/pybind11_var_cartesian_vector.h
-  src/${PROJECT_NAME}/pybind11_var_diagonal_matrix.h
-  src/${PROJECT_NAME}/pybind11_var_regular_array.h
-  src/${PROJECT_NAME}/pybind11_var_regular_matrix.h
-  src/${PROJECT_NAME}/pybind11_var_regular_vector.h
-  src/${PROJECT_NAME}/pybind11_var_symmetric_matrix.h
+  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2.hpp
+  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2d.hpp
+  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor2s.hpp
+  src/${PROJECT_NAME}/pybind11_fix_cartesian_tensor4.hpp
+  src/${PROJECT_NAME}/pybind11_fix_cartesian_vector.hpp
+  src/${PROJECT_NAME}/pybind11_fix_diagonal_matrix.hpp
+  src/${PROJECT_NAME}/pybind11_fix_regular_array.hpp
+  src/${PROJECT_NAME}/pybind11_fix_regular_matrix.hpp
+  src/${PROJECT_NAME}/pybind11_fix_regular_vector.hpp
+  src/${PROJECT_NAME}/pybind11_fix_symmetric_matrix.hpp
+  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2.hpp
+  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2d.hpp
+  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor2s.hpp
+  src/${PROJECT_NAME}/pybind11_var_cartesian_tensor4.hpp
+  src/${PROJECT_NAME}/pybind11_var_cartesian_vector.hpp
+  src/${PROJECT_NAME}/pybind11_var_diagonal_matrix.hpp
+  src/${PROJECT_NAME}/pybind11_var_regular_array.hpp
+  src/${PROJECT_NAME}/pybind11_var_regular_matrix.hpp
+  src/${PROJECT_NAME}/pybind11_var_regular_vector.hpp
+  src/${PROJECT_NAME}/pybind11_var_symmetric_matrix.hpp
 )
 
 # automatically parse the version number
