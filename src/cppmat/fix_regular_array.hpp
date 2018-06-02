@@ -227,6 +227,17 @@ array<X,RANK,I,J,K,L,M,N>::operator std::vector<X> () const
 }
 
 // =================================================================================================
+// modify bounds check
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+void array<X,RANK,I,J,K,L,M,N>::setPeriodic(bool periodic)
+{
+  mPeriodic = periodic;
+}
+
+// =================================================================================================
 // get dimensions
 // =================================================================================================
 
@@ -343,6 +354,8 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a)
 {
   int na = static_cast<int>(mShape[0]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
   return mData[\
@@ -356,6 +369,8 @@ inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a) const
 {
   int na = static_cast<int>(mShape[0]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -371,6 +386,9 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b)
 {
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -389,6 +407,9 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
 
@@ -406,6 +427,10 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c)
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -427,6 +452,10 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -447,6 +476,11 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d)
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -471,6 +505,11 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d) const
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -494,6 +533,12 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e)
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -521,6 +566,12 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -547,6 +598,13 @@ X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e, int 
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -576,6 +634,13 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -887,6 +952,8 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a) const
 {
   int na = static_cast<int>(mShape[0]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
   return A * mStrides[0];
@@ -900,6 +967,9 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b) const
 {
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -917,6 +987,10 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -937,6 +1011,11 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -960,6 +1039,12 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e) co
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -986,6 +1071,13 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e, in
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1219,6 +1311,8 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a)
 {
   int na = static_cast<int>(mShape[0]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
   return begin() +
@@ -1232,6 +1326,8 @@ inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a) const
 {
   int na = static_cast<int>(mShape[0]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -1247,6 +1343,9 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b)
 {
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1265,6 +1364,9 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
 
@@ -1282,6 +1384,10 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c)
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1303,6 +1409,10 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -1323,6 +1433,11 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d)
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1347,6 +1462,11 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d) const
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -1370,6 +1490,12 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e)
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1397,6 +1523,12 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e) const
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
   size_t C = static_cast<size_t>( (nc+(c%nc)) % nc );
@@ -1423,6 +1555,13 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f)
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1452,6 +1591,13 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f) c
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
+
+  assert( ( a < na && a >= -na ) or mPeriodic );
+  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );

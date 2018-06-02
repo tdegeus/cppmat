@@ -30,6 +30,7 @@ protected:
   size_t         mShape  [MAX_DIM]; // number of entries along each axis
   size_t         mStrides[MAX_DIM]; // stride length for each index
   std::vector<X> mData;             // data container
+  bool           mPeriodic=false;   // if true: disable bounds-check where possible
 
 public:
 
@@ -74,6 +75,9 @@ public:
   void resize (const std::vector<size_t> &shape);
   void reshape(const std::vector<size_t> &shape);
   void chrank (size_t rank);
+
+  // modify bounds-checks
+  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;

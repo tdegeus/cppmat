@@ -258,6 +258,17 @@ void matrix<X>::resize(size_t m, size_t n)
 }
 
 // =================================================================================================
+// modify bounds check
+// =================================================================================================
+
+template<class X>
+inline
+void matrix<X>::setPeriodic(bool periodic)
+{
+  mPeriodic = periodic;
+}
+
+// =================================================================================================
 // get dimensions
 // =================================================================================================
 
@@ -351,6 +362,9 @@ X& matrix<X>::operator()(int a, int b)
 {
   int n = static_cast<int>(N);
 
+  assert( ( a < n && a >= -n ) or mPeriodic );
+  assert( ( b < n && b >= -n ) or mPeriodic );
+
   if ( a != b ) return mZero[0];
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
@@ -365,6 +379,9 @@ inline
 const X& matrix<X>::operator()(int a, int b) const
 {
   int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
+  assert( ( b < n && b >= -n ) or mPeriodic );
 
   if ( a != b ) return mZero[0];
 
@@ -412,6 +429,8 @@ size_t matrix<X>::compress(int a, int b) const
   assert( a == b );
 
   int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -546,6 +565,8 @@ auto matrix<X>::item(int a, int b)
 
   int n = static_cast<int>(N);
 
+  assert( ( a < n && a >= -n ) or mPeriodic );
+
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
   return this->begin() + A;
@@ -560,6 +581,8 @@ auto matrix<X>::item(int a, int b) const
   assert( a == b );
 
   int n = static_cast<int>(N);
+
+  assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 

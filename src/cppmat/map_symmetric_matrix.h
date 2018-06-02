@@ -31,6 +31,7 @@ protected:
   static const size_t mSize=(N+1)*N/2;  // total size == data.size()
   static const size_t mRank=2;          // rank (number of axes)
   const X            *mData;            // data container
+  bool                mPeriodic=false;  // if true: disable bounds-check where possible
 
 public:
 
@@ -48,6 +49,9 @@ public:
 
   // return plain storage as vector
   operator std::vector<X> () const;
+
+  // modify bounds-checks
+  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;

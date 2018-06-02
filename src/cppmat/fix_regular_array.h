@@ -38,6 +38,7 @@ protected:
   size_t              mShape  [MAX_DIM];  // number of entries along each axis
   size_t              mStrides[MAX_DIM];  // stride length for each index
   X                   mData[I*J*K*L*M*N]; // data container
+  bool                mPeriodic=false;    // if true: disable bounds-check where possible
 
 public:
 
@@ -71,6 +72,9 @@ public:
 
   // return plain storage as vector
   operator std::vector<X> () const;
+
+  // modify bounds-checks
+  void setPeriodic(bool periodic);
 
   // get dimensions
   size_t size() const;
