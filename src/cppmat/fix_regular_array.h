@@ -52,6 +52,9 @@ public:
   template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
   array(const array<U,RANK,I,J,K,L,M,N> &A);
 
+  // constructor: copy from {...}
+  array(const std::initializer_list<X> &A);
+
   // constructor: copy from dynamic size
   array(const cppmat::array<X> &A);
 

@@ -64,6 +64,24 @@ array<X,RANK,I,J,K,L,M,N>::array(const array<U,RANK,I,J,K,L,M,N> &A)
 }
 
 // =================================================================================================
+// constructor: copy from {...}
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+array<X,RANK,I,J,K,L,M,N>::array(const std::initializer_list<X> &A)
+{
+  mShape[0] = I;  mStrides[0] = J*K*L*M*N;
+  mShape[1] = J;  mStrides[1] = K*L*M*N;
+  mShape[2] = K;  mStrides[2] = L*M*N;
+  mShape[3] = L;  mStrides[3] = M*N;
+  mShape[4] = M;  mStrides[4] = N;
+  mShape[5] = N;  mStrides[5] = 1;
+
+  this->setCopy(A.begin(), A.end());
+}
+
+// =================================================================================================
 // constructors: copy from dynamic size
 // =================================================================================================
 

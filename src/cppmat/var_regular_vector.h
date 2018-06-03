@@ -43,6 +43,9 @@ public:
   // constructor: copy from other class
   vector(const std::vector<X> &A);
 
+  // constructor: copy from {...}
+  vector(const std::initializer_list<X> &A);
+
   // constructor: copy from fixed size
   template<size_t n> vector(const cppmat::tiny::vector<X,n> &A);
 
