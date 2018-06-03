@@ -72,6 +72,7 @@ public:
 
   // resize
   void resize(size_t m, size_t n);
+  void resize(size_t m, size_t n, const X &D);
 
   // modify bounds-checks
   void setPeriodic(bool periodic);

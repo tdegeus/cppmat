@@ -69,6 +69,7 @@ public:
 
   // resize
   void resize(size_t n);
+  void resize(size_t n, const X &D);
 
   // inset item
   void push_back(const X &D);

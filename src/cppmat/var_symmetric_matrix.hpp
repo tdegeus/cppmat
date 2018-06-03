@@ -265,6 +265,27 @@ void matrix<X>::resize(size_t m, size_t n)
   if ( mSize != size ) mData.resize(mSize);
 }
 
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+void matrix<X>::resize(size_t m, size_t n, const X &D)
+{
+  assert( m == n );
+
+  // store old size
+  size_t size = mSize;
+
+  // copy to class member
+  N = m;
+
+  // set number of dimensions and total size
+  mSize = (N+1)*N/2;
+
+  // resize data container
+  if ( mSize != size ) mData.resize(mSize, D);
+}
+
 // =================================================================================================
 // modify bounds check
 // =================================================================================================

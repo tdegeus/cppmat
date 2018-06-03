@@ -206,6 +206,15 @@ void matrix<X>::resize(size_t m, size_t n)
 
 template<class X>
 inline
+void matrix<X>::resize(size_t m, size_t n, const X &D)
+{
+  cppmat::array<X>::resize({m,n}, D);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 void matrix<X>::reshape(size_t m, size_t n)
 {
   cppmat::array<X>::reshape({m,n});

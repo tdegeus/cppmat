@@ -71,6 +71,7 @@ public:
 
   // resize
   void resize (size_t m, size_t n);
+  void resize (size_t m, size_t n, const X &D);
   void reshape(size_t m, size_t n);
 
   // extra arithmetic operators

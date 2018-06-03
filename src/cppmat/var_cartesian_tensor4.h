@@ -71,6 +71,7 @@ public:
 
   // resize
   void resize(size_t nd);
+  void resize(size_t nd, const X &D);
 
   // get dimensions
   size_t ndim() const;

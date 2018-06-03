@@ -239,6 +239,45 @@ void array<X>::resize(const std::vector<size_t> &shape)
 
 template<class X>
 inline
+void array<X>::resize(const std::vector<size_t> &shape, const X &D)
+{
+  assert( shape.size() <= MAX_DIM );
+
+  // store old size
+  size_t size = mSize;
+
+  // update number of dimensions
+  mRank = shape.size();
+
+  // initialize shape/strides in all directions
+  std::fill(std::begin(mShape  )+mRank, std::begin(mShape  )+MAX_DIM, 1);
+  std::fill(std::begin(mStrides)      , std::begin(mStrides)+MAX_DIM, 1);
+
+  // copy shape from input
+  std::copy(shape.begin(), shape.end(), std::begin(mShape));
+
+  // get size
+  // - initialize
+  mSize = 1;
+  // - product of shape in all directions
+  for ( size_t i = 0 ; i < mRank ; ++i ) mSize *= shape[i];
+
+  // set storage strides
+  for ( size_t i = 0 ; i < mRank ; ++i )
+    for ( size_t j = i+1 ; j < mRank ; ++j )
+      mStrides[i] *= mShape[j];
+
+  // set empty
+  if ( shape.size() == 0 ) mSize = 0;
+
+  // allocate data
+  if ( mSize != size ) mData.resize(mSize, D);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
 void array<X>::reshape(const std::vector<size_t> &shape)
 {
   // check that the size is unchanged
@@ -3000,6 +3039,8 @@ template<class X>
 inline
 std::ostream& operator<<(std::ostream& out, const array<X>& src)
 {
+  if ( src.size() == 0 ) return out;
+
   auto w = out.width();
   auto p = out.precision();
 
