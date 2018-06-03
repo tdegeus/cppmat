@@ -222,12 +222,14 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
 // =================================================================================================
 
 template<class X, size_t M, size_t N>
+template<typename U, typename V>
 inline
-matrix<X,M,N>::operator std::vector<X> () const
+matrix<X,M,N>::operator std::vector<U> () const
 {
-  std::vector<X> out(mSize);
+  std::vector<U> out(mSize);
 
-  std::copy(begin(), end(), out.begin());
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = static_cast<U>(mData[i]);
 
   return out;
 }

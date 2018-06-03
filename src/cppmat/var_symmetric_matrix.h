@@ -67,7 +67,8 @@ public:
   template<typename Itr> static matrix<X> CopyDense(size_t m, size_t n, Itr first, Itr last);
 
   // return plain storage as vector
-  operator std::vector<X> () const;
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  operator std::vector<U> () const;
 
   // resize
   void resize(size_t m, size_t n);

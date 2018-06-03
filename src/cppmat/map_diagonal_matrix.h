@@ -49,7 +49,8 @@ public:
   static matrix<X,M,N> Map(const X *D);
 
   // return plain storage as vector
-  operator std::vector<X> () const;
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  operator std::vector<U> () const;
 
   // modify bounds-checks
   void setPeriodic(bool periodic);

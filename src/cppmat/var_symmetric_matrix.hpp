@@ -230,10 +230,16 @@ matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-matrix<X>::operator std::vector<X> () const
+matrix<X>::operator std::vector<U> () const
 {
-  return mData;
+  std::vector<U> out(mSize);
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = static_cast<U>(mData[i]);
+
+  return out;
 }
 
 // =================================================================================================

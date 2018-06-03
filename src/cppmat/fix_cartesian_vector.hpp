@@ -43,8 +43,9 @@ vector<X,ND>::vector(const cppmat::tiny::array<U,1,ND> &A) : cppmat::tiny::vecto
 // =================================================================================================
 
 template<class X, size_t ND>
+template<typename U, typename V>
 inline
-vector<X,ND>::vector(const std::vector<X> &A) : cppmat::tiny::vector<X,ND>(A)
+vector<X,ND>::vector(const std::vector<U> &A) : cppmat::tiny::vector<X,ND>(A)
 {
 }
 

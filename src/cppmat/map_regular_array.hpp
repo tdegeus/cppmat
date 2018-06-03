@@ -81,12 +81,14 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
 // =================================================================================================
 
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U, typename V>
 inline
-array<X,RANK,I,J,K,L,M,N>::operator std::vector<X> () const
+array<X,RANK,I,J,K,L,M,N>::operator std::vector<U> () const
 {
-  std::vector<X> out(mSize);
+  std::vector<U> out(mSize);
 
-  std::copy(begin(), end(), out.begin());
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = static_cast<U>(mData[i]);
 
   return out;
 }

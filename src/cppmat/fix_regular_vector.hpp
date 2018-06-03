@@ -42,8 +42,9 @@ vector<X,N>::vector(const cppmat::tiny::array<U,1,N> &A) : cppmat::tiny::array<X
 // =================================================================================================
 
 template<class X, size_t N>
+template<typename U, typename V>
 inline
-vector<X,N>::vector(const std::vector<X> &A) : cppmat::tiny::array<X,1,N>::Copy(A)
+vector<X,N>::vector(const std::vector<U> &A) : cppmat::tiny::array<X,1,N>::Copy(A)
 {
 }
 

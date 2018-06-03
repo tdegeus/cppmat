@@ -42,10 +42,12 @@ vector<X>::vector(const cppmat::array<U> &A) : cppmat::array<X>(A)
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-vector<X>::vector(const std::vector<X> &A) : cppmat::array<X>({A.size()})
+vector<X>::vector(const std::vector<U> &A) : cppmat::array<X>({A.size()})
 {
-  this->setCopy(A.begin(), A.end());
+  for ( size_t i = 0 ; i < this->mSize ; ++i )
+    this->mData[i] = static_cast<X>(A[i]);
 }
 
 // =================================================================================================

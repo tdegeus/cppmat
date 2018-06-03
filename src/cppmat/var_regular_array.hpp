@@ -182,10 +182,16 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterat
 // =================================================================================================
 
 template<class X>
+template<typename U, typename V>
 inline
-array<X>::operator std::vector<X> () const
+array<X>::operator std::vector<U> () const
 {
-  return mData;
+  std::vector<U> out(mSize);
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    out[i] = static_cast<U>(mData[i]);
+
+  return out;
 }
 
 // =================================================================================================

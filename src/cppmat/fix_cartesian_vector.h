@@ -36,7 +36,8 @@ public:
   vector(const cppmat::tiny::array<U,1,ND> &A);
 
   // constructor: copy from other classes
-  vector(const std::vector<X> &A);
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  vector(const std::vector<U> &A);
 
   // constructor: copy from dynamic size
   vector(const cppmat::cartesian::vector<X> &A);

@@ -65,11 +65,8 @@ public:
   template<typename It> static array<X> Copy(const std::vector<size_t> &shape, It first, It last);
 
   // return plain storage as vector
-  operator std::vector<X> () const;
-
-  // change type
-  // template<typename U, typename=typename std::enable_if<std::is_convertible<X,U>::value>::type>
-  // operator array<U> () const;
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  operator std::vector<U> () const;
 
   // resize
   void resize (const std::vector<size_t> &shape);

@@ -74,7 +74,8 @@ public:
   template<typename It> static array<X,RANK,I,J,K,L,M,N> Copy(It first, It last);
 
   // return plain storage as vector
-  operator std::vector<X> () const;
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  operator std::vector<U> () const;
 
   // modify bounds-checks
   void setPeriodic(bool periodic);

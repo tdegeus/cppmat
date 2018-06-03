@@ -41,7 +41,8 @@ public:
   vector(const cppmat::array<U> &A);
 
   // constructor: copy from other class
-  vector(const std::vector<X> &A);
+  template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
+  vector(const std::vector<U> &A);
 
   // constructor: copy from {...}
   vector(const std::initializer_list<X> &A);
