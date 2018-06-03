@@ -2070,6 +2070,44 @@ array<X> array<X>::slice(
 }
 
 // =================================================================================================
+// return padded array
+// =================================================================================================
+
+template<class X>
+inline
+array<X> array<X>::pad(const std::vector<size_t> &pad_width, X D)
+{
+  assert( pad_width.size() == mRank );
+
+  // output array
+  // - allocate shape
+  std::vector<size_t> shape(mRank);
+  // - fill shape
+  for ( size_t i = 0 ; i < mRank ; ++i )
+    shape[i] = mShape[i] + 2*pad_width[i];
+  // - allocate array
+  array<X> out = array<X>::Constant(shape, D);
+
+  // pad size
+  // - allocate
+  std::vector<size_t> pad(MAX_DIM, 0);
+  // - fill
+  for ( size_t i = 0 ; i < mRank ; ++i )
+    pad[i] = pad_width[i];
+
+  // place current array in output
+  for ( size_t i = 0 ; i < mShape[0] ; ++i )
+    for ( size_t j = 0 ; j < mShape[1] ; ++j )
+      for ( size_t k = 0 ; k < mShape[2] ; ++k )
+        for ( size_t l = 0 ; l < mShape[3] ; ++l )
+          for ( size_t m = 0 ; m < mShape[4] ; ++m )
+            for ( size_t n = 0 ; n < mShape[5] ; ++n )
+              out(i+pad[0],j+pad[1],k+pad[2],l+pad[3],m+pad[4],n+pad[5]) = (*this)(i,j,k,l,m,n);
+
+  return out;
+}
+
+// =================================================================================================
 // initialize
 // =================================================================================================
 

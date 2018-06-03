@@ -257,6 +257,9 @@ public:
     const std::vector<int> &e=std::vector<int>(), const std::vector<int> &f=std::vector<int>()
   ) const;
 
+  // return padded array
+  array<X> pad(const std::vector<size_t> &pad_width, X D=static_cast<X>(0));
+
   // initialization
   void setRandom(X lower=(X)0, X upper=(X)1);
   void setArange();
