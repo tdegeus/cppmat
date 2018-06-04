@@ -1,33 +1,57 @@
 
-from setuptools.command.build_ext import build_ext
-import sys
+import os, sys, re
 
-# --------------------------------------------------------------------------------------------------
+from setuptools                   import Extension
+from setuptools.command.build_ext import build_ext
+
+# ==================================================================================================
 
 def has_flag(compiler, flagname):
+  r'''
+Check if a compiler supports a certain flag. Returns ``True`` or ``False``.
+
+The function creates a temporary file and tries compiling with the compiler flag.
+
+(c) Sylvain Corlay, https://github.com/pybind/python_example
+  '''
+
   import tempfile
+
   with tempfile.NamedTemporaryFile('w', suffix='.cpp') as f:
+
     f.write('int main (int argc, char **argv) { return 0; }')
+
     try:
       compiler.compile([f.name], extra_postargs=[flagname])
     except setuptools.distutils.errors.CompileError:
       return False
+
   return True
 
-# --------------------------------------------------------------------------------------------------
+# ==================================================================================================
 
 def cpp_flag(compiler):
+  r'''
+Set the c++14 standard, or else the c++11 standard. In case neither can be set the function
+raises an error.
+
+(c) Sylvain Corlay, https://github.com/pybind/python_example
+  '''
+
   if   has_flag(compiler,'-std=c++14'): return '-std=c++14'
   elif has_flag(compiler,'-std=c++11'): return '-std=c++11'
   raise RuntimeError('Unsupported compiler: at least C++11 support is needed')
 
-# --------------------------------------------------------------------------------------------------
+# ==================================================================================================
 
 def get_include(user=False):
+  r'''
+Get the relevant ``include`` directory.
+
+(c) Sylvain Corlay, https://github.com/pybind/python_example
+  '''
 
   from distutils.dist import Distribution
-  import os
-  import sys
 
   # Are we running in a virtual environment?
   # - check
@@ -51,10 +75,15 @@ def get_include(user=False):
 
   return os.path.dirname(dist_cobj.install_headers)
 
-
-# --------------------------------------------------------------------------------------------------
+# ==================================================================================================
 
 class BuildExt(build_ext):
+  r'''
+Define class to build the extension.
+
+(c) Sylvain Corlay, https://github.com/pybind/python_example
+  '''
+
   c_opts = {
     'msvc': ['/EHsc'],
     'unix': [],
@@ -75,9 +104,12 @@ class BuildExt(build_ext):
       ext.extra_compile_args = opts
     build_ext.build_extensions(self)
 
-# --------------------------------------------------------------------------------------------------
+# ==================================================================================================
 
 def find_eigen(hint=None):
+  r'''
+Try to find the Eigen library. If successful the include directory is returned.
+  '''
 
   # search with pkgconfig
   # ---------------------
@@ -94,8 +126,6 @@ def find_eigen(hint=None):
 
   # manual search
   # -------------
-
-  import os,re
 
   search_dirs = [] if hint is None else hint
   search_dirs += [
@@ -125,3 +155,82 @@ def find_eigen(hint=None):
       return d
 
   return None
+
+# ==================================================================================================
+
+class CMakeExtension(Extension):
+  r'''
+(c) Dean Moldovan, https://github.com/pybind/cmake_example
+  '''
+
+  def __init__(self, name, sourcedir=''):
+
+    Extension.__init__(self, name, sources=[])
+
+    self.sourcedir = os.path.abspath(sourcedir)
+
+# ==================================================================================================
+
+class CMakeBuild(build_ext):
+  r'''
+(c) Dean Moldovan, https://github.com/pybind/cmake_example
+  '''
+
+  # ------------------------------------------------------------------------------------------------
+
+  def run(self):
+
+    import platform, subprocess
+
+    from distutils.version import LooseVersion
+
+    try:
+      out = subprocess.check_output(['cmake', '--version'])
+    except OSError:
+      raise RuntimeError("CMake must be installed to build the following extensions: " +
+                           ", ".join(e.name for e in self.extensions))
+
+    if platform.system() == "Windows":
+
+      cmake_version = LooseVersion(re.search(r'version\s*([\d.]+)', out.decode()).group(1))
+
+      if cmake_version < '3.1.0':
+        raise RuntimeError("CMake >= 3.1.0 is required on Windows")
+
+    for ext in self.extensions:
+
+      self.build_extension(ext)
+
+  # ------------------------------------------------------------------------------------------------
+
+  def build_extension(self, ext):
+
+    import platform, subprocess
+
+    extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
+
+    cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
+                  '-DPYTHON_EXECUTABLE=' + sys.executable]
+
+    cfg = 'Debug' if self.debug else 'Release'
+
+    build_args = ['--config', cfg]
+
+    if platform.system() == "Windows":
+      cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), extdir)]
+      if sys.maxsize > 2**32:
+        cmake_args += ['-A', 'x64']
+      build_args += ['--', '/m']
+    else:
+      cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
+      build_args += ['--', '-j2']
+
+    env = os.environ.copy()
+    env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(env.get('CXXFLAGS', ''),
+                                                          self.distribution.get_version())
+
+    if not os.path.exists(self.build_temp):
+      os.makedirs(self.build_temp)
+
+    subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
+    subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
