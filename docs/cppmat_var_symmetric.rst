@@ -8,7 +8,7 @@ cppmat::symmetric
 cppmat::symmetric::matrix
 =========================
 
-[:download:`var_symmetric_matrix.h <../src/cppmat/var_symmetric_matrix.h>`, :download:`var_symmetric_matrix.cpp <../src/cppmat/var_symmetric_matrix.cpp>`]
+[:download:`var_symmetric_matrix.h <../src/cppmat/var_symmetric_matrix.h>`, :download:`var_symmetric_matrix.hpp <../src/cppmat/var_symmetric_matrix.hpp>`]
 
 Square, symmetric, matrix, whereby only the upper-diagonal components are stored:
 

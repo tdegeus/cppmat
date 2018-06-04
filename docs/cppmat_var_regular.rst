@@ -8,9 +8,9 @@ cppmat
 cppmat::array
 =============
 
-[:download:`var_regular_array.h <../src/cppmat/var_regular_array.h>`, :download:`var_regular_array.cpp <../src/cppmat/var_regular_array.cpp>`]
+[:download:`var_regular_array.h <../src/cppmat/var_regular_array.h>`, :download:`var_regular_array.hpp <../src/cppmat/var_regular_array.hpp>`]
 
-A C++ class for dynamically sized n-d arrays. For example, a rank 3 array is allocated as follows:
+A C++ class for dynamically sized arrays or arbitrary rank. For example, a rank 3 array is allocated as follows:
 
 .. code-block:: cpp
 
@@ -46,7 +46,7 @@ Methods
 
     Returns the entry at ``(i,j,k)``. Use this to read or write.
 
-    If the indices are input as ``int`` a negative may also be used, which counts from the last index along that axis. This implies some extra operations, so if you do not use this feature input the indices as ``size_t``.
+    A negative index may also be used (in that case the indices have to be ``int``) which counts down from the last index along that axis. For example ``A(-1,-1,-1)`` in the last index of the above array. This implies some extra operations, so if you do not use this feature input the indices as ``size_t``.
 
     The number of indices (i.e. ``A(i)``, ``A(i,j)``, ``A(i,j,k)``, ...) may be lower or equal to the rank, all 'omitted' indices are assumed to be zero.
 
@@ -88,9 +88,9 @@ Methods
 
     Returns the shape along all dimensions (vector).
 
-*   ``A.resize({...})``
+*   ``A.resize({...}[, D])``
 
-    Resize the matrix.
+    Resize the matrix. Enter a value to initialize all allocated entries.
 
 *   ``A.reshape({...})``
 
@@ -204,9 +204,9 @@ In principle the number of indices should match the rank of the array (i.e. ``A.
 
 .. tip::
 
-  If the indices are input as ``int`` a negative may also be used, which counts from the last index along that axis. To input any *periodic* index (i.e. to turn-off the bound-checks) use ``.setPeriodic(true)`` on the array object.
+  A negative index may also be used (in that case the indices have to be ``int``) which counts down from the last index along that axis. For example ``A(-1,-1)`` in the last index of the above matrix. To input any *periodic* index (i.e. to turn-off the bound-checks) use ``.setPeriodic(true)`` on the array object. In that case ``A(-1,-1) == A(10,10)`` for the above matrix.
 
-  Note that this all does cost extra operations. So, if you do not use this feature, input the indices as ``size_t``.
+  This does involve some extra operations, so if you do not use this feature input the indices as ``size_t``.
 
 .. _array-index-advanced:
 
@@ -299,7 +299,7 @@ The ``strides`` indicate per axis how many entries one needs to skip to proceed 
 cppmat::matrix
 ==============
 
-[:download:`var_regular_matrix.h <../src/cppmat/var_regular_matrix.h>`, :download:`var_regular_matrix.cpp <../src/cppmat/var_regular_matrix.cpp>`]
+[:download:`var_regular_matrix.h <../src/cppmat/var_regular_matrix.h>`, :download:`var_regular_matrix.hpp <../src/cppmat/var_regular_matrix.hpp>`]
 
 Class for 2-d matrices. For example:
 
@@ -325,7 +325,7 @@ The entire interface is the same as for :ref:`var_regular_array`, though there i
 cppmat::vector
 ==============
 
-[:download:`var_regular_vector.h <../src/cppmat/var_regular_vector.h>`, :download:`var_regular_vector.cpp <../src/cppmat/var_regular_vector.cpp>`]
+[:download:`var_regular_vector.h <../src/cppmat/var_regular_vector.h>`, :download:`var_regular_vector.hpp <../src/cppmat/var_regular_vector.hpp>`]
 
 Class for 1-d matrices (a.k.a. vectors). For example:
 

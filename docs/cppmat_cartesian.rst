@@ -53,7 +53,7 @@ Classes
 ``cppmat::cartesian::tensor4``
 ------------------------------
 
-[:download:`var_cartesian_tensor4.h <../src/cppmat/var_cartesian_tensor4.h>`, :download:`var_cartesian_tensor4.cpp <../src/cppmat/var_cartesian_tensor4.cpp>`]
+[:download:`var_cartesian_tensor4.h <../src/cppmat/var_cartesian_tensor4.h>`, :download:`var_cartesian_tensor4.hpp <../src/cppmat/var_cartesian_tensor4.hpp>`]
 
 4th-order tensor (rank 4 tensor) of arbitrary dimension.
 
@@ -68,7 +68,7 @@ Classes
 ``cppmat::cartesian::tensor2``
 ------------------------------
 
-[:download:`var_cartesian_tensor2.h <../src/cppmat/var_cartesian_tensor2.h>`, :download:`var_cartesian_tensor2.cpp <../src/cppmat/var_cartesian_tensor2.cpp>`]
+[:download:`var_cartesian_tensor2.h <../src/cppmat/var_cartesian_tensor2.h>`, :download:`var_cartesian_tensor2.hpp <../src/cppmat/var_cartesian_tensor2.hpp>`]
 
 2nd-order tensor (rank 2 tensor) of arbitrary dimension.
 
@@ -83,7 +83,7 @@ Classes
 ``cppmat::cartesian::tensor2s``
 -------------------------------
 
-[:download:`var_cartesian_tensor2s.h <../src/cppmat/var_cartesian_tensor2s.h>`, :download:`var_cartesian_tensor2s.cpp <../src/cppmat/var_cartesian_tensor2s.cpp>`]
+[:download:`var_cartesian_tensor2s.h <../src/cppmat/var_cartesian_tensor2s.h>`, :download:`var_cartesian_tensor2s.hpp <../src/cppmat/var_cartesian_tensor2s.hpp>`]
 
 Symmetric 2nd-order tensor.
 
@@ -101,14 +101,14 @@ For example, for the case of 3 dimensions, the following components are stored:
         X , X ;
             X ]
 
-*The remaining components are inferred from symmetry*.
+*The remaining components are inferred from symmetry*. See :ref:`var_symmetric_matrix`.
 
 .. _var_cartesian_tensor2d:
 
 ``cppmat::cartesian::tensor2d``
 -------------------------------
 
-[:download:`var_cartesian_tensor2d.h <../src/cppmat/var_cartesian_tensor2d.h>`, :download:`var_cartesian_tensor2d.cpp <../src/cppmat/var_cartesian_tensor2d.cpp>`]
+[:download:`var_cartesian_tensor2d.h <../src/cppmat/var_cartesian_tensor2d.h>`, :download:`var_cartesian_tensor2d.hpp <../src/cppmat/var_cartesian_tensor2d.hpp>`]
 
 diagonal 2nd-order tensor.
 
@@ -126,14 +126,14 @@ For example, for the case of 3 dimensions, the following components are stored:
         X     ;
             X ]
 
-*The remaining components are imposed to be zero*.
+*The remaining components are imposed to be zero*. See :ref:`var_diagonal_matrix`.
 
 .. _var_cartesian_vector:
 
 ``cppmat::cartesian::vector``
 -----------------------------
 
-[:download:`var_cartesian_vector.h <../src/cppmat/var_cartesian_vector.h>`, :download:`var_cartesian_vector.cpp <../src/cppmat/var_cartesian_vector.cpp>`]
+[:download:`var_cartesian_vector.h <../src/cppmat/var_cartesian_vector.h>`, :download:`var_cartesian_vector.hpp <../src/cppmat/var_cartesian_vector.hpp>`]
 
 Vector (rank 1 tensor) of arbitrary dimension. For example:
 
@@ -173,34 +173,14 @@ Vector (rank 1 tensor) of arbitrary dimension. For example:
 
 .. note::
 
-  The easy automatic conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from ``cppmat::cartesian::tensor2`` to ``cppmat::cartesian::tensor2d``) because information is (potentially) lost. To still move forward with the conversion, the following manual conversion can be used:
-
-  .. code-block:: cpp
-
-    using T2  = cppmat::cartesian::tensor2 <double>;
-    using T2s = cppmat::cartesian::tensor2s<double>;
-    using T2d = cppmat::cartesian::tensor2d<double>;
-
-    T2 A(3);
-
-    A(0,0) = ...
-
-    // take the symmetric part of "A": "C = (A+A.T())/2."
-    T2s C = A.cast<T2s>();
-
-    // take the diagonal of "A"
-    T2d C = A.cast<T2d>();
-
-.. note::
-
-  The feature of automatic casting of ``cppmat::cartesian::tensor2s`` and ``cppmat::cartesian::tensor2d`` to a more general class can be switched off by ``#define CPPMAT_NOCONVERT``. It should be remarked that the Python interface relies on this feature.
+  The easy automatic conversion described above is not possible from a class to another where more assumptions on the structure are made (e.g. from ``cppmat::cartesian::tensor2`` to ``cppmat::cartesian::tensor2d``) because information is (potentially) lost.
 
 .. _tensor-methods:
 
 Methods
 =======
 
-All the methods of :ref:`var_regular_array` (or :ref:`var_regular_matrix`, :ref:`var_symmetric_matrix`, :ref:`var_symmetric_matrix`, or :ref:`var_regular_vector`) are overloaded. In addition the following tensor algebra is available.
+All the methods of :ref:`var_regular_array` (or :ref:`var_regular_matrix`, :ref:`var_symmetric_matrix`, :ref:`var_symmetric_matrix`, or :ref:`var_regular_vector`) are overloaded. In addition, the following tensor algebra is available.
 
 .. note::
 
@@ -296,5 +276,5 @@ All the methods of :ref:`var_regular_array` (or :ref:`var_regular_matrix`, :ref:
 
 .. note::
 
-  One can also call the methods as functions using ``cppmmat::ddot(A,B)``, ``cppmmat::dot(A,B)``, ``cppmmat::dyadic(A,B)``, ``cppmmat::cross(A,B)``, ``cppmmat::T(A)``, ``cppmmat::RT(A)``, ``cppmmat::LT(A)``, ``cppmmat::inv(A)``, ``cppmmat::det(A)``, and ``cppmmat::trace(A)``, These methods are just a front end for the class methods described above.
+  One can also call the methods as functions using ``cppmmat::ddot(A,B)``, ``cppmmat::dot(A,B)``, ``cppmmat::dyadic(A,B)``, ``cppmmat::cross(A,B)``, ``cppmmat::T(A)``, ``cppmmat::RT(A)``, ``cppmmat::LT(A)``, ``cppmmat::inv(A)``, ``cppmmat::det(A)``, and ``cppmmat::trace(A)``. This is fully equivalent (in fact the class methods call these external functions).
 

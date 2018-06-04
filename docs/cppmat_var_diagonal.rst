@@ -8,7 +8,7 @@ cppmat::diagonal
 cppmat::diagonal::matrix
 ========================
 
-[:download:`var_diagonal_matrix.h <../src/cppmat/var_diagonal_matrix.h>`, :download:`var_diagonal_matrix.cpp <../src/cppmat/var_diagonal_matrix.cpp>`]
+[:download:`var_diagonal_matrix.h <../src/cppmat/var_diagonal_matrix.h>`, :download:`var_diagonal_matrix.hpp <../src/cppmat/var_diagonal_matrix.hpp>`]
 
 Square, diagonal, matrix, whereby only the diagonal components are stored:
 

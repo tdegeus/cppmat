@@ -8,7 +8,7 @@ cppmat::view
 cppmat::view::array
 ===================
 
-[:download:`map_regular_array.h <../src/cppmat/map_regular_array.h>`, :download:`map_regular_array.cpp <../src/cppmat/map_regular_array.cpp>`]
+[:download:`map_regular_array.h <../src/cppmat/map_regular_array.h>`, :download:`map_regular_array.hpp <../src/cppmat/map_regular_array.hpp>`]
 
 This class can be used to 'view' a ``const`` external pointer. This can be useful to refer to a part of a bigger array. For example:
 
@@ -98,23 +98,57 @@ This prints:
 cppmat::view::matrix
 ====================
 
-See :ref:`map_regular_array` and :ref:`fix_regular_matrix`.
+.. code-block:: cpp
+
+  #include <cppmat/cppmat.h>
+
+  int main()
+  {
+      cppmat::view::matrix<double,10,10> A;
+
+      A.setMap(...)
+
+      ... = A(0,0)
+
+      ...
+
+      return 0;
+  }
+
+Most methods are the same as for :ref:`fix_regular_matrix`.
 
 .. _map_regular_vector:
 
 cppmat::view::vector
 ====================
 
-[:download:`map_regular_vector.h <../src/cppmat/map_regular_vector.h>`, :download:`map_regular_vector.cpp <../src/cppmat/map_regular_vector.cpp>`]
+[:download:`map_regular_vector.h <../src/cppmat/map_regular_vector.h>`, :download:`map_regular_vector.hpp <../src/cppmat/map_regular_vector.hpp>`]
 
-See :ref:`map_regular_array` and :ref:`fix_regular_vector`.
+.. code-block:: cpp
+
+  #include <cppmat/cppmat.h>
+
+  int main()
+  {
+      cppmat::view::vector<double,10> A;
+
+      A.setMap(...)
+
+      ... = A(0)
+
+      ...
+
+      return 0;
+  }
+
+Most methods are the same as for :ref:`fix_regular_vector`.
 
 .. _map_symmetric_matrix:
 
 cppmat::view::symmetric::matrix
 ===============================
 
-[:download:`map_symmetric_matrix.h <../src/cppmat/map_symmetric_matrix.h>`, :download:`map_symmetric_matrix.cpp <../src/cppmat/map_symmetric_matrix.cpp>`]
+[:download:`map_symmetric_matrix.h <../src/cppmat/map_symmetric_matrix.h>`, :download:`map_symmetric_matrix.hpp <../src/cppmat/map_symmetric_matrix.hpp>`]
 
 Class to view a pointer to a fixed size, symmetric, matrices. For example:
 
@@ -142,7 +176,7 @@ Most methods are the same as for :ref:`fix_symmetric_matrix`.
 cppmat::view::diagonal::matrix
 ==============================
 
-[:download:`map_diagonal_matrix.h <../src/cppmat/map_diagonal_matrix.h>`, :download:`map_diagonal_matrix.cpp <../src/cppmat/map_diagonal_matrix.cpp>`]
+[:download:`map_diagonal_matrix.h <../src/cppmat/map_diagonal_matrix.h>`, :download:`map_diagonal_matrix.hpp <../src/cppmat/map_diagonal_matrix.hpp>`]
 
 Class to view a pointer to a fixed size, symmetric, matrices. For example:
 
@@ -175,7 +209,7 @@ cppmat::view::cartesian
 ``cppmat::view::cartesian::tensor4``
 ------------------------------------
 
-[:download:`map_cartesian_tensor4.h <../src/cppmat/map_cartesian_tensor4.h>`, :download:`map_cartesian_tensor4.cpp <../src/cppmat/map_cartesian_tensor4.cpp>`]
+[:download:`map_cartesian_tensor4.h <../src/cppmat/map_cartesian_tensor4.h>`, :download:`map_cartesian_tensor4.hpp <../src/cppmat/map_cartesian_tensor4.hpp>`]
 
 Class to view a pointer to a fixed size, fourth order tensors. For a 3-d tensor
 
@@ -203,7 +237,7 @@ Most methods are the same as for :ref:`fix_cartesian_tensor4`.
 ``cppmat::view::cartesian::tensor2``
 ------------------------------------
 
-[:download:`map_cartesian_tensor2.h <../src/cppmat/map_cartesian_tensor2.h>`, :download:`map_cartesian_tensor2.cpp <../src/cppmat/map_cartesian_tensor2.cpp>`]
+[:download:`map_cartesian_tensor2.h <../src/cppmat/map_cartesian_tensor2.h>`, :download:`map_cartesian_tensor2.hpp <../src/cppmat/map_cartesian_tensor2.hpp>`]
 
 Class to view a pointer to a fixed size, second order tensors. For a 3-d tensor
 
@@ -231,7 +265,7 @@ Most methods are the same as for :ref:`fix_cartesian_tensor2`.
 ``cppmat::view::cartesian::tensor2s``
 -------------------------------------
 
-[:download:`map_cartesian_tensor2s.h <../src/cppmat/map_cartesian_tensor2s.h>`, :download:`map_cartesian_tensor2s.cpp <../src/cppmat/map_cartesian_tensor2s.cpp>`]
+[:download:`map_cartesian_tensor2s.h <../src/cppmat/map_cartesian_tensor2s.h>`, :download:`map_cartesian_tensor2s.hpp <../src/cppmat/map_cartesian_tensor2s.hpp>`]
 
 Class to view a pointer to a fixed size, symmetric, second order tensors. For a 3-d tensor
 
@@ -259,7 +293,7 @@ Most methods are the same as for :ref:`fix_cartesian_tensor2s`.
 ``cppmat::view::cartesian::tensor2d``
 -------------------------------------
 
-[:download:`map_cartesian_tensor2d.h <../src/cppmat/map_cartesian_tensor2d.h>`, :download:`map_cartesian_tensor2d.cpp <../src/cppmat/map_cartesian_tensor2d.cpp>`]
+[:download:`map_cartesian_tensor2d.h <../src/cppmat/map_cartesian_tensor2d.h>`, :download:`map_cartesian_tensor2d.hpp <../src/cppmat/map_cartesian_tensor2d.hpp>`]
 
 Class to view a pointer to a fixed size, diagonal, second order tensors. For a 3-d tensor
 
@@ -287,7 +321,7 @@ Most methods are the same as for :ref:`fix_cartesian_tensor2d`.
 ``cppmat::view::cartesian::vector``
 -----------------------------------
 
-[:download:`map_cartesian_vector.h <../src/cppmat/map_cartesian_vector.h>`, :download:`map_cartesian_vector.cpp <../src/cppmat/map_cartesian_vector.cpp>`]
+[:download:`map_cartesian_vector.h <../src/cppmat/map_cartesian_vector.h>`, :download:`map_cartesian_vector.hpp <../src/cppmat/map_cartesian_vector.hpp>`]
 
 Class to view a pointer to a fixed size, vector. For a 3-d vector
 

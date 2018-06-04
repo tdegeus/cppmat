@@ -47,7 +47,7 @@ cppmat
 
   This document should be considered as a quick-start guide. A lot effort has been spent on the readability of the code itself. One is highly encouraged to answer more advanced questions that arise from this guide directly using the code.
 
-This header-only module provides C++ classes and several accompanying methods to work with n-d matrices and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to the C++14 or younger standard). Really, that's it!
+This header-only module provides C++ classes and several accompanying methods to work with n-d arrays and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to use the C++14 or younger standard). Really, that's it!
 
 Overview
 ========
@@ -78,7 +78,7 @@ The following dynamically sized classes can be used.
 | :ref:`cppmat::cartesian::vector <var_cartesian_vector>`     | 1st-order tensor (a.k.a. vector) |
 +-------------------------------------------------------------+----------------------------------+
 
-Each of these class has a fixed size equivalent (that is usually more efficient):
+Each of these classes has a fixed size equivalent (that is usually more efficient):
 
 +-------------------------------------------------------------------+-------------------------------------------------------------+
 | **Fixed size**                                                    | **Dynamical size**                                          |

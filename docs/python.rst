@@ -43,15 +43,15 @@ This library includes provides an interface to `pybind11 <https://github.com/pyb
 | ``cppmat::tiny::cartesian::vector``   | 1                         |
 +---------------------------------------+---------------------------+
 
-.. note:: **Warning**
+.. warning::
 
-  On the Python side all 2nd-order tensors (``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, and ``cppmat::cartesian::tensor2d``) are all square matrices (rank 2 NumPy arrays). This means that when a function that has ``cppmat::cartesian::tensor2s`` as argument, the upper-diagonal part is read; while when it has an argument ``cppmat::cartesian::tensor2d`` only the diagonal is considered.
+  On the Python side all the matrices (``cppmat::matrix``, ``cppmat::symmetric::matrix``, and ``cppmat::diagonal::matrix``) and 2nd-order tensors (``cppmat::cartesian::tensor2``, ``cppmat::cartesian::tensor2s``, and ``cppmat::cartesian::tensor2d``) are all square matrices (rank 2 NumPy arrays). This means that when a function that has ``cppmat::symmetric::matrix`` or ``cppmat::cartesian::tensor2s`` as argument, the upper-diagonal part is read; while when it has an argument ``cppmat::diagonal::matrix`` or ``cppmat::cartesian::tensor2d`` only the diagonal is considered.
 
   **This requires extra attention as information might be lost. To optimize for speed and flexibility no checks are performed in the release libraries derived from cppmat!**
 
   You can ask cppmat to check for this, by omitting the ``-DNDEBUG`` compiler flag (this enables several assertions, so it may cost you some efficiency).
 
-  (The same holds for the classes under ``cppmat::tiny::cartesian``
+  (The same holds for the classes under ``cppmat::tiny::``.)
 
 To use this feature one has to:
 

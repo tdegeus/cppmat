@@ -6,9 +6,11 @@ Notes for developers
 Structure
 =========
 
-.. image:: hierarchy.svg
-  :width: 800px
-  :align: center
+.. note::
+
+  .. image:: hierarchy.svg
+    :width: 800px
+    :align: center
 
 Make changes / additions
 ========================
