@@ -59,12 +59,84 @@ To use this feature one has to:
 
   #include <cppmat/pybind11.h>
 
-An example is provided in ``docs/examples/tensorlib``. This example includes two forms of building:
+Building
+========
 
-1.  ``CMakeList.txt`` for building using ``cmake`` (``cmake .`` and then ``make``). For this to work, *pybind11* must be 'installed' on the system. Alternatively you can include *pybind11* as a sub-folder (for example using ``git submodule add https://github.com/pybind/pybind11.git``). In that case, replace ``find_package(pybind11 REQUIRED)`` by ``add_subdirectory(pybind11)`` in ``CMakeList.txt``.
+[:download:`tensorlib.zip <./examples/tensorlib.zip>`]
 
-2.  ``setup.py`` for building using ``python`` (``python setup.py build`` and then ``python setup.py install``). Using this option, ``python`` will take care of the *pybind11* and cppmat dependencies.
+Building is demonstrated based on the 'tensorlib' example.
 
-    *(Replace the executable with your favorite Python version, e.g. with 'python3')*
+CMake
+-----
+
+[:download:`CMakeLists.txt <./examples/tensorlib/CMakeLists.txt>`]
+
+.. literalinclude:: examples/tensorlib/CMakeLists.txt
+   :language: cmake
+
+Build using
+
+.. code-block:: bash
+
+  cd /path/to/tempdir
+  cmake /path/to/tensorlib
+  make
+
+For this to work, *pybind11* must be 'installed' on the system.
+
+.. tip::
+
+  Alternatively you can include *pybind11* as a sub-folder (for example using ``git submodule add https://github.com/pybind/pybind11.git``). In that case, replace ``find_package(pybind11 REQUIRED)`` by ``add_subdirectory(pybind11)`` in ``CMakeLists.txt``.
+
+.. tip::
+
+  To link to external libraries, include at the end of your ``CMakeLists.txt``
+
+  .. code-block:: cmake
+
+    target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_LIBS})
+
+setup.py
+--------
+
+[:download:`setup.py <./examples/tensorlib/setup.py>`]
+
+.. literalinclude:: examples/tensorlib/setup.py
+   :language: python
+
+As shown in this example building using the ``setup.py`` can be simplified using some routines in the ``cppmat`` python module. These routines have been taken from `pybind <https://github.com/pybind>`_, most notably from Sylvain Corlay and Dean Moldovan. They are merely attached to this module to simplify your life.
+
+Build using
+
+.. code-block:: bash
+
+  python3 setup.py build
+  python3 setup.py install
+
+.. tip::
+
+  Replace the executable with your favorite Python version, e.g. with ``python``.
+
+CMake & setup.py
+----------------
+
+CMake can be called from the ``setup.py`` to take advantage of both. In that case the ``setup.py`` would be simply
+
+.. code-block:: python
+
+  import setuptools, cppmat
+
+  setuptools.setup(
+    name             = 'tensorlib',
+    version          = '0.0.1',
+    author           = 'Tom de Geus',
+    author_email     = 'email@address.com',
+    description      = 'Description',
+    long_description = '',
+    ext_modules      = [cppmat.CMakeExtension('tensorlib')],
+    cmdclass         = dict(build_ext=cppmat.CMakeBuild),
+    zip_safe         = False,
+  )
+
 
 
