@@ -27,7 +27,7 @@ protected:
   static const size_t MAX_DIM=6;    // maximum number of dimensions
   size_t         mSize=0;           // total size == data.size() == prod(shape)
   size_t         mRank=0;           // rank (number of axes)
-  size_t         mShape  [MAX_DIM]; // number of entries along each axis
+  size_t         mShape[MAX_DIM];   // number of entries along each axis
   size_t         mStrides[MAX_DIM]; // stride length for each index
   std::vector<X> mData;             // data container
   bool           mPeriodic=false;   // if true: disable bounds-check where possible

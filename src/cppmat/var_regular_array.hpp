@@ -224,8 +224,8 @@ void array<X>::resize(const std::vector<size_t> &shape)
   for ( size_t i = 0 ; i < mRank ; ++i ) mSize *= shape[i];
 
   // set storage strides
-  for ( size_t i = 0 ; i < mRank ; ++i )
-    for ( size_t j = i+1 ; j < mRank ; ++j )
+  for ( size_t i = 0 ; i < MAX_DIM ; ++i )
+    for ( size_t j = i+1 ; j < MAX_DIM ; ++j )
       mStrides[i] *= mShape[j];
 
   // set empty
