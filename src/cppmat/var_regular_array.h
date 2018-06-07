@@ -347,6 +347,9 @@ public:
 
 };
 
+// equality operators
+template<class X> bool operator!= (const array<X> &A, const array<X> &B);
+
 // external arithmetic operators
 template<class X> array<X> operator* (const array<X> &A, const array<X> &B);
 template<class X> array<X> operator/ (const array<X> &A, const array<X> &B);
