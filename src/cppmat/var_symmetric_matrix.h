@@ -217,6 +217,10 @@ public:
 
 };
 
+// equality operators
+template<class X> bool operator!= (const matrix<X> &A, const matrix<X> &B);
+template<class X> bool operator== (const matrix<X> &A, const matrix<X> &B);
+
 // external arithmetic operators (cppmat::symmetric::matrix)
 template<class X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
 template<class X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);

@@ -3082,7 +3082,6 @@ std::ostream& operator<<(std::ostream& out, const array<X>& src)
 // equality operators
 // =================================================================================================
 
-// equality operators
 template<class X>
 inline
 bool operator!= (const array<X> &A, const array<X> &B)
@@ -3096,6 +3095,23 @@ bool operator!= (const array<X> &A, const array<X> &B)
       return true;
 
   return false;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+bool operator== (const array<X> &A, const array<X> &B)
+{
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
+
+  for ( size_t i = 0 ; i < A.size() ; ++i )
+    if ( A[i] != B[i] )
+      return false;
+
+  return true;
 }
 
 // =================================================================================================

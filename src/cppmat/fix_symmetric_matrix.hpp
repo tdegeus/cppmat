@@ -1300,6 +1300,34 @@ std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 }
 
 // =================================================================================================
+// equality operators
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+inline
+bool operator!= (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
+{
+  for ( size_t i = 0 ; i < A.size() ; ++i )
+    if ( A[i] != B[i] )
+      return true;
+
+  return false;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+bool operator== (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
+{
+  for ( size_t i = 0 ; i < A.size() ; ++i )
+    if ( A[i] != B[i] )
+      return false;
+
+  return true;
+}
+
+// =================================================================================================
 // arithmetic operators: external
 // =================================================================================================
 

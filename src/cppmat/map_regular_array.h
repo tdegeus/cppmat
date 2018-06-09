@@ -198,7 +198,22 @@ public:
 
 };
 
+// =================================================================================================
+// equality operators
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+bool operator!= (const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+bool operator== (const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B);
+
+// =================================================================================================
 // print operator
+// =================================================================================================
+
 template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src);
 
