@@ -145,7 +145,6 @@ public:
   auto item(int a, int b, int c, int d, int e, int f) const;
 
   // iterator to specific entry: access using array-indices
-
   template<typename T, typename=typename std::enable_if<std::is_unsigned<T>::value,void>::type>
   auto item(T a) const;
 
@@ -170,6 +169,14 @@ public:
   // copy to target
   template<typename Iterator> void copyTo(Iterator first) const;
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
+
+  // bound check
+  template<typename T> bool inBounds(T a) const;
+  template<typename T> bool inBounds(T a, T b) const;
+  template<typename T> bool inBounds(T a, T b, T c) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e, T f) const;
 
   // norm (sum of absolute values)
   X norm() const;

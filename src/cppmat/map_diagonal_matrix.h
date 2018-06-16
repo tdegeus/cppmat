@@ -108,6 +108,10 @@ public:
   template<typename Iterator> void copyToDense(Iterator first) const;
   template<typename Iterator> void copyToDense(Iterator first, Iterator last) const;
 
+  // bound check
+  template<typename T> bool inBounds(T a) const;
+  template<typename T> bool inBounds(T a, T b) const;
+
   // norm (sum of absolute values)
   X norm() const;
 

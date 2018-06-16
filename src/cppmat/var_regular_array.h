@@ -271,6 +271,14 @@ public:
   template<typename Iterator> void copyTo(Iterator first) const;
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
 
+  // bound check
+  template<typename T> bool inBounds(T a) const;
+  template<typename T> bool inBounds(T a, T b) const;
+  template<typename T> bool inBounds(T a, T b, T c) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e, T f) const;
+
   // sign change
   array<X> operator- () const;
   array<X> operator+ () const;

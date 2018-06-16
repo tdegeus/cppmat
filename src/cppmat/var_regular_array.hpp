@@ -2258,6 +2258,152 @@ void array<X>::copyTo(Iterator first, Iterator last) const
 }
 
 // =================================================================================================
+// bound check
+// =================================================================================================
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a, T b) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+  if ( b >= static_cast<T>(mShape[1]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+    if ( b < -static_cast<T>(mShape[1]) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a, T b, T c) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+  if ( b >= static_cast<T>(mShape[1]) ) return false;
+  if ( c >= static_cast<T>(mShape[2]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+    if ( b < -static_cast<T>(mShape[1]) ) return false;
+    if ( c < -static_cast<T>(mShape[2]) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a, T b, T c, T d) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+  if ( b >= static_cast<T>(mShape[1]) ) return false;
+  if ( c >= static_cast<T>(mShape[2]) ) return false;
+  if ( d >= static_cast<T>(mShape[3]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+    if ( b < -static_cast<T>(mShape[1]) ) return false;
+    if ( c < -static_cast<T>(mShape[2]) ) return false;
+    if ( d < -static_cast<T>(mShape[3]) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a, T b, T c, T d, T e) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+  if ( b >= static_cast<T>(mShape[1]) ) return false;
+  if ( c >= static_cast<T>(mShape[2]) ) return false;
+  if ( d >= static_cast<T>(mShape[3]) ) return false;
+  if ( e >= static_cast<T>(mShape[4]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+    if ( b < -static_cast<T>(mShape[1]) ) return false;
+    if ( c < -static_cast<T>(mShape[2]) ) return false;
+    if ( d < -static_cast<T>(mShape[3]) ) return false;
+    if ( e < -static_cast<T>(mShape[4]) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool array<X>::inBounds(T a, T b, T c, T d, T e, T f) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(mShape[0]) ) return false;
+  if ( b >= static_cast<T>(mShape[1]) ) return false;
+  if ( c >= static_cast<T>(mShape[2]) ) return false;
+  if ( d >= static_cast<T>(mShape[3]) ) return false;
+  if ( e >= static_cast<T>(mShape[4]) ) return false;
+  if ( f >= static_cast<T>(mShape[5]) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(mShape[0]) ) return false;
+    if ( b < -static_cast<T>(mShape[1]) ) return false;
+    if ( c < -static_cast<T>(mShape[2]) ) return false;
+    if ( d < -static_cast<T>(mShape[3]) ) return false;
+    if ( e < -static_cast<T>(mShape[4]) ) return false;
+    if ( f < -static_cast<T>(mShape[5]) ) return false;
+  }
+
+  return true;
+}
+
+// =================================================================================================
 // sign change
 // =================================================================================================
 

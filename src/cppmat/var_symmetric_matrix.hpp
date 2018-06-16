@@ -837,6 +837,48 @@ void matrix<X>::copyToDense(Iterator first, Iterator last) const
 }
 
 // =================================================================================================
+// bound check
+// =================================================================================================
+
+template<class X>
+template<typename T>
+inline
+bool matrix<X>::inBounds(T a) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(N) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(N) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename T>
+inline
+bool matrix<X>::inBounds(T a, T b) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(N) ) return false;
+  if ( b >= static_cast<T>(N) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(N) ) return false;
+    if ( b < -static_cast<T>(N) ) return false;
+  }
+
+  return true;
+}
+
+// =================================================================================================
 // sign change
 // =================================================================================================
 

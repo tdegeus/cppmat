@@ -50,7 +50,7 @@ public:
 
   // constructor: copy from own class (with different type)
   template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
-  array(const array<U,RANK,I,J,K,L,M,N> &A);
+  array(const cppmat::array<U,RANK,I,J,K,L,M,N> &A);
 
   // constructor: copy from {...}
   array(const std::initializer_list<X> &A);
@@ -255,6 +255,14 @@ public:
   // copy to target
   template<typename Iterator> void copyTo(Iterator first) const;
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
+
+  // bound check
+  template<typename T> bool inBounds(T a) const;
+  template<typename T> bool inBounds(T a, T b) const;
+  template<typename T> bool inBounds(T a, T b, T c) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e) const;
+  template<typename T> bool inBounds(T a, T b, T c, T d, T e, T f) const;
 
   // sign change
   array<X,RANK,I,J,K,L,M,N> operator- () const;

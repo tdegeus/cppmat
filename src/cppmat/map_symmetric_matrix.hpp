@@ -405,6 +405,48 @@ void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 }
 
 // =================================================================================================
+// bound check
+// =================================================================================================
+
+template<class X, size_t M, size_t N>
+template<typename T>
+inline
+bool matrix<X,M,N>::inBounds(T a) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(N) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(N) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+template<typename T>
+inline
+bool matrix<X,M,N>::inBounds(T a, T b) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(N) ) return false;
+  if ( b >= static_cast<T>(N) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(N) ) return false;
+    if ( b < -static_cast<T>(N) ) return false;
+  }
+
+  return true;
+}
+
+// =================================================================================================
 // norm
 // =================================================================================================
 

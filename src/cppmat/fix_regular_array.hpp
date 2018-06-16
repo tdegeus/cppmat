@@ -1957,6 +1957,152 @@ void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
 }
 
 // =================================================================================================
+// bound check
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+  if ( b >= static_cast<T>(J) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+    if ( b < -static_cast<T>(J) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+  if ( b >= static_cast<T>(J) ) return false;
+  if ( c >= static_cast<T>(K) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+    if ( b < -static_cast<T>(J) ) return false;
+    if ( c < -static_cast<T>(K) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+  if ( b >= static_cast<T>(J) ) return false;
+  if ( c >= static_cast<T>(K) ) return false;
+  if ( d >= static_cast<T>(L) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+    if ( b < -static_cast<T>(J) ) return false;
+    if ( c < -static_cast<T>(K) ) return false;
+    if ( d < -static_cast<T>(L) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+  if ( b >= static_cast<T>(J) ) return false;
+  if ( c >= static_cast<T>(K) ) return false;
+  if ( d >= static_cast<T>(L) ) return false;
+  if ( e >= static_cast<T>(M) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+    if ( b < -static_cast<T>(J) ) return false;
+    if ( c < -static_cast<T>(K) ) return false;
+    if ( d < -static_cast<T>(L) ) return false;
+    if ( e < -static_cast<T>(M) ) return false;
+  }
+
+  return true;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename T>
+inline
+bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e, T f) const
+{
+  if ( mPeriodic ) return true;
+
+  if ( a >= static_cast<T>(I) ) return false;
+  if ( b >= static_cast<T>(J) ) return false;
+  if ( c >= static_cast<T>(K) ) return false;
+  if ( d >= static_cast<T>(L) ) return false;
+  if ( e >= static_cast<T>(M) ) return false;
+  if ( f >= static_cast<T>(N) ) return false;
+
+  if ( std::numeric_limits<T>::is_signed )
+  {
+    if ( a < -static_cast<T>(I) ) return false;
+    if ( b < -static_cast<T>(J) ) return false;
+    if ( c < -static_cast<T>(K) ) return false;
+    if ( d < -static_cast<T>(L) ) return false;
+    if ( e < -static_cast<T>(M) ) return false;
+    if ( f < -static_cast<T>(N) ) return false;
+  }
+
+  return true;
+}
+
+// =================================================================================================
 // sign change
 // =================================================================================================
 
