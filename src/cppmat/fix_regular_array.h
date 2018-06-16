@@ -50,7 +50,7 @@ public:
 
   // constructor: copy from own class (with different type)
   template<typename U, typename=typename std::enable_if<std::is_convertible<U,X>::value>::type>
-  array(const cppmat::array<U,RANK,I,J,K,L,M,N> &A);
+  array(const cppmat::tiny::array<U,RANK,I,J,K,L,M,N> &A);
 
   // constructor: copy from {...}
   array(const std::initializer_list<X> &A);
