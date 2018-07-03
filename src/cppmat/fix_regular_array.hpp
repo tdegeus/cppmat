@@ -1240,6 +1240,48 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::decompress(size_t i) const
 }
 
 // =================================================================================================
+// midpoint
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::midpoint() const
+{
+  // get shape
+  std::vector<size_t> mid = shape();
+
+  // check odd-sized
+  for ( auto &i : mid )
+    if ( i%2 == 0 )
+      throw std::domain_error("cppmat::array<X,RANK,I,J,K,L,M,N>::midpoint: Must be odd shaped");
+
+  // midpoint
+  for ( auto &i : mid )
+    i = (i-1)/2;
+
+  return mid;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+inline
+size_t array<X,RANK,I,J,K,L,M,N>::midpoint(size_t axis) const
+{
+  // get shape
+  size_t mid = shape(axis);
+
+  // check odd-sized
+  if ( mid%2 == 0 )
+    throw std::domain_error("cppmat::array<X,RANK,I,J,K,L,M,N>::midpoint: Must be odd shaped");
+
+  // midpoint
+  mid = (mid-1)/2;
+
+  return mid;
+}
+
+// =================================================================================================
 // pointer to data
 // =================================================================================================
 
@@ -1971,7 +2013,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
+    if ( a < 0 ) return false;
   }
 
   return true;
@@ -1991,8 +2033,8 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
-    if ( b < -static_cast<T>(J) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
   }
 
   return true;
@@ -2013,9 +2055,9 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
-    if ( b < -static_cast<T>(J) ) return false;
-    if ( c < -static_cast<T>(K) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
+    if ( c < 0 ) return false;
   }
 
   return true;
@@ -2037,10 +2079,10 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
-    if ( b < -static_cast<T>(J) ) return false;
-    if ( c < -static_cast<T>(K) ) return false;
-    if ( d < -static_cast<T>(L) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
+    if ( c < 0 ) return false;
+    if ( d < 0 ) return false;
   }
 
   return true;
@@ -2063,11 +2105,11 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
-    if ( b < -static_cast<T>(J) ) return false;
-    if ( c < -static_cast<T>(K) ) return false;
-    if ( d < -static_cast<T>(L) ) return false;
-    if ( e < -static_cast<T>(M) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
+    if ( c < 0 ) return false;
+    if ( d < 0 ) return false;
+    if ( e < 0 ) return false;
   }
 
   return true;
@@ -2091,12 +2133,12 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e, T f) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(I) ) return false;
-    if ( b < -static_cast<T>(J) ) return false;
-    if ( c < -static_cast<T>(K) ) return false;
-    if ( d < -static_cast<T>(L) ) return false;
-    if ( e < -static_cast<T>(M) ) return false;
-    if ( f < -static_cast<T>(N) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
+    if ( c < 0 ) return false;
+    if ( d < 0 ) return false;
+    if ( e < 0 ) return false;
+    if ( f < 0 ) return false;
   }
 
   return true;

@@ -499,6 +499,48 @@ std::vector<size_t> matrix<X>::decompress(size_t i) const
 }
 
 // =================================================================================================
+// midpoint
+// =================================================================================================
+
+template<class X>
+inline
+std::vector<size_t> matrix<X>::midpoint() const
+{
+  // get shape
+  std::vector<size_t> mid = shape();
+
+  // check odd-sized
+  for ( auto &i : mid )
+    if ( i%2 == 0 )
+      throw std::domain_error("cppmat::matrix<X>::midpoint: Must be odd shaped");
+
+  // midpoint
+  for ( auto &i : mid )
+    i = (i-1)/2;
+
+  return mid;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+size_t matrix<X>::midpoint(size_t axis) const
+{
+  // get shape
+  size_t mid = shape(axis);
+
+  // check odd-sized
+  if ( mid%2 == 0 )
+    throw std::domain_error("cppmat::matrix<X>::midpoint: Must be odd shaped");
+
+  // midpoint
+  mid = (mid-1)/2;
+
+  return mid;
+}
+
+// =================================================================================================
 // pointer to data
 // =================================================================================================
 
@@ -844,7 +886,7 @@ bool matrix<X>::inBounds(T a) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(N) ) return false;
+    if ( a < 0 ) return false;
   }
 
   return true;
@@ -864,8 +906,8 @@ bool matrix<X>::inBounds(T a, T b) const
 
   if ( std::numeric_limits<T>::is_signed )
   {
-    if ( a < -static_cast<T>(N) ) return false;
-    if ( b < -static_cast<T>(N) ) return false;
+    if ( a < 0 ) return false;
+    if ( b < 0 ) return false;
   }
 
   return true;

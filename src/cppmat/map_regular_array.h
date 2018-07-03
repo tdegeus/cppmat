@@ -126,6 +126,10 @@ public:
   // index operators: plain storage -> array-indices (i -> a,b,c,...)
   std::vector<size_t> decompress(size_t i) const;
 
+  // get index of the midpoint (along a certain axis)
+  std::vector<size_t> midpoint() const;
+  size_t              midpoint(size_t axis) const;
+
   // pointer to data
   const X* data() const;
 
@@ -170,7 +174,8 @@ public:
   template<typename Iterator> void copyTo(Iterator first) const;
   template<typename Iterator> void copyTo(Iterator first, Iterator last) const;
 
-  // bound check
+  // check in an index in within the matrix bound:
+  // ( a >= 0 and a < shape[0] ) or ( periodic )
   template<typename T> bool inBounds(T a) const;
   template<typename T> bool inBounds(T a, T b) const;
   template<typename T> bool inBounds(T a, T b, T c) const;
