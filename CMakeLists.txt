@@ -22,6 +22,8 @@ set(headers
   src/${PROJECT_NAME}/private.h
   src/${PROJECT_NAME}/stl.hpp
   src/${PROJECT_NAME}/stl.h
+  src/${PROJECT_NAME}/histogram.hpp
+  src/${PROJECT_NAME}/histogram.h
   src/${PROJECT_NAME}/fix_cartesian.hpp
   src/${PROJECT_NAME}/fix_cartesian.h
   src/${PROJECT_NAME}/fix_cartesian_2.hpp

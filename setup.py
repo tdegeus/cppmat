@@ -34,6 +34,8 @@ setup(
     'src/cppmat/private.h',
     'src/cppmat/stl.hpp',
     'src/cppmat/stl.h',
+    'src/cppmat/histogram.hpp',
+    'src/cppmat/histogram.h',
     'src/cppmat/fix_cartesian.hpp',
     'src/cppmat/fix_cartesian.h',
     'src/cppmat/fix_cartesian_2.hpp',
