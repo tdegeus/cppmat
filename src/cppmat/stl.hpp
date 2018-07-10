@@ -102,6 +102,30 @@ std::string to_string(const std::vector<X> &A, std::string join)
 }
 
 // =================================================================================================
+// linearly spaced array
+// =================================================================================================
+
+template <typename T>
+std::vector<T> linspace(T a, T b, size_t N)
+{
+  // spacing
+  T h = (b - a) / static_cast<T>(N-1);
+
+  // allocate output
+  std::vector<T> out(N);
+
+  // temporary variables
+  typename std::vector<T>::iterator x;
+  T val;
+
+  // loop to fill
+  for ( x = out.begin(), val = a; x != out.end(); ++x, val += h)
+    *x = val;
+
+  return out;
+}
+
+// =================================================================================================
 
 } // namespace ...
 

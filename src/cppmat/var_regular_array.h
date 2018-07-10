@@ -381,6 +381,10 @@ template<class X> array<X> operator- (const       X  &A, const array<X> &B);
 // print operator
 template<class X> std::ostream& operator<<(std::ostream& out, const array<X>& src);
 
+// minimum/maximum from two arrays of equal shape
+template<class X> array<X> min(const array<X> &A, const array<X> &B);
+template<class X> array<X> max(const array<X> &A, const array<X> &B);
+
 // =================================================================================================
 
 } // namespace ...

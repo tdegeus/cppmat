@@ -178,6 +178,7 @@ namespace cartesian {
 
 #include "stl.h"
 #include "private.h"
+#include "histrogram.h"
 
 #include "var_regular_array.h"
 #include "var_regular_matrix.h"
@@ -218,6 +219,7 @@ namespace cartesian {
 
 #include "stl.hpp"
 #include "private.hpp"
+#include "histrogram.hpp"
 
 #include "var_regular_array.hpp"
 #include "var_regular_matrix.hpp"

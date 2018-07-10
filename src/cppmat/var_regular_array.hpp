@@ -3488,7 +3488,41 @@ array<X> operator- (const X &A, const array<X> &B)
   return C;
 }
 
+// =================================================================================================
+// minimum/maximum from two arrays of equal shape
+// =================================================================================================
+
+template<class X> array<X> min(const array<X> &A, const array<X> &B)
+{
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
+
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = std::min(A[i], B[i]);
+
+  return C;
+}
+
 // -------------------------------------------------------------------------------------------------
+
+template<class X> array<X> max(const array<X> &A, const array<X> &B)
+{
+  assert( A.shape() == B.shape() );
+  assert( A.rank () == B.rank () );
+  assert( A.size () == B.size () );
+
+  array<X> C(A.shape());
+
+  for ( size_t i = 0 ; i < C.size() ; ++i )
+    C[i] = std::max(A[i], B[i]);
+
+  return C;
+}
+
+// =================================================================================================
 
 } // namespace ...
 
