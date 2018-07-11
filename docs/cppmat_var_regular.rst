@@ -172,16 +172,27 @@ Methods
     Allocate to a certain shape, set all entries to zero.
 
 *   ``cppmat::array<double>::Ones(shape)``
-*
+
     Allocate to a certain shape, set all entries to one.
 
 *   ``cppmat::array<double>::Constant(shape, constant)``
-*
+
     Allocate to a certain shape, set all entries to a certain constant.
 
 *   ``cppmat::array<double>::Copy(shape, first[, last])``
-*
+
     Allocate to a certain shape, copy the individual entries from some external object that is specified using iterators. Note that the flat-size has to match, i.e. ``last - first == size()``.
+
+External operations
+-------------------
+
+*   ``cppmat::array<double> = cppmat::min(A, B)``
+
+    Construct an array taking the minimum of two arrays for each entry.
+
+*   ``cppmat::array<double> = cppmat::max(A, B)``
+
+    Construct an array taking the maximum of two arrays for each entry.
 
 .. _array-index:
 
