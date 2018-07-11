@@ -19,13 +19,13 @@ namespace cppmat {
 
 template<typename X>
 std::tuple<std::vector<double>, std::vector<double>> histogram(
-  const std::vector<X> &data, size_t bins, bool density=false, bool return_edges=false);
+  const std::vector<X> &data, size_t bins=10, bool density=false, bool return_edges=false);
 
 // -------------------------------------------------------------------------------------------------
 
 template<typename X>
 std::tuple<std::vector<double>, std::vector<double>> histogram_uniform(
-  const std::vector<X> &data, size_t bins, bool density=false, bool return_edges=false);
+  const std::vector<X> &data, size_t bins=10, bool density=false, bool return_edges=false);
 
 // =================================================================================================
 

@@ -109,20 +109,22 @@ template <typename T>
 std::vector<T> linspace(T a, T b, size_t N)
 {
   // spacing
-  T h = (b - a) / static_cast<T>(N-1);
+  double h = (static_cast<double>(b) - static_cast<double>(a)) / static_cast<double>(N-1);
 
   // allocate output
-  std::vector<T> out(N);
+  std::vector<double> out(N);
 
   // temporary variables
-  typename std::vector<T>::iterator x;
-  T val;
+  typename std::vector<double>::iterator x;
+  double val;
 
   // loop to fill
   for ( x = out.begin(), val = a; x != out.end(); ++x, val += h)
     *x = val;
 
-  return out;
+  std::vector<T> outT(out.begin(), out.end());
+
+  return outT;
 }
 
 // =================================================================================================

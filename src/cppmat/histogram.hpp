@@ -89,21 +89,40 @@ std::tuple<std::vector<double>, std::vector<double>> histogram_uniform(
   // - last edge
   edges[bins] = sorted[sorted.size()-1];
 
+  // check to recount
+  // - initialize
+  bool recount = false;
+  // - check
+  for ( size_t i = 0 ; i < bins ; ++i ) { if ( edges[i] == edges[i+1] ) { recount = true; break; } }
+
+  // recount: handles zero-width bins
+  if ( recount )
+  {
+    // zero-initialize count
+    std::fill(count.begin(), count.end(), 0);
+
+    // zero-initialize current bin
+    size_t ibin = 0;
+
+    // loop over data
+    for ( auto &i : sorted )
+    {
+      // update bin-index
+      while ( i >= edges[ibin+1] and ibin < bins-1 ) ibin++;
+      // update count
+      count[ibin]++;
+    }
+  }
+
   // type-cast
-  std::vector<double> countD(count.begin(), count.end());
   std::vector<double> edgesD(edges.begin(), edges.end());
+  std::vector<double> countD(count.begin(), count.end());
 
   // convert to density: set the integral to one
   if ( density )
   {
-    // - zero-initialize integral
-    double I = 0.0;
-    // - compute integral
     for ( size_t i = 0 ; i < bins ; ++i )
-      I += ( edgesD[i+1] - edgesD[i] ) * countD[i];
-    // - normalize
-    for ( auto &i : countD )
-      i /= I;
+      countD[i] /= ( (edges[i+1]-edges[i]) * N );
   }
 
   // return edges
@@ -114,7 +133,7 @@ std::tuple<std::vector<double>, std::vector<double>> histogram_uniform(
   std::vector<double> mid(bins);
   // - compute
   for ( size_t i = 0 ; i < bins ; ++i )
-    mid[i] = ( edges[i+1] - edges[i] ) / 2.;
+    mid[i] = ( edges[i+1] + edges[i] ) / 2.;
   // - return
   return std::make_tuple(countD, mid);
 }

@@ -20,6 +20,10 @@ namespace Private {
 
 template<class X> std::vector<X> sort_axes(const std::vector<X> &A, X n, bool reverse=true);
 
+// -------------------------------------------------------------------------------------------------
+
+bool equal(double a, double b);
+
 // =================================================================================================
 
 }} // namespace ...
