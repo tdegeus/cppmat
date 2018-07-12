@@ -30,6 +30,10 @@ template<class X> std::string to_string(const std::vector<X> &A, std::string joi
 // linearly spaced array
 template <typename T = double> std::vector<T> linspace(T a, T b, size_t N);
 
+// minimum/maximum of each entry
+template<class X> std::vector<X> min(const std::vector<X> &A, const std::vector<X> &B);
+template<class X> std::vector<X> max(const std::vector<X> &A, const std::vector<X> &B);
+
 // =================================================================================================
 
 } // namespace ...

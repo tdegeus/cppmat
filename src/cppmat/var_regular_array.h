@@ -73,6 +73,7 @@ public:
   void resize (const std::vector<size_t> &shape, const X &D);
   void reshape(const std::vector<size_t> &shape);
   void chrank (size_t rank);
+  void ravel  ();
 
   // modify bounds-checks
   void setPeriodic(bool periodic);
