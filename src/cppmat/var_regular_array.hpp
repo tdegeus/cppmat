@@ -1973,6 +1973,9 @@ array<X> array<X>::slice(
   const std::vector<int> &d, const std::vector<int> &e, const std::vector<int> &f
 ) const
 {
+  // return empty
+  if ( a.size()+b.size()+c.size()+d.size()+e.size()+f.size() == 0 ) return array<X>({0});
+
   // allocate copies of input lists
   std::vector<size_t> A(a.size());
   std::vector<size_t> B(b.size());
@@ -2068,6 +2071,9 @@ array<X> array<X>::slice(
   const std::vector<T> &d, const std::vector<T> &e, const std::vector<T> &f
 ) const
 {
+  // return empty
+  if ( a.size()+b.size()+c.size()+d.size()+e.size()+f.size() == 0 ) return array<X>({0});
+
   // allocate copies of input lists
   std::vector<size_t> A(a.size());
   std::vector<size_t> B(b.size());
