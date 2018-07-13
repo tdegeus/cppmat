@@ -294,10 +294,10 @@ public:
   array<X>& operator/= (const array<X> &B);
   array<X>& operator+= (const array<X> &B);
   array<X>& operator-= (const array<X> &B);
-  array<X>& operator*= (const       X  &B);
-  array<X>& operator/= (const       X  &B);
-  array<X>& operator+= (const       X  &B);
-  array<X>& operator-= (const       X  &B);
+  array<X>& operator*= (X B);
+  array<X>& operator/= (X B);
+  array<X>& operator+= (X B);
+  array<X>& operator-= (X B);
 
   // absolute value
   array<X> abs() const;
@@ -358,6 +358,8 @@ public:
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+  size_t              where(int    index) const;
+  size_t              where(size_t index) const;
 
 };
 

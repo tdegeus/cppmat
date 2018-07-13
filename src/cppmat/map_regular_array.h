@@ -207,6 +207,8 @@ public:
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+  size_t              where(int    index) const;
+  size_t              where(size_t index) const;
 
 };
 

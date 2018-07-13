@@ -978,7 +978,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator-= (const matrix<X,M,N> &B)
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N>& matrix<X,M,N>::operator*= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator*= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B;
@@ -990,7 +990,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator*= (const X &B)
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N>& matrix<X,M,N>::operator/= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator/= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B;
@@ -1002,7 +1002,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator/= (const X &B)
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N>& matrix<X,M,N>::operator+= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator+= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B;
@@ -1014,7 +1014,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator+= (const X &B)
 
 template<class X, size_t M, size_t N>
 inline
-matrix<X,M,N>& matrix<X,M,N>::operator-= (const X &B)
+matrix<X,M,N>& matrix<X,M,N>::operator-= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B;
@@ -1358,6 +1358,52 @@ std::vector<size_t> matrix<X,M,N>::where() const
   }
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+size_t matrix<X,M,N>::where(size_t index) const
+{
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      if ( j == index ) return i;
+      ++j;
+    }
+  }
+
+  throw std::runtime_error("Out-of-bounds");
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t M, size_t N>
+inline
+size_t matrix<X,M,N>::where(int index) const
+{
+  int nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] )
+      ++nnz;
+
+  assert( index < nnz && index >= -nnz );
+
+  index = ( nnz + (index%nnz) ) % nnz;
+
+  int j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      if ( j == index ) return i;
+      ++j;
+    }
+  }
+
+  throw std::runtime_error("Out-of-bounds");
 }
 
 // =================================================================================================

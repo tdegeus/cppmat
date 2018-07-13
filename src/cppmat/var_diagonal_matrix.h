@@ -166,8 +166,8 @@ public:
   matrix<X>& operator*= (const cppmat::diagonal ::matrix<X> &B);
   matrix<X>& operator+= (const cppmat::diagonal ::matrix<X> &B);
   matrix<X>& operator-= (const cppmat::diagonal ::matrix<X> &B);
-  matrix<X>& operator*= (const                           X  &B);
-  matrix<X>& operator/= (const                           X  &B);
+  matrix<X>& operator*= (X B);
+  matrix<X>& operator/= (X B);
 
   // extra arithmetic operators
   matrix<X>& operator*= (const cppmat::           matrix<X> &B);
@@ -219,6 +219,8 @@ public:
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+  size_t              where(int    index) const;
+  size_t              where(size_t index) const;
 
 };
 

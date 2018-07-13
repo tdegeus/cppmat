@@ -167,10 +167,10 @@ public:
   matrix<X,M,N>& operator/= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
   matrix<X,M,N>& operator+= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
   matrix<X,M,N>& operator-= (const cppmat::tiny::symmetric::matrix<X,M,N> &B);
-  matrix<X,M,N>& operator*= (const                                 X      &B);
-  matrix<X,M,N>& operator/= (const                                 X      &B);
-  matrix<X,M,N>& operator+= (const                                 X      &B);
-  matrix<X,M,N>& operator-= (const                                 X      &B);
+  matrix<X,M,N>& operator*= (X B);
+  matrix<X,M,N>& operator/= (X B);
+  matrix<X,M,N>& operator+= (X B);
+  matrix<X,M,N>& operator-= (X B);
 
   // extra arithmetic operators
   matrix<X,M,N>& operator*= (const cppmat::tiny::diagonal ::matrix<X,M,N> &B);
@@ -221,6 +221,8 @@ public:
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+  size_t              where(int    index) const;
+  size_t              where(size_t index) const;
 
 };
 

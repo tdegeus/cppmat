@@ -278,10 +278,10 @@ public:
   array<X,RANK,I,J,K,L,M,N>& operator/= (const array<X,RANK,I,J,K,L,M,N> &B);
   array<X,RANK,I,J,K,L,M,N>& operator+= (const array<X,RANK,I,J,K,L,M,N> &B);
   array<X,RANK,I,J,K,L,M,N>& operator-= (const array<X,RANK,I,J,K,L,M,N> &B);
-  array<X,RANK,I,J,K,L,M,N>& operator*= (const       X                   &B);
-  array<X,RANK,I,J,K,L,M,N>& operator/= (const       X                   &B);
-  array<X,RANK,I,J,K,L,M,N>& operator+= (const       X                   &B);
-  array<X,RANK,I,J,K,L,M,N>& operator-= (const       X                   &B);
+  array<X,RANK,I,J,K,L,M,N>& operator*= (X B);
+  array<X,RANK,I,J,K,L,M,N>& operator/= (X B);
+  array<X,RANK,I,J,K,L,M,N>& operator+= (X B);
+  array<X,RANK,I,J,K,L,M,N>& operator-= (X B);
 
   // absolute value
   array<X,RANK,I,J,K,L,M,N> abs() const;
@@ -327,6 +327,8 @@ public:
 
   // find the plain storage indices of all non-zero entries
   std::vector<size_t> where() const;
+  size_t              where(int    index) const;
+  size_t              where(size_t index) const;
 
 };
 

@@ -997,7 +997,7 @@ matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
 
 template<class X>
 inline
-matrix<X>& matrix<X>::operator*= (const X &B)
+matrix<X>& matrix<X>::operator*= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B;
@@ -1009,7 +1009,7 @@ matrix<X>& matrix<X>::operator*= (const X &B)
 
 template<class X>
 inline
-matrix<X>& matrix<X>::operator/= (const X &B)
+matrix<X>& matrix<X>::operator/= (X B)
 {
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B;
@@ -1362,6 +1362,52 @@ std::vector<size_t> matrix<X>::where() const
   }
 
   return out;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+size_t matrix<X>::where(size_t index) const
+{
+  size_t j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      if ( j == index ) return i;
+      ++j;
+    }
+  }
+
+  throw std::runtime_error("Out-of-bounds");
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+inline
+size_t matrix<X>::where(int index) const
+{
+  int nnz = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i )
+    if ( mData[i] )
+      ++nnz;
+
+  assert( index < nnz && index >= -nnz );
+
+  index = ( nnz + (index%nnz) ) % nnz;
+
+  int j = 0;
+
+  for ( size_t i = 0 ; i < mSize ; ++i ) {
+    if ( mData[i] ) {
+      if ( j == index ) return i;
+      ++j;
+    }
+  }
+
+  throw std::runtime_error("Out-of-bounds");
 }
 
 // =================================================================================================
