@@ -4,7 +4,7 @@
 
 // -------------------------------------------------------------------------------------------------
 
-#include <catch/catch.hpp>
+#include <catch2/catch.hpp>
 
 // support function to simplify the checks
 #define EQ(a,b) REQUIRE_THAT( (a), Catch::WithinAbs((b), 1.e-10) );

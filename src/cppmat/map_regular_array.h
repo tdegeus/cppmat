@@ -62,6 +62,14 @@ public:
   std::vector<size_t> shape() const;
   std::vector<size_t> strides(bool bytes=false) const;
 
+  // get using a different return type
+  template<typename U> U size() const;
+  template<typename U> U rank() const;
+  template<typename U> U shape(int    i) const;
+  template<typename U> U shape(size_t i) const;
+  template<typename U> std::vector<U> shape() const;
+  template<typename U> std::vector<U> strides(bool bytes=false) const;
+
   // index operators: access plain storage
   const X& operator[](size_t i) const;
 

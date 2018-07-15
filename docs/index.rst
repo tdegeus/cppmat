@@ -162,6 +162,7 @@ Contents
    cppmat_fix.rst
    cppmat_map.rst
    copy.rst
+   misc.rst
    histogram.rst
    compile.rst
    python.rst

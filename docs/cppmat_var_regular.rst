@@ -150,7 +150,18 @@ Methods
 
 *    ``A.slice(...)``
 
-     Returns a slice of the array. The input are ``std::vector<size_t>`` with the indices to select along that axis (these vectors can be also inputted using the ``{...}`` syntax). An empty vector (or simply ``{}``) implies that all indices along that axis are selected.
+     Returns a slice of the array. The input are ``std::vector<size_t>`` with the indices to select along that axis (these vectors can be also input using the ``{...}`` syntax). An empty vector (or simply ``{}``) implies that all indices along that axis are selected.
+
+.. tip::
+
+  If you use something other than ``size_t`` as the type for indices (e.g. ``int``), the functions ``size``, ``shape``, ``rank``, and ``strides`` can be templated to directly get the type you want. For example:
+
+  .. code-block:: cpp
+
+    cppmat::array<double> A({10,10,10});
+
+    for ( int i = 0 ; i < A.size<int>() ; ++i )
+       ...
 
 (Named) constructors
 --------------------

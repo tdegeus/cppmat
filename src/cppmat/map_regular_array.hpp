@@ -188,6 +188,80 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
 }
 
 // =================================================================================================
+// get dimensions using a different return type
+// =================================================================================================
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+U array<X,RANK,I,J,K,L,M,N>::size() const
+{
+  return static_cast<U>(size());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+U array<X,RANK,I,J,K,L,M,N>::rank() const
+{
+  return static_cast<U>(rank());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+U array<X,RANK,I,J,K,L,M,N>::shape(int i) const
+{
+  return static_cast<U>(shape(i));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+U array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
+{
+  return static_cast<U>(shape(i));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+std::vector<U> array<X,RANK,I,J,K,L,M,N>::shape() const
+{
+  std::vector<size_t> A = shape();
+
+  std::vector<U> B(A.size());
+
+  std::copy(A.begin(), A.end(), B.begin());
+
+  return B;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename U>
+inline
+std::vector<U> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
+{
+  std::vector<size_t> A = strides(bytes);
+
+  std::vector<U> B(A.size());
+
+  std::copy(A.begin(), A.end(), B.begin());
+
+  return B;
+}
+
+// =================================================================================================
 // index operators : operator[...]
 // =================================================================================================
 

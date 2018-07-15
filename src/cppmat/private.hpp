@@ -39,7 +39,7 @@ std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
 
 // =================================================================================================
 
-bool equal(double a, double b)
+inline bool equal(double a, double b)
 {
   return std::fabs(a - b) <= std::numeric_limits<double>::epsilon();
 }

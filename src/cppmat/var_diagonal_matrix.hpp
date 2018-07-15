@@ -356,6 +356,64 @@ std::vector<size_t> matrix<X>::shape() const
 }
 
 // =================================================================================================
+// get dimensions using a different return type
+// =================================================================================================
+
+template<class X>
+template<typename U>
+inline
+U matrix<X>::size() const
+{
+  return static_cast<U>(size());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename U>
+inline
+U matrix<X>::rank() const
+{
+  return static_cast<U>(rank());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename U>
+inline
+U matrix<X>::shape(int i) const
+{
+  return static_cast<U>(shape(i));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename U>
+inline
+U matrix<X>::shape(size_t i) const
+{
+  return static_cast<U>(shape(i));
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<class X>
+template<typename U>
+inline
+std::vector<U> matrix<X>::shape() const
+{
+  std::vector<size_t> A = shape();
+
+  std::vector<U> B(A.size());
+
+  std::copy(A.begin(), A.end(), B.begin());
+
+  return B;
+}
+
+// =================================================================================================
 // index operators : operator[...]
 // =================================================================================================
 
