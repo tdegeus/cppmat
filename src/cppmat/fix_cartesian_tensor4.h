@@ -21,7 +21,7 @@ namespace cartesian {
 // cppmat::tiny::cartesian::tensor4
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 class tensor4 : public cppmat::tiny::array<X,4,ND,ND,ND,ND>
 {
   static_assert( ND > 0, "Number of dimensions must positive" );

@@ -20,7 +20,7 @@ namespace cartesian {
 // cppmat::cartesian::tensor2s
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class tensor2s : public cppmat::symmetric::matrix<X>
 {
 protected:

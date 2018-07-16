@@ -20,7 +20,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor4<X>::tensor4(size_t nd) : cppmat::array<X>({nd,nd,nd,nd})
 {
@@ -31,7 +31,7 @@ tensor4<X>::tensor4(size_t nd) : cppmat::array<X>({nd,nd,nd,nd})
 // constructors: copy from parent (with different type)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 tensor4<X>::tensor4(const cppmat::array<U> &A) : cppmat::array<X>(A)
@@ -45,7 +45,7 @@ tensor4<X>::tensor4(const cppmat::array<U> &A) : cppmat::array<X>(A)
 // constructors: copy from fixed size
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 tensor4<X>::tensor4(const cppmat::tiny::cartesian::tensor4<X,nd> &A) : cppmat::array<X>(A)
@@ -57,7 +57,7 @@ tensor4<X>::tensor4(const cppmat::tiny::cartesian::tensor4<X,nd> &A) : cppmat::a
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 tensor4<X>::tensor4(const cppmat::view::cartesian::tensor4<X,nd> &A) : cppmat::array<X>(A)
@@ -69,7 +69,7 @@ tensor4<X>::tensor4(const cppmat::view::cartesian::tensor4<X,nd> &A) : cppmat::a
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Random(size_t nd, X lower, X upper)
 {
@@ -82,7 +82,7 @@ tensor4<X> tensor4<X>::Random(size_t nd, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Arange(size_t nd)
 {
@@ -95,7 +95,7 @@ tensor4<X> tensor4<X>::Arange(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Zero(size_t nd)
 {
@@ -108,7 +108,7 @@ tensor4<X> tensor4<X>::Zero(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Ones(size_t nd)
 {
@@ -121,7 +121,7 @@ tensor4<X> tensor4<X>::Ones(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Constant(size_t nd, X D)
 {
@@ -134,7 +134,7 @@ tensor4<X> tensor4<X>::Constant(size_t nd, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Copy(size_t nd, const std::vector<X> &D)
 {
@@ -147,7 +147,7 @@ tensor4<X> tensor4<X>::Copy(size_t nd, const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first)
@@ -161,7 +161,7 @@ tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first, Iterator last)
@@ -177,7 +177,7 @@ tensor4<X> tensor4<X>::Copy(size_t nd, Iterator first, Iterator last)
 // named constructors: identity tensors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::I(size_t nd)
 {
@@ -190,7 +190,7 @@ tensor4<X> tensor4<X>::I(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Irt(size_t nd)
 {
@@ -203,7 +203,7 @@ tensor4<X> tensor4<X>::Irt(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Id(size_t nd)
 {
@@ -216,7 +216,7 @@ tensor4<X> tensor4<X>::Id(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Is(size_t nd)
 {
@@ -229,7 +229,7 @@ tensor4<X> tensor4<X>::Is(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::Isd(size_t nd)
 {
@@ -242,7 +242,7 @@ tensor4<X> tensor4<X>::Isd(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::II(size_t nd)
 {
@@ -257,7 +257,7 @@ tensor4<X> tensor4<X>::II(size_t nd)
 // resize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::resize(size_t nd)
 {
@@ -268,7 +268,7 @@ void tensor4<X>::resize(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::resize(size_t nd, const X &D)
 {
@@ -281,7 +281,7 @@ void tensor4<X>::resize(size_t nd, const X &D)
 // dimensions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t tensor4<X>::ndim() const
 {
@@ -292,7 +292,7 @@ size_t tensor4<X>::ndim() const
 // initialize: identity tensors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setI()
 {
@@ -308,7 +308,7 @@ void tensor4<X>::setI()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setIrt()
 {
@@ -324,7 +324,7 @@ void tensor4<X>::setIrt()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setIs()
 {
@@ -333,7 +333,7 @@ void tensor4<X>::setIs()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setId()
 {
@@ -342,7 +342,7 @@ void tensor4<X>::setId()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setIsd()
 {
@@ -351,7 +351,7 @@ void tensor4<X>::setIsd()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor4<X>::setII()
 {
@@ -369,7 +369,7 @@ void tensor4<X>::setII()
 // tensor products
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
 {
@@ -378,7 +378,7 @@ tensor4<X> tensor4<X>::ddot(const tensor4<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
 {
@@ -387,7 +387,7 @@ tensor2<X> tensor4<X>::ddot(const tensor2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
 {
@@ -396,7 +396,7 @@ tensor2<X> tensor4<X>::ddot(const tensor2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
 {
@@ -407,7 +407,7 @@ tensor2<X> tensor4<X>::ddot(const tensor2d<X> &B) const
 // transpositions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::T() const
 {
@@ -416,7 +416,7 @@ tensor4<X> tensor4<X>::T() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::RT() const
 {
@@ -425,7 +425,7 @@ tensor4<X> tensor4<X>::RT() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor4<X>::LT() const
 {

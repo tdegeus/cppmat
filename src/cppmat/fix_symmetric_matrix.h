@@ -21,7 +21,7 @@ namespace symmetric {
 // cppmat::tiny::symmetric::matrix
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 class matrix
 {
   static_assert( N == M , "Must be square" );
@@ -237,81 +237,81 @@ public:
 // equality operators
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 bool operator!= (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 bool operator== (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // =================================================================================================
 // external arithmetic operators (cppmat::tiny::symmetric)
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator- (const matrix<X,M,N> &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator- (const matrix<X,M,N> &A, const X &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator/ (const X &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator+ (const X &A, const matrix<X,M,N> &B);
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 matrix<X,M,N> operator- (const X &A, const matrix<X,M,N> &B);
 
 // =================================================================================================
 // print operator
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src);
 
 // =================================================================================================

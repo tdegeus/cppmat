@@ -21,7 +21,7 @@ namespace cartesian {
 // cppmat::tiny::cartesian::tensor2s
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 class tensor2s : public cppmat::tiny::symmetric::matrix<X,ND,ND>
 {
   static_assert( ND > 0, "Number of dimensions must positive" );

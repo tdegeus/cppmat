@@ -18,7 +18,7 @@ namespace Private {
 
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<X> sort_axes(const std::vector<X> &in, X n, bool reverse)
 {

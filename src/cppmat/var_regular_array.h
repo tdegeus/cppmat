@@ -19,7 +19,7 @@ namespace cppmat {
 // cppmat::array
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class array
 {
 protected:
@@ -372,29 +372,29 @@ public:
 };
 
 // equality operators
-template<class X> bool operator!= (const array<X> &A, const array<X> &B);
-template<class X> bool operator== (const array<X> &A, const array<X> &B);
+template<typename X> bool operator!= (const array<X> &A, const array<X> &B);
+template<typename X> bool operator== (const array<X> &A, const array<X> &B);
 
 // external arithmetic operators
-template<class X> array<X> operator* (const array<X> &A, const array<X> &B);
-template<class X> array<X> operator/ (const array<X> &A, const array<X> &B);
-template<class X> array<X> operator+ (const array<X> &A, const array<X> &B);
-template<class X> array<X> operator- (const array<X> &A, const array<X> &B);
-template<class X> array<X> operator* (const array<X> &A, const       X  &B);
-template<class X> array<X> operator/ (const array<X> &A, const       X  &B);
-template<class X> array<X> operator+ (const array<X> &A, const       X  &B);
-template<class X> array<X> operator- (const array<X> &A, const       X  &B);
-template<class X> array<X> operator* (const       X  &A, const array<X> &B);
-template<class X> array<X> operator/ (const       X  &A, const array<X> &B);
-template<class X> array<X> operator+ (const       X  &A, const array<X> &B);
-template<class X> array<X> operator- (const       X  &A, const array<X> &B);
+template<typename X> array<X> operator* (const array<X> &A, const array<X> &B);
+template<typename X> array<X> operator/ (const array<X> &A, const array<X> &B);
+template<typename X> array<X> operator+ (const array<X> &A, const array<X> &B);
+template<typename X> array<X> operator- (const array<X> &A, const array<X> &B);
+template<typename X> array<X> operator* (const array<X> &A, const       X  &B);
+template<typename X> array<X> operator/ (const array<X> &A, const       X  &B);
+template<typename X> array<X> operator+ (const array<X> &A, const       X  &B);
+template<typename X> array<X> operator- (const array<X> &A, const       X  &B);
+template<typename X> array<X> operator* (const       X  &A, const array<X> &B);
+template<typename X> array<X> operator/ (const       X  &A, const array<X> &B);
+template<typename X> array<X> operator+ (const       X  &A, const array<X> &B);
+template<typename X> array<X> operator- (const       X  &A, const array<X> &B);
 
 // print operator
-template<class X> std::ostream& operator<<(std::ostream& out, const array<X>& src);
+template<typename X> std::ostream& operator<<(std::ostream& out, const array<X>& src);
 
 // minimum/maximum from two arrays of equal shape
-template<class X> array<X> min(const array<X> &A, const array<X> &B);
-template<class X> array<X> max(const array<X> &A, const array<X> &B);
+template<typename X> array<X> min(const array<X> &A, const array<X> &B);
+template<typename X> array<X> max(const array<X> &A, const array<X> &B);
 
 // =================================================================================================
 

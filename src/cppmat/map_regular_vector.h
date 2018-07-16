@@ -20,7 +20,7 @@ namespace view {
 // cppmat::view::vector
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 class vector : public cppmat::view::array<X,1,N>
 {
 public:

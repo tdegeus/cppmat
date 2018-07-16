@@ -20,7 +20,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
 {
@@ -31,7 +31,7 @@ vector<X>::vector(size_t nd) : cppmat::vector<X>(nd)
 // constructors: copy from parent (with different type)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 vector<X>::vector(const cppmat::array<U> &A) : cppmat::vector<X>(A)
@@ -43,7 +43,7 @@ vector<X>::vector(const cppmat::array<U> &A) : cppmat::vector<X>(A)
 // constructors: copy from other class
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 vector<X>::vector(const std::vector<U> &A) : cppmat::vector<X>(A)
@@ -55,7 +55,7 @@ vector<X>::vector(const std::vector<U> &A) : cppmat::vector<X>(A)
 // constructors: copy from fixed size
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 vector<X>::vector(const cppmat::tiny::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
@@ -67,7 +67,7 @@ vector<X>::vector(const cppmat::tiny::cartesian::vector<X,nd> &A) : cppmat::arra
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 vector<X>::vector(const cppmat::view::cartesian::vector<X,nd> &A) : cppmat::array<X>(A)
@@ -79,7 +79,7 @@ vector<X>::vector(const cppmat::view::cartesian::vector<X,nd> &A) : cppmat::arra
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Random(size_t nd, X lower, X upper)
 {
@@ -92,7 +92,7 @@ vector<X> vector<X>::Random(size_t nd, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Arange(size_t nd)
 {
@@ -105,7 +105,7 @@ vector<X> vector<X>::Arange(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Zero(size_t nd)
 {
@@ -118,7 +118,7 @@ vector<X> vector<X>::Zero(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Ones(size_t nd)
 {
@@ -131,7 +131,7 @@ vector<X> vector<X>::Ones(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Constant(size_t nd, X D)
 {
@@ -144,7 +144,7 @@ vector<X> vector<X>::Constant(size_t nd, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Copy(const std::vector<X> &D)
 {
@@ -157,7 +157,7 @@ vector<X> vector<X>::Copy(const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Copy(size_t nd, const std::vector<X> &D)
 {
@@ -170,7 +170,7 @@ vector<X> vector<X>::Copy(size_t nd, const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(size_t nd, Iterator first)
@@ -184,7 +184,7 @@ vector<X> vector<X>::Copy(size_t nd, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(size_t nd, Iterator first, Iterator last)
@@ -198,7 +198,7 @@ vector<X> vector<X>::Copy(size_t nd, Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(Iterator first, Iterator last)
@@ -214,7 +214,7 @@ vector<X> vector<X>::Copy(Iterator first, Iterator last)
 // resize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::resize(size_t nd)
 {
@@ -227,7 +227,7 @@ void vector<X>::resize(size_t nd)
 // dimensions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t vector<X>::ndim() const
 {
@@ -238,7 +238,7 @@ size_t vector<X>::ndim() const
 // tensor products
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::dot(const tensor2<X> &B) const
 {
@@ -247,7 +247,7 @@ vector<X> vector<X>::dot(const tensor2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::dot(const tensor2s<X> &B) const
 {
@@ -256,7 +256,7 @@ vector<X> vector<X>::dot(const tensor2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::dot(const tensor2d<X> &B) const
 {
@@ -265,7 +265,7 @@ vector<X> vector<X>::dot(const tensor2d<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X vector<X>::dot(const vector<X> &B) const
 {
@@ -274,7 +274,7 @@ X vector<X>::dot(const vector<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 {
@@ -283,7 +283,7 @@ tensor2<X> vector<X>::dyadic(const vector<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::cross(const vector<X> &B) const
 {
@@ -294,7 +294,7 @@ vector<X> vector<X>::cross(const vector<X> &B) const
 // miscellaneous tensor operations
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X vector<X>::length() const
 {
@@ -303,7 +303,7 @@ X vector<X>::length() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::setUnitLength()
 {

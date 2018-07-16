@@ -19,7 +19,7 @@ namespace cppmat {
 // delete a specific item from a vector
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<X> del(const std::vector<X> &A, int idx)
 {
@@ -41,7 +41,7 @@ std::vector<X> del(const std::vector<X> &A, int idx)
 // delete a specific item from a vector
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<X> del(const std::vector<X> &A, size_t idx)
 {
@@ -87,7 +87,7 @@ std::vector<size_t> argsort(const std::vector<X> &v, bool ascending)
 // join items to string
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::string to_string(const std::vector<X> &A, std::string join)
 {
@@ -131,7 +131,7 @@ std::vector<T> linspace(T a, T b, size_t N)
 // minimum/maximum from two vector of equal size
 // =================================================================================================
 
-template<class X> std::vector<X> min(const std::vector<X> &A, const std::vector<X> &B)
+template<typename X> std::vector<X> min(const std::vector<X> &A, const std::vector<X> &B)
 {
   assert( A.size () == B.size() );
 
@@ -145,7 +145,7 @@ template<class X> std::vector<X> min(const std::vector<X> &A, const std::vector<
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> std::vector<X> max(const std::vector<X> &A, const std::vector<X> &B)
+template<typename X> std::vector<X> max(const std::vector<X> &A, const std::vector<X> &B)
 {
   assert( A.size () == B.size() );
 
@@ -166,7 +166,7 @@ template<class X> std::vector<X> max(const std::vector<X> &A, const std::vector<
 // =================================================================================================
 
 #ifndef CPPMAT_NOSTD
-template<class X>
+template<typename X>
 inline
 std::ostream& operator<<(std::ostream& out, const std::vector<X>& src)
 {

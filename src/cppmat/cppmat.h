@@ -47,9 +47,9 @@
 
 namespace cppmat {
 
-  template<class X> class array;
-  template<class X> class matrix;
-  template<class X> class vector;
+  template<typename X> class array;
+  template<typename X> class matrix;
+  template<typename X> class vector;
 
 }
 
@@ -58,7 +58,7 @@ namespace cppmat {
 namespace cppmat {
 namespace symmetric {
 
-  template<class X> class matrix;
+  template<typename X> class matrix;
 
 }}
 
@@ -67,7 +67,7 @@ namespace symmetric {
 namespace cppmat {
 namespace diagonal {
 
-  template<class X> class matrix;
+  template<typename X> class matrix;
 
 }}
 
@@ -76,11 +76,11 @@ namespace diagonal {
 namespace cppmat {
 namespace cartesian {
 
-  template<class X> class tensor4;
-  template<class X> class tensor2;
-  template<class X> class tensor2s;
-  template<class X> class tensor2d;
-  template<class X> class vector;
+  template<typename X> class tensor4;
+  template<typename X> class tensor2;
+  template<typename X> class tensor2s;
+  template<typename X> class tensor2d;
+  template<typename X> class vector;
 
 }}
 
@@ -89,9 +89,9 @@ namespace cartesian {
 namespace cppmat {
 namespace tiny {
 
-  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
-  template<class X, size_t M, size_t N> class matrix;
-  template<class X, size_t M> class vector;
+  template<typename X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<typename X, size_t M, size_t N> class matrix;
+  template<typename X, size_t M> class vector;
 
 }}
 
@@ -101,7 +101,7 @@ namespace cppmat {
 namespace tiny {
 namespace symmetric {
 
-  template<class X, size_t M, size_t N=M> class matrix;
+  template<typename X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -111,7 +111,7 @@ namespace cppmat {
 namespace tiny {
 namespace diagonal {
 
-  template<class X, size_t M, size_t N=M> class matrix;
+  template<typename X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -121,11 +121,11 @@ namespace cppmat {
 namespace tiny {
 namespace cartesian {
 
-  template<class X, size_t ND> class tensor4;
-  template<class X, size_t ND> class tensor2;
-  template<class X, size_t ND> class tensor2s;
-  template<class X, size_t ND> class tensor2d;
-  template<class X, size_t ND> class vector;
+  template<typename X, size_t ND> class tensor4;
+  template<typename X, size_t ND> class tensor2;
+  template<typename X, size_t ND> class tensor2s;
+  template<typename X, size_t ND> class tensor2d;
+  template<typename X, size_t ND> class vector;
 
 }}}
 
@@ -134,9 +134,9 @@ namespace cartesian {
 namespace cppmat {
 namespace view {
 
-  template<class X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
-  template<class X, size_t M, size_t N> class matrix;
-  template<class X, size_t M> class vector;
+  template<typename X, size_t RANK, size_t I, size_t J=1, size_t K=1, size_t L=1, size_t M=1, size_t N=1> class array;
+  template<typename X, size_t M, size_t N> class matrix;
+  template<typename X, size_t M> class vector;
 
 }}
 
@@ -146,7 +146,7 @@ namespace cppmat {
 namespace view {
 namespace symmetric {
 
-  template<class X, size_t M, size_t N=M> class matrix;
+  template<typename X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -156,7 +156,7 @@ namespace cppmat {
 namespace view {
 namespace diagonal {
 
-  template<class X, size_t M, size_t N=M> class matrix;
+  template<typename X, size_t M, size_t N=M> class matrix;
 
 }}}
 
@@ -166,11 +166,11 @@ namespace cppmat {
 namespace view {
 namespace cartesian {
 
-  template<class X, size_t ND> class tensor4;
-  template<class X, size_t ND> class tensor2;
-  template<class X, size_t ND> class tensor2s;
-  template<class X, size_t ND> class tensor2d;
-  template<class X, size_t ND> class vector;
+  template<typename X, size_t ND> class tensor4;
+  template<typename X, size_t ND> class tensor2;
+  template<typename X, size_t ND> class tensor2s;
+  template<typename X, size_t ND> class tensor2d;
+  template<typename X, size_t ND> class vector;
 
 }}}
 

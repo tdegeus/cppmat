@@ -19,7 +19,7 @@ namespace cppmat {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X>::array(const std::vector<size_t> &shape)
 {
@@ -30,7 +30,7 @@ array<X>::array(const std::vector<size_t> &shape)
 // constructors: copy from own class (with different type)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 array<X>::array(const array<U> &A)
@@ -45,7 +45,7 @@ array<X>::array(const array<U> &A)
 // constructors: copy from fixed size
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X>::array(const cppmat::tiny::array<X,RANK,I,J,K,L,M,N> &A)
@@ -59,7 +59,7 @@ array<X>::array(const cppmat::tiny::array<X,RANK,I,J,K,L,M,N> &A)
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A)
@@ -73,7 +73,7 @@ array<X>::array(const cppmat::view::array<X,RANK,I,J,K,L,M,N> &A)
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
 {
@@ -86,7 +86,7 @@ array<X> array<X>::Random(const std::vector<size_t> &shape, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Arange(const std::vector<size_t> &shape)
 {
@@ -99,7 +99,7 @@ array<X> array<X>::Arange(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Zero(const std::vector<size_t> &shape)
 {
@@ -112,7 +112,7 @@ array<X> array<X>::Zero(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Ones(const std::vector<size_t> &shape)
 {
@@ -125,7 +125,7 @@ array<X> array<X>::Ones(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 {
@@ -138,7 +138,7 @@ array<X> array<X>::Constant(const std::vector<size_t> &shape, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &D)
 {
@@ -151,7 +151,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, const std::vector<X> &
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
@@ -165,7 +165,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterator last)
@@ -181,7 +181,7 @@ array<X> array<X>::Copy(const std::vector<size_t> &shape, Iterator first, Iterat
 // return plain storage as vector
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 array<X>::operator std::vector<U> () const
@@ -198,7 +198,7 @@ array<X>::operator std::vector<U> () const
 // resize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void array<X>::resize(const std::vector<size_t> &shape)
 {
@@ -237,7 +237,7 @@ void array<X>::resize(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::resize(const std::vector<size_t> &shape, const X &D)
 {
@@ -276,7 +276,7 @@ void array<X>::resize(const std::vector<size_t> &shape, const X &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::reshape(const std::vector<size_t> &shape)
 {
@@ -293,7 +293,7 @@ void array<X>::reshape(const std::vector<size_t> &shape)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::chrank(size_t rank)
 {
@@ -308,7 +308,7 @@ void array<X>::chrank(size_t rank)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::ravel()
 {
@@ -319,7 +319,7 @@ void array<X>::ravel()
 // modify bounds check
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setPeriodic(bool periodic)
 {
@@ -330,7 +330,7 @@ void array<X>::setPeriodic(bool periodic)
 // get dimensions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::size() const
 {
@@ -339,7 +339,7 @@ size_t array<X>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::rank() const
 {
@@ -348,7 +348,7 @@ size_t array<X>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::shape(int i) const
 {
@@ -368,7 +368,7 @@ size_t array<X>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::shape(size_t i) const
 {
@@ -381,7 +381,7 @@ size_t array<X>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 std::vector<size_t> array<X>::shape() const
 {
@@ -394,7 +394,7 @@ std::vector<size_t> array<X>::shape() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 std::vector<size_t> array<X>::strides(bool bytes) const
 {
@@ -413,7 +413,7 @@ std::vector<size_t> array<X>::strides(bool bytes) const
 // get dimensions using a different return type
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 U array<X>::size() const
@@ -423,7 +423,7 @@ U array<X>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 U array<X>::rank() const
@@ -433,7 +433,7 @@ U array<X>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 U array<X>::shape(int i) const
@@ -443,7 +443,7 @@ U array<X>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 U array<X>::shape(size_t i) const
@@ -453,7 +453,7 @@ U array<X>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 std::vector<U> array<X>::shape() const
@@ -469,7 +469,7 @@ std::vector<U> array<X>::shape() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename U>
 inline
 std::vector<U> array<X>::strides(bool bytes) const
@@ -487,7 +487,7 @@ std::vector<U> array<X>::strides(bool bytes) const
 // index operators : operator[...]
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator[](size_t i)
 {
@@ -498,7 +498,7 @@ X& array<X>::operator[](size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator[](size_t i) const
 {
@@ -511,7 +511,7 @@ const X& array<X>::operator[](size_t i) const
 // index operators : operator(...)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a)
 {
@@ -527,7 +527,7 @@ X& array<X>::operator()(int a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a) const
 {
@@ -543,7 +543,7 @@ const X& array<X>::operator()(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a, int b)
 {
@@ -563,7 +563,7 @@ X& array<X>::operator()(int a, int b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a, int b) const
 {
@@ -583,7 +583,7 @@ const X& array<X>::operator()(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a, int b, int c)
 {
@@ -607,7 +607,7 @@ X& array<X>::operator()(int a, int b, int c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a, int b, int c) const
 {
@@ -631,7 +631,7 @@ const X& array<X>::operator()(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a, int b, int c, int d)
 {
@@ -659,7 +659,7 @@ X& array<X>::operator()(int a, int b, int c, int d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a, int b, int c, int d) const
 {
@@ -687,7 +687,7 @@ const X& array<X>::operator()(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a, int b, int c, int d, int e)
 {
@@ -719,7 +719,7 @@ X& array<X>::operator()(int a, int b, int c, int d, int e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 {
@@ -751,7 +751,7 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 {
@@ -787,7 +787,7 @@ X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
 {
@@ -823,7 +823,7 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a)
@@ -836,7 +836,7 @@ X& array<X>::operator()(T a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a) const
@@ -849,7 +849,7 @@ const X& array<X>::operator()(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b)
@@ -864,7 +864,7 @@ X& array<X>::operator()(T a, T b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b) const
@@ -879,7 +879,7 @@ const X& array<X>::operator()(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c)
@@ -896,7 +896,7 @@ X& array<X>::operator()(T a, T b, T c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c) const
@@ -913,7 +913,7 @@ const X& array<X>::operator()(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d)
@@ -932,7 +932,7 @@ X& array<X>::operator()(T a, T b, T c, T d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d) const
@@ -951,7 +951,7 @@ const X& array<X>::operator()(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d, T e)
@@ -972,7 +972,7 @@ X& array<X>::operator()(T a, T b, T c, T d, T e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d, T e) const
@@ -993,7 +993,7 @@ const X& array<X>::operator()(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d, T e, T f)
@@ -1016,7 +1016,7 @@ X& array<X>::operator()(T a, T b, T c, T d, T e, T f)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d, T e, T f) const
@@ -1041,7 +1041,7 @@ const X& array<X>::operator()(T a, T b, T c, T d, T e, T f) const
 // index operators : at(...)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 X& array<X>::at(Iterator first, Iterator last)
@@ -1074,7 +1074,7 @@ X& array<X>::at(Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 const X& array<X>::at(Iterator first, Iterator last) const
@@ -1109,7 +1109,7 @@ const X& array<X>::at(Iterator first, Iterator last) const
 // index operators : compress(...)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a) const
 {
@@ -1124,7 +1124,7 @@ size_t array<X>::compress(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a, int b) const
 {
@@ -1143,7 +1143,7 @@ size_t array<X>::compress(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a, int b, int c) const
 {
@@ -1166,7 +1166,7 @@ size_t array<X>::compress(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a, int b, int c, int d) const
 {
@@ -1193,7 +1193,7 @@ size_t array<X>::compress(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a, int b, int c, int d, int e) const
 {
@@ -1224,7 +1224,7 @@ size_t array<X>::compress(int a, int b, int c, int d, int e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
 {
@@ -1259,7 +1259,7 @@ size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a) const
@@ -1271,7 +1271,7 @@ size_t array<X>::compress(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b) const
@@ -1285,7 +1285,7 @@ size_t array<X>::compress(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c) const
@@ -1301,7 +1301,7 @@ size_t array<X>::compress(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d) const
@@ -1319,7 +1319,7 @@ size_t array<X>::compress(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d, T e) const
@@ -1339,7 +1339,7 @@ size_t array<X>::compress(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d, T e, T f) const
@@ -1363,7 +1363,7 @@ size_t array<X>::compress(T a, T b, T c, T d, T e, T f) const
 // index operators : decompress(...)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<size_t> array<X>::decompress(size_t i) const
 {
@@ -1386,7 +1386,7 @@ std::vector<size_t> array<X>::decompress(size_t i) const
 // midpoint
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<size_t> array<X>::midpoint() const
 {
@@ -1407,7 +1407,7 @@ std::vector<size_t> array<X>::midpoint() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::midpoint(size_t axis) const
 {
@@ -1428,7 +1428,7 @@ size_t array<X>::midpoint(size_t axis) const
 // pointer to data
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X* array<X>::data()
 {
@@ -1437,7 +1437,7 @@ X* array<X>::data()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 const X* array<X>::data() const
 {
@@ -1448,7 +1448,7 @@ const X* array<X>::data() const
 // iterators : begin() and end()
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::begin()
 {
@@ -1457,7 +1457,7 @@ auto array<X>::begin()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::begin() const
 {
@@ -1466,7 +1466,7 @@ auto array<X>::begin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::end()
 {
@@ -1475,7 +1475,7 @@ auto array<X>::end()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::end() const
 {
@@ -1486,7 +1486,7 @@ auto array<X>::end() const
 // iterators : index()
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::index(size_t i)
 {
@@ -1497,7 +1497,7 @@ auto array<X>::index(size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::index(size_t i) const
 {
@@ -1510,7 +1510,7 @@ auto array<X>::index(size_t i) const
 // iterators : item()
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a)
 {
@@ -1526,7 +1526,7 @@ auto array<X>::item(int a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a) const
 {
@@ -1542,7 +1542,7 @@ auto array<X>::item(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b)
 {
@@ -1562,7 +1562,7 @@ auto array<X>::item(int a, int b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b) const
 {
@@ -1582,7 +1582,7 @@ auto array<X>::item(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c)
 {
@@ -1606,7 +1606,7 @@ auto array<X>::item(int a, int b, int c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c) const
 {
@@ -1630,7 +1630,7 @@ auto array<X>::item(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d)
 {
@@ -1658,7 +1658,7 @@ auto array<X>::item(int a, int b, int c, int d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d) const
 {
@@ -1686,7 +1686,7 @@ auto array<X>::item(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d, int e)
 {
@@ -1718,7 +1718,7 @@ auto array<X>::item(int a, int b, int c, int d, int e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d, int e) const
 {
@@ -1750,7 +1750,7 @@ auto array<X>::item(int a, int b, int c, int d, int e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d, int e, int f)
 {
@@ -1786,7 +1786,7 @@ auto array<X>::item(int a, int b, int c, int d, int e, int f)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 auto array<X>::item(int a, int b, int c, int d, int e, int f) const
 {
@@ -1822,7 +1822,7 @@ auto array<X>::item(int a, int b, int c, int d, int e, int f) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a)
@@ -1835,7 +1835,7 @@ auto array<X>::item(T a)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a) const
@@ -1848,7 +1848,7 @@ auto array<X>::item(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b)
@@ -1863,7 +1863,7 @@ auto array<X>::item(T a, T b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b) const
@@ -1878,7 +1878,7 @@ auto array<X>::item(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c)
@@ -1895,7 +1895,7 @@ auto array<X>::item(T a, T b, T c)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c) const
@@ -1912,7 +1912,7 @@ auto array<X>::item(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d)
@@ -1931,7 +1931,7 @@ auto array<X>::item(T a, T b, T c, T d)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d) const
@@ -1950,7 +1950,7 @@ auto array<X>::item(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e)
@@ -1971,7 +1971,7 @@ auto array<X>::item(T a, T b, T c, T d, T e)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e) const
@@ -1992,7 +1992,7 @@ auto array<X>::item(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e, T f)
@@ -2015,7 +2015,7 @@ auto array<X>::item(T a, T b, T c, T d, T e, T f)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e, T f) const
@@ -2040,7 +2040,7 @@ auto array<X>::item(T a, T b, T c, T d, T e, T f) const
 // slice
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::slice(
   const std::vector<int> &a, const std::vector<int> &b, const std::vector<int> &c,
@@ -2137,7 +2137,7 @@ array<X> array<X>::slice(
 
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename T, typename S>
 inline
 array<X> array<X>::slice(
@@ -2249,7 +2249,7 @@ array<X> array<X>::slice(
 // return padded array
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::pad(const std::vector<size_t> &pad_width, X D)
 {
@@ -2287,7 +2287,7 @@ array<X> array<X>::pad(const std::vector<size_t> &pad_width, X D)
 // initialize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setRandom(X lower, X upper)
 {
@@ -2306,7 +2306,7 @@ void array<X>::setRandom(X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setArange()
 {
@@ -2315,7 +2315,7 @@ void array<X>::setArange()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setZero()
 {
@@ -2324,7 +2324,7 @@ void array<X>::setZero()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setOnes()
 {
@@ -2333,7 +2333,7 @@ void array<X>::setOnes()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void array<X>::setConstant(X D)
 {
@@ -2342,7 +2342,7 @@ void array<X>::setConstant(X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 void array<X>::setCopy(Iterator first)
@@ -2352,7 +2352,7 @@ void array<X>::setCopy(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 void array<X>::setCopy(Iterator first, Iterator last)
@@ -2366,7 +2366,7 @@ void array<X>::setCopy(Iterator first, Iterator last)
 // copy to target
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 void array<X>::copyTo(Iterator first) const
@@ -2376,7 +2376,7 @@ void array<X>::copyTo(Iterator first) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<class Iterator>
 inline
 void array<X>::copyTo(Iterator first, Iterator last) const
@@ -2392,7 +2392,7 @@ void array<X>::copyTo(Iterator first, Iterator last) const
 // bound check
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a) const
@@ -2411,7 +2411,7 @@ bool array<X>::inBounds(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a, T b) const
@@ -2432,7 +2432,7 @@ bool array<X>::inBounds(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a, T b, T c) const
@@ -2455,7 +2455,7 @@ bool array<X>::inBounds(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a, T b, T c, T d) const
@@ -2480,7 +2480,7 @@ bool array<X>::inBounds(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a, T b, T c, T d, T e) const
@@ -2507,7 +2507,7 @@ bool array<X>::inBounds(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename T>
 inline
 bool array<X>::inBounds(T a, T b, T c, T d, T e, T f) const
@@ -2538,7 +2538,7 @@ bool array<X>::inBounds(T a, T b, T c, T d, T e, T f) const
 // sign change
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::operator- () const
 {
@@ -2552,7 +2552,7 @@ array<X> array<X>::operator- () const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::operator+ () const
 {
@@ -2568,7 +2568,7 @@ array<X> array<X>::operator+ () const
 // arithmetic operators
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator*= (const array<X> &B)
 {
@@ -2584,7 +2584,7 @@ array<X>& array<X>::operator*= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator/= (const array<X> &B)
 {
@@ -2600,7 +2600,7 @@ array<X>& array<X>::operator/= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator+= (const array<X> &B)
 {
@@ -2616,7 +2616,7 @@ array<X>& array<X>::operator+= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator-= (const array<X> &B)
 {
@@ -2632,7 +2632,7 @@ array<X>& array<X>::operator-= (const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator*= (X B)
 {
@@ -2644,7 +2644,7 @@ array<X>& array<X>::operator*= (X B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator/= (X B)
 {
@@ -2656,7 +2656,7 @@ array<X>& array<X>::operator/= (X B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator+= (X B)
 {
@@ -2668,7 +2668,7 @@ array<X>& array<X>::operator+= (X B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X>& array<X>::operator-= (X B)
 {
@@ -2682,7 +2682,7 @@ array<X>& array<X>::operator-= (X B)
 // absolute value
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::abs() const
 {
@@ -2698,7 +2698,7 @@ array<X> array<X>::abs() const
 // norm
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X array<X>::norm() const
 {
@@ -2714,7 +2714,7 @@ X array<X>::norm() const
 // return the indices that would sort the array
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<size_t> array<X>::argsort(bool ascending) const
 {
@@ -2725,7 +2725,7 @@ array<size_t> array<X>::argsort(bool ascending) const
 // location of the minimum/maximum
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::argmin() const
 {
@@ -2734,7 +2734,7 @@ size_t array<X>::argmin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::argmax() const
 {
@@ -2745,7 +2745,7 @@ size_t array<X>::argmax() const
 // minimum
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X array<X>::min() const
 {
@@ -2754,7 +2754,7 @@ X array<X>::min() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::min(size_t axis) const
 {
@@ -2788,7 +2788,7 @@ array<X> array<X>::min(size_t axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::min(int axis) const
 {
@@ -2808,7 +2808,7 @@ array<X> array<X>::min(int axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::min(const std::vector<int> &axes_in) const
 {
@@ -2829,7 +2829,7 @@ array<X> array<X>::min(const std::vector<int> &axes_in) const
 // maximum
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X array<X>::max() const
 {
@@ -2838,7 +2838,7 @@ X array<X>::max() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::max(size_t axis) const
 {
@@ -2872,7 +2872,7 @@ array<X> array<X>::max(size_t axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::max(int axis) const
 {
@@ -2892,7 +2892,7 @@ array<X> array<X>::max(int axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::max(const std::vector<int> &axes_in) const
 {
@@ -2913,7 +2913,7 @@ array<X> array<X>::max(const std::vector<int> &axes_in) const
 // sum
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X array<X>::sum() const
 {
@@ -2922,7 +2922,7 @@ X array<X>::sum() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::sum(size_t axis) const
 {
@@ -2953,7 +2953,7 @@ array<X> array<X>::sum(size_t axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::sum(int axis) const
 {
@@ -2973,7 +2973,7 @@ array<X> array<X>::sum(int axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::sum(const std::vector<int> &axes_in) const
 {
@@ -2997,7 +2997,7 @@ array<X> array<X>::sum(const std::vector<int> &axes_in) const
 // mean
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 double array<X>::mean() const
 {
@@ -3006,7 +3006,7 @@ double array<X>::mean() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::mean(size_t axis) const
 {
@@ -3017,7 +3017,7 @@ array<X> array<X>::mean(size_t axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::mean(int axis) const
 {
@@ -3028,7 +3028,7 @@ array<X> array<X>::mean(int axis) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::mean(const std::vector<int> &axes) const
 {
@@ -3041,7 +3041,7 @@ array<X> array<X>::mean(const std::vector<int> &axes) const
 // weighted average
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 double array<X>::average(const array<X> &weights, bool norm) const
 {
@@ -3051,7 +3051,7 @@ double array<X>::average(const array<X> &weights, bool norm) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::average(const array<X> &weights, size_t axis, bool norm) const
 {
@@ -3061,7 +3061,7 @@ array<X> array<X>::average(const array<X> &weights, size_t axis, bool norm) cons
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::average(const array<X> &weights, int axis, bool norm) const
 {
@@ -3071,7 +3071,7 @@ array<X> array<X>::average(const array<X> &weights, int axis, bool norm) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> array<X>::average(
   const array<X> &weights, const std::vector<int> &axes, bool norm) const
@@ -3084,7 +3084,7 @@ array<X> array<X>::average(
 // return array of booleans, based on condition
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::equal(const X &D) const
 {
@@ -3099,7 +3099,7 @@ array<int> array<X>::equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::not_equal(const X &D) const
 {
@@ -3114,7 +3114,7 @@ array<int> array<X>::not_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::greater(const X &D) const
 {
@@ -3129,7 +3129,7 @@ array<int> array<X>::greater(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::greater_equal(const X &D) const
 {
@@ -3144,7 +3144,7 @@ array<int> array<X>::greater_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::less(const X &D) const
 {
@@ -3159,7 +3159,7 @@ array<int> array<X>::less(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::less_equal(const X &D) const
 {
@@ -3174,7 +3174,7 @@ array<int> array<X>::less_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::equal(const array<X> &D) const
 {
@@ -3192,7 +3192,7 @@ array<int> array<X>::equal(const array<X> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::not_equal(const array<X> &D) const
 {
@@ -3210,7 +3210,7 @@ array<int> array<X>::not_equal(const array<X> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::greater(const array<X> &D) const
 {
@@ -3228,7 +3228,7 @@ array<int> array<X>::greater(const array<X> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::greater_equal(const array<X> &D) const
 {
@@ -3246,7 +3246,7 @@ array<int> array<X>::greater_equal(const array<X> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::less(const array<X> &D) const
 {
@@ -3264,7 +3264,7 @@ array<int> array<X>::less(const array<X> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<int> array<X>::less_equal(const array<X> &D) const
 {
@@ -3284,7 +3284,7 @@ array<int> array<X>::less_equal(const array<X> &D) const
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::vector<size_t> array<X>::where() const
 {
@@ -3310,7 +3310,7 @@ std::vector<size_t> array<X>::where() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::where(size_t index) const
 {
@@ -3328,7 +3328,7 @@ size_t array<X>::where(size_t index) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 size_t array<X>::where(int index) const
 {
@@ -3358,7 +3358,7 @@ size_t array<X>::where(int index) const
 // print operator
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 std::ostream& operator<<(std::ostream& out, const array<X>& src)
 {
@@ -3405,7 +3405,7 @@ std::ostream& operator<<(std::ostream& out, const array<X>& src)
 // equality operators
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 bool operator!= (const array<X> &A, const array<X> &B)
 {
@@ -3422,7 +3422,7 @@ bool operator!= (const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 bool operator== (const array<X> &A, const array<X> &B)
 {
@@ -3441,7 +3441,7 @@ bool operator== (const array<X> &A, const array<X> &B)
 // arithmetic operators: external
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 array<X> operator* (const array<X> &A, const array<X> &B)
 {
@@ -3459,7 +3459,7 @@ array<X> operator* (const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator/ (const array<X> &A, const array<X> &B)
 {
@@ -3477,7 +3477,7 @@ array<X> operator/ (const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator+ (const array<X> &A, const array<X> &B)
 {
@@ -3495,7 +3495,7 @@ array<X> operator+ (const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator- (const array<X> &A, const array<X> &B)
 {
@@ -3513,7 +3513,7 @@ array<X> operator- (const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator* (const array<X> &A, const X &B)
 {
@@ -3527,7 +3527,7 @@ array<X> operator* (const array<X> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator/ (const array<X> &A, const X &B)
 {
@@ -3541,7 +3541,7 @@ array<X> operator/ (const array<X> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator+ (const array<X> &A, const X &B)
 {
@@ -3555,7 +3555,7 @@ array<X> operator+ (const array<X> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator- (const array<X> &A, const X &B)
 {
@@ -3569,7 +3569,7 @@ array<X> operator- (const array<X> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator* (const X &A, const array<X> &B)
 {
@@ -3583,7 +3583,7 @@ array<X> operator* (const X &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator/ (const X &A, const array<X> &B)
 {
@@ -3597,7 +3597,7 @@ array<X> operator/ (const X &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator+ (const X &A, const array<X> &B)
 {
@@ -3611,7 +3611,7 @@ array<X> operator+ (const X &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 array<X> operator- (const X &A, const array<X> &B)
 {
@@ -3627,7 +3627,7 @@ array<X> operator- (const X &A, const array<X> &B)
 // minimum/maximum from two arrays of equal shape
 // =================================================================================================
 
-template<class X> array<X> min(const array<X> &A, const array<X> &B)
+template<typename X> array<X> min(const array<X> &A, const array<X> &B)
 {
   assert( A.shape() == B.shape() );
   assert( A.rank () == B.rank () );
@@ -3643,7 +3643,7 @@ template<class X> array<X> min(const array<X> &A, const array<X> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X> array<X> max(const array<X> &A, const array<X> &B)
+template<typename X> array<X> max(const array<X> &A, const array<X> &B)
 {
   assert( A.shape() == B.shape() );
   assert( A.rank () == B.rank () );

@@ -20,7 +20,7 @@ namespace tiny {
 // cppmat::tiny::matrix
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 class matrix : public cppmat::tiny::array<X,2,M,N>
 {
 public:

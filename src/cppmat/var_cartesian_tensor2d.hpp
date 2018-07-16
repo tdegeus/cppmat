@@ -20,7 +20,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X>::tensor2d() : cppmat::diagonal::matrix<X>()
 {
@@ -28,7 +28,7 @@ tensor2d<X>::tensor2d() : cppmat::diagonal::matrix<X>()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X>::tensor2d(size_t nd) : cppmat::diagonal::matrix<X>(nd,nd)
 {
@@ -39,7 +39,7 @@ tensor2d<X>::tensor2d(size_t nd) : cppmat::diagonal::matrix<X>(nd,nd)
 // constructors: copy from parent (with different type)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<U> &A) : cppmat::diagonal::matrix<X>(A)
@@ -51,7 +51,7 @@ tensor2d<X>::tensor2d(const cppmat::diagonal::matrix<U> &A) : cppmat::diagonal::
 // constructors: copy from fixed size
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 tensor2d<X>::tensor2d(const cppmat::tiny::cartesian::tensor2d<X,nd> &A) : cppmat::diagonal::matrix<X>(A)
@@ -63,7 +63,7 @@ tensor2d<X>::tensor2d(const cppmat::tiny::cartesian::tensor2d<X,nd> &A) : cppmat
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t nd>
 inline
 tensor2d<X>::tensor2d(const cppmat::view::cartesian::tensor2d<X,nd> &A) : cppmat::diagonal::matrix<X>(A)
@@ -75,7 +75,7 @@ tensor2d<X>::tensor2d(const cppmat::view::cartesian::tensor2d<X,nd> &A) : cppmat
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::Random(size_t nd, X lower, X upper)
 {
@@ -88,7 +88,7 @@ tensor2d<X> tensor2d<X>::Random(size_t nd, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::Arange(size_t nd)
 {
@@ -101,7 +101,7 @@ tensor2d<X> tensor2d<X>::Arange(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::Zero(size_t nd)
 {
@@ -114,7 +114,7 @@ tensor2d<X> tensor2d<X>::Zero(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::Ones(size_t nd)
 {
@@ -127,7 +127,7 @@ tensor2d<X> tensor2d<X>::Ones(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::Constant(size_t nd, X D)
 {
@@ -140,7 +140,7 @@ tensor2d<X> tensor2d<X>::Constant(size_t nd, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor2d<X> tensor2d<X>::Copy(size_t nd, Iterator first)
@@ -154,7 +154,7 @@ tensor2d<X> tensor2d<X>::Copy(size_t nd, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor2d<X> tensor2d<X>::Copy(size_t nd, Iterator first, Iterator last)
@@ -168,7 +168,7 @@ tensor2d<X> tensor2d<X>::Copy(size_t nd, Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor2d<X> tensor2d<X>::CopyDense(size_t nd, Iterator first)
@@ -182,7 +182,7 @@ tensor2d<X> tensor2d<X>::CopyDense(size_t nd, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 tensor2d<X> tensor2d<X>::CopyDense(size_t nd, Iterator first, Iterator last)
@@ -198,7 +198,7 @@ tensor2d<X> tensor2d<X>::CopyDense(size_t nd, Iterator first, Iterator last)
 // named constructors: identity tensors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::I(size_t nd)
 {
@@ -213,7 +213,7 @@ tensor2d<X> tensor2d<X>::I(size_t nd)
 // resize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void tensor2d<X>::resize(size_t nd)
 {
@@ -224,7 +224,7 @@ void tensor2d<X>::resize(size_t nd)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void tensor2d<X>::resize(size_t nd, const X &D)
 {
@@ -237,7 +237,7 @@ void tensor2d<X>::resize(size_t nd, const X &D)
 // dimensions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 size_t tensor2d<X>::ndim() const
 {
@@ -248,7 +248,7 @@ size_t tensor2d<X>::ndim() const
 // initialize: identity tensors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void tensor2d<X>::setI()
 {
@@ -262,7 +262,7 @@ void tensor2d<X>::setI()
 // tensor products
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor2d<X>::ddot(const tensor4<X> &B) const
 {
@@ -271,7 +271,7 @@ tensor2<X> tensor2d<X>::ddot(const tensor4<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X tensor2d<X>::ddot(const tensor2<X> &B) const
 {
@@ -280,7 +280,7 @@ X tensor2d<X>::ddot(const tensor2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X tensor2d<X>::ddot(const tensor2s<X> &B) const
 {
@@ -289,7 +289,7 @@ X tensor2d<X>::ddot(const tensor2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X tensor2d<X>::ddot(const tensor2d<X> &B) const
 {
@@ -298,7 +298,7 @@ X tensor2d<X>::ddot(const tensor2d<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor2d<X>::dot(const tensor2<X> &B) const
 {
@@ -307,7 +307,7 @@ tensor2<X> tensor2d<X>::dot(const tensor2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2<X> tensor2d<X>::dot(const tensor2s<X> &B) const
 {
@@ -316,7 +316,7 @@ tensor2<X> tensor2d<X>::dot(const tensor2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::dot(const tensor2d<X> &B) const
 {
@@ -325,7 +325,7 @@ tensor2d<X> tensor2d<X>::dot(const tensor2d<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> tensor2d<X>::dot(const vector<X> &B) const
 {
@@ -334,7 +334,7 @@ vector<X> tensor2d<X>::dot(const vector<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor2d<X>::dyadic(const tensor2<X> &B) const
 {
@@ -343,7 +343,7 @@ tensor4<X> tensor2d<X>::dyadic(const tensor2<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor2d<X>::dyadic(const tensor2s<X> &B) const
 {
@@ -352,7 +352,7 @@ tensor4<X> tensor2d<X>::dyadic(const tensor2s<X> &B) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor4<X> tensor2d<X>::dyadic(const tensor2d<X> &B) const
 {
@@ -363,7 +363,7 @@ tensor4<X> tensor2d<X>::dyadic(const tensor2d<X> &B) const
 // transpositions
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::T() const
 {
@@ -374,7 +374,7 @@ tensor2d<X> tensor2d<X>::T() const
 // miscellaneous tensor operations
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 X tensor2d<X>::trace() const
 {
@@ -383,7 +383,7 @@ X tensor2d<X>::trace() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 X tensor2d<X>::det() const
 {
@@ -392,7 +392,7 @@ X tensor2d<X>::det() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 tensor2d<X> tensor2d<X>::inv() const
 {

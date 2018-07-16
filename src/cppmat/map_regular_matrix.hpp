@@ -20,7 +20,7 @@ namespace view {
 // constructors
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>::matrix() : cppmat::view::array<X,2,M,N>()
 {
@@ -30,7 +30,7 @@ matrix<X,M,N>::matrix() : cppmat::view::array<X,2,M,N>()
 // constructors: map external pointer
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>::matrix(const X *A) : cppmat::view::array<X,2,M,N>(A)
 {
@@ -40,7 +40,7 @@ matrix<X,M,N>::matrix(const X *A) : cppmat::view::array<X,2,M,N>(A)
 // named constructors
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Map(const X *D)
 {

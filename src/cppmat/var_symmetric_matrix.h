@@ -20,7 +20,7 @@ namespace symmetric {
 // cppmat::symmetric::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class matrix
 {
 protected:
@@ -236,25 +236,25 @@ public:
 };
 
 // equality operators
-template<class X> bool operator!= (const matrix<X> &A, const matrix<X> &B);
-template<class X> bool operator== (const matrix<X> &A, const matrix<X> &B);
+template<typename X> bool operator!= (const matrix<X> &A, const matrix<X> &B);
+template<typename X> bool operator== (const matrix<X> &A, const matrix<X> &B);
 
 // external arithmetic operators (cppmat::symmetric::matrix)
-template<class X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
-template<class X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
-template<class X> matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
-template<class X> matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
-template<class X> matrix<X> operator* (const matrix<X> &A, const        X  &B);
-template<class X> matrix<X> operator/ (const matrix<X> &A, const        X  &B);
-template<class X> matrix<X> operator+ (const matrix<X> &A, const        X  &B);
-template<class X> matrix<X> operator- (const matrix<X> &A, const        X  &B);
-template<class X> matrix<X> operator* (const        X  &A, const matrix<X> &B);
-template<class X> matrix<X> operator/ (const        X  &A, const matrix<X> &B);
-template<class X> matrix<X> operator+ (const        X  &A, const matrix<X> &B);
-template<class X> matrix<X> operator- (const        X  &A, const matrix<X> &B);
+template<typename X> matrix<X> operator* (const matrix<X> &A, const matrix<X> &B);
+template<typename X> matrix<X> operator/ (const matrix<X> &A, const matrix<X> &B);
+template<typename X> matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B);
+template<typename X> matrix<X> operator- (const matrix<X> &A, const matrix<X> &B);
+template<typename X> matrix<X> operator* (const matrix<X> &A, const        X  &B);
+template<typename X> matrix<X> operator/ (const matrix<X> &A, const        X  &B);
+template<typename X> matrix<X> operator+ (const matrix<X> &A, const        X  &B);
+template<typename X> matrix<X> operator- (const matrix<X> &A, const        X  &B);
+template<typename X> matrix<X> operator* (const        X  &A, const matrix<X> &B);
+template<typename X> matrix<X> operator/ (const        X  &A, const matrix<X> &B);
+template<typename X> matrix<X> operator+ (const        X  &A, const matrix<X> &B);
+template<typename X> matrix<X> operator- (const        X  &A, const matrix<X> &B);
 
 // print operator
-template<class X> std::ostream& operator<<(std::ostream& out, const matrix<X>& src);
+template<typename X> std::ostream& operator<<(std::ostream& out, const matrix<X>& src);
 
 // =================================================================================================
 

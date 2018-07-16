@@ -19,7 +19,7 @@ namespace cppmat {
 // constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X>::vector(size_t n) : cppmat::array<X>({n})
 {
@@ -29,7 +29,7 @@ vector<X>::vector(size_t n) : cppmat::array<X>({n})
 // constructors: copy from parent (with different type)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 vector<X>::vector(const cppmat::array<U> &A) : cppmat::array<X>(A)
@@ -41,7 +41,7 @@ vector<X>::vector(const cppmat::array<U> &A) : cppmat::array<X>(A)
 // constructors: copy from other class
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<typename U, typename V>
 inline
 vector<X>::vector(const std::vector<U> &A) : cppmat::array<X>({A.size()})
@@ -54,7 +54,7 @@ vector<X>::vector(const std::vector<U> &A) : cppmat::array<X>({A.size()})
 // constructor: copy from {...}
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X>::vector(const std::initializer_list<X> &A) : cppmat::array<X>({A.size()})
 {
@@ -65,7 +65,7 @@ vector<X>::vector(const std::initializer_list<X> &A) : cppmat::array<X>({A.size(
 // constructors: copy from fixed size
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t n>
 inline
 vector<X>::vector(const cppmat::tiny::vector<X,n> &A) : cppmat::array<X>(A)
@@ -76,7 +76,7 @@ vector<X>::vector(const cppmat::tiny::vector<X,n> &A) : cppmat::array<X>(A)
 // constructors: copy from view
 // =================================================================================================
 
-template<class X>
+template<typename X>
 template<size_t n>
 inline
 vector<X>::vector(const cppmat::view::vector<X,n> &A) : cppmat::array<X>(A)
@@ -87,7 +87,7 @@ vector<X>::vector(const cppmat::view::vector<X,n> &A) : cppmat::array<X>(A)
 // named constructors
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Random(size_t n, X lower, X upper)
 {
@@ -100,7 +100,7 @@ vector<X> vector<X>::Random(size_t n, X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Arange(size_t n)
 {
@@ -113,7 +113,7 @@ vector<X> vector<X>::Arange(size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Zero(size_t n)
 {
@@ -126,7 +126,7 @@ vector<X> vector<X>::Zero(size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Ones(size_t n)
 {
@@ -139,7 +139,7 @@ vector<X> vector<X>::Ones(size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Constant(size_t n, X D)
 {
@@ -152,7 +152,7 @@ vector<X> vector<X>::Constant(size_t n, X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Copy(const std::vector<X> &D)
 {
@@ -165,7 +165,7 @@ vector<X> vector<X>::Copy(const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
 {
@@ -178,7 +178,7 @@ vector<X> vector<X>::Copy(size_t n, const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(size_t n, Iterator first)
@@ -192,7 +192,7 @@ vector<X> vector<X>::Copy(size_t n, Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
@@ -206,7 +206,7 @@ vector<X> vector<X>::Copy(size_t n, Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 template<typename Iterator>
 inline
 vector<X> vector<X>::Copy(Iterator first, Iterator last)
@@ -222,7 +222,7 @@ vector<X> vector<X>::Copy(Iterator first, Iterator last)
 // resize
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::resize(size_t n)
 {
@@ -231,7 +231,7 @@ void vector<X>::resize(size_t n)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::resize(size_t n, const X &D)
 {
@@ -242,7 +242,7 @@ void vector<X>::resize(size_t n, const X &D)
 // extend
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::push_back(const X &D)
 {
@@ -253,7 +253,7 @@ void vector<X>::push_back(const X &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 void vector<X>::append(const cppmat::array<X> &A)
 {
@@ -269,7 +269,7 @@ void vector<X>::append(const cppmat::array<X> &A)
 // discrete difference (x1-x0, x2-x1, ...)
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 vector<X> vector<X>::diff() const
 {

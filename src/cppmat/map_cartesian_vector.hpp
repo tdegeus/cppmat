@@ -21,7 +21,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 vector<X,ND>::vector() : cppmat::view::vector<X,ND>()
 {
@@ -31,7 +31,7 @@ vector<X,ND>::vector() : cppmat::view::vector<X,ND>()
 // constructors: map external pointer
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 vector<X,ND>::vector(const X *A) : cppmat::view::vector<X,ND>(A)
 {
@@ -41,7 +41,7 @@ vector<X,ND>::vector(const X *A) : cppmat::view::vector<X,ND>(A)
 // named constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 vector<X,ND> vector<X,ND>::Map(const X *D)
 {
@@ -56,7 +56,7 @@ vector<X,ND> vector<X,ND>::Map(const X *D)
 // dimensions
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 size_t vector<X,ND>::ndim() const
 {

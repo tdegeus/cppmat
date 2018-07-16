@@ -20,7 +20,7 @@ namespace tiny {
 // constructors
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 inline
 vector<X,N>::vector() : cppmat::tiny::array<X,1,N>()
 {
@@ -30,7 +30,7 @@ vector<X,N>::vector() : cppmat::tiny::array<X,1,N>()
 // constructors: copy from parent (with different type)
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 template<typename U, typename V>
 inline
 vector<X,N>::vector(const cppmat::tiny::array<U,1,N> &A) : cppmat::tiny::array<X,1,N>(A)
@@ -41,7 +41,7 @@ vector<X,N>::vector(const cppmat::tiny::array<U,1,N> &A) : cppmat::tiny::array<X
 // constructors: copy from other class
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 template<typename U, typename V>
 inline
 vector<X,N>::vector(const std::vector<U> &A) : cppmat::tiny::array<X,1,N>::Copy(A)
@@ -52,7 +52,7 @@ vector<X,N>::vector(const std::vector<U> &A) : cppmat::tiny::array<X,1,N>::Copy(
 // constructor: copy from {...}
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 inline
 vector<X,N>::vector(const std::initializer_list<X> &A) : cppmat::tiny::array<X,1,N>(A)
 {
@@ -62,7 +62,7 @@ vector<X,N>::vector(const std::initializer_list<X> &A) : cppmat::tiny::array<X,1
 // constructors: copy from dynamic size
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 inline
 vector<X,N>::vector(const cppmat::vector<X> &A) : cppmat::tiny::array<X,1,N>(A)
 {
@@ -72,7 +72,7 @@ vector<X,N>::vector(const cppmat::vector<X> &A) : cppmat::tiny::array<X,1,N>(A)
 // constructors: copy from view
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 inline
 vector<X,N>::vector(const cppmat::view::vector<X,N> &A) : cppmat::tiny::array<X,1,N>(A)
 {
@@ -82,7 +82,7 @@ vector<X,N>::vector(const cppmat::view::vector<X,N> &A) : cppmat::tiny::array<X,
 // finite difference
 // =================================================================================================
 
-template<class X, size_t N>
+template<typename X, size_t N>
 inline
 vector<X,N> vector<X,N>::diff() const
 {

@@ -21,7 +21,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor4<X,ND>::tensor4() : cppmat::view::array<X,4,ND,ND,ND,ND>()
 {
@@ -31,7 +31,7 @@ tensor4<X,ND>::tensor4() : cppmat::view::array<X,4,ND,ND,ND,ND>()
 // constructors: map external pointer
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor4<X,ND>::tensor4(const X *A) : cppmat::view::array<X,4,ND,ND,ND,ND>(A)
 {
@@ -41,7 +41,7 @@ tensor4<X,ND>::tensor4(const X *A) : cppmat::view::array<X,4,ND,ND,ND,ND>(A)
 // named constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor4<X,ND> tensor4<X,ND>::Map(const X *D)
 {
@@ -56,7 +56,7 @@ tensor4<X,ND> tensor4<X,ND>::Map(const X *D)
 // dimensions
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 size_t tensor4<X,ND>::ndim() const
 {

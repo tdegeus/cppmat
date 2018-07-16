@@ -21,7 +21,7 @@ namespace cartesian {
 // cppmat::view::cartesian::vector
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 class vector : public cppmat::view::vector<X,ND>
 {
   static_assert( ND > 0, "Number of dimensions must positive" );

@@ -19,7 +19,7 @@ namespace cppmat {
 // cppmat::vector
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class vector : public cppmat::array<X>
 {
 private:

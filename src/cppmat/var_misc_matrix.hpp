@@ -15,7 +15,7 @@
 // extra arithmetic operators : cppmat::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator*= (
@@ -41,7 +41,7 @@ cppmat::matrix<X>::operator*= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator/= (
@@ -67,7 +67,7 @@ cppmat::matrix<X>::operator/= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator+= (
@@ -93,7 +93,7 @@ cppmat::matrix<X>::operator+= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator-= (
@@ -119,7 +119,7 @@ cppmat::matrix<X>::operator-= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator*= (
@@ -142,7 +142,7 @@ cppmat::matrix<X>::operator*= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator+= (
@@ -161,7 +161,7 @@ cppmat::matrix<X>::operator+= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X>&
 cppmat::matrix<X>::operator-= (
@@ -182,7 +182,7 @@ cppmat::matrix<X>::operator-= (
 // extra arithmetic operators : cppmat::symmetric::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator*= (
@@ -203,7 +203,7 @@ cppmat::symmetric::matrix<X>::operator*= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator+= (
@@ -220,7 +220,7 @@ cppmat::symmetric::matrix<X>::operator+= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X>&
 cppmat::symmetric::matrix<X>::operator-= (
@@ -239,7 +239,7 @@ cppmat::symmetric::matrix<X>::operator-= (
 // extra arithmetic operators : cppmat::diagonal::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator*= (
@@ -256,7 +256,7 @@ cppmat::diagonal::matrix<X>::operator*= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator/= (
@@ -273,7 +273,7 @@ cppmat::diagonal::matrix<X>::operator/= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator*= (
@@ -290,7 +290,7 @@ cppmat::diagonal::matrix<X>::operator*= (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X>&
 cppmat::diagonal::matrix<X>::operator/= (
@@ -309,7 +309,7 @@ cppmat::diagonal::matrix<X>::operator/= (
 // extra external arithmetic operators -> cppmat::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator* (
   const cppmat::matrix<X> &A,
@@ -337,7 +337,7 @@ cppmat::matrix<X> operator* (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator/ (
   const cppmat::matrix<X> &A,
@@ -365,7 +365,7 @@ cppmat::matrix<X> operator/ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator+ (
   const cppmat::matrix<X> &A,
@@ -393,7 +393,7 @@ cppmat::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator- (
   const cppmat::matrix<X> &A,
@@ -421,7 +421,7 @@ cppmat::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator+ (
   const cppmat::matrix<X> &A,
@@ -446,7 +446,7 @@ cppmat::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator- (
   const cppmat::matrix<X> &A,
@@ -471,7 +471,7 @@ cppmat::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator* (
   const cppmat::symmetric::matrix<X> &A,
@@ -499,7 +499,7 @@ cppmat::matrix<X> operator* (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator/ (
   const cppmat::symmetric::matrix<X> &A,
@@ -527,7 +527,7 @@ cppmat::matrix<X> operator/ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator+ (
   const cppmat::symmetric::matrix<X> &A,
@@ -555,7 +555,7 @@ cppmat::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator- (
   const cppmat::symmetric::matrix<X> &A,
@@ -583,7 +583,7 @@ cppmat::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
@@ -608,7 +608,7 @@ cppmat::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
@@ -635,7 +635,7 @@ cppmat::matrix<X> operator- (
 // extra external arithmetic operators -> cppmat::symmetric::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::symmetric::matrix<X> &A,
@@ -660,7 +660,7 @@ cppmat::symmetric::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::symmetric::matrix<X> &A,
@@ -685,7 +685,7 @@ cppmat::symmetric::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
@@ -708,7 +708,7 @@ cppmat::symmetric::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
@@ -731,7 +731,7 @@ cppmat::symmetric::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator+ (
   const cppmat::diagonal::matrix<X> &A,
@@ -756,7 +756,7 @@ cppmat::symmetric::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator- (
   const cppmat::diagonal::matrix<X> &A,
@@ -781,7 +781,7 @@ cppmat::symmetric::matrix<X> operator- (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator+ (
   const X &A,
@@ -804,7 +804,7 @@ cppmat::symmetric::matrix<X> operator+ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::symmetric::matrix<X> operator- (
   const X &A,
@@ -829,7 +829,7 @@ cppmat::symmetric::matrix<X> operator- (
 // extra external arithmetic operators -> cppmat::diagonal::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::diagonal::matrix<X> &A,
@@ -850,7 +850,7 @@ cppmat::diagonal::matrix<X> operator* (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator/ (
   const cppmat::diagonal::matrix<X> &A,
@@ -871,7 +871,7 @@ cppmat::diagonal::matrix<X> operator/ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::diagonal::matrix<X> &A,
@@ -892,7 +892,7 @@ cppmat::diagonal::matrix<X> operator* (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator/ (
   const cppmat::diagonal::matrix<X> &A,
@@ -913,7 +913,7 @@ cppmat::diagonal::matrix<X> operator/ (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::matrix<X> &A,
@@ -934,7 +934,7 @@ cppmat::diagonal::matrix<X> operator* (
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X>
+template<typename X>
 inline
 cppmat::diagonal::matrix<X> operator* (
   const cppmat::symmetric::matrix<X> &A,

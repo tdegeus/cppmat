@@ -19,7 +19,7 @@ namespace cppmat {
 // cppmat::matrix
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class matrix : public cppmat::array<X>
 {
 private:

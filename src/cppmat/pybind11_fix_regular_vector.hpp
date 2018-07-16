@@ -18,7 +18,7 @@ namespace detail {
 // type caster: cppmat::tiny::vector <-> NumPy-array
 // =================================================================================================
 
-template<class X, size_t N> struct type_caster<cppmat::tiny::vector<X,N>>
+template<typename X, size_t N> struct type_caster<cppmat::tiny::vector<X,N>>
 {
 public:
 

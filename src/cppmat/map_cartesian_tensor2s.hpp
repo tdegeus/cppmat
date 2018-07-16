@@ -21,7 +21,7 @@ namespace cartesian {
 // constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor2s<X,ND>::tensor2s() : cppmat::view::symmetric::matrix<X,ND,ND>()
 {
@@ -31,7 +31,7 @@ tensor2s<X,ND>::tensor2s() : cppmat::view::symmetric::matrix<X,ND,ND>()
 // constructors: map external pointer
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor2s<X,ND>::tensor2s(const X *A) : cppmat::view::symmetric::matrix<X,ND,ND>(A)
 {
@@ -41,7 +41,7 @@ tensor2s<X,ND>::tensor2s(const X *A) : cppmat::view::symmetric::matrix<X,ND,ND>(
 // named constructors
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 tensor2s<X,ND> tensor2s<X,ND>::Map(const X *D)
 {
@@ -56,7 +56,7 @@ tensor2s<X,ND> tensor2s<X,ND>::Map(const X *D)
 // dimensions
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 inline
 size_t tensor2s<X,ND>::ndim() const
 {

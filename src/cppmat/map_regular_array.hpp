@@ -20,7 +20,7 @@ namespace view {
 // return size without constructing
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::Size()
 {
@@ -31,7 +31,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::Size()
 // constructors
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N>::array()
 {
@@ -47,7 +47,7 @@ array<X,RANK,I,J,K,L,M,N>::array()
 // constructors: map external pointer
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N>::array(const X *A)
 {
@@ -65,7 +65,7 @@ array<X,RANK,I,J,K,L,M,N>::array(const X *A)
 // named constructors
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
 {
@@ -80,7 +80,7 @@ array<X,RANK,I,J,K,L,M,N> array<X,RANK,I,J,K,L,M,N>::Map(const X *D)
 // return plain storage as vector
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U, typename V>
 inline
 array<X,RANK,I,J,K,L,M,N>::operator std::vector<U> () const
@@ -97,7 +97,7 @@ array<X,RANK,I,J,K,L,M,N>::operator std::vector<U> () const
 // modify bounds check
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 void array<X,RANK,I,J,K,L,M,N>::setPeriodic(bool periodic)
 {
@@ -108,7 +108,7 @@ void array<X,RANK,I,J,K,L,M,N>::setPeriodic(bool periodic)
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::size() const
 {
@@ -117,7 +117,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::rank() const
 {
@@ -126,7 +126,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::shape(int i) const
 {
@@ -146,7 +146,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
 {
@@ -159,7 +159,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::shape() const
 {
@@ -172,7 +172,7 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::shape() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
 {
@@ -191,7 +191,7 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
 // get dimensions using a different return type
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 U array<X,RANK,I,J,K,L,M,N>::size() const
@@ -201,7 +201,7 @@ U array<X,RANK,I,J,K,L,M,N>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 U array<X,RANK,I,J,K,L,M,N>::rank() const
@@ -211,7 +211,7 @@ U array<X,RANK,I,J,K,L,M,N>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 U array<X,RANK,I,J,K,L,M,N>::shape(int i) const
@@ -221,7 +221,7 @@ U array<X,RANK,I,J,K,L,M,N>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 U array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
@@ -231,7 +231,7 @@ U array<X,RANK,I,J,K,L,M,N>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 std::vector<U> array<X,RANK,I,J,K,L,M,N>::shape() const
@@ -247,7 +247,7 @@ std::vector<U> array<X,RANK,I,J,K,L,M,N>::shape() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename U>
 inline
 std::vector<U> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
@@ -265,7 +265,7 @@ std::vector<U> array<X,RANK,I,J,K,L,M,N>::strides(bool bytes) const
 // index operators : operator[...]
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator[](size_t i) const
 {
@@ -278,7 +278,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator[](size_t i) const
 // index operators : operator(...)
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a) const
 {
@@ -294,7 +294,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b) const
 {
@@ -314,7 +314,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c) const
 {
@@ -338,7 +338,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d) const
 {
@@ -366,7 +366,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e) const
 {
@@ -398,7 +398,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e, int f) const
 {
@@ -434,7 +434,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(int a, int b, int c, int d, int e
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a) const
@@ -447,7 +447,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b) const
@@ -462,7 +462,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c) const
@@ -479,7 +479,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d) const
@@ -498,7 +498,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e) const
@@ -519,7 +519,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e, T f) const
@@ -544,7 +544,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::operator()(T a, T b, T c, T d, T e, T f) con
 // index operators : at(...)
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
 const X& array<X,RANK,I,J,K,L,M,N>::at(Iterator first, Iterator last) const
@@ -579,7 +579,7 @@ const X& array<X,RANK,I,J,K,L,M,N>::at(Iterator first, Iterator last) const
 // index operators : compress(...)
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a) const
 {
@@ -594,7 +594,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b) const
 {
@@ -613,7 +613,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c) const
 {
@@ -636,7 +636,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d) const
 {
@@ -663,7 +663,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e) const
 {
@@ -694,7 +694,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e) co
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e, int f) const
 {
@@ -729,7 +729,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(int a, int b, int c, int d, int e, in
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a) const
@@ -741,7 +741,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b) const
@@ -755,7 +755,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c) const
@@ -771,7 +771,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d) const
@@ -789,7 +789,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e) const
@@ -809,7 +809,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e, T f) const
@@ -833,7 +833,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::compress(T a, T b, T c, T d, T e, T f) const
 // index operators : decompress(...)
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::decompress(size_t i) const
 {
@@ -856,7 +856,7 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::decompress(size_t i) const
 // midpoint
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::midpoint() const
 {
@@ -877,7 +877,7 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::midpoint() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::midpoint(size_t axis) const
 {
@@ -898,7 +898,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::midpoint(size_t axis) const
 // pointer to data
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 const X* array<X,RANK,I,J,K,L,M,N>::data() const
 {
@@ -909,7 +909,7 @@ const X* array<X,RANK,I,J,K,L,M,N>::data() const
 // iterators : begin() and end()
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::begin() const
 {
@@ -918,7 +918,7 @@ auto array<X,RANK,I,J,K,L,M,N>::begin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::end() const
 {
@@ -929,7 +929,7 @@ auto array<X,RANK,I,J,K,L,M,N>::end() const
 // iterators : index()
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::index(size_t i) const
 {
@@ -942,7 +942,7 @@ auto array<X,RANK,I,J,K,L,M,N>::index(size_t i) const
 // iterators : item()
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a) const
 {
@@ -958,7 +958,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b) const
 {
@@ -978,7 +978,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c) const
 {
@@ -1002,7 +1002,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d) const
 {
@@ -1030,7 +1030,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e) const
 {
@@ -1062,7 +1062,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f) const
 {
@@ -1098,7 +1098,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(int a, int b, int c, int d, int e, int f) c
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a) const
@@ -1111,7 +1111,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b) const
@@ -1126,7 +1126,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c) const
@@ -1143,7 +1143,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d) const
@@ -1162,7 +1162,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e) const
@@ -1183,7 +1183,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e, T f) const
@@ -1208,7 +1208,7 @@ auto array<X,RANK,I,J,K,L,M,N>::item(T a, T b, T c, T d, T e, T f) const
 // initialize
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 void array<X,RANK,I,J,K,L,M,N>::setMap(const X *D)
 {
@@ -1219,7 +1219,7 @@ void array<X,RANK,I,J,K,L,M,N>::setMap(const X *D)
 // copy to target
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
 void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first) const
@@ -1229,7 +1229,7 @@ void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<class Iterator>
 inline
 void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
@@ -1245,7 +1245,7 @@ void array<X,RANK,I,J,K,L,M,N>::copyTo(Iterator first, Iterator last) const
 // bound check
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a) const
@@ -1264,7 +1264,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b) const
@@ -1285,7 +1285,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c) const
@@ -1308,7 +1308,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d) const
@@ -1333,7 +1333,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e) const
@@ -1360,7 +1360,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 template<typename T>
 inline
 bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e, T f) const
@@ -1391,7 +1391,7 @@ bool array<X,RANK,I,J,K,L,M,N>::inBounds(T a, T b, T c, T d, T e, T f) const
 // norm
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 X array<X,RANK,I,J,K,L,M,N>::norm() const
 {
@@ -1407,7 +1407,7 @@ X array<X,RANK,I,J,K,L,M,N>::norm() const
 // location of the minimum/maximum
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::argmin() const
 {
@@ -1416,7 +1416,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::argmin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::argmax() const
 {
@@ -1427,7 +1427,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::argmax() const
 // minimum
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 X array<X,RANK,I,J,K,L,M,N>::min() const
 {
@@ -1438,7 +1438,7 @@ X array<X,RANK,I,J,K,L,M,N>::min() const
 // maximum
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 X array<X,RANK,I,J,K,L,M,N>::max() const
 {
@@ -1449,7 +1449,7 @@ X array<X,RANK,I,J,K,L,M,N>::max() const
 // sum
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 X array<X,RANK,I,J,K,L,M,N>::sum() const
 {
@@ -1460,7 +1460,7 @@ X array<X,RANK,I,J,K,L,M,N>::sum() const
 // mean
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 double array<X,RANK,I,J,K,L,M,N>::mean() const
 {
@@ -1471,7 +1471,7 @@ double array<X,RANK,I,J,K,L,M,N>::mean() const
 // weighted average
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 double array<X,RANK,I,J,K,L,M,N>::average(const array<X,RANK,I,J,K,L,M,N> &weights, bool norm) const
 {
@@ -1483,7 +1483,7 @@ double array<X,RANK,I,J,K,L,M,N>::average(const array<X,RANK,I,J,K,L,M,N> &weigh
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where() const
 {
@@ -1509,7 +1509,7 @@ std::vector<size_t> array<X,RANK,I,J,K,L,M,N>::where() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::where(size_t index) const
 {
@@ -1527,7 +1527,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::where(size_t index) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 size_t array<X,RANK,I,J,K,L,M,N>::where(int index) const
 {
@@ -1557,7 +1557,7 @@ size_t array<X,RANK,I,J,K,L,M,N>::where(int index) const
 // print operator
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src)
 {
@@ -1602,7 +1602,7 @@ std::ostream& operator<<(std::ostream& out, const array<X,RANK,I,J,K,L,M,N>& src
 // equality operators
 // =================================================================================================
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 bool operator!= (const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B)
 {
@@ -1615,7 +1615,7 @@ bool operator!= (const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
+template<typename X, size_t RANK, size_t I, size_t J, size_t K, size_t L, size_t M, size_t N>
 inline
 bool operator== (const array<X,RANK,I,J,K,L,M,N> &A, const array<X,RANK,I,J,K,L,M,N> &B)
 {

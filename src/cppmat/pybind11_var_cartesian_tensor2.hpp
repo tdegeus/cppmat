@@ -18,7 +18,7 @@ namespace detail {
 // type caster: cppmat::cartesian::tensor2 <-> NumPy-array
 // =================================================================================================
 
-template<class X> struct type_caster<cppmat::cartesian::tensor2<X>>
+template<typename X> struct type_caster<cppmat::cartesian::tensor2<X>>
 {
 public:
 

@@ -21,7 +21,7 @@ namespace diagonal {
 // return size without constructing
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::Size()
 {
@@ -32,7 +32,7 @@ size_t matrix<X,M,N>::Size()
 // constructors
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>::matrix()
 {
@@ -43,7 +43,7 @@ matrix<X,M,N>::matrix()
 // constructors: copy from own class (with different type)
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U, typename V>
 inline
 matrix<X,M,N>::matrix(const matrix<U,M,N> &A)
@@ -58,7 +58,7 @@ matrix<X,M,N>::matrix(const matrix<U,M,N> &A)
 // constructors: copy from dynamic size
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::tiny::diagonal::matrix<X,M,N>()
 {
@@ -72,7 +72,7 @@ matrix<X,M,N>::matrix(const cppmat::diagonal::matrix<X> &A) : cppmat::tiny::diag
 // constructors: copy from view
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A) : cppmat::tiny::diagonal::matrix<X,M,N>()
 {
@@ -83,7 +83,7 @@ matrix<X,M,N>::matrix(const cppmat::view::diagonal::matrix<X,M,N> &A) : cppmat::
 // named constructors
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Random(X lower, X upper)
 {
@@ -96,7 +96,7 @@ matrix<X,M,N> matrix<X,M,N>::Random(X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Arange()
 {
@@ -109,7 +109,7 @@ matrix<X,M,N> matrix<X,M,N>::Arange()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Zero()
 {
@@ -122,7 +122,7 @@ matrix<X,M,N> matrix<X,M,N>::Zero()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Ones()
 {
@@ -135,7 +135,7 @@ matrix<X,M,N> matrix<X,M,N>::Ones()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Constant(X D)
 {
@@ -148,7 +148,7 @@ matrix<X,M,N> matrix<X,M,N>::Constant(X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::Copy(const std::vector<X> &D)
 {
@@ -161,7 +161,7 @@ matrix<X,M,N> matrix<X,M,N>::Copy(const std::vector<X> &D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first)
@@ -175,7 +175,7 @@ matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first, Iterator last)
@@ -191,7 +191,7 @@ matrix<X,M,N> matrix<X,M,N>::Copy(Iterator first, Iterator last)
 // named constructor: copy from dense storage
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first)
@@ -205,7 +205,7 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
@@ -221,7 +221,7 @@ matrix<X,M,N> matrix<X,M,N>::CopyDense(Iterator first, Iterator last)
 // return plain storage as vector
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U, typename V>
 inline
 matrix<X,M,N>::operator std::vector<U> () const
@@ -238,7 +238,7 @@ matrix<X,M,N>::operator std::vector<U> () const
 // modify bounds check
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setPeriodic(bool periodic)
 {
@@ -249,7 +249,7 @@ void matrix<X,M,N>::setPeriodic(bool periodic)
 // get dimensions
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::size() const
 {
@@ -258,7 +258,7 @@ size_t matrix<X,M,N>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::rank() const
 {
@@ -267,7 +267,7 @@ size_t matrix<X,M,N>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::shape(int i) const
 {
@@ -281,7 +281,7 @@ size_t matrix<X,M,N>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::shape(size_t i) const
 {
@@ -294,7 +294,7 @@ size_t matrix<X,M,N>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 std::vector<size_t> matrix<X,M,N>::shape() const
 {
@@ -309,7 +309,7 @@ std::vector<size_t> matrix<X,M,N>::shape() const
 // get dimensions using a different return type
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U>
 inline
 U matrix<X,M,N>::size() const
@@ -319,7 +319,7 @@ U matrix<X,M,N>::size() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U>
 inline
 U matrix<X,M,N>::rank() const
@@ -329,7 +329,7 @@ U matrix<X,M,N>::rank() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U>
 inline
 U matrix<X,M,N>::shape(int i) const
@@ -339,7 +339,7 @@ U matrix<X,M,N>::shape(int i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U>
 inline
 U matrix<X,M,N>::shape(size_t i) const
@@ -349,7 +349,7 @@ U matrix<X,M,N>::shape(size_t i) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename U>
 inline
 std::vector<U> matrix<X,M,N>::shape() const
@@ -367,7 +367,7 @@ std::vector<U> matrix<X,M,N>::shape() const
 // index operators : operator[...]
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X& matrix<X,M,N>::operator[](size_t i)
 {
@@ -378,7 +378,7 @@ X& matrix<X,M,N>::operator[](size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 const X& matrix<X,M,N>::operator[](size_t i) const
 {
@@ -391,7 +391,7 @@ const X& matrix<X,M,N>::operator[](size_t i) const
 // index operators : operator(...)
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X& matrix<X,M,N>::operator()(int a, int b)
 {
@@ -409,7 +409,7 @@ X& matrix<X,M,N>::operator()(int a, int b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 const X& matrix<X,M,N>::operator()(int a, int b) const
 {
@@ -427,7 +427,7 @@ const X& matrix<X,M,N>::operator()(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T, typename S>
 inline
 X& matrix<X,M,N>::operator()(T a, T b)
@@ -441,7 +441,7 @@ X& matrix<X,M,N>::operator()(T a, T b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T, typename S>
 inline
 const X& matrix<X,M,N>::operator()(T a, T b) const
@@ -457,7 +457,7 @@ const X& matrix<X,M,N>::operator()(T a, T b) const
 // index operators : compress(...)
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::compress(int a, int b) const
 {
@@ -474,7 +474,7 @@ size_t matrix<X,M,N>::compress(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T, typename S>
 inline
 size_t matrix<X,M,N>::compress(T a, T b) const
@@ -490,7 +490,7 @@ size_t matrix<X,M,N>::compress(T a, T b) const
 // index operators : decompress(...)
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 {
@@ -510,7 +510,7 @@ std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 // midpoint
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 std::vector<size_t> matrix<X,M,N>::midpoint() const
 {
@@ -531,7 +531,7 @@ std::vector<size_t> matrix<X,M,N>::midpoint() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::midpoint(size_t axis) const
 {
@@ -552,7 +552,7 @@ size_t matrix<X,M,N>::midpoint(size_t axis) const
 // pointer to data
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X* matrix<X,M,N>::data()
 {
@@ -561,7 +561,7 @@ X* matrix<X,M,N>::data()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 const X* matrix<X,M,N>::data() const
 {
@@ -572,7 +572,7 @@ const X* matrix<X,M,N>::data() const
 // iterators : begin() and end()
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::begin()
 {
@@ -581,7 +581,7 @@ auto matrix<X,M,N>::begin()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::begin() const
 {
@@ -590,7 +590,7 @@ auto matrix<X,M,N>::begin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::end()
 {
@@ -599,7 +599,7 @@ auto matrix<X,M,N>::end()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::end() const
 {
@@ -610,7 +610,7 @@ auto matrix<X,M,N>::end() const
 // iterators : index()
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::index(size_t i)
 {
@@ -621,7 +621,7 @@ auto matrix<X,M,N>::index(size_t i)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::index(size_t i) const
 {
@@ -634,7 +634,7 @@ auto matrix<X,M,N>::index(size_t i) const
 // iterators : item()
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::item(int a, int b)
 {
@@ -651,7 +651,7 @@ auto matrix<X,M,N>::item(int a, int b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::item(int a, int b) const
 {
@@ -668,7 +668,7 @@ auto matrix<X,M,N>::item(int a, int b) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto matrix<X,M,N>::item(T a, T b)
@@ -682,7 +682,7 @@ auto matrix<X,M,N>::item(T a, T b)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T, typename S>
 inline
 auto matrix<X,M,N>::item(T a, T b) const
@@ -698,7 +698,7 @@ auto matrix<X,M,N>::item(T a, T b) const
 // initialize
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setRandom(X lower, X upper)
 {
@@ -717,7 +717,7 @@ void matrix<X,M,N>::setRandom(X lower, X upper)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setArange()
 {
@@ -726,7 +726,7 @@ void matrix<X,M,N>::setArange()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setZero()
 {
@@ -735,7 +735,7 @@ void matrix<X,M,N>::setZero()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setOnes()
 {
@@ -744,7 +744,7 @@ void matrix<X,M,N>::setOnes()
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 void matrix<X,M,N>::setConstant(X D)
 {
@@ -753,7 +753,7 @@ void matrix<X,M,N>::setConstant(X D)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::setCopy(Iterator first)
@@ -763,7 +763,7 @@ void matrix<X,M,N>::setCopy(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::setCopy(Iterator first, Iterator last)
@@ -775,7 +775,7 @@ void matrix<X,M,N>::setCopy(Iterator first, Iterator last)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 void matrix<X,M,N>::setCopyDense(Iterator first)
@@ -795,7 +795,7 @@ void matrix<X,M,N>::setCopyDense(Iterator first)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename Iterator>
 inline
 void matrix<X,M,N>::setCopyDense(Iterator first, Iterator last)
@@ -823,7 +823,7 @@ void matrix<X,M,N>::setCopyDense(Iterator first, Iterator last)
 // copy to target
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::copyTo(Iterator first) const
@@ -833,7 +833,7 @@ void matrix<X,M,N>::copyTo(Iterator first) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
@@ -847,7 +847,7 @@ void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::copyToDense(Iterator first) const
@@ -862,7 +862,7 @@ void matrix<X,M,N>::copyToDense(Iterator first) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<class Iterator>
 inline
 void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
@@ -883,7 +883,7 @@ void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 // bound check
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T>
 inline
 bool matrix<X,M,N>::inBounds(T a) const
@@ -902,7 +902,7 @@ bool matrix<X,M,N>::inBounds(T a) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 template<typename T>
 inline
 bool matrix<X,M,N>::inBounds(T a, T b) const
@@ -925,7 +925,7 @@ bool matrix<X,M,N>::inBounds(T a, T b) const
 // sign change
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::operator- () const
 {
@@ -939,7 +939,7 @@ matrix<X,M,N> matrix<X,M,N>::operator- () const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::operator+ () const
 {
@@ -955,7 +955,7 @@ matrix<X,M,N> matrix<X,M,N>::operator+ () const
 // arithmetic operators
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>& matrix<X,M,N>::operator*= (const matrix<X,M,N> &B)
 {
@@ -971,7 +971,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator*= (const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>& matrix<X,M,N>::operator+= (const matrix<X,M,N> &B)
 {
@@ -987,7 +987,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator+= (const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>& matrix<X,M,N>::operator-= (const matrix<X,M,N> &B)
 {
@@ -1003,7 +1003,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator-= (const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>& matrix<X,M,N>::operator*= (X B)
 {
@@ -1015,7 +1015,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator*= (X B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N>& matrix<X,M,N>::operator/= (X B)
 {
@@ -1029,7 +1029,7 @@ matrix<X,M,N>& matrix<X,M,N>::operator/= (X B)
 // absolute value
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> matrix<X,M,N>::abs() const
 {
@@ -1045,7 +1045,7 @@ matrix<X,M,N> matrix<X,M,N>::abs() const
 // norm
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X matrix<X,M,N>::norm() const
 {
@@ -1061,7 +1061,7 @@ X matrix<X,M,N>::norm() const
 // return the indices that would sort the matrix
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<size_t,M,N> matrix<X,M,N>::argsort(bool ascending) const
 {
@@ -1072,7 +1072,7 @@ matrix<size_t,M,N> matrix<X,M,N>::argsort(bool ascending) const
 // location of the minimum/maximum
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::argmin() const
 {
@@ -1081,7 +1081,7 @@ size_t matrix<X,M,N>::argmin() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::argmax() const
 {
@@ -1092,7 +1092,7 @@ size_t matrix<X,M,N>::argmax() const
 // minimum
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X matrix<X,M,N>::min() const
 {
@@ -1103,7 +1103,7 @@ X matrix<X,M,N>::min() const
 // maximum
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X matrix<X,M,N>::max() const
 {
@@ -1114,7 +1114,7 @@ X matrix<X,M,N>::max() const
 // sum
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 X matrix<X,M,N>::sum() const
 {
@@ -1125,7 +1125,7 @@ X matrix<X,M,N>::sum() const
 // mean
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 double matrix<X,M,N>::mean() const
 {
@@ -1136,7 +1136,7 @@ double matrix<X,M,N>::mean() const
 // weighted average
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 {
@@ -1148,7 +1148,7 @@ double matrix<X,M,N>::average(const matrix<X,M,N> &weights, bool norm) const
 // return array of booleans, based on condition
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::equal(const X &D) const
 {
@@ -1163,7 +1163,7 @@ matrix<int,M,N> matrix<X,M,N>::equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::not_equal(const X &D) const
 {
@@ -1178,7 +1178,7 @@ matrix<int,M,N> matrix<X,M,N>::not_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::greater(const X &D) const
 {
@@ -1193,7 +1193,7 @@ matrix<int,M,N> matrix<X,M,N>::greater(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::greater_equal(const X &D) const
 {
@@ -1208,7 +1208,7 @@ matrix<int,M,N> matrix<X,M,N>::greater_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::less(const X &D) const
 {
@@ -1223,7 +1223,7 @@ matrix<int,M,N> matrix<X,M,N>::less(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::less_equal(const X &D) const
 {
@@ -1238,7 +1238,7 @@ matrix<int,M,N> matrix<X,M,N>::less_equal(const X &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::equal(const matrix<X,M,N> &D) const
 {
@@ -1253,7 +1253,7 @@ matrix<int,M,N> matrix<X,M,N>::equal(const matrix<X,M,N> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::not_equal(const matrix<X,M,N> &D) const
 {
@@ -1268,7 +1268,7 @@ matrix<int,M,N> matrix<X,M,N>::not_equal(const matrix<X,M,N> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::greater(const matrix<X,M,N> &D) const
 {
@@ -1283,7 +1283,7 @@ matrix<int,M,N> matrix<X,M,N>::greater(const matrix<X,M,N> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::greater_equal(const matrix<X,M,N> &D) const
 {
@@ -1298,7 +1298,7 @@ matrix<int,M,N> matrix<X,M,N>::greater_equal(const matrix<X,M,N> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::less(const matrix<X,M,N> &D) const
 {
@@ -1313,7 +1313,7 @@ matrix<int,M,N> matrix<X,M,N>::less(const matrix<X,M,N> &D) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<int,M,N> matrix<X,M,N>::less_equal(const matrix<X,M,N> &D) const
 {
@@ -1330,7 +1330,7 @@ matrix<int,M,N> matrix<X,M,N>::less_equal(const matrix<X,M,N> &D) const
 // find the plain storage indices of all non-zero entries
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 std::vector<size_t> matrix<X,M,N>::where() const
 {
@@ -1356,7 +1356,7 @@ std::vector<size_t> matrix<X,M,N>::where() const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::where(size_t index) const
 {
@@ -1374,7 +1374,7 @@ size_t matrix<X,M,N>::where(size_t index) const
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::where(int index) const
 {
@@ -1404,7 +1404,7 @@ size_t matrix<X,M,N>::where(int index) const
 // print operator
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 {
@@ -1427,7 +1427,7 @@ std::ostream& operator<<(std::ostream& out, const matrix<X,M,N>& src)
 // equality operators
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 bool operator!= (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
@@ -1440,7 +1440,7 @@ bool operator!= (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 bool operator== (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
@@ -1455,7 +1455,7 @@ bool operator== (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 // arithmetic operators: external
 // =================================================================================================
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
@@ -1469,7 +1469,7 @@ matrix<X,M,N> operator* (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
@@ -1483,7 +1483,7 @@ matrix<X,M,N> operator+ (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator- (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 {
@@ -1497,7 +1497,7 @@ matrix<X,M,N> operator- (const matrix<X,M,N> &A, const matrix<X,M,N> &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator* (const matrix<X,M,N> &A, const X &B)
 {
@@ -1511,7 +1511,7 @@ matrix<X,M,N> operator* (const matrix<X,M,N> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B)
 {
@@ -1525,7 +1525,7 @@ matrix<X,M,N> operator/ (const matrix<X,M,N> &A, const X &B)
 
 // -------------------------------------------------------------------------------------------------
 
-template<class X, size_t M, size_t N>
+template<typename X, size_t M, size_t N>
 inline
 matrix<X,M,N> operator* (const X &A, const matrix<X,M,N> &B)
 {

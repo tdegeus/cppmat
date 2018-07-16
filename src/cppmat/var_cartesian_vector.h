@@ -20,7 +20,7 @@ namespace cartesian {
 // cppmat::cartesian::vector
 // =================================================================================================
 
-template<class X>
+template<typename X>
 class vector : public cppmat::vector<X>
 {
 protected:

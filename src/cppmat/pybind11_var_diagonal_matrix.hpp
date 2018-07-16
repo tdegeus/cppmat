@@ -18,7 +18,7 @@ namespace detail {
 // type caster: cppmat::diagonal::matrix <-> NumPy-array
 // =================================================================================================
 
-template<class X> struct type_caster<cppmat::diagonal::matrix<X>>
+template<typename X> struct type_caster<cppmat::diagonal::matrix<X>>
 {
 public:
 

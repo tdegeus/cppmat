@@ -21,7 +21,7 @@ namespace cartesian {
 // cppmat::view::cartesian::tensor2
 // =================================================================================================
 
-template<class X, size_t ND>
+template<typename X, size_t ND>
 class tensor2 : public cppmat::view::matrix<X,ND,ND>
 {
   static_assert( ND > 0, "Number of dimensions must positive" );

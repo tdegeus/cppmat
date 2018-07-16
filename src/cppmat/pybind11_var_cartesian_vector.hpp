@@ -18,7 +18,7 @@ namespace detail {
 // type caster: cppmat::cartesian::vector <-> NumPy-array
 // =================================================================================================
 
-template<class X> struct type_caster<cppmat::cartesian::vector<X>>
+template<typename X> struct type_caster<cppmat::cartesian::vector<X>>
 {
 public:
 
