@@ -128,7 +128,23 @@ std::vector<T> linspace(T a, T b, size_t N)
 }
 
 // =================================================================================================
-// minimum/maximum from two vector of equal size
+// minimum/maximum from a vector
+// =================================================================================================
+
+template<typename X> X min(const std::vector<X> &A)
+{
+  return *std::min_element(A.begin(),A.end());
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<typename X> X max(const std::vector<X> &A)
+{
+  return *std::max_element(A.begin(),A.end());
+}
+
+// =================================================================================================
+// minimum/maximum from two vectors of equal size
 // =================================================================================================
 
 template<typename X> std::vector<X> min(const std::vector<X> &A, const std::vector<X> &B)
