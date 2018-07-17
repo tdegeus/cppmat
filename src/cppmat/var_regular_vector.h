@@ -72,6 +72,7 @@ public:
   void resize(size_t n, const X &D);
 
   // STL-like access
+  void reserve(size_t n);
   void push_back(const X &value);
   void append(const cppmat::array<X> &A);
   void clear();

@@ -52,6 +52,7 @@ public:
   vector<X,N> diff() const;
 
   // STL-like access
+  void reserve(size_t n);
   void push_back(const X &value);
   void clear();
 

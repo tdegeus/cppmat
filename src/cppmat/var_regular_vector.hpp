@@ -244,6 +244,15 @@ void vector<X>::resize(size_t n, const X &D)
 
 template<typename X>
 inline
+void vector<X>::reserve(size_t n)
+{
+  this->mData.reserve(n);
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<typename X>
+inline
 void vector<X>::push_back(const X &value)
 {
   this->mData.push_back(value);

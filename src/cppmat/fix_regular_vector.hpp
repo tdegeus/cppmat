@@ -99,6 +99,15 @@ vector<X,N> vector<X,N>::diff() const
 
 template<typename X, size_t N>
 inline
+void vector<X,N>::reserve(size_t n)
+{
+  assert( n == N );
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<typename X, size_t N>
+inline
 void vector<X,N>::push_back(const X &value)
 {
   assert( mIstore < N );
