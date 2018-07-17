@@ -4,8 +4,8 @@
 
 ================================================================================================= */
 
-#ifndef CPPMAT_VAR_ARRAY_PYBIND11_HPP
-#define CPPMAT_VAR_ARRAY_PYBIND11_HPP
+#ifndef CPPMAT_VAR_REGULAR_ARRAY_PYBIND11_HPP
+#define CPPMAT_VAR_REGULAR_ARRAY_PYBIND11_HPP
 
 #include "pybind11.h"
 

@@ -71,9 +71,10 @@ public:
   void resize(size_t n);
   void resize(size_t n, const X &D);
 
-  // inset item
-  void push_back(const X &D);
+  // STL-like access
+  void push_back(const X &value);
   void append(const cppmat::array<X> &A);
+  void clear();
 
   // discrete difference (x1-x0, x2-x1, ...)
   vector<X> diff() const;

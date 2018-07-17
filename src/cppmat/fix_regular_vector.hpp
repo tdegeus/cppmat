@@ -94,6 +94,32 @@ vector<X,N> vector<X,N>::diff() const
 }
 
 // =================================================================================================
+// STL-like behaviour
+// =================================================================================================
+
+template<typename X, size_t N>
+inline
+void vector<X,N>::push_back(const X &value)
+{
+  assert( mIstore < N );
+
+  this->mData[mIstore] = value;
+
+  mIstore++;
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<typename X, size_t N>
+inline
+void vector<X,N>::clear()
+{
+  mIstore = 0;
+
+  for ( size_t i = 0 ; i < N ; ++i ) this->mData[i] = static_cast<X>(0);
+}
+
+// =================================================================================================
 
 }} // namespace ...
 

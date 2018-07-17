@@ -23,6 +23,9 @@ namespace tiny {
 template<typename X, size_t N>
 class vector : public cppmat::tiny::array<X,1,N>
 {
+private:
+  size_t mIstore=0;
+
 public:
 
   // constructor: allocate, don't initialize
@@ -47,6 +50,11 @@ public:
 
   // forward difference (x0, x1-x0, x2-x1, ...)
   vector<X,N> diff() const;
+
+  // STL-like access
+  void push_back(const X &value);
+  void clear();
+
 
 };
 

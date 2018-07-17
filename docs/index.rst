@@ -45,7 +45,7 @@ cppmat
 
 .. tip::
 
-  This document should be considered as a quick-start guide. A lot effort has been spent on the readability of the code itself. One is highly encouraged to answer more advanced questions that arise from this guide directly using the code.
+  This document should be considered as a quick-start guide. A lot effort has been spent on the readability of the code itself (in particular the ``*.h`` files should be instructive). One is highly encouraged to answer more advanced questions that arise from this guide directly using the code. Download buttons to the relevant files are included throughout this reader.
 
 This header-only module provides C++ classes and several accompanying methods to work with n-d arrays and/or tensors. It's usage, programmatically and from a compilation perspective, is really simple. One just has to ``#include <cppmat/cppmat.h>`` and tell your compiler where cppmat is located (and to use the C++14 or younger standard). Really, that's it!
 

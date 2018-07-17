@@ -244,9 +244,9 @@ void vector<X>::resize(size_t n, const X &D)
 
 template<typename X>
 inline
-void vector<X>::push_back(const X &D)
+void vector<X>::push_back(const X &value)
 {
-  this->mData.push_back(D);
+  this->mData.push_back(value);
   this->mShape[0]++;
   this->mSize++;
 }
@@ -263,6 +263,15 @@ void vector<X>::append(const cppmat::array<X> &A)
 
   this->mShape[0] += A.size();
   this->mSize     += A.size();
+}
+
+// -------------------------------------------------------------------------------------------------
+
+template<typename X>
+inline
+void vector<X>::clear()
+{
+  this->mData.clear();
 }
 
 // =================================================================================================
