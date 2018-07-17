@@ -12,7 +12,7 @@ cppmat::diagonal::matrix
 
 Square, diagonal, matrix, whereby only the diagonal components are stored:
 
-.. code-block:: cpp
+.. code-block:: none
 
   [ X       ;
        X    ;
@@ -39,3 +39,14 @@ Square, diagonal, matrix, whereby only the diagonal components are stored:
 
       return 0;
   }
+
+Storage
+-------
+
+The storage order is as follows:
+
+.. code-block:: none
+
+  [ 0       ;
+       1    ;
+          2 ]

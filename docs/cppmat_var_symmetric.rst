@@ -12,7 +12,7 @@ cppmat::symmetric::matrix
 
 Square, symmetric, matrix, whereby only the upper-diagonal components are stored:
 
-.. code-block:: cpp
+.. code-block:: none
 
   [ X, X, X ;
        X, X ;
@@ -38,3 +38,21 @@ Square, symmetric, matrix, whereby only the upper-diagonal components are stored
 
       return 0;
   }
+
+Storage
+-------
+
+The storage order is as follows:
+
+.. code-block:: none
+
+  [ 0, 1, 2 ;
+       3, 4 ;
+          5 ]
+
+For an ``NxN`` matrix (square by definition), the component ``(i,j)`` can be extracted by
+
+.. code-block:: cpp
+
+  if (i <= j) i*N - (i-1)*i/2 + j - i;
+  else        j*N - (j-1)*j/2 + i - j;
