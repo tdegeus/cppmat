@@ -25,11 +25,7 @@ endif()
 # load pkg-config
 find_package(PkgConfig)
 
-# load header-only modules using pkg-config
-# - cppmat
-pkg_check_modules(CPPMAT REQUIRED cppmat)
-include_directories(${CPPMAT_INCLUDE_DIRS})
-# - eigen3
+# load "eigen3"
 pkg_check_modules(EIGEN3 REQUIRED eigen3)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
