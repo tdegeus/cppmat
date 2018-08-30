@@ -106,13 +106,21 @@ before_install:
         export CXX=clang++ CC=clang;
       fi
 install:
-    # find catch
-    - apt-cache search catch
-    - apt-cache search catch2
-    # build and run test
+    # build path
     - cd develop
     - mkdir build
     - cd build
+    # install catch
+    - git clone https://github.com/catchorg/Catch2.git
+    - cd Catch2
+    - mkdir build
+    - cd build
+    - mkdir opt
+    - cmake .. -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX:PATH=$(PWD)/opt
+    - make install
+    - export INCLUDE_PATH=$(PWD)/opt/include:"${INCLUDE_PATH}"
+    - cd ../..
+    # build and run test
     - cmake ..
     - make
     - ./test

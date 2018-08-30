@@ -29,6 +29,12 @@ find_package(PkgConfig)
 pkg_check_modules(EIGEN3 REQUIRED eigen3)
 include_directories(${EIGEN3_INCLUDE_DIRS})
 
+# add other paths
+if(NOT "$ENV{INCLUDE_PATH}" STREQUAL "")
+  string(REPLACE ":" ";" INCLUDE_LIST "$ENV{INCLUDE_PATH}")
+  include_directories(${INCLUDE_LIST})
+endif()
+
 # create executable
 add_executable(${PROJECT_NAME}
   main.cpp
