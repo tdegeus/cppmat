@@ -106,6 +106,7 @@ before_install:
         export CXX=clang++ CC=clang;
       fi
 install:
+    # build and run test
     - cd develop
     - mkdir build
     - cd build
