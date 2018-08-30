@@ -107,8 +107,8 @@ before_install:
       fi
 install:
     # find catch
-    aot-get search catch
-    aot-get search catch2
+    - apt-get search catch
+    - apt-get search catch2
     # build and run test
     - cd develop
     - mkdir build
