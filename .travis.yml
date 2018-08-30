@@ -101,7 +101,7 @@ install:
     # - cmake .. -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX:PATH="${PWD}"/opt
     # - make install
     - mkdir -p opt/include/catch2
-    - cp ../include/catch.hpp opt/include/catch2/
+    - cp -r ../include/* opt/include/catch2/
     - export INCLUDE_PATH="${PWD}"/opt/include:"${INCLUDE_PATH}"
     - cd ../..
     # build and run test
