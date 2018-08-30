@@ -1,5 +1,5 @@
 language: cpp
-dist: precise
+dist: trusty
 env:
 matrix:
   fast_finish: true
@@ -21,7 +21,7 @@ matrix:
           packages:
             - g++-5
             - libeigen3-dev
-      env: COMPILER=gcc GCC=5 DISABLE_XSIMD=1
+      env: COMPILER=gcc GCC=5
     - os: linux
       addons:
         apt:
@@ -30,51 +30,33 @@ matrix:
           packages:
             - g++-6
             - libeigen3-dev
-      env: COMPILER=gcc GCC=6 ENABLE_TBB=1
+      env: COMPILER=gcc GCC=6
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-            - libeigen3-dev
-      env: COMPILER=gcc GCC=6 BOUND_CHECKS=1 BUILD_BENCHMARK=1
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-6
-            - libeigen3-dev
-      env: COMPILER=gcc GCC=6 COLUMN_MAJOR_LAYOUT=1
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
+            - llvm-toolchain-trusty-3.6
           packages:
             - clang-3.6
             - libeigen3-dev
-      env: COMPILER=clang CLANG=3.6 DISABLE_XSIMD=1
+      env: COMPILER=clang CLANG=3.6
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.7
+            - llvm-toolchain-trusty-3.7
           packages:
             - clang-3.7
             - libeigen3-dev
-      env: COMPILER=clang CLANG=3.7 ENABLE_TBB=1 DISABLE_XSIMD=1
+      env: COMPILER=clang CLANG=3.7
     - os: linux
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.8
+            - llvm-toolchain-trusty-3.8
           packages:
             - clang-3.8
             - libeigen3-dev
@@ -84,7 +66,7 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.9
+            - llvm-toolchain-trusty-3.9
           packages:
             - clang-3.9
             - libeigen3-dev
@@ -115,10 +97,12 @@ install:
     - cd Catch2
     - mkdir build
     - cd build
-    - mkdir opt
-    - cmake .. -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX:PATH=$(PWD)/opt
-    - make install
-    - export INCLUDE_PATH=$(PWD)/opt/include:"${INCLUDE_PATH}"
+    # - mkdir opt
+    # - cmake .. -DCATCH_BUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX:PATH="${PWD}"/opt
+    # - make install
+    - mkdir -p opt/include/catch2
+    - cp ../include/catch.hpp opt/include/catch2/
+    - export INCLUDE_PATH="${PWD}"/opt/include:"${INCLUDE_PATH}"
     - cd ../..
     # build and run test
     - cmake ..
