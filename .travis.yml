@@ -4,25 +4,7 @@ env:
 matrix:
   fast_finish: true
   include:
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-            - libeigen3-dev
-      env: COMPILER=gcc GCC=4.9
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-5
-            - libeigen3-dev
-      env: COMPILER=gcc GCC=5
-    - os: linux
+   - os: linux
       addons:
         apt:
           sources:
@@ -31,49 +13,6 @@ matrix:
             - g++-6
             - libeigen3-dev
       env: COMPILER=gcc GCC=6
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.6
-          packages:
-            - clang-3.6
-            - libeigen3-dev
-      env: COMPILER=clang CLANG=3.6
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.7
-          packages:
-            - clang-3.7
-            - libeigen3-dev
-      env: COMPILER=clang CLANG=3.7
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.8
-          packages:
-            - clang-3.8
-            - libeigen3-dev
-      env: COMPILER=clang CLANG=3.8
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-3.9
-          packages:
-            - clang-3.9
-            - libeigen3-dev
-      env: COMPILER=clang CLANG=3.9
-    - os: osx
-      osx_image: xcode8
-      compiler: clang
 before_install:
     - |
       # Configure build variables
@@ -104,7 +43,8 @@ install:
     - cp -r ../single_include/catch2 opt/include/
     - export INCLUDE_PATH="${PWD}"/opt/include:"${INCLUDE_PATH}"
     - cd ../..
-    # build and run test
     - cmake ..
+script:
+    # build and run test
     - make
     - ./test
