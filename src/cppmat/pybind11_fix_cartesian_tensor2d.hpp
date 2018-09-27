@@ -59,9 +59,8 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(
-    const cppmat::tiny::cartesian::tensor2d<X,ND>& src, py::return_value_policy policy, py::handle parent
-  )
+  static py::handle cast(const cppmat::tiny::cartesian::tensor2d<X,ND>& src,
+    py::return_value_policy, py::handle)
   {
     // - convert to dense tensor
     cppmat::tiny::cartesian::tensor2<X,ND> tmp = src;

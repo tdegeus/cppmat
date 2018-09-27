@@ -59,9 +59,8 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(
-    const cppmat::tiny::cartesian::tensor2<X,ND>& src, py::return_value_policy policy, py::handle parent
-  )
+  static py::handle cast(const cppmat::tiny::cartesian::tensor2<X,ND>& src,
+    py::return_value_policy, py::handle)
   {
     // - create Python variable (all variables are copied)
     py::array a(std::move(src.shape()), std::move(src.strides(true)), src.data());

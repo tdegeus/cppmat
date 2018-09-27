@@ -58,9 +58,8 @@ public:
   // C++ -> Python
   // -------------
 
-  static py::handle cast(
-    const cppmat::tiny::symmetric::matrix<X,M,N>& src, py::return_value_policy policy, py::handle parent
-  )
+  static py::handle cast(const cppmat::tiny::symmetric::matrix<X,M,N>& src,
+    py::return_value_policy, py::handle)
   {
     // - convert to dense matrix
     cppmat::tiny::matrix<X,M,N> tmp = src;
