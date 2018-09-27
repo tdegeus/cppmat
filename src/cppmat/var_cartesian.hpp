@@ -26,7 +26,7 @@ cppmat::cartesian::tensor4<X> ddot(
   const cppmat::cartesian::tensor4<X> &A, const cppmat::cartesian::tensor4<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -51,7 +51,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor4<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -74,7 +74,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor4<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -97,7 +97,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor4<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -119,7 +119,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor4<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -142,7 +142,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor4<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -165,7 +165,7 @@ cppmat::cartesian::tensor2<X> ddot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor4<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -187,7 +187,7 @@ X ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -208,7 +208,7 @@ X ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -229,7 +229,7 @@ X ddot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -249,7 +249,7 @@ X ddot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -270,7 +270,7 @@ X ddot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -294,7 +294,7 @@ X ddot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -314,7 +314,7 @@ X ddot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -334,7 +334,7 @@ X ddot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -354,7 +354,7 @@ X ddot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -376,7 +376,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -398,7 +398,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -420,7 +420,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -441,7 +441,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -463,7 +463,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -485,7 +485,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -506,7 +506,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -527,7 +527,7 @@ cppmat::cartesian::tensor2<X> dot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -548,7 +548,7 @@ cppmat::cartesian::tensor2d<X> dot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -568,7 +568,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -589,7 +589,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -610,7 +610,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -630,7 +630,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -651,7 +651,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -672,7 +672,7 @@ cppmat::cartesian::vector<X> dot(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -692,7 +692,7 @@ X dot(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -714,7 +714,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -737,7 +737,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -760,7 +760,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -782,7 +782,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -805,7 +805,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -828,7 +828,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2s<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -850,7 +850,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -872,7 +872,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2s<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -894,7 +894,7 @@ cppmat::cartesian::tensor4<X> dyadic(
   const cppmat::cartesian::tensor2d<X> &A, const cppmat::cartesian::tensor2d<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -915,7 +915,7 @@ cppmat::cartesian::tensor2<X> dyadic(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 
@@ -938,7 +938,7 @@ cppmat::cartesian::vector<X> cross(
   const cppmat::cartesian::vector<X> &A, const cppmat::cartesian::vector<X> &B
 )
 {
-  assert( A.ndim() == B.ndim() );
+  Assert( A.ndim() == B.ndim() );
 
   size_t ND = A.ndim();
 

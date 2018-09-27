@@ -34,7 +34,7 @@ template<typename U, typename V>
 inline
 matrix<X>::matrix(const cppmat::array<U> &A) : cppmat::array<X>(A)
 {
-  assert( this->mRank == 2 );
+  Assert( this->mRank == 2 );
 }
 
 // =================================================================================================

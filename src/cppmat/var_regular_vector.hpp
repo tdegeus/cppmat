@@ -34,7 +34,7 @@ template<typename U, typename V>
 inline
 vector<X>::vector(const cppmat::array<U> &A) : cppmat::array<X>(A)
 {
-  assert( this->mRank == 1 );
+  Assert( this->mRank == 1 );
 }
 
 // =================================================================================================
@@ -266,7 +266,7 @@ template<typename X>
 inline
 void vector<X>::append(const cppmat::array<X> &A)
 {
-  assert( A.rank() == 1 );
+  Assert( A.rank() == 1 );
 
   this->mData.insert(this->end(), A.begin(), A.end());
 
@@ -291,7 +291,7 @@ template<typename X>
 inline
 vector<X> vector<X>::diff() const
 {
-  assert( this->mSize > 0 );
+  Assert( this->mSize > 0 );
 
   vector<X> out(this->mSize-1);
 

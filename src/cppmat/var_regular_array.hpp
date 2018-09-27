@@ -202,7 +202,7 @@ template<typename X>
 inline
 void array<X>::resize(const std::vector<size_t> &shape)
 {
-  assert( shape.size() <= MAX_DIM );
+  Assert( shape.size() <= MAX_DIM );
 
   // store old size
   size_t size = mSize;
@@ -241,7 +241,7 @@ template<typename X>
 inline
 void array<X>::resize(const std::vector<size_t> &shape, const X &D)
 {
-  assert( shape.size() <= MAX_DIM );
+  Assert( shape.size() <= MAX_DIM );
 
   // store old size
   size_t size = mSize;
@@ -284,7 +284,7 @@ void array<X>::reshape(const std::vector<size_t> &shape)
   #ifndef NDEBUG
     size_t n = 1;
     for ( auto &i : shape ) n *= i;
-    assert( n == mSize );
+    Assert( n == mSize );
   #endif
 
   // process change
@@ -299,7 +299,7 @@ void array<X>::chrank(size_t rank)
 {
   // check that all removed dimensions are of shape 1
   #ifndef NDEBUG
-    for ( size_t i = rank ; i < MAX_DIM ; ++i ) assert( mShape[i] == 1 );
+    for ( size_t i = rank ; i < MAX_DIM ; ++i ) Assert( mShape[i] == 1 );
   #endif
 
   // update number of dimensions
@@ -353,8 +353,8 @@ inline
 size_t array<X>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( i  <      static_cast<int>(mRank) );
-  assert( i >= -1 * static_cast<int>(mRank) );
+  Assert( i  <      static_cast<int>(mRank) );
+  Assert( i >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
   int n = static_cast<int>(mRank);
@@ -373,7 +373,7 @@ inline
 size_t array<X>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
-  assert( i < mRank );
+  Assert( i < mRank );
 
   // return shape
   return mShape[i];
@@ -491,7 +491,7 @@ template<typename X>
 inline
 X& array<X>::operator[](size_t i)
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return mData[i];
 }
@@ -502,7 +502,7 @@ template<typename X>
 inline
 const X& array<X>::operator[](size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return mData[i];
 }
@@ -517,7 +517,7 @@ X& array<X>::operator()(int a)
 {
   int na = static_cast<int>(mShape[0]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -533,7 +533,7 @@ const X& array<X>::operator()(int a) const
 {
   int na = static_cast<int>(mShape[0]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -550,8 +550,8 @@ X& array<X>::operator()(int a, int b)
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -570,8 +570,8 @@ const X& array<X>::operator()(int a, int b) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -591,9 +591,9 @@ X& array<X>::operator()(int a, int b, int c)
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -615,9 +615,9 @@ const X& array<X>::operator()(int a, int b, int c) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -640,10 +640,10 @@ X& array<X>::operator()(int a, int b, int c, int d)
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -668,10 +668,10 @@ const X& array<X>::operator()(int a, int b, int c, int d) const
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -697,11 +697,11 @@ X& array<X>::operator()(int a, int b, int c, int d, int e)
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -729,11 +729,11 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e) const
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -762,12 +762,12 @@ X& array<X>::operator()(int a, int b, int c, int d, int e, int f)
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
-  assert( ( f < nf && f >= -nf ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -798,12 +798,12 @@ const X& array<X>::operator()(int a, int b, int c, int d, int e, int f) const
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
-  assert( ( f < nf && f >= -nf ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -828,7 +828,7 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a)
 {
-  assert( a < mShape[0] );
+  Assert( a < mShape[0] );
 
   return mData[\
     a * mStrides[0]];
@@ -841,7 +841,7 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a) const
 {
-  assert( a < mShape[0] );
+  Assert( a < mShape[0] );
 
   return mData[\
     a * mStrides[0]];
@@ -854,8 +854,8 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
 
   return mData[\
     a * mStrides[0] + \
@@ -869,8 +869,8 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
 
   return mData[\
     a * mStrides[0] + \
@@ -884,9 +884,9 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
 
   return mData[\
     a * mStrides[0] + \
@@ -901,9 +901,9 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
 
   return mData[\
     a * mStrides[0] + \
@@ -918,10 +918,10 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
 
   return mData[\
     a * mStrides[0] + \
@@ -937,10 +937,10 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
 
   return mData[\
     a * mStrides[0] + \
@@ -956,11 +956,11 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d, T e)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
 
   return mData[\
     a * mStrides[0] + \
@@ -977,11 +977,11 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d, T e) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
 
   return mData[\
     a * mStrides[0] + \
@@ -998,12 +998,12 @@ template<typename T, typename S>
 inline
 X& array<X>::operator()(T a, T b, T c, T d, T e, T f)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
-  assert( f < mShape[5] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
+  Assert( f < mShape[5] );
 
   return mData[\
     a * mStrides[0] + \
@@ -1021,12 +1021,12 @@ template<typename T, typename S>
 inline
 const X& array<X>::operator()(T a, T b, T c, T d, T e, T f) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
-  assert( f < mShape[5] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
+  Assert( f < mShape[5] );
 
   return mData[\
     a * mStrides[0] + \
@@ -1047,8 +1047,8 @@ inline
 X& array<X>::at(Iterator first, Iterator last)
 {
   // check input
-  assert( static_cast<size_t>(last-first)  > 0     );
-  assert( static_cast<size_t>(last-first) <= mRank );
+  Assert( static_cast<size_t>(last-first)  > 0     );
+  Assert( static_cast<size_t>(last-first) <= mRank );
 
   // iterator to shape and stride
   size_t *shape  = &mShape  [0];
@@ -1061,7 +1061,7 @@ X& array<X>::at(Iterator first, Iterator last)
   for ( auto it = first ; it != last ; ++it )
   {
     // - check array index
-    assert( (*it) < (*shape) );
+    Assert( (*it) < (*shape) );
     // - update index
     idx += (*it) * (*stride);
     // - move iterators forward
@@ -1080,8 +1080,8 @@ inline
 const X& array<X>::at(Iterator first, Iterator last) const
 {
   // check input
-  assert( static_cast<size_t>(last-first)  > 0     );
-  assert( static_cast<size_t>(last-first) <= mRank );
+  Assert( static_cast<size_t>(last-first)  > 0     );
+  Assert( static_cast<size_t>(last-first) <= mRank );
 
   // iterator to shape and stride
   size_t *shape  = &mShape  [0];
@@ -1094,7 +1094,7 @@ const X& array<X>::at(Iterator first, Iterator last) const
   for ( auto it = first ; it != last ; ++it )
   {
     // - check array index
-    assert( (*it) < (*shape) );
+    Assert( (*it) < (*shape) );
     // - update index
     idx += (*it) * (*stride);
     // - move iterators forward
@@ -1115,7 +1115,7 @@ size_t array<X>::compress(int a) const
 {
   int na = static_cast<int>(mShape[0]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -1131,8 +1131,8 @@ size_t array<X>::compress(int a, int b) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1151,9 +1151,9 @@ size_t array<X>::compress(int a, int b, int c) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1175,10 +1175,10 @@ size_t array<X>::compress(int a, int b, int c, int d) const
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1203,11 +1203,11 @@ size_t array<X>::compress(int a, int b, int c, int d, int e) const
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1235,12 +1235,12 @@ size_t array<X>::compress(int a, int b, int c, int d, int e, int f) const
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
-  assert( ( f < nf && f >= -nf ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1264,7 +1264,7 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a) const
 {
-  assert( a < mShape[0] );
+  Assert( a < mShape[0] );
 
   return a * mStrides[0];
 }
@@ -1276,8 +1276,8 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
 
   return a * mStrides[0] + \
          b * mStrides[1];
@@ -1290,9 +1290,9 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
 
   return a * mStrides[0] + \
          b * mStrides[1] + \
@@ -1306,10 +1306,10 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
 
   return a * mStrides[0] + \
          b * mStrides[1] + \
@@ -1324,11 +1324,11 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d, T e) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
 
   return a * mStrides[0] + \
          b * mStrides[1] + \
@@ -1344,12 +1344,12 @@ template<typename T, typename S>
 inline
 size_t array<X>::compress(T a, T b, T c, T d, T e, T f) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
-  assert( f < mShape[5] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
+  Assert( f < mShape[5] );
 
   return a * mStrides[0] + \
          b * mStrides[1] + \
@@ -1368,7 +1368,7 @@ inline
 std::vector<size_t> array<X>::decompress(size_t i) const
 {
   // check input
-  assert( i < mSize );
+  Assert( i < mSize );
 
   // allocate array-index
   std::vector<size_t> idx(mRank);
@@ -1490,7 +1490,7 @@ template<typename X>
 inline
 auto array<X>::index(size_t i)
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return begin() + i;
 }
@@ -1501,7 +1501,7 @@ template<typename X>
 inline
 auto array<X>::index(size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return begin() + i;
 }
@@ -1516,7 +1516,7 @@ auto array<X>::item(int a)
 {
   int na = static_cast<int>(mShape[0]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -1532,7 +1532,7 @@ auto array<X>::item(int a) const
 {
   int na = static_cast<int>(mShape[0]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
 
@@ -1549,8 +1549,8 @@ auto array<X>::item(int a, int b)
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1569,8 +1569,8 @@ auto array<X>::item(int a, int b) const
   int na = static_cast<int>(mShape[0]);
   int nb = static_cast<int>(mShape[1]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1590,9 +1590,9 @@ auto array<X>::item(int a, int b, int c)
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1614,9 +1614,9 @@ auto array<X>::item(int a, int b, int c) const
   int nb = static_cast<int>(mShape[1]);
   int nc = static_cast<int>(mShape[2]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1639,10 +1639,10 @@ auto array<X>::item(int a, int b, int c, int d)
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1667,10 +1667,10 @@ auto array<X>::item(int a, int b, int c, int d) const
   int nc = static_cast<int>(mShape[2]);
   int nd = static_cast<int>(mShape[3]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1696,11 +1696,11 @@ auto array<X>::item(int a, int b, int c, int d, int e)
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1728,11 +1728,11 @@ auto array<X>::item(int a, int b, int c, int d, int e) const
   int nd = static_cast<int>(mShape[3]);
   int ne = static_cast<int>(mShape[4]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1761,12 +1761,12 @@ auto array<X>::item(int a, int b, int c, int d, int e, int f)
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
-  assert( ( f < nf && f >= -nf ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1797,12 +1797,12 @@ auto array<X>::item(int a, int b, int c, int d, int e, int f) const
   int ne = static_cast<int>(mShape[4]);
   int nf = static_cast<int>(mShape[5]);
 
-  assert( ( a < na && a >= -na ) or mPeriodic );
-  assert( ( b < nb && b >= -nb ) or mPeriodic );
-  assert( ( c < nc && c >= -nc ) or mPeriodic );
-  assert( ( d < nd && d >= -nd ) or mPeriodic );
-  assert( ( e < ne && e >= -ne ) or mPeriodic );
-  assert( ( f < nf && f >= -nf ) or mPeriodic );
+  Assert( ( a < na && a >= -na ) or mPeriodic );
+  Assert( ( b < nb && b >= -nb ) or mPeriodic );
+  Assert( ( c < nc && c >= -nc ) or mPeriodic );
+  Assert( ( d < nd && d >= -nd ) or mPeriodic );
+  Assert( ( e < ne && e >= -ne ) or mPeriodic );
+  Assert( ( f < nf && f >= -nf ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (na+(a%na)) % na );
   size_t B = static_cast<size_t>( (nb+(b%nb)) % nb );
@@ -1827,7 +1827,7 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a)
 {
-  assert( a < mShape[0] );
+  Assert( a < mShape[0] );
 
   return begin() +
     a * mStrides[0];
@@ -1840,7 +1840,7 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a) const
 {
-  assert( a < mShape[0] );
+  Assert( a < mShape[0] );
 
   return begin() +
     a * mStrides[0];
@@ -1853,8 +1853,8 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1868,8 +1868,8 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1883,9 +1883,9 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1900,9 +1900,9 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1917,10 +1917,10 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1936,10 +1936,10 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1955,11 +1955,11 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1976,11 +1976,11 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
 
   return begin() +
     a * mStrides[0] + \
@@ -1997,12 +1997,12 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e, T f)
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
-  assert( f < mShape[5] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
+  Assert( f < mShape[5] );
 
   return begin() +
     a * mStrides[0] + \
@@ -2020,12 +2020,12 @@ template<typename T, typename S>
 inline
 auto array<X>::item(T a, T b, T c, T d, T e, T f) const
 {
-  assert( a < mShape[0] );
-  assert( b < mShape[1] );
-  assert( c < mShape[2] );
-  assert( d < mShape[3] );
-  assert( e < mShape[4] );
-  assert( f < mShape[5] );
+  Assert( a < mShape[0] );
+  Assert( b < mShape[1] );
+  Assert( c < mShape[2] );
+  Assert( d < mShape[3] );
+  Assert( e < mShape[4] );
+  Assert( f < mShape[5] );
 
   return begin() +
     a * mStrides[0] + \
@@ -2068,12 +2068,12 @@ array<X> array<X>::slice(
 
   // check size
   #ifndef NDEBUG
-    for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] > -na+1 ); }
-    for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] > -nb+1 ); }
-    for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] > -nc+1 ); }
-    for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] > -nd+1 ); }
-    for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] > -ne+1 ); }
-    for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] > -nf+1 ); }
+    for ( size_t i = 0 ; i < a.size() ; ++i ) { Assert( a[i] < na and a[i] > -na+1 ); }
+    for ( size_t i = 0 ; i < b.size() ; ++i ) { Assert( b[i] < nb and b[i] > -nb+1 ); }
+    for ( size_t i = 0 ; i < c.size() ; ++i ) { Assert( c[i] < nc and c[i] > -nc+1 ); }
+    for ( size_t i = 0 ; i < d.size() ; ++i ) { Assert( d[i] < nd and d[i] > -nd+1 ); }
+    for ( size_t i = 0 ; i < e.size() ; ++i ) { Assert( e[i] < ne and e[i] > -ne+1 ); }
+    for ( size_t i = 0 ; i < f.size() ; ++i ) { Assert( f[i] < nf and f[i] > -nf+1 ); }
   #endif
 
   // copy index from input list: apply periodicity
@@ -2168,21 +2168,21 @@ array<X> array<X>::slice(
   #ifndef NDEBUG
     if ( std::numeric_limits<T>::is_signed )
     {
-      for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] > -na+1 ); }
-      for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] > -nb+1 ); }
-      for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] > -nc+1 ); }
-      for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] > -nd+1 ); }
-      for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] > -ne+1 ); }
-      for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] > -nf+1 ); }
+      for ( size_t i = 0 ; i < a.size() ; ++i ) { Assert( a[i] < na and a[i] > -na+1 ); }
+      for ( size_t i = 0 ; i < b.size() ; ++i ) { Assert( b[i] < nb and b[i] > -nb+1 ); }
+      for ( size_t i = 0 ; i < c.size() ; ++i ) { Assert( c[i] < nc and c[i] > -nc+1 ); }
+      for ( size_t i = 0 ; i < d.size() ; ++i ) { Assert( d[i] < nd and d[i] > -nd+1 ); }
+      for ( size_t i = 0 ; i < e.size() ; ++i ) { Assert( e[i] < ne and e[i] > -ne+1 ); }
+      for ( size_t i = 0 ; i < f.size() ; ++i ) { Assert( f[i] < nf and f[i] > -nf+1 ); }
     }
     else
     {
-      for ( size_t i = 0 ; i < a.size() ; ++i ) { assert( a[i] < na and a[i] >= 0 ); }
-      for ( size_t i = 0 ; i < b.size() ; ++i ) { assert( b[i] < nb and b[i] >= 0 ); }
-      for ( size_t i = 0 ; i < c.size() ; ++i ) { assert( c[i] < nc and c[i] >= 0 ); }
-      for ( size_t i = 0 ; i < d.size() ; ++i ) { assert( d[i] < nd and d[i] >= 0 ); }
-      for ( size_t i = 0 ; i < e.size() ; ++i ) { assert( e[i] < ne and e[i] >= 0 ); }
-      for ( size_t i = 0 ; i < f.size() ; ++i ) { assert( f[i] < nf and f[i] >= 0 ); }
+      for ( size_t i = 0 ; i < a.size() ; ++i ) { Assert( a[i] < na and a[i] >= 0 ); }
+      for ( size_t i = 0 ; i < b.size() ; ++i ) { Assert( b[i] < nb and b[i] >= 0 ); }
+      for ( size_t i = 0 ; i < c.size() ; ++i ) { Assert( c[i] < nc and c[i] >= 0 ); }
+      for ( size_t i = 0 ; i < d.size() ; ++i ) { Assert( d[i] < nd and d[i] >= 0 ); }
+      for ( size_t i = 0 ; i < e.size() ; ++i ) { Assert( e[i] < ne and e[i] >= 0 ); }
+      for ( size_t i = 0 ; i < f.size() ; ++i ) { Assert( f[i] < nf and f[i] >= 0 ); }
     }
   #endif
 
@@ -2253,7 +2253,7 @@ template<typename X>
 inline
 array<X> array<X>::pad(const std::vector<size_t> &pad_width, X D)
 {
-  assert( pad_width.size() == mRank );
+  Assert( pad_width.size() == mRank );
 
   // output array
   // - allocate shape
@@ -2357,7 +2357,7 @@ template<class Iterator>
 inline
 void array<X>::setCopy(Iterator first, Iterator last)
 {
-  assert( mSize == static_cast<size_t>(last-first) );
+  Assert( mSize == static_cast<size_t>(last-first) );
 
   std::copy(first, last, begin());
 }
@@ -2381,7 +2381,7 @@ template<class Iterator>
 inline
 void array<X>::copyTo(Iterator first, Iterator last) const
 {
-  assert( mSize == static_cast<size_t>(last-first) );
+  Assert( mSize == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -2572,9 +2572,9 @@ template<typename X>
 inline
 array<X>& array<X>::operator*= (const array<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B[i];
@@ -2588,9 +2588,9 @@ template<typename X>
 inline
 array<X>& array<X>::operator/= (const array<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] /= B[i];
@@ -2604,9 +2604,9 @@ template<typename X>
 inline
 array<X>& array<X>::operator+= (const array<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B[i];
@@ -2620,9 +2620,9 @@ template<typename X>
 inline
 array<X>& array<X>::operator-= (const array<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B[i];
@@ -2759,7 +2759,7 @@ inline
 array<X> array<X>::min(size_t axis) const
 {
   // check input
-  assert( axis < mRank );
+  Assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
   array<X> out = array<X>::Constant(del(shape(),axis), max());
@@ -2793,8 +2793,8 @@ inline
 array<X> array<X>::min(int axis) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
+  Assert( axis  <      static_cast<int>(mRank) );
+  Assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
   int n = static_cast<int>(mRank);
@@ -2843,7 +2843,7 @@ inline
 array<X> array<X>::max(size_t axis) const
 {
   // check input
-  assert( axis < mRank );
+  Assert( axis < mRank );
 
   // initialize output to the same shape as the input, with one axis removed
   array<X> out = array<X>::Constant(del(shape(),axis), min());
@@ -2877,8 +2877,8 @@ inline
 array<X> array<X>::max(int axis) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
+  Assert( axis  <      static_cast<int>(mRank) );
+  Assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
   int n = static_cast<int>(mRank);
@@ -2958,8 +2958,8 @@ inline
 array<X> array<X>::sum(int axis) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( axis  <      static_cast<int>(mRank) );
-  assert( axis >= -1 * static_cast<int>(mRank) );
+  Assert( axis  <      static_cast<int>(mRank) );
+  Assert( axis >= -1 * static_cast<int>(mRank) );
 
   // get number of dimensions as integer
   int n = static_cast<int>(mRank);
@@ -2978,7 +2978,7 @@ inline
 array<X> array<X>::sum(const std::vector<int> &axes_in) const
 {
   // check rank
-  assert( axes_in.size() < mRank );
+  Assert( axes_in.size() < mRank );
 
   // correct for 'periodicity', sort from high to low
   std::vector<int> axes = cppmat::Private::sort_axes(axes_in, static_cast<int>(mRank), true);
@@ -3178,8 +3178,8 @@ template<typename X>
 inline
 array<int> array<X>::equal(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3196,8 +3196,8 @@ template<typename X>
 inline
 array<int> array<X>::not_equal(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3214,8 +3214,8 @@ template<typename X>
 inline
 array<int> array<X>::greater(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3232,8 +3232,8 @@ template<typename X>
 inline
 array<int> array<X>::greater_equal(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3250,8 +3250,8 @@ template<typename X>
 inline
 array<int> array<X>::less(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3268,8 +3268,8 @@ template<typename X>
 inline
 array<int> array<X>::less_equal(const array<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   array<int> out = array<int>::Zero(shape());
 
@@ -3338,7 +3338,7 @@ size_t array<X>::where(int index) const
     if ( mData[i] )
       ++nnz;
 
-  assert( index < nnz && index >= -nnz );
+  Assert( index < nnz && index >= -nnz );
 
   index = ( nnz + (index%nnz) ) % nnz;
 
@@ -3409,9 +3409,9 @@ template<typename X>
 inline
 bool operator!= (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   for ( size_t i = 0 ; i < A.size() ; ++i )
     if ( A[i] != B[i] )
@@ -3426,9 +3426,9 @@ template<typename X>
 inline
 bool operator== (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   for ( size_t i = 0 ; i < A.size() ; ++i )
     if ( A[i] != B[i] )
@@ -3445,9 +3445,9 @@ template<typename X>
 inline
 array<X> operator* (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 
@@ -3463,9 +3463,9 @@ template<typename X>
 inline
 array<X> operator/ (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 
@@ -3481,9 +3481,9 @@ template<typename X>
 inline
 array<X> operator+ (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 
@@ -3499,9 +3499,9 @@ template<typename X>
 inline
 array<X> operator- (const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 
@@ -3629,9 +3629,9 @@ array<X> operator- (const X &A, const array<X> &B)
 
 template<typename X> array<X> min(const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 
@@ -3645,9 +3645,9 @@ template<typename X> array<X> min(const array<X> &A, const array<X> &B)
 
 template<typename X> array<X> max(const array<X> &A, const array<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   array<X> C(A.shape());
 

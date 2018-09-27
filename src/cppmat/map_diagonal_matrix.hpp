@@ -122,8 +122,8 @@ inline
 size_t matrix<X,M,N>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( i  <      static_cast<int>(mRank) );
-  assert( i >= -1 * static_cast<int>(mRank) );
+  Assert( i  <      static_cast<int>(mRank) );
+  Assert( i >= -1 * static_cast<int>(mRank) );
 
   // return shape
   return N;
@@ -136,7 +136,7 @@ inline
 size_t matrix<X,M,N>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
-  assert( i < mRank );
+  Assert( i < mRank );
 
   // return shape
   return N;
@@ -221,7 +221,7 @@ template<typename X, size_t M, size_t N>
 inline
 const X& matrix<X,M,N>::operator[](size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return mData[i];
 }
@@ -236,8 +236,8 @@ const X& matrix<X,M,N>::operator()(int a, int b) const
 {
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( b < n && b >= -n ) or mPeriodic );
 
   if ( a != b ) return mZero[0];
 
@@ -253,8 +253,8 @@ template<typename T, typename S>
 inline
 const X& matrix<X,M,N>::operator()(T a, T b) const
 {
-  assert( a < N );
-  assert( b < N );
+  Assert( a < N );
+  Assert( b < N );
 
   if (a == b) return mData[a];
   else        return mZero[0];
@@ -268,11 +268,11 @@ template<typename X, size_t M, size_t N>
 inline
 size_t matrix<X,M,N>::compress(int a, int b) const
 {
-  assert( a == b );
+  Assert( a == b );
 
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -286,9 +286,9 @@ template<typename T, typename S>
 inline
 size_t matrix<X,M,N>::compress(T a, T b) const
 {
-  assert( a < N  );
-  assert( b < N  );
-  assert( a == b );
+  Assert( a < N  );
+  Assert( b < N  );
+  Assert( a == b );
 
   return a;
 }
@@ -302,7 +302,7 @@ inline
 std::vector<size_t> matrix<X,M,N>::decompress(size_t i) const
 {
   // check input
-  assert( i < mSize );
+  Assert( i < mSize );
 
   // allocate matrix-index
   std::vector<size_t> idx(mRank);
@@ -394,7 +394,7 @@ template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::index(size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return begin() + i;
 }
@@ -407,11 +407,11 @@ template<typename X, size_t M, size_t N>
 inline
 auto matrix<X,M,N>::item(int a, int b) const
 {
-  assert( a == b );
+  Assert( a == b );
 
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -425,9 +425,9 @@ template<typename T, typename S>
 inline
 auto matrix<X,M,N>::item(T a, T b) const
 {
-  assert( a < N  );
-  assert( b < N  );
-  assert( a == b );
+  Assert( a < N  );
+  Assert( b < N  );
+  Assert( a == b );
 
   return this->begin() + a;
 }
@@ -462,7 +462,7 @@ template<class Iterator>
 inline
 void matrix<X,M,N>::copyTo(Iterator first, Iterator last) const
 {
-  assert( mSize == static_cast<size_t>(last-first) );
+  Assert( mSize == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -491,7 +491,7 @@ template<class Iterator>
 inline
 void matrix<X,M,N>::copyToDense(Iterator first, Iterator last) const
 {
-  assert( N*N == static_cast<size_t>(last-first) );
+  Assert( N*N == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -695,7 +695,7 @@ size_t matrix<X,M,N>::where(int index) const
     if ( mData[i] )
       ++nnz;
 
-  assert( index < nnz && index >= -nnz );
+  Assert( index < nnz && index >= -nnz );
 
   index = ( nnz + (index%nnz) ) % nnz;
 

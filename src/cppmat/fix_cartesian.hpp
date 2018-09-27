@@ -770,7 +770,7 @@ cppmat::tiny::cartesian::vector<X,ND> cross(
   const cppmat::tiny::cartesian::vector<X,ND> &A, const cppmat::tiny::cartesian::vector<X,ND> &B
 )
 {
-  assert( false );
+  Assert( false );
 
   UNUSED(B);
 
@@ -915,7 +915,7 @@ template<typename X, size_t ND>
 inline
 X det(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
-  assert( false );
+  Assert( false );
 
   UNUSED(A);
 
@@ -928,7 +928,7 @@ template<typename X, size_t ND>
 inline
 X det(const cppmat::tiny::cartesian::tensor2s<X,ND> &A)
 {
-  assert( false );
+  Assert( false );
 
   UNUSED(A);
 
@@ -957,7 +957,7 @@ template<typename X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2<X,ND> inv(const cppmat::tiny::cartesian::tensor2<X,ND> &A)
 {
-  assert(false);
+  Assert(false);
 
   return A;
 }
@@ -968,7 +968,7 @@ template<typename X, size_t ND>
 inline
 cppmat::tiny::cartesian::tensor2s<X,ND> inv(const cppmat::tiny::cartesian::tensor2s<X,ND> &A)
 {
-  assert(false);
+  Assert(false);
 
   return A;
 }

@@ -101,7 +101,7 @@ template<typename X, size_t N>
 inline
 void vector<X,N>::reserve(size_t n)
 {
-  assert( n == N );
+  Assert( n == N );
 }
 
 // -------------------------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ template<typename X, size_t N>
 inline
 void vector<X,N>::push_back(const X &value)
 {
-  assert( mIstore < N );
+  Assert( mIstore < N );
 
   this->mData[mIstore] = value;
 

@@ -35,7 +35,7 @@ matrix<X>::matrix(size_t m, size_t n)
 {
   mZero[0] = static_cast<X>(0);
 
-  assert( m == n );
+  Assert( m == n );
 
   resize(m,n);
 }
@@ -198,7 +198,7 @@ template<typename Iterator>
 inline
 matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first)
 {
-  assert( m == n );
+  Assert( m == n );
 
   matrix<X> out(m,n);
 
@@ -214,7 +214,7 @@ template<typename Iterator>
 inline
 matrix<X> matrix<X>::CopyDense(size_t m, size_t n, Iterator first, Iterator last)
 {
-  assert( m == n );
+  Assert( m == n );
 
   matrix<X> out(m,n);
 
@@ -248,7 +248,7 @@ template<typename X>
 inline
 void matrix<X>::resize(size_t m, size_t n)
 {
-  assert( m == n );
+  Assert( m == n );
 
   // store old size
   size_t size = mSize;
@@ -269,7 +269,7 @@ template<typename X>
 inline
 void matrix<X>::resize(size_t m, size_t n, const X &D)
 {
-  assert( m == n );
+  Assert( m == n );
 
   // store old size
   size_t size = mSize;
@@ -322,8 +322,8 @@ inline
 size_t matrix<X>::shape(int i) const
 {
   // check axis: (0,1,...,rank-1) or (-1,-2,...,-rank)
-  assert( i  <      static_cast<int>(mRank) );
-  assert( i >= -1 * static_cast<int>(mRank) );
+  Assert( i  <      static_cast<int>(mRank) );
+  Assert( i >= -1 * static_cast<int>(mRank) );
 
   // return shape
   return N;
@@ -336,7 +336,7 @@ inline
 size_t matrix<X>::shape(size_t i) const
 {
   // check axis: (0,1,...,rank-1)
-  assert( i < mRank );
+  Assert( i < mRank );
 
   // return shape
   return N;
@@ -421,7 +421,7 @@ template<typename X>
 inline
 X& matrix<X>::operator[](size_t i)
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return mData[i];
 }
@@ -432,7 +432,7 @@ template<typename X>
 inline
 const X& matrix<X>::operator[](size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return mData[i];
 }
@@ -447,8 +447,8 @@ X& matrix<X>::operator()(int a, int b)
 {
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( b < n && b >= -n ) or mPeriodic );
 
   if ( a != b ) return mZero[0];
 
@@ -465,8 +465,8 @@ const X& matrix<X>::operator()(int a, int b) const
 {
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
-  assert( ( b < n && b >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( b < n && b >= -n ) or mPeriodic );
 
   if ( a != b ) return mZero[0];
 
@@ -482,8 +482,8 @@ template<typename T, typename S>
 inline
 X& matrix<X>::operator()(T a, T b)
 {
-  assert( a < N );
-  assert( b < N );
+  Assert( a < N );
+  Assert( b < N );
 
   if (a == b) return mData[a];
   else        return mZero[0];
@@ -496,8 +496,8 @@ template<typename T, typename S>
 inline
 const X& matrix<X>::operator()(T a, T b) const
 {
-  assert( a < N );
-  assert( b < N );
+  Assert( a < N );
+  Assert( b < N );
 
   if (a == b) return mData[a];
   else        return mZero[0];
@@ -511,11 +511,11 @@ template<typename X>
 inline
 size_t matrix<X>::compress(int a, int b) const
 {
-  assert( a == b );
+  Assert( a == b );
 
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -529,9 +529,9 @@ template<typename T, typename S>
 inline
 size_t matrix<X>::compress(T a, T b) const
 {
-  assert( a < N  );
-  assert( b < N  );
-  assert( a == b );
+  Assert( a < N  );
+  Assert( b < N  );
+  Assert( a == b );
 
   return a;
 }
@@ -545,7 +545,7 @@ inline
 std::vector<size_t> matrix<X>::decompress(size_t i) const
 {
   // check input
-  assert( i < mSize );
+  Assert( i < mSize );
 
   // allocate matrix-index
   std::vector<size_t> idx(mRank);
@@ -664,7 +664,7 @@ template<typename X>
 inline
 auto matrix<X>::index(size_t i)
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return begin() + i;
 }
@@ -675,7 +675,7 @@ template<typename X>
 inline
 auto matrix<X>::index(size_t i) const
 {
-  assert( i < mSize );
+  Assert( i < mSize );
 
   return begin() + i;
 }
@@ -688,11 +688,11 @@ template<typename X>
 inline
 auto matrix<X>::item(int a, int b)
 {
-  assert( a == b );
+  Assert( a == b );
 
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -705,11 +705,11 @@ template<typename X>
 inline
 auto matrix<X>::item(int a, int b) const
 {
-  assert( a == b );
+  Assert( a == b );
 
   int n = static_cast<int>(N);
 
-  assert( ( a < n && a >= -n ) or mPeriodic );
+  Assert( ( a < n && a >= -n ) or mPeriodic );
 
   size_t A = static_cast<size_t>( (n+(a%n)) % n );
 
@@ -723,9 +723,9 @@ template<typename T, typename S>
 inline
 auto matrix<X>::item(T a, T b)
 {
-  assert( a < N  );
-  assert( b < N  );
-  assert( a == b );
+  Assert( a < N  );
+  Assert( b < N  );
+  Assert( a == b );
 
   return this->begin() + a;
 }
@@ -737,9 +737,9 @@ template<typename T, typename S>
 inline
 auto matrix<X>::item(T a, T b) const
 {
-  assert( a < N  );
-  assert( b < N  );
-  assert( a == b );
+  Assert( a < N  );
+  Assert( b < N  );
+  Assert( a == b );
 
   return this->begin() + a;
 }
@@ -818,7 +818,7 @@ template<class Iterator>
 inline
 void matrix<X>::setCopy(Iterator first, Iterator last)
 {
-  assert( mSize == static_cast<size_t>(last-first) );
+  Assert( mSize == static_cast<size_t>(last-first) );
 
   std::copy(first, last, begin());
 }
@@ -835,7 +835,7 @@ void matrix<X>::setCopyDense(Iterator first)
   for ( size_t i = 0 ; i < N ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       if ( i !=j )
-        assert( !first[i*N+j] );
+        Assert( !first[i*N+j] );
   #endif
 
   // copy from input (ignores off-diagonal terms)
@@ -854,14 +854,14 @@ void matrix<X>::setCopyDense(Iterator first, Iterator last)
   UNUSED(last);
 
   // check size
-  assert( N*N == static_cast<size_t>(last-first) );
+  Assert( N*N == static_cast<size_t>(last-first) );
 
   // check the input to be diagonal
   #ifndef NDEBUG
   for ( size_t i = 0 ; i < N ; ++i )
     for ( size_t j = 0 ; j < N ; ++j )
       if ( i !=j )
-        assert( !first[i*N+j] );
+        Assert( !first[i*N+j] );
   #endif
 
   // copy from input (ignores off-diagonal terms)
@@ -888,7 +888,7 @@ template<class Iterator>
 inline
 void matrix<X>::copyTo(Iterator first, Iterator last) const
 {
-  assert( mSize == static_cast<size_t>(last-first) );
+  Assert( mSize == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -917,7 +917,7 @@ template<class Iterator>
 inline
 void matrix<X>::copyToDense(Iterator first, Iterator last) const
 {
-  assert( N*N == static_cast<size_t>(last-first) );
+  Assert( N*N == static_cast<size_t>(last-first) );
 
   UNUSED(last);
 
@@ -1009,9 +1009,9 @@ template<typename X>
 inline
 matrix<X>& matrix<X>::operator*= (const matrix<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] *= B[i];
@@ -1025,9 +1025,9 @@ template<typename X>
 inline
 matrix<X>& matrix<X>::operator+= (const matrix<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] += B[i];
@@ -1041,9 +1041,9 @@ template<typename X>
 inline
 matrix<X>& matrix<X>::operator-= (const matrix<X> &B)
 {
-  assert( shape() == B.shape() );
-  assert( rank () == B.rank () );
-  assert( size () == B.size () );
+  Assert( shape() == B.shape() );
+  Assert( rank () == B.rank () );
+  Assert( size () == B.size () );
 
   for ( size_t i = 0 ; i < mSize ; ++i )
     mData[i] -= B[i];
@@ -1292,8 +1292,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::equal(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1310,8 +1310,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::not_equal(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1328,8 +1328,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::greater(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1346,8 +1346,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::greater_equal(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1364,8 +1364,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::less(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1382,8 +1382,8 @@ template<typename X>
 inline
 matrix<int> matrix<X>::less_equal(const matrix<X> &D) const
 {
-  assert( shape() == D.shape() );
-  assert( size () == D.size () );
+  Assert( shape() == D.shape() );
+  Assert( size () == D.size () );
 
   matrix<int> out = matrix<int>::Zero(N,N);
 
@@ -1452,7 +1452,7 @@ size_t matrix<X>::where(int index) const
     if ( mData[i] )
       ++nnz;
 
-  assert( index < nnz && index >= -nnz );
+  Assert( index < nnz && index >= -nnz );
 
   index = ( nnz + (index%nnz) ) % nnz;
 
@@ -1499,9 +1499,9 @@ template<typename X>
 inline
 bool operator!= (const matrix<X> &A, const matrix<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   for ( size_t i = 0 ; i < A.size() ; ++i )
     if ( A[i] != B[i] )
@@ -1516,9 +1516,9 @@ template<typename X>
 inline
 bool operator== (const matrix<X> &A, const matrix<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   for ( size_t i = 0 ; i < A.size() ; ++i )
     if ( A[i] != B[i] )
@@ -1535,9 +1535,9 @@ template<typename X>
 inline
 matrix<X> operator* (const matrix<X> &A, const matrix<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   matrix<X> C(A.shape(0),A.shape(1));
 
@@ -1553,9 +1553,9 @@ template<typename X>
 inline
 matrix<X> operator+ (const matrix<X> &A, const matrix<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   matrix<X> C(A.shape(0),A.shape(1));
 
@@ -1571,9 +1571,9 @@ template<typename X>
 inline
 matrix<X> operator- (const matrix<X> &A, const matrix<X> &B)
 {
-  assert( A.shape() == B.shape() );
-  assert( A.rank () == B.rank () );
-  assert( A.size () == B.size () );
+  Assert( A.shape() == B.shape() );
+  Assert( A.rank () == B.rank () );
+  Assert( A.size () == B.size () );
 
   matrix<X> C(A.shape(0),A.shape(1));
 

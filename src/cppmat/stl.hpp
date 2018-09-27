@@ -27,8 +27,8 @@ std::vector<X> del(const std::vector<X> &A, int idx)
 
   idx = ( idx < 0 ) ? idx + n : ( idx >= n ) ? idx - n : idx ;
 
-  assert( idx >= 0 );
-  assert( idx  < n );
+  Assert( idx >= 0 );
+  Assert( idx  < n );
 
   std::vector<X> B = A;
 
@@ -45,7 +45,7 @@ template<typename X>
 inline
 std::vector<X> del(const std::vector<X> &A, size_t idx)
 {
-  assert( idx < A.size() );
+  Assert( idx < A.size() );
 
   std::vector<X> B = A;
 
@@ -149,7 +149,7 @@ template<typename X> X max(const std::vector<X> &A)
 
 template<typename X> std::vector<X> min(const std::vector<X> &A, const std::vector<X> &B)
 {
-  assert( A.size () == B.size() );
+  Assert( A.size () == B.size() );
 
   std::vector<X> C(A.size());
 
@@ -163,7 +163,7 @@ template<typename X> std::vector<X> min(const std::vector<X> &A, const std::vect
 
 template<typename X> std::vector<X> max(const std::vector<X> &A, const std::vector<X> &B)
 {
-  assert( A.size () == B.size() );
+  Assert( A.size () == B.size() );
 
   std::vector<X> C(A.size());
 

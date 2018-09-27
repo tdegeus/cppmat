@@ -36,7 +36,7 @@ template<typename U, typename V>
 inline
 tensor4<X>::tensor4(const cppmat::array<U> &A) : cppmat::array<X>(A)
 {
-  assert( this->mRank == 4 );
+  Assert( this->mRank == 4 );
 
   ND = this->mShape[0];
 }

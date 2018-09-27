@@ -22,7 +22,7 @@ cppmat::tiny::matrix<X,M,N>::operator*= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -46,7 +46,7 @@ cppmat::tiny::matrix<X,M,N>::operator/= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -70,7 +70,7 @@ cppmat::tiny::matrix<X,M,N>::operator+= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -94,7 +94,7 @@ cppmat::tiny::matrix<X,M,N>::operator-= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N ; ++j ) {
@@ -118,7 +118,7 @@ cppmat::tiny::matrix<X,M,N>::operator*= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = 0 ; j < N ; ++j ) {
@@ -139,7 +139,7 @@ cppmat::tiny::matrix<X,M,N>::operator+= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N+i] += B[i];
@@ -156,7 +156,7 @@ cppmat::tiny::matrix<X,M,N>::operator-= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N+i] -= B[i];
@@ -175,7 +175,7 @@ cppmat::tiny::symmetric::matrix<X,M,N>::operator*= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i ) {
     for ( size_t j = i ; j < N; ++j ) {
@@ -196,7 +196,7 @@ cppmat::tiny::symmetric::matrix<X,M,N>::operator+= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N-(i-1)*i/2] += B[i];
@@ -213,7 +213,7 @@ cppmat::tiny::symmetric::matrix<X,M,N>::operator-= (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i*N-(i-1)*i/2] -= B[i];
@@ -232,7 +232,7 @@ cppmat::tiny::diagonal::matrix<X,M,N>::operator*= (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N; ++i )
     this->mData[i] *= B[i*N+i];
@@ -249,7 +249,7 @@ cppmat::tiny::diagonal::matrix<X,M,N>::operator/= (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N; ++i )
     this->mData[i] /= B[i*N+i];
@@ -266,7 +266,7 @@ cppmat::tiny::diagonal::matrix<X,M,N>::operator*= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i] *= B[i*N-(i-1)*i/2];
@@ -283,7 +283,7 @@ cppmat::tiny::diagonal::matrix<X,M,N>::operator/= (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( this->shape() == B.shape() );
+  Assert( this->shape() == B.shape() );
 
   for ( size_t i = 0 ; i < N ; ++i )
     this->mData[i] /= B[i*N-(i-1)*i/2];
@@ -302,7 +302,7 @@ cppmat::tiny::matrix<X,M,N> operator* (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -328,7 +328,7 @@ cppmat::tiny::matrix<X,M,N> operator/ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -354,7 +354,7 @@ cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -380,7 +380,7 @@ cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -406,7 +406,7 @@ cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -429,7 +429,7 @@ cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -452,7 +452,7 @@ cppmat::tiny::matrix<X,M,N> operator* (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -478,7 +478,7 @@ cppmat::tiny::matrix<X,M,N> operator/ (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -504,7 +504,7 @@ cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -530,7 +530,7 @@ cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -556,7 +556,7 @@ cppmat::tiny::matrix<X,M,N> operator+ (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -579,7 +579,7 @@ cppmat::tiny::matrix<X,M,N> operator- (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::matrix<X,M,N> C;
 
@@ -604,7 +604,7 @@ cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::symmetric::matrix<X,M,N> C;
 
@@ -627,7 +627,7 @@ cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::symmetric::matrix<X,M,N> C;
 
@@ -692,7 +692,7 @@ cppmat::tiny::symmetric::matrix<X,M,N> operator+ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::symmetric::matrix<X,M,N> C;
 
@@ -715,7 +715,7 @@ cppmat::tiny::symmetric::matrix<X,M,N> operator- (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::symmetric::matrix<X,M,N> C;
 
@@ -782,7 +782,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
@@ -801,7 +801,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator/ (
   const cppmat::tiny::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
@@ -820,7 +820,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
@@ -839,7 +839,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator/ (
   const cppmat::tiny::symmetric::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
@@ -858,7 +858,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
@@ -877,7 +877,7 @@ cppmat::tiny::diagonal::matrix<X,M,N> operator* (
   const cppmat::tiny::diagonal::matrix<X,M,N> &B
 )
 {
-  assert( A.shape() == B.shape() );
+  Assert( A.shape() == B.shape() );
 
   cppmat::tiny::diagonal::matrix<X,M,N> C;
 
