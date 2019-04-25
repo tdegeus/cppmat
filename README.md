@@ -1,4 +1,8 @@
 
+# WARNING: Deprecated
+
+This library is deprecated in favour of [xtensor](https://github.com/QuantStack/xtensor)
+
 # cppmat
 
 [![](https://img.shields.io/badge/documentation-cppmat.geus.me-blue.svg)](http://cppmat.geus.me) 

@@ -5,7 +5,7 @@
 Python interface
 ****************
 
-This library includes provides an interface to `pybind11 <https://github.com/pybind/pybind11>`_ such that an interface to NumPy arrays is automatically provided when including a function with any of the cppmat classes:
+This library provides an interface to `pybind11 <https://github.com/pybind/pybind11>`_ such that an interface to NumPy arrays is automatically provided when including a function with any of the cppmat classes:
 
 +---------------------------------------+---------------------------+
 | **cppmat class**                      | **Rank of NumPy-array**   |
